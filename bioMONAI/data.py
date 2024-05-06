@@ -2,7 +2,7 @@
 
 # %% auto 0
 __all__ = ['tiff_reader', 'img_reader', 'MetaResolver', 'BioImageBase', 'BioImage', 'BioImageStack', 'BioImageProject',
-           'Tensor2BioImage', 'BioImageBlock', 'show_batch', 'show_results']
+           'BioImageMulti', 'Tensor2BioImage', 'BioImageBlock', 'show_batch', 'show_results']
 
 # %% ../nbs/03_data.ipynb 3
 from fastai.vision.all import *
@@ -221,7 +221,7 @@ class BioImageBase(MetaTensor, metaclass=MetaResolver):
 
 # %% ../nbs/03_data.ipynb 26
 class BioImage(BioImageBase):
-    """Subclass of BioImageBase that represents a 2D image object."""
+    """Subclass of BioImageBase that represents 2D and 3D image objects."""
     _show_args = {'cmap':'gray'}
     
     @classmethod
@@ -253,7 +253,7 @@ class BioImage(BioImageBase):
     #     return f'{self.__class__.__name__} shape={"x".join([str(d) for d in self.shape])}'
         return f"BioImage{self.as_tensor().__repr__()[6:]}"
 
-# %% ../nbs/03_data.ipynb 28
+# %% ../nbs/03_data.ipynb 29
 class BioImageStack(BioImageBase):
     """Subclass of BioImageBase that represents a 3D image object."""
     
@@ -261,7 +261,7 @@ class BioImageStack(BioImageBase):
         """Returns the string representation of the ImageBase instance."""
         return f"BioImageStack{self.as_tensor().__repr__()[6:]}"
 
-# %% ../nbs/03_data.ipynb 30
+# %% ../nbs/03_data.ipynb 32
 class BioImageProject(BioImageBase):
     """Subclass of BioImageBase that represents a 2D image object."""
     _show_args = {'cmap':'gray'}
@@ -295,7 +295,35 @@ class BioImageProject(BioImageBase):
         """Returns the string representation of the ImageBase instance."""
         return f"BioImage{self.as_tensor().__repr__()[6:]}"
 
-# %% ../nbs/03_data.ipynb 36
+# %% ../nbs/03_data.ipynb 35
+class BioImageMulti(BioImageBase):
+    """Subclass of BioImageBase that represents a multi-channel 2D image object."""
+    
+    @classmethod
+    def create(cls, fn: (Path, str, L, list, torch.Tensor), **kwargs) -> torch.Tensor: 
+        """
+        Opens an image and casts it to BioImageBase object.
+        If `fn` is a torch.Tensor, it's cast to BioImageBase object.
+
+        Args:
+            fn : (Path, str, torch.Tensor)
+                Image path or a 4D torch.Tensor.
+            kwargs : dict
+                Additional parameters for the medical image reader.
+
+        Returns:
+            torch.Tensor : A 3D tensor as a BioImage object.
+        """
+        if isinstance(fn, torch.Tensor):
+            return cls(fn)
+
+        return torch.squeeze(img_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder), 0)
+    
+    def __repr__(self) -> str:
+        """Returns the string representation of the ImageBase instance."""
+        return f"BioImageMulti{self.as_tensor().__repr__()[6:]}"
+
+# %% ../nbs/03_data.ipynb 40
 class Tensor2BioImage(DisplayedTransform):
     def __init__(self, cls:BioImageBase=BioImageStack):
         self.cls = cls
@@ -307,12 +335,12 @@ class Tensor2BioImage(DisplayedTransform):
         if isinstance(o, torch.Tensor):
             return self.cls(o)
 
-# %% ../nbs/03_data.ipynb 39
+# %% ../nbs/03_data.ipynb 43
 def BioImageBlock(cls:BioImageBase=BioImageStack):
     "A `TransformBlock` for images of `cls`"
     return TransformBlock(type_tfms=cls.create, batch_tfms=[Tensor2BioImage(cls)]) # IntToFloatTensor
 
-# %% ../nbs/03_data.ipynb 42
+# %% ../nbs/03_data.ipynb 46
 @typedispatch
 def show_batch(x:BioImageBase, y:BioImageBase, samples, ctxs=None, max_n=10, nrows=None, ncols=None, figsize=None, **kwargs):
     if ctxs is None: ctxs = get_grid(min(len(samples), max_n), nrows=nrows, ncols=ncols, figsize=figsize, double=True)
@@ -320,7 +348,7 @@ def show_batch(x:BioImageBase, y:BioImageBase, samples, ctxs=None, max_n=10, nro
         ctxs[i::2] = [b.show(ctx=c, **kwargs) for b,c,_ in zip(samples.itemgot(i),ctxs[i::2],range(max_n))]
     return ctxs
 
-# %% ../nbs/03_data.ipynb 44
+# %% ../nbs/03_data.ipynb 48
 @typedispatch
 def show_results(x:BioImageBase, y:BioImageBase, samples, outs, ctxs=None, max_n=10, figsize=None, **kwargs):
     if ctxs is None: ctxs = get_grid(3*min(len(samples), max_n), ncols=3, figsize=figsize, title='Input/Target/Prediction')
