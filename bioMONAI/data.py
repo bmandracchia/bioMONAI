@@ -19,16 +19,17 @@ def tiff_reader(path, units='um'):
     affine = np.eye(4) # to be changed
     return data, affine
 
-# %% ../nbs/03_data.ipynb 7
+# %% ../nbs/03_data.ipynb 8
 from aicsimageio import AICSImage
 
 def lif_reader(path, units='um'):
-    imagen_aics = AICSImage(file_path_2)
+    imagen_aics = AICSImage(path)
     data = imagen_aics.get_image_data()
-    
-    return data
+    data = np.squeeze(data,0)
+    affine = np.eye(4)
+    return data, affine
 
-# %% ../nbs/03_data.ipynb 11
+# %% ../nbs/03_data.ipynb 13
 def _preprocess(obj, reorder, resample):
     """
     Preprocesses the given object.
@@ -58,8 +59,8 @@ def _preprocess(obj, reorder, resample):
 
 
 
-# %% ../nbs/03_data.ipynb 13
-def _load_and_preprocess(file_path, reorder=False, resample=False):
+# %% ../nbs/03_data.ipynb 15
+def _load_and_preprocess(file_path, reorder=False, resample=False, reader=tiff_reader):
     """
     Helper function to load and preprocess an image.
 
@@ -72,12 +73,12 @@ def _load_and_preprocess(file_path, reorder=False, resample=False):
     Returns:
         tuple: Original image, preprocessed image, and its original size.
     """
-    org_img = ScalarImage(file_path, reader=tiff_reader)
+    org_img = ScalarImage(file_path, reader=reader)
     input_img, org_size = _preprocess(org_img, reorder, resample)
     
     return org_img, input_img, org_size
 
-# %% ../nbs/03_data.ipynb 16
+# %% ../nbs/03_data.ipynb 18
 def _multi_channel(image_paths: (L, list), reorder: bool = False, resample: list = None, dtype=torch.Tensor, only_tensor: bool = True, squeeze: bool = False):
     """
     Load and preprocess multisequence data.
@@ -107,7 +108,7 @@ def _multi_channel(image_paths: (L, list), reorder: bool = False, resample: list
     return org_img, input_img, org_size
 
 
-# %% ../nbs/03_data.ipynb 19
+# %% ../nbs/03_data.ipynb 21
 def img_reader(file_path: (str, Path, L, list), dtype=torch.Tensor, reorder: bool = False,
                    resample: list = None, only_tensor: bool = True):
     """Loads and preprocesses a medical image.
@@ -142,7 +143,7 @@ def img_reader(file_path: (str, Path, L, list), dtype=torch.Tensor, reorder: boo
     return org_img, input_img, org_size
 
 
-# %% ../nbs/03_data.ipynb 23
+# %% ../nbs/03_data.ipynb 25
 class MetaResolver(type(torch.Tensor), metaclass=BypassNewMeta):
     """
     A class to bypass metaclass conflict:
@@ -151,12 +152,12 @@ class MetaResolver(type(torch.Tensor), metaclass=BypassNewMeta):
     pass
 
 
-# %% ../nbs/03_data.ipynb 25
+# %% ../nbs/03_data.ipynb 27
 from .core import show_images_grid, mosaic_image_3d
 from monai.data import MetaTensor
 
 
-# %% ../nbs/03_data.ipynb 26
+# %% ../nbs/03_data.ipynb 28
 class BioImageBase(MetaTensor, metaclass=MetaResolver):
     """
     A class that represents an image object.
@@ -228,7 +229,7 @@ class BioImageBase(MetaTensor, metaclass=MetaResolver):
         """Returns the string representation of the ImageBase instance."""
         return f"BioImageBase{self.as_tensor().__repr__()[6:]}"
 
-# %% ../nbs/03_data.ipynb 28
+# %% ../nbs/03_data.ipynb 30
 class BioImage(BioImageBase):
     """Subclass of BioImageBase that represents 2D and 3D image objects."""
     _show_args = {'cmap':'gray'}
@@ -262,7 +263,7 @@ class BioImage(BioImageBase):
     #     return f'{self.__class__.__name__} shape={"x".join([str(d) for d in self.shape])}'
         return f"BioImage{self.as_tensor().__repr__()[6:]}"
 
-# %% ../nbs/03_data.ipynb 31
+# %% ../nbs/03_data.ipynb 33
 class BioImageStack(BioImageBase):
     """Subclass of BioImageBase that represents a 3D image object."""
     
@@ -270,7 +271,7 @@ class BioImageStack(BioImageBase):
         """Returns the string representation of the ImageBase instance."""
         return f"BioImageStack{self.as_tensor().__repr__()[6:]}"
 
-# %% ../nbs/03_data.ipynb 34
+# %% ../nbs/03_data.ipynb 36
 class BioImageProject(BioImageBase):
     """Subclass of BioImageBase that represents a 2D image object."""
     _show_args = {'cmap':'gray'}
@@ -304,7 +305,7 @@ class BioImageProject(BioImageBase):
         """Returns the string representation of the ImageBase instance."""
         return f"BioImage{self.as_tensor().__repr__()[6:]}"
 
-# %% ../nbs/03_data.ipynb 37
+# %% ../nbs/03_data.ipynb 39
 class BioImageMulti(BioImageBase):
     """Subclass of BioImageBase that represents a multi-channel 2D image object."""
     
@@ -332,7 +333,7 @@ class BioImageMulti(BioImageBase):
         """Returns the string representation of the ImageBase instance."""
         return f"BioImageMulti{self.as_tensor().__repr__()[6:]}"
 
-# %% ../nbs/03_data.ipynb 42
+# %% ../nbs/03_data.ipynb 44
 class Tensor2BioImage(DisplayedTransform):
     def __init__(self, cls:BioImageBase=BioImageStack):
         self.cls = cls
@@ -344,12 +345,12 @@ class Tensor2BioImage(DisplayedTransform):
         if isinstance(o, torch.Tensor):
             return self.cls(o)
 
-# %% ../nbs/03_data.ipynb 45
+# %% ../nbs/03_data.ipynb 47
 def BioImageBlock(cls:BioImageBase=BioImageStack):
     "A `TransformBlock` for images of `cls`"
     return TransformBlock(type_tfms=cls.create, batch_tfms=[Tensor2BioImage(cls)]) # IntToFloatTensor
 
-# %% ../nbs/03_data.ipynb 48
+# %% ../nbs/03_data.ipynb 50
 @typedispatch
 def show_batch(x:BioImageBase, y:BioImageBase, samples, ctxs=None, max_n=10, nrows=None, ncols=None, figsize=None, **kwargs):
     if ctxs is None: ctxs = get_grid(min(len(samples), max_n), nrows=nrows, ncols=ncols, figsize=figsize, double=True)
@@ -357,7 +358,7 @@ def show_batch(x:BioImageBase, y:BioImageBase, samples, ctxs=None, max_n=10, nro
         ctxs[i::2] = [b.show(ctx=c, **kwargs) for b,c,_ in zip(samples.itemgot(i),ctxs[i::2],range(max_n))]
     return ctxs
 
-# %% ../nbs/03_data.ipynb 50
+# %% ../nbs/03_data.ipynb 52
 @typedispatch
 def show_results(x:BioImageBase, y:BioImageBase, samples, outs, ctxs=None, max_n=10, figsize=None, **kwargs):
     if ctxs is None: ctxs = get_grid(3*min(len(samples), max_n), ncols=3, figsize=figsize, title='Input/Target/Prediction')
