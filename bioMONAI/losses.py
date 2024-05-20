@@ -20,7 +20,7 @@ class CombinedLoss:
     def __call__(self, pred, targ):
         return (1 - self.alpha - self.beta) * self.SSIM_loss(pred, targ) + self.alpha * self.MSE_loss(pred, targ) + self.beta * self.MAE_loss(pred, targ)
 
-# %% ../nbs/02_losses.ipynb 7
+# %% ../nbs/02_losses.ipynb 8
 def SSIM(x, y, spatial_dims=2):
     return 1 - SSIMLoss(spatial_dims)(x,y)
 
