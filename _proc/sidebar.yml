@@ -3,3 +3,11 @@ website:
     contents:
       - index.ipynb
       - 00_core.ipynb
+      - 01_nets.ipynb
+      - 02_losses.ipynb
+      - 03_data.ipynb
+      - 04_transforms.ipynb
+      - 05_io.ipynb
+      - 06_datasets.ipynb
+      - 901_demo_RI2FL_2d.ipynb
+      - 999_template.ipynb
