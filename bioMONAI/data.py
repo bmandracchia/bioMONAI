@@ -13,38 +13,109 @@ import multipagetiff as mtif
 
 
 # %% ../nbs/03_data.ipynb 6
-def tiff_reader(path, units='um'):
+def tiff_reader(path,  # The path to the TIFF file to be read
+                units='um',  # The units for the image data.
+               ):
+
+    """
+    Reads a TIFF file and returns the image data along with an identity affine matrix.
+
+    #### Parameters
+    path (str): The path to the TIFF file to be read.
+    units (str, optional): The units for the image data. Default is 'um' (micrometers).
+
+    #### Returns
+    tuple: A tuple containing:
+        - data (numpy.ndarray): The image data read from the TIFF file as a 4D array (1, Z, Y, X).
+        - affine (numpy.ndarray): A 4x4 identity affine matrix.
+    """
+
+    # Read the TIFF stack using mtif.read_stack with the specified units
     stack = mtif.read_stack(path, units=units)
+
+    # Convert the stack pages to a NumPy array of type float32
     data = stack.pages.astype(np.float32)
+
+    # Add a new axis to the data to make it a 4D array (1, Z, Y, X)
     data = data[None, :, :, :]
+
+    # Create a 4x4 identity affine matrix
     affine = np.eye(4) # to be changed
+
+    # Return the image data and the affine matrix
     return data, affine
 
 # %% ../nbs/03_data.ipynb 9
 from aicsimageio import AICSImage
 
-def lif_reader(path, units='um', scene=0, time=0, reconstruct_mosaic=False):
+def lif_reader(path, # The path to the LIF file to be read
+               units='um', # The units for the image data.
+               scene=0, # The scene index to be read from the LIF file
+               time=0, # The time index to be read from the LIF file
+               reconstruct_mosaic=False, # Whether to reconstruct a mosaic image from the file
+              ):
+
+    """
+    Reads a LIF (Leica Image File) and returns the image data along with an identity affine matrix.
+
+    Parameters:
+    path (str): The path to the LIF file to be read.
+    units (str, optional).
+    scene (int, optional): The scene index to be read from the LIF file. Default is 0.
+    time (int, optional): The time index to be read from the LIF file. Default is 0.
+    reconstruct_mosaic (bool, optional): Whether to reconstruct a mosaic image from the file. Default is False.
+
+    Returns:
+    tuple: A tuple containing:
+        - data (numpy.ndarray): The image data read from the LIF file in ZYX format.
+        - affine (numpy.ndarray): A 4x4 identity affine matrix.
+    """
+    # Create an AICSImage object for the specified file
     imagen_aics = AICSImage(path, reconstruct_mosaic=reconstruct_mosaic)
     # set scence
+
+    # Retrieve the image data in ZYX format for the specified time point
     data = imagen_aics.get_image_data("ZYX", T=time) 
     
+    # Create a 4x4 identity affine matrix
     affine = np.eye(4)
+
+    # Return the image data and the affine matrix
     return data, affine
 
 # %% ../nbs/03_data.ipynb 12
 from aicsimageio.readers import CziReader
 
-def czi_reader(path):
+def czi_reader(path, # The path to the CZI file to be read
+              ):
+
+    """
+    Reads a CZI (Zeiss CZI format) file and returns the image data along with an identity affine matrix.
+
+    Parameters:
+    path (str): The path to the CZI file to be read.
+
+    Returns:
+    tuple: A tuple containing:
+        - data (numpy.ndarray): The image data read from the CZI file.
+        - affine (numpy.ndarray): A 4x4 identity affine matrix.
+    """
+
+    # Create a CziReader for the specified file
     reader = CziReader(path)
-    
+
+    # Convert the file to a Numpy Array
     data = reader.data  
 
-    data = np.squeeze(data,(1,2,3,4,5,6))
+    # Create a 4x4 identity affine NumpyArray
     affine = np.eye(4)
+
+    # Return the image data and the affine matrix
     return data, affine
 
 # %% ../nbs/03_data.ipynb 15
-def _image_reader(path):
+def _image_reader(path, # The file path to the image             
+                 ):
 
     """
     Reads an image from the specified path using AICSImage library.
@@ -59,15 +130,16 @@ def _image_reader(path):
     """
 
     # Read image using AICSImage library
-    image_aics = AICSImage(path)
-    
-    # Support tiff files    
+    image_aics = AICSImage(path, reconstruct_mosaic=False)
+        
+    # Support for tiff files    
     path = str(path)
     if (path[-4:]=="tiff"):
 
+        # Reorder for tiff files
         data = image_aics.get_image_data("CZYX", T=0)  # returns 4D CZYX numpy array
         
-        affine = np.eye(4)
+        affine = np.eye(4) #to change
         
         return data, affine
 
@@ -76,12 +148,11 @@ def _image_reader(path):
 
     # Remove singleton dimensions
     data = np.squeeze(data)
-
-    # Add a singleton dimension to represent the channel dimension
-    data = data[np.newaxis, :]
     
     # Create an identity affine transformation matrix
     affine = np.eye(4)
+
+    # Return the image data and the affine matrix
     return data, affine
 
 
@@ -99,9 +170,11 @@ def h5_reader(path, dataset):
     return dataset1
 
 
-
 # %% ../nbs/03_data.ipynb 21
-def _preprocess(obj, reorder, resample):
+def _preprocess(obj, # The object to preprocess
+                reorder, # Whether to reorder the object
+                resample # Whether to resample the object
+               ):
     """
     Preprocesses the given object.
 
@@ -116,6 +189,8 @@ def _preprocess(obj, reorder, resample):
     if reorder:
         transform = ToCanonical()
         obj = transform(obj)
+    
+
 
     original_size = obj.shape[1:]
 
@@ -130,7 +205,11 @@ def _preprocess(obj, reorder, resample):
 
 
 # %% ../nbs/03_data.ipynb 23
-def _load_and_preprocess(file_path, reorder=False, resample=False, reader=tiff_reader):
+def _load_and_preprocess(file_path, # Image file path
+                         reorder=False, # Whether to reorder data for canonical (RAS+) orientation
+                         resample=False, # Whether to resample image to different voxel sizes and dimensions
+                         reader=_image_reader # Whether to resample image to different voxel sizes and dimensions
+                        ):
     """
     Helper function to load and preprocess an image.
 
@@ -148,8 +227,15 @@ def _load_and_preprocess(file_path, reorder=False, resample=False, reader=tiff_r
     
     return org_img, input_img, org_size
 
+
 # %% ../nbs/03_data.ipynb 26
-def _multi_channel(image_paths: (L, list), reorder: bool = False, resample: list = None, dtype=torch.Tensor, only_tensor: bool = True, squeeze: bool = False):
+def _multi_channel(image_paths: (L, list), # List of image paths (e.g., T1, T2, T1CE, DWI)
+                   reorder: bool = False, # Whether to reorder data for canonical (RAS+) orientation
+                   resample: list = None, # Whether to resample image to different voxel sizes and dimensions
+                   dtype=torch.Tensor, # Desired datatype for output
+                   only_tensor: bool = True, # Whether to return only image tensor
+                   squeeze: bool = False # 
+                  ):
     """
     Load and preprocess multisequence data.
 
@@ -159,6 +245,7 @@ def _multi_channel(image_paths: (L, list), reorder: bool = False, resample: list
         resample: Whether to resample image to different voxel sizes and dimensions.
         dtype: Desired datatype for output.
         only_tensor: Whether to return only image tensor.
+        squeeze: Whether to squeeze or not the image
 
     Returns:
         torch.Tensor: A stacked 4D tensor, if `only_tensor` is True.
@@ -168,7 +255,7 @@ def _multi_channel(image_paths: (L, list), reorder: bool = False, resample: list
     org_img, input_img, org_size = image_data[-1]
 
     tensor = torch.stack([img.data[0] for _, img, _ in image_data], dim=0)
-    
+
     if only_tensor:     
         if squeeze:
             return torch.squeeze(dtype(tensor))
@@ -177,10 +264,15 @@ def _multi_channel(image_paths: (L, list), reorder: bool = False, resample: list
     input_img.set_data(tensor)
     return org_img, input_img, org_size
 
+show_doc(_multi_channel)
 
 # %% ../nbs/03_data.ipynb 29
-def img_reader(file_path: (str, Path, L, list), dtype=torch.Tensor, reorder: bool = False,
-                   resample: list = None, only_tensor: bool = True):
+def img_reader(file_path: (str, Path, L, list), # Path to the image
+               dtype=torch.Tensor, # Datatype for the return value. Defaults to torch.Tensor
+               reorder: bool = False, # Whether to reorder to canonical orientation
+               resample: list = None, # Whether to resample image to different voxel sizes and image dimensions
+               only_tensor: bool = True, # To return only an image tensor
+              ):
     """Loads and preprocesses a medical image.
 
     Args:
@@ -190,7 +282,7 @@ def img_reader(file_path: (str, Path, L, list), dtype=torch.Tensor, reorder: boo
             (RAS+) orientation. Defaults to False.
         resample: Whether to resample image to different voxel sizes and 
             image dimensions. Defaults to None.
-        only_tensor: W2022-12-05.lifhether to return only image tensor. Defaults to True.
+        only_tensor: To return only an image tensor. Defaults to True.
 
     Returns:
         The preprocessed image. Returns only the image tensor if 
@@ -220,7 +312,7 @@ class MetaResolver(type(torch.Tensor), metaclass=BypassNewMeta):
     https://pytorch-geometric.readthedocs.io/en/latest/_modules/torch_geometric/data/batch.html
     """
     pass
-
+    
 
 # %% ../nbs/03_data.ipynb 35
 from .core import show_images_grid, mosaic_image_3d
