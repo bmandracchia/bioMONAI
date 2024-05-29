@@ -264,8 +264,6 @@ def _multi_channel(image_paths: (L, list), # List of image paths (e.g., T1, T2, 
     input_img.set_data(tensor)
     return org_img, input_img, org_size
 
-show_doc(_multi_channel)
-
 # %% ../nbs/03_data.ipynb 29
 def img_reader(file_path: (str, Path, L, list), # Path to the image
                dtype=torch.Tensor, # Datatype for the return value. Defaults to torch.Tensor

@@ -3,12 +3,10 @@
 # %% auto 0
 __all__ = ['SSIMMetric', 'CombinedLoss', 'SSIM']
 
-# %% ../nbs/02_losses.ipynb 4
-from fastai.vision.all import *
+# %% ../nbs/02_losses.ipynb 5
 from monai.losses import SSIMLoss
 
-
-# %% ../nbs/02_losses.ipynb 6
+# %% ../nbs/02_losses.ipynb 8
 class CombinedLoss:
     "losses combined"
     def __init__(self, spatial_dims=2, alpha=0.33, beta=0.33):
@@ -20,7 +18,7 @@ class CombinedLoss:
     def __call__(self, pred, targ):
         return (1 - self.alpha - self.beta) * self.SSIM_loss(pred, targ) + self.alpha * self.MSE_loss(pred, targ) + self.beta * self.MAE_loss(pred, targ)
 
-# %% ../nbs/02_losses.ipynb 11
+# %% ../nbs/02_losses.ipynb 13
 def SSIM(x, y, spatial_dims=2):
     return 1 - SSIMLoss(spatial_dims)(x,y)
 
