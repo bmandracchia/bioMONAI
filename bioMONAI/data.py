@@ -45,7 +45,7 @@ def tiff_reader(path,  # The path to the TIFF file to be read
     # Return the image data and the affine matrix
     return data, affine
 
-# %% ../nbs/03_data.ipynb 9
+# %% ../nbs/03_data.ipynb 10
 from aicsimageio import AICSImage
 
 def lif_reader(path, # The path to the LIF file to be read
@@ -83,7 +83,7 @@ def lif_reader(path, # The path to the LIF file to be read
     # Return the image data and the affine matrix
     return data, affine
 
-# %% ../nbs/03_data.ipynb 12
+# %% ../nbs/03_data.ipynb 13
 from aicsimageio.readers import CziReader
 
 def czi_reader(path, # The path to the CZI file to be read
@@ -113,7 +113,7 @@ def czi_reader(path, # The path to the CZI file to be read
     # Return the image data and the affine matrix
     return data, affine
 
-# %% ../nbs/03_data.ipynb 15
+# %% ../nbs/03_data.ipynb 16
 def _image_reader(path, # The file path to the image             
                  ):
 
@@ -156,7 +156,7 @@ def _image_reader(path, # The file path to the image
     return data, affine
 
 
-# %% ../nbs/03_data.ipynb 18
+# %% ../nbs/03_data.ipynb 19
 import h5py
 
 def h5_reader(path, dataset):
@@ -170,7 +170,7 @@ def h5_reader(path, dataset):
     return dataset1
 
 
-# %% ../nbs/03_data.ipynb 21
+# %% ../nbs/03_data.ipynb 22
 def _preprocess(obj, # The object to preprocess
                 reorder, # Whether to reorder the object
                 resample # Whether to resample the object
@@ -204,7 +204,7 @@ def _preprocess(obj, # The object to preprocess
     return obj, original_size
 
 
-# %% ../nbs/03_data.ipynb 23
+# %% ../nbs/03_data.ipynb 24
 def _load_and_preprocess(file_path, # Image file path
                          reorder=False, # Whether to reorder data for canonical (RAS+) orientation
                          resample=False, # Whether to resample image to different voxel sizes and dimensions
@@ -228,7 +228,7 @@ def _load_and_preprocess(file_path, # Image file path
     return org_img, input_img, org_size
 
 
-# %% ../nbs/03_data.ipynb 26
+# %% ../nbs/03_data.ipynb 27
 def _multi_channel(image_paths: (L, list), # List of image paths (e.g., T1, T2, T1CE, DWI)
                    reorder: bool = False, # Whether to reorder data for canonical (RAS+) orientation
                    resample: list = None, # Whether to resample image to different voxel sizes and dimensions
@@ -264,7 +264,7 @@ def _multi_channel(image_paths: (L, list), # List of image paths (e.g., T1, T2, 
     input_img.set_data(tensor)
     return org_img, input_img, org_size
 
-# %% ../nbs/03_data.ipynb 29
+# %% ../nbs/03_data.ipynb 30
 def img_reader(file_path: (str, Path, L, list), # Path to the image
                dtype=torch.Tensor, # Datatype for the return value. Defaults to torch.Tensor
                reorder: bool = False, # Whether to reorder to canonical orientation
@@ -303,7 +303,7 @@ def img_reader(file_path: (str, Path, L, list), # Path to the image
     return org_img, input_img, org_size
 
 
-# %% ../nbs/03_data.ipynb 33
+# %% ../nbs/03_data.ipynb 34
 class MetaResolver(type(torch.Tensor), metaclass=BypassNewMeta):
     """
     A class to bypass metaclass conflict:
@@ -312,12 +312,12 @@ class MetaResolver(type(torch.Tensor), metaclass=BypassNewMeta):
     pass
     
 
-# %% ../nbs/03_data.ipynb 35
+# %% ../nbs/03_data.ipynb 36
 from .core import show_images_grid, mosaic_image_3d
 from monai.data import MetaTensor
 
 
-# %% ../nbs/03_data.ipynb 36
+# %% ../nbs/03_data.ipynb 37
 class BioImageBase(MetaTensor, metaclass=MetaResolver):
     """
     A class that represents an image object.
@@ -389,7 +389,7 @@ class BioImageBase(MetaTensor, metaclass=MetaResolver):
         """Returns the string representation of the ImageBase instance."""
         return f"BioImageBase{self.as_tensor().__repr__()[6:]}"
 
-# %% ../nbs/03_data.ipynb 38
+# %% ../nbs/03_data.ipynb 39
 class BioImage(BioImageBase):
     """Subclass of BioImageBase that represents 2D and 3D image objects."""
     _show_args = {'cmap':'gray'}
@@ -423,7 +423,7 @@ class BioImage(BioImageBase):
     #     return f'{self.__class__.__name__} shape={"x".join([str(d) for d in self.shape])}'
         return f"BioImage{self.as_tensor().__repr__()[6:]}"
 
-# %% ../nbs/03_data.ipynb 41
+# %% ../nbs/03_data.ipynb 42
 class BioImageStack(BioImageBase):
     """Subclass of BioImageBase that represents a 3D image object."""
     
@@ -431,7 +431,7 @@ class BioImageStack(BioImageBase):
         """Returns the string representation of the ImageBase instance."""
         return f"BioImageStack{self.as_tensor().__repr__()[6:]}"
 
-# %% ../nbs/03_data.ipynb 44
+# %% ../nbs/03_data.ipynb 45
 class BioImageProject(BioImageBase):
     """Subclass of BioImageBase that represents a 2D image object."""
     _show_args = {'cmap':'gray'}
@@ -465,7 +465,7 @@ class BioImageProject(BioImageBase):
         """Returns the string representation of the ImageBase instance."""
         return f"BioImage{self.as_tensor().__repr__()[6:]}"
 
-# %% ../nbs/03_data.ipynb 47
+# %% ../nbs/03_data.ipynb 48
 class BioImageMulti(BioImageBase):
     """Subclass of BioImageBase that represents a multi-channel 2D image object."""
     
@@ -494,7 +494,7 @@ class BioImageMulti(BioImageBase):
         return f"BioImageMulti{self.as_tensor().__repr__()[6:]}"
         
 
-# %% ../nbs/03_data.ipynb 53
+# %% ../nbs/03_data.ipynb 54
 class Tensor2BioImage(DisplayedTransform):
     def __init__(self, cls:BioImageBase=BioImageStack):
         self.cls = cls
@@ -506,12 +506,12 @@ class Tensor2BioImage(DisplayedTransform):
         if isinstance(o, torch.Tensor):
             return self.cls(o)
 
-# %% ../nbs/03_data.ipynb 56
+# %% ../nbs/03_data.ipynb 57
 def BioImageBlock(cls:BioImageBase=BioImageStack):
     "A `TransformBlock` for images of `cls`"
     return TransformBlock(type_tfms=cls.create, batch_tfms=[Tensor2BioImage(cls)]) # IntToFloatTensor
 
-# %% ../nbs/03_data.ipynb 59
+# %% ../nbs/03_data.ipynb 60
 @typedispatch
 def show_batch(x:BioImageBase, y:BioImageBase, samples, ctxs=None, max_n=10, nrows=None, ncols=None, figsize=None, **kwargs):
     if ctxs is None: ctxs = get_grid(min(len(samples), max_n), nrows=nrows, ncols=ncols, figsize=figsize, double=True)
@@ -519,7 +519,7 @@ def show_batch(x:BioImageBase, y:BioImageBase, samples, ctxs=None, max_n=10, nro
         ctxs[i::2] = [b.show(ctx=c, **kwargs) for b,c,_ in zip(samples.itemgot(i),ctxs[i::2],range(max_n))]
     return ctxs
 
-# %% ../nbs/03_data.ipynb 61
+# %% ../nbs/03_data.ipynb 62
 @typedispatch
 def show_results(x:BioImageBase, y:BioImageBase, samples, outs, ctxs=None, max_n=10, figsize=None, **kwargs):
     if ctxs is None: ctxs = get_grid(3*min(len(samples), max_n), ncols=3, figsize=figsize, title='Input/Target/Prediction')
