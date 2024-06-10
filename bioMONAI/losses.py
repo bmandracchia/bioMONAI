@@ -135,10 +135,6 @@ def get_radial_masks(width, height):
     # Generate radial masks using the radial_mask function    
     radial_masks = np.apply_along_axis(radial_mask, 1, radii, width/2, height/2, np.arange(0, width), np.arange(0, height), 1)
 
-    # Expand dimensions to match the expected output shape
-    #radial_masks = np.expand_dims(radial_masks, 1)
-    #radial_masks = np.expand_dims(radial_masks, 1)
-
     # Calculate spatial frequencies
     spatial_freq = radii.astype(np.float32) / freq_nyq
     spatial_freq = spatial_freq / max(spatial_freq)
@@ -147,7 +143,7 @@ def get_radial_masks(width, height):
     return radial_masks, spatial_freq
 
 
-# %% ../nbs/02_losses.ipynb 18
+# %% ../nbs/02_losses.ipynb 17
 def get_fourier_ring_correlations(image1, image2):
 
     
@@ -183,8 +179,6 @@ def get_fourier_ring_correlations(image1, image2):
     image1 = image1.unsqueeze(0).repeat(freq_nyq, 1, 1)
     image2 = image2.unsqueeze(0).repeat(freq_nyq, 1, 1)
 
-   
-    
     # Convert spatial frequency and radial masks to torch.tensor
     spatial_frequency = torch.from_numpy(spatial_frequency)
     radial_masks = torch.from_numpy(radial_masks)
@@ -220,7 +214,7 @@ def get_fourier_ring_correlations(image1, image2):
 
     return FRC , spatial_frequency
 
-# %% ../nbs/02_losses.ipynb 19
+# %% ../nbs/02_losses.ipynb 18
 def FRCLoss(image1, image2):
 
     """
@@ -237,7 +231,7 @@ def FRCLoss(image1, image2):
     return (1 - FRCM(image1, image2))
     
 
-# %% ../nbs/02_losses.ipynb 20
+# %% ../nbs/02_losses.ipynb 19
 from scipy.optimize import curve_fit
 
 
@@ -270,30 +264,40 @@ def seventh_fourier_ring_correlation(image1,image2):
     # Make fit
     params, params_covariance = curve_fit(exponential_func, x, y, p0=[1, 1, 1])
 
-    # Generar datos para la curva ajustada
-    x_fit = np.linspace(0, 1, 100)
-    y_fit = exponential_func(x_fit, *params)
-   
-
+    # Get Cutoff requency at 1/7
     cutoff_frequency = (exponential_func((1/7), *params))
 
     return cutoff_frequency
 
-# %% ../nbs/02_losses.ipynb 23
+# %% ../nbs/02_losses.ipynb 22
 def SSIM(x, y, spatial_dims=2):
     return 1 - SSIMLoss(spatial_dims)(x,y)
 
 SSIMMetric = AvgMetric(SSIM)
 
-# %% ../nbs/02_losses.ipynb 24
+# %% ../nbs/02_losses.ipynb 23
 def FRCM(image1, image2):
 
+
+    """
+    Compute the area under the Fourier Ring Correlation (FRC) curve between two images.
+
+    #### Args:
+        - image1 (torch.Tensor): The first input image.
+        - image2 (torch.Tensor): The second input image.
+
+    #### Returns:
+        - float: The area under the FRC curve.
+    """
+
+    # Calculate the Fourier Ring Correlation and spatial frequency
     FRC, spatial_frequency = get_fourier_ring_correlations(image1, image2)
 
+    # Convert to numpy
     FRC = FRC.numpy()
     spatial_frequency = spatial_frequency.numpy()
       
-
+    # Compute the area under the curve using trapezoidal integration
     area = np.trapz(FRC, spatial_frequency)
     
     return area
