@@ -4,6 +4,9 @@
 __all__ = ['SSIMMetric', 'CombinedLoss', 'DiceLoss', 'radial_mask', 'get_radial_masks', 'get_fourier_ring_correlations',
            'FRCLoss', 'seventh_fourier_ring_correlation', 'SSIM', 'FRCM']
 
+# %% ../nbs/02_losses.ipynb 4
+from fastai.vision.all import *
+
 # %% ../nbs/02_losses.ipynb 5
 from monai.losses import SSIMLoss
 
