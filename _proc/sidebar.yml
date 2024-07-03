@@ -10,4 +10,10 @@ website:
       - 05_io.ipynb
       - 06_datasets.ipynb
       - 901_demo_RI2FL_2d.ipynb
+      - 901_demo_cell_segmentation-2-3D.ipynb
+      - 901_demo_cell_segmentation-2.ipynb
+      - 901_demo_cell_segmentation.ipynb
+      - 902_demo_2.ipynb
+      - 902_demo_PNG_images.ipynb
       - 999_template.ipynb
+      - fourier_ring_correlation.ipynb

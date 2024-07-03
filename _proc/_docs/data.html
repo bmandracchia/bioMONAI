@@ -102,13 +102,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="styles.css">
 <meta property="og:title" content="bioMONAI - Data">
 <meta property="og:description" content="Data classes and functions">
-<meta property="og:image" content="https://bmandracchia.github.io/bioMONAI/03_data_files/figure-html/cell-33-output-2.png">
+<meta property="og:image" content="https://bmandracchia.github.io/bioMONAI/03_data_files/figure-html/cell-36-output-2.png">
 <meta property="og:site-name" content="bioMONAI">
 <meta property="og:image:height" content="222">
 <meta property="og:image:width" content="950">
 <meta name="twitter:title" content="bioMONAI - Data">
 <meta name="twitter:description" content="Data classes and functions">
-<meta name="twitter:image" content="https://bmandracchia.github.io/bioMONAI/03_data_files/figure-html/cell-33-output-2.png">
+<meta name="twitter:image" content="https://bmandracchia.github.io/bioMONAI/03_data_files/figure-html/cell-36-output-2.png">
 <meta name="twitter:image-height" content="222">
 <meta name="twitter:image-width" content="950">
 <meta name="twitter:card" content="summary_large_image">
@@ -203,8 +203,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./demo_cell_segmentation-2-3d.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Demo: 2D image RI2FL</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./demo_cell_segmentation-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Demo: 2D image RI2FL</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./demo_cell_segmentation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Demo: 2D image RI2FL</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./902_demo_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">902_demo_2.html</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./demo_png_images.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Test</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./template.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">template</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./fourier_ring_correlation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">fourier_ring_correlation.html</span></a>
   </div>
 </li>
     </ul>
@@ -336,10 +372,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># file_path = '../../bioMONAI_0/_data/Babesia/RI/O11_RI_frame01.tiff'</span></span>
+<div class="cell" data-execution_count="54">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># file_path = 'data_examples/example_tiff.tiff's</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># d, _ = tiff_reader(file_path)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># d, _ = tiff_reader(file_path)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> <span class="st">'../../bioMONAI_0/_data/Thunder_20230308/nuevos_datos/dataset_2/targets/1.tif'</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>d, _ <span class="op">=</span> tiff_reader(file_path)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> <span class="st">'../../bioMONAI_0/_data/Babesia/TRITC/O11_TRITC_frame01.tiff'</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>e, _ <span class="op">=</span> tiff_reader(file_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="55">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>d.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="55">
+<pre><code>(1, 1, 2048, 2048)</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>e.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="56">
+<pre><code>(1, 1, 512, 512)</code></pre>
+</div>
 </div>
 </section>
 </section>
@@ -405,9 +462,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># file_path_2 = '../../bioMONAI_0/_data/Babesia_new/Sample_02/Stellaris/Reflection+Fluo_20221205/2022-12-05.lif'</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># e, _ = lif_reader(file_path_2, units='um')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># file_path_2 = 'data_examples/2022-12-05.lif'</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># e, _ = lif_reader(file_path_2, units='um')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="czi-reader" class="level3">
@@ -438,31 +495,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># file_path_3 = '../../bioMONAI_0/_data/Babesia_new/Image_1_2023_08_18__14_32_31_964(1).czi'</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># f, _ = czi_reader(file_path_3)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># file_path_3 = 'data_examples/example_czi.czi'</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># f, _ = czi_reader(file_path_3)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="image-reader" class="level3">
 <h3 class="anchored" data-anchor-id="image-reader">Image Reader</h3>
-<div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># file_path = '../../bioMONAI_0/_data/Babesia/RI/O11_RI_frame01.tiff'</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># f, _ = _image_reader(file_path)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="58">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># file_path = 'data_examples/example_tiff.tiff'</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># f, _ = _image_reader(file_path)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="h5-reader" class="level3">
 <h3 class="anchored" data-anchor-id="h5-reader">H5 Reader</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L162" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L172" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="h5_reader" class="level3">
 <h3 class="anchored" data-anchor-id="h5_reader">h5_reader</h3>
 <blockquote class="blockquote">
 <pre><code> h5_reader (path, dataset)</code></pre>
 </blockquote>
-<div class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># f = h5_reader('/home/juanlocal/hdf5_data.h5','dataset1')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="60">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># f = h5_reader('data_examples/hdf5_data.h5','dataset1')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="preprocessing" class="level3">
@@ -470,23 +527,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="load-and-preprocess" class="level3">
 <h3 class="anchored" data-anchor-id="load-and-preprocess">Load and preprocess</h3>
-<div class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load and process any file</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># org_img, input_img, org_size = _load_and_preprocess(file_path)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="63">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load and process any file</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># org_img, input_img, org_size = _load_and_preprocess(file_path)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="read-multichannel-data" class="level3">
 <h3 class="anchored" data-anchor-id="read-multichannel-data">Read multichannel data</h3>
-<div class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># file_names = get_image_files('../../bioMONAI_0/_data/Babesia/TRITC')#'../_data/Babesia/TRITC'</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># _multi_channel(file_names);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="65">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># file_names = get_image_files('data_examples')</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># _multi_channel(file_names);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="image-reader-1" class="level3">
 <h3 class="anchored" data-anchor-id="image-reader-1">Image reader</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L270" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L278" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="img_reader" class="level3">
 <h3 class="anchored" data-anchor-id="img_reader">img_reader</h3>
@@ -547,8 +604,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<div class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#img_reader(file_path_2)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="67">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#img_reader(file_path_2)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -557,7 +614,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="meta-resolver" class="level3">
 <h3 class="anchored" data-anchor-id="meta-resolver">Meta resolver</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L309" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L317" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="metaresolver" class="level3">
 <h3 class="anchored" data-anchor-id="metaresolver">MetaResolver</h3>
@@ -569,7 +626,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="bioimagebase" class="level3">
 <h3 class="anchored" data-anchor-id="bioimagebase">BioImageBase</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L323" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L331" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="bioimagebase-1" class="level3">
 <h3 class="anchored" data-anchor-id="bioimagebase-1">BioImageBase</h3>
@@ -582,7 +639,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="bioimage">BioImage</h3>
 <p>class for 2D Images</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L395" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L403" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="bioimage-1" class="level3">
 <h3 class="anchored" data-anchor-id="bioimage-1">BioImage</h3>
@@ -590,18 +647,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> BioImage (*args, **kwargs)</code></pre>
 </blockquote>
 <p>Subclass of BioImageBase that represents 2D and 3D image objects.</p>
-<div class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a = BioImage.create('../../bioMONAI_0/_data/Babesia/RI/O11_RI_frame01.tiff')</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># print(a.shape)</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># a = BioImage.create('../../bioMONAI_0/_data/Babesia/TRITC/O11_TRITC_frame01.tiff')</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># a.shape</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="72">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> BioImage.create(<span class="st">'../../bioMONAI_0/_data/Babesia/RI/O11_RI_frame01.tiff'</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a.shape)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> BioImage.create(<span class="st">'../../bioMONAI_0/_data/Babesia/TRITC/O11_TRITC_frame01.tiff'</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a.shape)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> BioImage.create(<span class="st">'../../bioMONAI_0/_data/Thunder_20230308/nuevos_datos/dataset_2/inputs/1.tif'</span>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a.shape)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> BioImage.create(<span class="st">'../../bioMONAI_0/_data/Thunder_20230308/nuevos_datos/dataset_2/targets/1.tif'</span>)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>torch.Size([1, 96, 512, 512])
+torch.Size([1, 512, 512])
+torch.Size([1, 56, 2048, 2048])
+torch.Size([1, 2048, 2048])</code></pre>
+</div>
 </div>
 </section>
 <section id="bioimagestack" class="level3">
 <h3 class="anchored" data-anchor-id="bioimagestack">BioImageStack</h3>
 <p>class for 3D images</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L429" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L437" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="bioimagestack-1" class="level3">
 <h3 class="anchored" data-anchor-id="bioimagestack-1">BioImageStack</h3>
@@ -609,18 +679,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> BioImageStack (*args, **kwargs)</code></pre>
 </blockquote>
 <p>Subclass of BioImageBase that represents a 3D image object.</p>
-<div class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a = BioImageStack.create('../../bioMONAI_0/_data/Babesia/RI/O11_RI_frame01.tiff')</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># print(a.shape)</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># a = BioImageStack.create('../../bioMONAI_0/_data/Babesia/TRITC/O11_TRITC_frame01.tiff')</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># a.shape</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="74">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a = BioImageStack.create('../../bioMONAI_0/_data/Babesia/RI/O11_RI_frame01.tiff')</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># print(a.shape)</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># a = BioImageStack.create('../../bioMONAI_0/_data/Babesia/TRITC/O11_TRITC_frame01.tiff')</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># a.shape</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="bioimageproject" class="level3">
 <h3 class="anchored" data-anchor-id="bioimageproject">BioImageProject</h3>
 <p>2D representations of 3D stack using maximum intensity projection</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L437" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L445" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="bioimageproject-1" class="level3">
 <h3 class="anchored" data-anchor-id="bioimageproject-1">BioImageProject</h3>
@@ -628,16 +698,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> BioImageProject (*args, **kwargs)</code></pre>
 </blockquote>
 <p>Subclass of BioImageBase that represents a 2D image object.</p>
-<div class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a = BioImageProject.create('../../bioMONAI_0/_data/Babesia/RI/O11_RI_frame01.tiff')</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># a.shape</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="76">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> BioImageProject.create(<span class="st">'../../bioMONAI_0/_data/Babesia/RI/O11_RI_frame01.tiff'</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">#a = BioImageProject.create('../../bioMONAI_0/_data/Thunder_20230308/nuevos_datos/dataset_2/inputs/1.tif')</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>a.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="76">
+<pre><code>torch.Size([1, 512, 512])</code></pre>
+</div>
 </div>
 </section>
 <section id="bioimagemulti" class="level3">
 <h3 class="anchored" data-anchor-id="bioimagemulti">BioImageMulti</h3>
 <p>Multichannel datasets</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L471" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L479" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="bioimagemulti-1" class="level3">
 <h3 class="anchored" data-anchor-id="bioimagemulti-1">BioImageMulti</h3>
@@ -645,52 +719,52 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> BioImageMulti (*args, **kwargs)</code></pre>
 </blockquote>
 <p>Subclass of BioImageBase that represents a multi-channel 2D image object.</p>
-<div class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a = BioImageMulti.create('../../bioMONAI_0/_data/Babesia/RI/O11_RI_frame01.tiff')#'../_data/Babesia/RI/O11_RI_frame01.tiff'</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># print(a.shape)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="78">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a = BioImageMulti.create('../../bioMONAI_0/_data/Babesia/RI/O11_RI_frame01.tiff')#'../_data/Babesia/RI/O11_RI_frame01.tiff'</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># print(a.shape)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="bioimage4d" class="level3">
 <h3 class="anchored" data-anchor-id="bioimage4d">BioImage4D</h3>
 <p>4D datasets</p>
-<div class="cell" data-execution_count="32">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># TO DO</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BioImage4D(BioImageBase):</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Subclass of BioImageBase that represents a (multi-channel) 3D image object."""</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">@classmethod</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> create(cls, fn: (Path, <span class="bu">str</span>, L, <span class="bu">list</span>, torch.Tensor), <span class="op">**</span>kwargs) <span class="op">-&gt;</span> torch.Tensor: </span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co">        Opens an image and casts it to BioImageBase object.</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co">        If `fn` is a torch.Tensor, it's cast to BioImageBase object.</span></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="co">            fn : (Path, str, torch.Tensor)</span></span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="co">                Image path or a 4D torch.Tensor.</span></span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="co">            kwargs : dict</span></span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="co">                Additional parameters for the medical image reader.</span></span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="co">            torch.Tensor : A 3D tensor as a BioImage object.</span></span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
-<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">isinstance</span>(fn, torch.Tensor):</span>
-<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> cls(fn)</span>
-<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> torch.squeeze(img_reader(fn, dtype<span class="op">=</span>cls, resample<span class="op">=</span>cls.resample, reorder<span class="op">=</span>cls.reorder), <span class="dv">1</span>)</span>
-<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__repr__</span>(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
-<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Returns the string representation of the ImageBase instance."""</span></span>
-<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"BioImage4D</span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>as_tensor()<span class="sc">.</span><span class="fu">__repr__</span>()[<span class="dv">6</span>:]<span class="sc">}</span><span class="ss">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="79">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># TO DO</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BioImage4D(BioImageBase):</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Subclass of BioImageBase that represents a (multi-channel) 3D image object."""</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">@classmethod</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> create(cls, fn: (Path, <span class="bu">str</span>, L, <span class="bu">list</span>, torch.Tensor), <span class="op">**</span>kwargs) <span class="op">-&gt;</span> torch.Tensor: </span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="co">        Opens an image and casts it to BioImageBase object.</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="co">        If `fn` is a torch.Tensor, it's cast to BioImageBase object.</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="co">            fn : (Path, str, torch.Tensor)</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="co">                Image path or a 4D torch.Tensor.</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="co">            kwargs : dict</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a><span class="co">                Additional parameters for the medical image reader.</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a><span class="co">            torch.Tensor : A 3D tensor as a BioImage object.</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">isinstance</span>(fn, torch.Tensor):</span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> cls(fn)</span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> torch.squeeze(img_reader(fn, dtype<span class="op">=</span>cls, resample<span class="op">=</span>cls.resample, reorder<span class="op">=</span>cls.reorder), <span class="dv">1</span>)</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__repr__</span>(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Returns the string representation of the ImageBase instance."""</span></span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"BioImage4D</span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>as_tensor()<span class="sc">.</span><span class="fu">__repr__</span>()[<span class="dv">6</span>:]<span class="sc">}</span><span class="ss">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="33">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a = BioImage4D.create('../../bioMONAI_0/_data/Babesia/RI/O11_RI_frame01.tiff')#'../_data/Babesia/RI/O11_RI_frame01.tiff'</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># print(a.shape)</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>tensor <span class="op">=</span> torch.randn(<span class="dv">3</span>,<span class="dv">10</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> BioImage4D.create(tensor)<span class="co">#'../_data/Babesia/RI/O11_RI_frame01.tiff'</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(b.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="80">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a = BioImage4D.create('../../bioMONAI_0/_data/Babesia/RI/O11_RI_frame01.tiff')#'../_data/Babesia/RI/O11_RI_frame01.tiff'</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># print(a.shape)</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>tensor <span class="op">=</span> torch.randn(<span class="dv">3</span>,<span class="dv">10</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> BioImage4D.create(tensor)<span class="co">#'../_data/Babesia/RI/O11_RI_frame01.tiff'</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(b.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>torch.Size([3, 10, 4, 5])</code></pre>
 </div>
@@ -699,7 +773,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="data-conversion" class="level3">
 <h3 class="anchored" data-anchor-id="data-conversion">Data conversion</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L500" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L508" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="tensor2bioimage" class="level3">
 <h3 class="anchored" data-anchor-id="tensor2bioimage">Tensor2BioImage</h3>
@@ -715,7 +789,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="imageblock" class="level3">
 <h3 class="anchored" data-anchor-id="imageblock">ImageBlock</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L512" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L520" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="bioimageblock" class="level3">
 <h3 class="anchored" data-anchor-id="bioimageblock">BioImageBlock</h3>
@@ -737,57 +811,56 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="example" class="level2">
 <h2 class="anchored" data-anchor-id="example">Example</h2>
-<div class="cell" data-execution_count="38">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> monai.transforms <span class="im">import</span> ScaleIntensity</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.transforms <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="85">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> monai.transforms <span class="im">import</span> ScaleIntensity</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.transforms <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>spatial_dimensions <span class="op">=</span> <span class="dv">2</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>roi_size <span class="op">=</span> [<span class="dv">32</span>]<span class="op">*</span>spatial_dimensions</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>item_tfms <span class="op">=</span> [RandCropND(roi_size), ScaleIntensity]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="86">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>spatial_dimensions <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>roi_size <span class="op">=</span> [<span class="dv">32</span>]<span class="op">*</span>spatial_dimensions</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>item_tfms <span class="op">=</span> [RandCropND(roi_size), ScaleIntensity]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="39">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.core <span class="im">import</span> get_target</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="87">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.core <span class="im">import</span> get_target</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="101">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>file_folder <span class="op">=</span> <span class="st">'../../bioMONAI_0/_data/Thunder_20230308/nuevos_datos/dataset_2'</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>dblock <span class="op">=</span> DataBlock(blocks<span class="op">=</span>(BioImageBlock(cls<span class="op">=</span>BioImageProject), BioImageBlock(cls<span class="op">=</span>BioImageProject)),</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>                   get_items<span class="op">=</span>get_image_files,</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>                   get_y<span class="op">=</span>get_target(<span class="st">'../../bioMONAI_0/_data/Thunder_20230308/nuevos_datos/dataset_2/targets'</span>, same_filename<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>                   splitter<span class="op">=</span>RandomSplitter(valid_pct<span class="op">=</span><span class="fl">0.2</span>),</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>                   item_tfms<span class="op">=</span>item_tfms,</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>                   )</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="co"># dblock.summary(file_folder)</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> dblock.dataloaders(file_folder, bs<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>dls.show_batch(max_n<span class="op">=</span><span class="dv">2</span>, cmap<span class="op">=</span><span class="st">'viridis'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Setting affine, but the applied meta contains an affine. This will be overwritten.
 Setting affine, but the applied meta contains an affine. This will be overwritten.</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="03_data_files/figure-html/cell-33-output-2.png" class="img-fluid"></p>
+<p><img src="03_data_files/figure-html/cell-36-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>file_folder <span class="op">=</span> <span class="st">'../_data/Babesia/RI/'</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>dblock <span class="op">=</span> DataBlock(blocks<span class="op">=</span>(BioImageBlock(cls<span class="op">=</span>BioImageProject), BioImageBlock(cls<span class="op">=</span>BioImageProject)),</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>                   get_items<span class="op">=</span>get_image_files,</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>                   get_y<span class="op">=</span>get_target(<span class="st">'../_data/Babesia/TRITC'</span>, same_filename<span class="op">=</span><span class="va">False</span>, signal_file_prefix<span class="op">=</span><span class="st">'RI'</span>, target_file_prefix<span class="op">=</span><span class="st">'TRITC'</span>),</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>                   splitter<span class="op">=</span>RandomSplitter(valid_pct<span class="op">=</span><span class="fl">0.2</span>),</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>                   item_tfms<span class="op">=</span>item_tfms,</span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>                   )</span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="co"># dblock.summary(file_folder)</span></span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> dblock.dataloaders(file_folder, bs<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>dls.show_batch(max_n<span class="op">=</span><span class="dv">2</span>, cmap<span class="op">=</span><span class="st">'viridis'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="102">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> monai.networks.nets <span class="im">import</span> DynUNet</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> monai.losses <span class="im">import</span> SSIMLoss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="40">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> monai.networks.nets <span class="im">import</span> DynUNet</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> monai.losses <span class="im">import</span> SSIMLoss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="103">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> DynUNet(spatial_dims<span class="op">=</span>spatial_dimensions, in_channels<span class="op">=</span><span class="dv">1</span>, out_channels<span class="op">=</span><span class="dv">1</span>, strides<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>),kernel_size<span class="op">=</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>), upsample_kernel_size<span class="op">=</span>(<span class="dv">2</span>, <span class="dv">2</span>), res_block<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="41">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> DynUNet(spatial_dims<span class="op">=</span>spatial_dimensions, in_channels<span class="op">=</span><span class="dv">1</span>, out_channels<span class="op">=</span><span class="dv">1</span>, strides<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>),kernel_size<span class="op">=</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>), upsample_kernel_size<span class="op">=</span>(<span class="dv">2</span>, <span class="dv">2</span>), res_block<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="104">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>loss_func <span class="op">=</span> SSIMLoss(spatial_dims<span class="op">=</span>spatial_dimensions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="42">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>loss_func <span class="op">=</span> SSIMLoss(spatial_dims<span class="op">=</span>spatial_dimensions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="105">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> Learner(dls, model, loss_func<span class="op">=</span>loss_func)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="43">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> Learner(dls, model, loss_func<span class="op">=</span>loss_func)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-execution_count="44">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>learn.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="106">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>learn.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Setting affine, but the applied meta contains an affine. This will be overwritten.
-Applied workaround for CuDNN issue, install nvrtc.so (Triggered internally at /opt/conda/conda-bld/pytorch_1682343995622/work/aten/src/ATen/native/cudnn/Conv_v8.cpp:80.)</code></pre>
+<pre><code>Setting affine, but the applied meta contains an affine. This will be overwritten.</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 
@@ -810,7 +883,7 @@ Applied workaround for CuDNN issue, install nvrtc.so (Triggered internally at /o
 <div class="cell-output cell-output-display">
 
 </div>
-<div class="cell-output cell-output-display" data-execution_count="44">
+<div class="cell-output cell-output-display" data-execution_count="106">
 <pre><code>DynUNet (Input shape: 2 x 1 x 32 x 32)
 ============================================================================
 Layer (type)         Output Shape         Param #    Trainable 
@@ -909,7 +982,7 @@ Total params: 954,401
 Total trainable params: 954,401
 Total non-trainable params: 0
 
-Optimizer used: &lt;function Adam at 0x7fc039c16340&gt;
+Optimizer used: &lt;function Adam at 0x7f3f7ee847c0&gt;
 Loss function: SSIMLoss()
 
 Callbacks:
@@ -919,8 +992,8 @@ Callbacks:
   - ProgressCallback</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="45">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>learn.fit_flat_cos(<span class="dv">5</span>,<span class="fl">1e-3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="107">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>learn.fit_flat_cos(<span class="dv">5</span>,<span class="fl">1e-3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
 <style>
@@ -952,46 +1025,46 @@ Callbacks:
 <tbody>
 <tr class="odd">
 <td>0</td>
-<td>0.933055</td>
-<td>0.571958</td>
-<td>00:06</td>
+<td>0.999406</td>
+<td>0.999052</td>
+<td>00:10</td>
 </tr>
 <tr class="even">
 <td>1</td>
-<td>0.257485</td>
-<td>0.112305</td>
-<td>00:07</td>
+<td>0.995351</td>
+<td>0.998416</td>
+<td>00:10</td>
 </tr>
 <tr class="odd">
 <td>2</td>
-<td>0.105427</td>
-<td>0.036427</td>
-<td>00:07</td>
+<td>0.971927</td>
+<td>0.943298</td>
+<td>00:09</td>
 </tr>
 <tr class="even">
 <td>3</td>
-<td>0.091262</td>
-<td>0.041423</td>
-<td>00:07</td>
+<td>0.860400</td>
+<td>0.580867</td>
+<td>00:10</td>
 </tr>
 <tr class="odd">
 <td>4</td>
-<td>0.078249</td>
-<td>0.048581</td>
-<td>00:07</td>
+<td>0.698286</td>
+<td>0.279059</td>
+<td>00:09</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div class="cell" data-execution_count="46">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>learn.recorder.plot_loss()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="108">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>learn.recorder.plot_loss()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="03_data_files/figure-html/cell-41-output-1.png" class="img-fluid"></p>
+<p><img src="03_data_files/figure-html/cell-43-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="47">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>learn.show_results(cmap<span class="op">=</span><span class="st">'gray'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="109">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>learn.show_results(cmap<span class="op">=</span><span class="st">'gray'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Setting affine, but the applied meta contains an affine. This will be overwritten.</code></pre>
 </div>
@@ -1017,7 +1090,7 @@ Callbacks:
 
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="03_data_files/figure-html/cell-42-output-4.png" class="img-fluid"></p>
+<p><img src="03_data_files/figure-html/cell-44-output-4.png" class="img-fluid"></p>
 </div>
 </div>
 
