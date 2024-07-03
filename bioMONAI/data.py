@@ -145,7 +145,7 @@ def _image_reader(path, # The file path to the image
 
     if (path[-3:]=="tif"):
 
-        # Reorder for tiff files
+        # Reorder for tif files
         data = image_aics.get_image_data("CZYX", T=0)  # returns 4D CZYX numpy array
         
         affine = np.eye(4) #to change
