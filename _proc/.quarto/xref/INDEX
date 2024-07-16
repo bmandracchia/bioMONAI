@@ -1,0 +1,50 @@
+{
+  "04_transforms.ipynb": {
+    "transforms.html": "cb859dea"
+  },
+  "05_io.ipynb": {
+    "io.html": "177d07cf"
+  },
+  "index.ipynb": {
+    "index.html": "7c6d1c08"
+  },
+  "06_datasets.ipynb": {
+    "datasets.html": "ef62fe9c"
+  },
+  "999_template.ipynb": {
+    "template.html": "51ddb4bd"
+  },
+  "00_core.ipynb": {
+    "core.html": "e91f5fd7"
+  },
+  "03_data.ipynb": {
+    "data.html": "6f659b19"
+  },
+  "01_nets.ipynb": {
+    "nets.html": "e377d3f1"
+  },
+  "02_losses.ipynb": {
+    "losses.html": "0fe15498"
+  },
+  "901_demo_RI2FL_2d.ipynb": {
+    "demo_ri2fl_2d.html": "4aef3c2e"
+  },
+  "901_demo_cell_segmentation.ipynb": {
+    "demo_cell_segmentation.html": "81faa5d5"
+  },
+  "901_demo_cell_segmentation-2.ipynb": {
+    "demo_cell_segmentation-2.html": "f0c767af"
+  },
+  "901_demo_cell_segmentation-2-3D.ipynb": {
+    "demo_cell_segmentation-2-3d.html": "c108a850"
+  },
+  "902_demo_2.ipynb": {
+    "902_demo_2.html": "40de3d59"
+  },
+  "902_demo_PNG_images.ipynb": {
+    "demo_png_images.html": "30a7b172"
+  },
+  "fourier_ring_correlation.ipynb": {
+    "fourier_ring_correlation.html": "e6a1ed88"
+  }
+}
