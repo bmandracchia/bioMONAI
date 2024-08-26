@@ -3,7 +3,15 @@
 # %% auto 0
 __all__ = ['tiff_reader', 'lif_reader', 'czi_reader', 'h5_reader', 'img_reader']
 
-# %% ../nbs/02_io.ipynb 5
+# %% ../nbs/02_io.ipynb 3
+from fastai.vision.all import *
+from fastai.data.all import *
+from torchio import ScalarImage, ToCanonical, Resample
+import multipagetiff as mtif
+
+from .core import torchTensor
+
+# %% ../nbs/02_io.ipynb 6
 def tiff_reader(path,  # The path to the TIFF file to be read
                 units='um',  # The units for the image data.
                ):
@@ -36,7 +44,7 @@ def tiff_reader(path,  # The path to the TIFF file to be read
     # Return the image data and the affine matrix
     return data, affine
 
-# %% ../nbs/02_io.ipynb 10
+# %% ../nbs/02_io.ipynb 9
 from aicsimageio import AICSImage
 
 def lif_reader(path, # The path to the LIF file to be read
@@ -74,7 +82,7 @@ def lif_reader(path, # The path to the LIF file to be read
     # Return the image data and the affine matrix
     return data, affine
 
-# %% ../nbs/02_io.ipynb 13
+# %% ../nbs/02_io.ipynb 12
 from aicsimageio.readers import CziReader
 
 def czi_reader(path, # The path to the CZI file to be read
@@ -104,7 +112,7 @@ def czi_reader(path, # The path to the CZI file to be read
     # Return the image data and the affine matrix
     return data, affine
 
-# %% ../nbs/02_io.ipynb 16
+# %% ../nbs/02_io.ipynb 15
 def _image_reader(path, # The file path to the image             
                  ):
 
@@ -157,7 +165,7 @@ def _image_reader(path, # The file path to the image
     return data, affine
 
 
-# %% ../nbs/02_io.ipynb 19
+# %% ../nbs/02_io.ipynb 18
 import h5py
 
 def h5_reader(path, dataset):
@@ -171,7 +179,7 @@ def h5_reader(path, dataset):
     return dataset1
 
 
-# %% ../nbs/02_io.ipynb 22
+# %% ../nbs/02_io.ipynb 21
 def _preprocess(obj, # The object to preprocess
                 reorder, # Whether to reorder the object
                 resample # Whether to resample the object
@@ -205,7 +213,7 @@ def _preprocess(obj, # The object to preprocess
     return obj, original_size
 
 
-# %% ../nbs/02_io.ipynb 24
+# %% ../nbs/02_io.ipynb 23
 def _load_and_preprocess(file_path, # Image file path
                          reorder=False, # Whether to reorder data for canonical (RAS+) orientation
                          resample=False, # Whether to resample image to different voxel sizes and dimensions
@@ -229,11 +237,11 @@ def _load_and_preprocess(file_path, # Image file path
     return org_img, input_img, org_size
 
 
-# %% ../nbs/02_io.ipynb 27
+# %% ../nbs/02_io.ipynb 26
 def _multi_channel(image_paths: (L, list), # List of image paths (e.g., T1, T2, T1CE, DWI)
                    reorder: bool = False, # Whether to reorder data for canonical (RAS+) orientation
                    resample: list = None, # Whether to resample image to different voxel sizes and dimensions
-                   dtype=torch.Tensor, # Desired datatype for output
+                   dtype=torchTensor, # Desired datatype for output
                    only_tensor: bool = True, # Whether to return only image tensor
                    squeeze: bool = False # 
                   ):
@@ -249,7 +257,7 @@ def _multi_channel(image_paths: (L, list), # List of image paths (e.g., T1, T2, 
         squeeze: Whether to squeeze or not the image
 
     Returns:
-        torch.Tensor: A stacked 4D tensor, if `only_tensor` is True.
+        torchTensor: A stacked 4D tensor, if `only_tensor` is True.
         tuple: Original image, preprocessed image, original size, if `only_tensor` is False.
     """
     image_data = [_load_and_preprocess(image, reorder, resample) for image in image_paths]
@@ -265,9 +273,9 @@ def _multi_channel(image_paths: (L, list), # List of image paths (e.g., T1, T2, 
     input_img.set_data(tensor)
     return org_img, input_img, org_size
 
-# %% ../nbs/02_io.ipynb 30
+# %% ../nbs/02_io.ipynb 29
 def img_reader(file_path: (str, Path, L, list), # Path to the image
-               dtype=torch.Tensor, # Datatype for the return value. Defaults to torch.Tensor
+               dtype=torchTensor, # Datatype for the return value. Defaults to torchTensor
                reorder: bool = False, # Whether to reorder to canonical orientation
                resample: list = None, # Whether to resample image to different voxel sizes and image dimensions
                only_tensor: bool = True, # To return only an image tensor
@@ -276,7 +284,7 @@ def img_reader(file_path: (str, Path, L, list), # Path to the image
 
     Args:
         file_path: Path to the image. Can be a string, Path object or a list.
-        dtype: Datatype for the return value. Defaults to torch.Tensor.
+        dtype: Datatype for the return value. Defaults to torchTensor.
         reorder: Whether to reorder the data to be closest to canonical 
             (RAS+) orientation. Defaults to False.
         resample: Whether to resample image to different voxel sizes and 
