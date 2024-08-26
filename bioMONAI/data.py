@@ -2,22 +2,25 @@
 
 # %% auto 0
 __all__ = ['MetaResolver', 'BioImageBase', 'BioImage', 'BioImageStack', 'BioImageProject', 'BioImageMulti', 'Tensor2BioImage',
-           'BioImageBlock', 'show_batch', 'show_results']
+           'BioImageBlock', 'get_gt', 'get_target', 'get_noisy_pair', 'show_batch', 'show_results']
 
-# %% ../nbs/01_data.ipynb 5
-class MetaResolver(type(torch.Tensor), metaclass=BypassNewMeta):
+# %% ../nbs/01_data.ipynb 4
+import os
+
+from .core import MetaTensor, torchTensor, BypassNewMeta, DisplayedTransform, torchsqueeze, Path, List, L, torchmax, randint, typedispatch
+from .io import img_reader
+from .visualize import show_images_grid
+
+
+
+# %% ../nbs/01_data.ipynb 6
+class MetaResolver(type(torchTensor), metaclass=BypassNewMeta):
     """
     A class to bypass metaclass conflict:
     https://pytorch-geometric.readthedocs.io/en/latest/_modules/torch_geometric/data/batch.html
     """
     pass
     
-
-# %% ../nbs/01_data.ipynb 7
-from .core import show_images_grid
-from .io import img_reader
-from monai.data import MetaTensor
-
 
 # %% ../nbs/01_data.ipynb 8
 class BioImageBase(MetaTensor, metaclass=MetaResolver):
@@ -26,27 +29,27 @@ class BioImageBase(MetaTensor, metaclass=MetaResolver):
     Metaclass casts `x` to this class if it is of type `cls._bypass_type`.
     """
     
-    _bypass_type = torch.Tensor  # The type that bypasses image loading
+    _bypass_type = torchTensor  # The type that bypasses image loading
     _show_args = {'cmap': 'gray'}  # Default arguments for image display
     resample, reorder = None, False  # Default resample and reorder settings
     affine_matrix = None  # Default affine matrix for image transformation
 
     @classmethod
-    def create(cls, fn: (Path, str, List, torch.Tensor), **kwargs) -> torch.Tensor: 
+    def create(cls, fn: (Path, str, List, torchTensor), **kwargs) -> torchTensor: 
         """
         Opens an image and casts it to BioImageBase object.
-        If `fn` is a torch.Tensor, it's cast to BioImageBase object.
+        If `fn` is a torchTensor, it's cast to BioImageBase object.
 
         Args:
-            fn : (Path, str, torch.Tensor)
-                Image path or a 4D torch.Tensor.
+            fn : (Path, str, torchTensor)
+                Image path or a 4D torchTensor.
             kwargs : dict
                 Additional parameters for the medical image reader.
 
         Returns:
-            torch.Tensor : A 4D tensor as a BioImageBase object.
+            torchTensor : A 4D tensor as a BioImageBase object.
         """
-        if isinstance(fn, torch.Tensor):
+        if isinstance(fn, torchTensor):
             return cls(fn)
 
         return img_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder)
@@ -80,12 +83,12 @@ class BioImageBase(MetaTensor, metaclass=MetaResolver):
         """
         return show_images_grid(self, ctx=ctx, ncols=ncols, **merge(self._show_args, kwargs))
     
-    def as_tensor(self) -> torch.Tensor:
+    def as_tensor(self) -> torchTensor:
         """
-        Return the `MetaTensor` as a `torch.Tensor`.
+        Return the `MetaTensor` as a `torchTensor`.
         It is OS dependent as to whether this will be a deep copy or not.
         """
-        return self.as_subclass(torch.Tensor)
+        return self.as_subclass(torchTensor)
 
     def __repr__(self) -> str:
         """Returns the string representation of the ImageBase instance."""
@@ -97,24 +100,24 @@ class BioImage(BioImageBase):
     _show_args = {'cmap':'gray'}
     
     @classmethod
-    def create(cls, fn: (Path, str, L, list, torch.Tensor), **kwargs) -> torch.Tensor: 
+    def create(cls, fn: (Path, str, L, list, torchTensor), **kwargs) -> torchTensor: 
         """
         Opens an image and casts it to BioImageBase object.
-        If `fn` is a torch.Tensor, it's cast to BioImageBase object.
+        If `fn` is a torchTensor, it's cast to BioImageBase object.
 
         Args:
-            fn : (Path, str, torch.Tensor)
-                Image path or a 4D torch.Tensor.
+            fn : (Path, str, torchTensor)
+                Image path or a 4D torchTensor.
             kwargs : dict
                 Additional parameters for the medical image reader.
 
         Returns:
-            torch.Tensor : A 3D tensor as a BioImage object.
+            torchTensor : A 3D tensor as a BioImage object.
         """
-        if isinstance(fn, torch.Tensor):
+        if isinstance(fn, torchTensor):
             return cls(fn)
 
-        return torch.squeeze(img_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder), 1)
+        return torchsqueeze(img_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder), 1)
     
     def show(self, ctx=None, **kwargs):
         "Show image using `merge(self._show_args, kwargs)`"
@@ -139,25 +142,25 @@ class BioImageProject(BioImageBase):
     _show_args = {'cmap':'gray'}
     
     @classmethod
-    def create(cls, fn: (Path, str, L, list, torch.Tensor), **kwargs) -> torch.Tensor: 
+    def create(cls, fn: (Path, str, L, list, torchTensor), **kwargs) -> torchTensor: 
         """
         Opens an image and casts it to BioImageBase object.
-        If `fn` is a torch.Tensor, it's cast to BioImageBase object.
+        If `fn` is a torchTensor, it's cast to BioImageBase object.
 
         Args:
-            fn : (Path, str, torch.Tensor)
-                Image path or a 4D torch.Tensor.
+            fn : (Path, str, torchTensor)
+                Image path or a 4D torchTensor.
             kwargs : dict
                 Additional parameters for the medical image reader.
 
         Returns:
-            torch.Tensor : A 3D tensor as a BioImage object.
+            torchTensor : A 3D tensor as a BioImage object.
         """
-        if isinstance(fn, torch.Tensor):
+        if isinstance(fn, torchTensor):
             return cls(fn)
 
         img = img_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder)
-        return torch.max(img, dim=1)[0]  # Taking the maximum intensity projection along axis 1
+        return torchmax(img, dim=1)[0]  # Taking the maximum intensity projection along axis 1
     
     def show(self, ctx=None, **kwargs):
         "Show image using `merge(self._show_args, kwargs)`"
@@ -172,24 +175,24 @@ class BioImageMulti(BioImageBase):
     """Subclass of BioImageBase that represents a multi-channel 2D image object."""
     
     @classmethod
-    def create(cls, fn: (Path, str, L, list, torch.Tensor), **kwargs) -> torch.Tensor: 
+    def create(cls, fn: (Path, str, L, list, torchTensor), **kwargs) -> torchTensor: 
         """
         Opens an image and casts it to BioImageBase object.
-        If `fn` is a torch.Tensor, it's cast to BioImageBase object.
+        If `fn` is a torchTensor, it's cast to BioImageBase object.
 
         Args:
-            fn : (Path, str, torch.Tensor)
-                Image path or a 4D torch.Tensor.
+            fn : (Path, str, torchTensor)
+                Image path or a 4D torchTensor.
             kwargs : dict
                 Additional parameters for the medical image reader.
 
         Returns:
-            torch.Tensor : A 3D tensor as a BioImage object.
+            torchTensor : A 3D tensor as a BioImage object.
         """
-        if isinstance(fn, torch.Tensor):
+        if isinstance(fn, torchTensor):
             return cls(fn)
 
-        return torch.squeeze(img_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder), 0)
+        return torchsqueeze(img_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder), 0)
     
     def __repr__(self) -> str:
         """Returns the string representation of the ImageBase instance."""
@@ -205,7 +208,7 @@ class Tensor2BioImage(DisplayedTransform):
         if isinstance(o, MetaTensor):
             return self.cls(o.clone(), affine=o.affine, meta=o.meta)
         
-        if isinstance(o, torch.Tensor):
+        if isinstance(o, torchTensor):
             return self.cls(o)
 
 # %% ../nbs/01_data.ipynb 28
@@ -213,7 +216,49 @@ def BioImageBlock(cls:BioImageBase=BioImageStack):
     "A `TransformBlock` for images of `cls`"
     return TransformBlock(type_tfms=cls.create, batch_tfms=[Tensor2BioImage(cls)]) # IntToFloatTensor
 
+# %% ../nbs/01_data.ipynb 30
+def get_gt(path, gt_file_name="avg50.png"): 
+    def _fn(fn): return Path(path/"gt")/f"{parent_label(fn)}"/gt_file_name
+    return _fn
+
+
 # %% ../nbs/01_data.ipynb 31
+def get_target(path, same_filename=True, target_file_prefix="target", signal_file_prefix="signal"):
+    # Define a function to construct the target file name based on input parameters
+    def construct_target_filename(file_name):
+        # Split the file name based on the signal file prefix
+        parts = file_name.split(signal_file_prefix)
+        
+        # Construct the target file name by inserting the target file prefix
+        target_file_name = parts[0] + target_file_prefix + parts[1]
+        
+        return target_file_name
+    
+    # Define a function to generate the target file path based on the given file name
+    def generate_target_path(file_name):
+        # Extract the base file name
+        base_filename = os.path.basename(file_name)
+        
+        # If same_filename is True, simply return the path joined with the base file name
+        if same_filename:
+            return Path(path) / base_filename
+        
+        # If same_filename is False, construct the target file name and return the path joined with it
+        target_filename = construct_target_filename(base_filename)
+        return Path(path) / target_filename
+    
+    # Return the appropriate function based on the value of same_filename
+    return generate_target_path
+
+
+# %% ../nbs/01_data.ipynb 35
+def get_noisy_pair(fn):
+    tmp = get_image_files(fn.parent, recurse=False)
+    fn2 = tmp[randint(0,len(tmp)-1)]
+    while fn2 == fn: fn2 = tmp[randint(0,len(tmp)-1)]
+    return fn2
+
+# %% ../nbs/01_data.ipynb 38
 @typedispatch
 def show_batch(x:BioImageBase, y:BioImageBase, samples, ctxs=None, max_n=10, nrows=None, ncols=None, figsize=None, **kwargs):
     if ctxs is None: ctxs = get_grid(min(len(samples), max_n), nrows=nrows, ncols=ncols, figsize=figsize, double=True)
@@ -221,7 +266,7 @@ def show_batch(x:BioImageBase, y:BioImageBase, samples, ctxs=None, max_n=10, nro
         ctxs[i::2] = [b.show(ctx=c, **kwargs) for b,c,_ in zip(samples.itemgot(i),ctxs[i::2],range(max_n))]
     return ctxs
 
-# %% ../nbs/01_data.ipynb 33
+# %% ../nbs/01_data.ipynb 40
 @typedispatch
 def show_results(x:BioImageBase, y:BioImageBase, samples, outs, ctxs=None, max_n=10, figsize=None, **kwargs):
     if ctxs is None: ctxs = get_grid(3*min(len(samples), max_n), ncols=3, figsize=figsize, title='Input/Target/Prediction')
