@@ -3,12 +3,15 @@ website:
     contents:
       - index.ipynb
       - 00_core.ipynb
-      - 01_nets.ipynb
-      - 02_losses.ipynb
-      - 03_data.ipynb
-      - 04_transforms.ipynb
-      - 05_io.ipynb
-      - 06_datasets.ipynb
+      - 01_data.ipynb
+      - 02_io.ipynb
+      - 03_losses.ipynb
+      - 04_nets.ipynb
+      - 05_transforms.ipynb
+      - 06_metrics.ipynb
+      - 07_callbacks.ipynb
+      - 08_datasets.ipynb
+      - 09_visualize.ipynb
       - 901_demo_RI2FL_2d.ipynb
       - 901_demo_cell_segmentation-2-3D.ipynb
       - 901_demo_cell_segmentation-2.ipynb

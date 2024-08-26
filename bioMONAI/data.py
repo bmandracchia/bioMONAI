@@ -11,8 +11,6 @@ from .core import MetaTensor, torchTensor, BypassNewMeta, DisplayedTransform, to
 from .io import img_reader
 from .visualize import show_images_grid
 
-
-
 # %% ../nbs/01_data.ipynb 6
 class MetaResolver(type(torchTensor), metaclass=BypassNewMeta):
     """
