@@ -18,7 +18,7 @@ from torch import max as torchmax
 from torch import from_numpy as torch_from_numpy
 
 # %% ../nbs/00_core.ipynb 6
-from fastai.vision.all import BypassNewMeta, DisplayedTransform
+from fastai.vision.all import BypassNewMeta, DisplayedTransform, store_attr
 from fastai.data.all import delegates, hasattrs, Path, List, L, typedispatch
 
 # %% ../nbs/00_core.ipynb 8
