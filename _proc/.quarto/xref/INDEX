@@ -46,5 +46,32 @@
   },
   "fourier_ring_correlation.ipynb": {
     "fourier_ring_correlation.html": "e6a1ed88"
+  },
+  "03_losses.ipynb": {
+    "losses.html": "68da3eca"
+  },
+  "05_transforms.ipynb": {
+    "transforms.html": "d27679a5"
+  },
+  "06_metrics.ipynb": {
+    "metrics.html": "7b927982"
+  },
+  "01_data.ipynb": {
+    "data.html": "b14117d4"
+  },
+  "09_visualize.ipynb": {
+    "visualize.html": "c2629b71"
+  },
+  "08_datasets.ipynb": {
+    "datasets.html": "bb5d2792"
+  },
+  "02_io.ipynb": {
+    "io.html": "f45dad95"
+  },
+  "07_callbacks.ipynb": {
+    "callbacks.html": "1bfbb40a"
+  },
+  "04_nets.ipynb": {
+    "nets.html": "d9991dc2"
   }
 }

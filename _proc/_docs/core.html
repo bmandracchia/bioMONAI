@@ -21,40 +21,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -99,16 +65,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="styles.css">
 <meta property="og:title" content="bioMONAI - core">
 <meta property="og:description" content="bioMONAI core">
-<meta property="og:image" content="https://bmandracchia.github.io/bioMONAI/00_core_files/figure-html/cell-10-output-2.png">
 <meta property="og:site-name" content="bioMONAI">
-<meta property="og:image:height" content="1175">
-<meta property="og:image:width" content="1175">
 <meta name="twitter:title" content="bioMONAI - core">
 <meta name="twitter:description" content="bioMONAI core">
-<meta name="twitter:image" content="https://bmandracchia.github.io/bioMONAI/00_core_files/figure-html/cell-10-output-2.png">
-<meta name="twitter:image-height" content="1175">
-<meta name="twitter:image-width" content="1175">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="nav-sidebar floating nav-fixed">
@@ -158,26 +118,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./nets.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">nets</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./losses.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Loss functions</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./transforms.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Transforms</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -188,8 +130,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./losses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Loss functions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./nets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">nets</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./transforms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Transforms</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Metrics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./callbacks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Callbacks</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./datasets.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Datasets</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./visualize.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Visualize</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -250,23 +228,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#dataloaders" id="toc-dataloaders" class="nav-link active" data-scroll-target="#dataloaders">Dataloaders</a>
-  <ul class="collapse">
-  <li><a href="#get_target" id="toc-get_target" class="nav-link" data-scroll-target="#get_target">get_target</a></li>
-  <li><a href="#get_gt" id="toc-get_gt" class="nav-link" data-scroll-target="#get_gt">get_gt</a></li>
-  <li><a href="#get_noisy_pair" id="toc-get_noisy_pair" class="nav-link" data-scroll-target="#get_noisy_pair">get_noisy_pair</a></li>
-  </ul></li>
+  <li><a href="#imports" id="toc-imports" class="nav-link active" data-scroll-target="#imports">Imports</a></li>
   <li><a href="#utils" id="toc-utils" class="nav-link" data-scroll-target="#utils">Utils</a>
   <ul class="collapse">
   <li><a href="#attributesfromdict" id="toc-attributesfromdict" class="nav-link" data-scroll-target="#attributesfromdict">attributesFromDict</a></li>
   </ul></li>
-  <li><a href="#display-3d-images" id="toc-display-3d-images" class="nav-link" data-scroll-target="#display-3d-images">Display 3D images</a>
-  <ul class="collapse">
-  <li><a href="#mosaic_image_3d" id="toc-mosaic_image_3d" class="nav-link" data-scroll-target="#mosaic_image_3d">mosaic_image_3d</a></li>
-  <li><a href="#tiff2torch" id="toc-tiff2torch" class="nav-link" data-scroll-target="#tiff2torch">tiff2torch</a></li>
-  <li><a href="#show_images_grid" id="toc-show_images_grid" class="nav-link" data-scroll-target="#show_images_grid">show_images_grid</a></li>
-  </ul></li>
-  <li><a href="#other-functions" id="toc-other-functions" class="nav-link" data-scroll-target="#other-functions">Other functions</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/bmandracchia/bioMONAI/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -296,158 +262,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
-<section id="dataloaders" class="level2">
-<h2 class="anchored" data-anchor-id="dataloaders">Dataloaders</h2>
-<p>Get the ground truth images located in a folder called ‘gt’ and divided in labeled subfolders.</p>
-<blockquote class="blockquote">
-<p>These function are tailor-made for some test datasets, eventually they must be changed/adapted to more general cases</p>
-</blockquote>
-<hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L17" target="_blank" style="float:right; font-size:smaller">source</a></p>
-<section id="get_target" class="level3">
-<h3 class="anchored" data-anchor-id="get_target">get_target</h3>
-<blockquote class="blockquote">
-<pre><code> get_target (path, same_filename=True, target_file_prefix='target',
-             signal_file_prefix='signal')</code></pre>
-</blockquote>
-<hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L13" target="_blank" style="float:right; font-size:smaller">source</a></p>
-</section>
-<section id="get_gt" class="level3">
-<h3 class="anchored" data-anchor-id="get_gt">get_gt</h3>
-<blockquote class="blockquote">
-<pre><code> get_gt (path, gt_file_name='avg50.png')</code></pre>
-</blockquote>
-<div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(get_target(<span class="st">'train_folder'</span>, same_filename<span class="op">=</span><span class="va">False</span>)(<span class="st">'../signal/signal01.tif'</span>))</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(get_target(<span class="st">'train_folder'</span>)(<span class="st">'../signal/image01.tif'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>train_folder/target01.tif
-train_folder/image01.tif</code></pre>
-</div>
-</div>
-<p>Get as ground truth another noisy image randomly chosen in the same folder as the input image</p>
-<hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L50" target="_blank" style="float:right; font-size:smaller">source</a></p>
-</section>
-<section id="get_noisy_pair" class="level3">
-<h3 class="anchored" data-anchor-id="get_noisy_pair">get_noisy_pair</h3>
-<blockquote class="blockquote">
-<pre><code> get_noisy_pair (fn)</code></pre>
-</blockquote>
-</section>
+<section id="imports" class="level2">
+<h2 class="anchored" data-anchor-id="imports">Imports</h2>
 </section>
 <section id="utils" class="level2">
 <h2 class="anchored" data-anchor-id="utils">Utils</h2>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L58" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L26" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="attributesfromdict" class="level3">
 <h3 class="anchored" data-anchor-id="attributesfromdict">attributesFromDict</h3>
 <blockquote class="blockquote">
 <pre><code> attributesFromDict (d)</code></pre>
 </blockquote>
-</section>
-</section>
-<section id="display-3d-images" class="level2">
-<h2 class="anchored" data-anchor-id="display-3d-images">Display 3D images</h2>
-<p>Function to display the 3D volume in axial, coronal or sagittal reconstruction. The display functions does not consider the spacing between pixels, so reconstructions may look unusual.</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L70" target="_blank" style="float:right; font-size:smaller">source</a></p>
-<section id="mosaic_image_3d" class="level3">
-<h3 class="anchored" data-anchor-id="mosaic_image_3d">mosaic_image_3d</h3>
-<blockquote class="blockquote">
-<pre><code> mosaic_image_3d (t:(&lt;class'numpy.ndarray'&gt;,&lt;class'torch.Tensor'&gt;),
-                  axis:int=0, figsize:tuple=(15, 15), cmap:str='gray',
-                  nrow:int=10, alpha=1.0, return_grid=False,
-                  add_to_existing=False, **kwargs)</code></pre>
-</blockquote>
-<p>Plots 2D slices of a 3D image alongside a prior specified axis. Args: t: a 3D numpy.ndarray or torch.Tensor axis: axis to split 3D array to 2D images figsize, cmap: passed to plt.imshow nrow: passed to torchvision.utils.make_grid return_grid: Whether the grid should be returned for further processing or if the plot should be displayed. add_to_existing: if set to true, no new figure will be created. Used for mask overlays</p>
-<hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L124" target="_blank" style="float:right; font-size:smaller">source</a></p>
-</section>
-<section id="tiff2torch" class="level3">
-<h3 class="anchored" data-anchor-id="tiff2torch">tiff2torch</h3>
-<blockquote class="blockquote">
-<pre><code> tiff2torch (file_path:str)</code></pre>
-</blockquote>
-<p>Load tiff into pytorch tensor</p>
-<hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L136" target="_blank" style="float:right; font-size:smaller">source</a></p>
-</section>
-<section id="show_images_grid" class="level3">
-<h3 class="anchored" data-anchor-id="show_images_grid">show_images_grid</h3>
-<blockquote class="blockquote">
-<pre><code> show_images_grid (images, ax=None, ncols=10, figsize=None, title=None,
-                   spacing=0.02, max_slices=3, ctx=None, cmap=None,
-                   norm=None, aspect=None, interpolation=None, alpha=None,
-                   vmin=None, vmax=None, origin=None, extent=None,
-                   interpolation_stage=None, filternorm=True,
-                   filterrad=4.0, resample=None, url=None, data=None,
-                   **kwargs)</code></pre>
-</blockquote>
-<p>Show a list of images arranged in a grid.</p>
-<p>Parameters: - images: list of images to display. - ncols (int): number of columns in the grid. - figsize (tuple, optional): figure size in inches. - titles (list, optional): list of titles corresponding to each image. - spacing (float, optional): spacing between subplots. - ctx: additional context passed to the <code>plt.Axes.imshow</code> function. - **kwargs: additional keyword arguments passed to <code>plt.Axes.imshow</code>.</p>
-<p>Returns: - axes: matplotlib axes containing the grid of images.</p>
-<div class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> <span class="st">'../../bioMONAI-main_0/_data/Babesia/RI/O11_RI_frame01.tiff'</span> <span class="co">#'../_data/Babesia/RI/O11_RI_frame01.tiff'</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>img_tensor <span class="op">=</span> tiff2torch(file_path)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(img_tensor.shape)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>mosaic_image_3d(img_tensor, figsize<span class="op">=</span><span class="va">None</span>)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>show_images_grid(img_tensor, cmap<span class="op">=</span><span class="st">'gray'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>torch.Size([96, 512, 512])</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<p><img src="00_core_files/figure-html/cell-10-output-2.png" class="img-fluid"></p>
-</div>
-<div class="cell-output cell-output-display">
-<p><img src="00_core_files/figure-html/cell-10-output-3.png" class="img-fluid"></p>
-</div>
-</div>
-</section>
-</section>
-<section id="other-functions" class="level1">
-<h1>Other functions</h1>
-<p>features to be implemented</p>
-<div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> multipagetiff <span class="im">as</span> mtif</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the stack and define the resolution and the units</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> mtif.read_stack(file_path, dx<span class="op">=</span><span class="dv">100</span>, dz<span class="op">=</span><span class="dv">500</span>, units<span class="op">=</span><span class="st">'nm'</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Multi-Page Stack of 96 pages. (dx=dy=100nm, dz=500nm, crop=[0, 512, 0, 512]], page limits=[0, 96])</code></pre>
-</div>
-</div>
-<div class="cell" data-scrolled="true" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># display the stack</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>,<span class="dv">6</span>))</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>mtif.plot_pages(s, cmap<span class="op">=</span><span class="st">'gray'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<p><img src="00_core_files/figure-html/cell-13-output-1.png" class="img-fluid"></p>
-</div>
-</div>
-<div class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>mtif.set_cmap(plt.cm.rainbow)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>mtif.plot_flatten(s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<p><img src="00_core_files/figure-html/cell-14-output-1.png" class="img-fluid"></p>
-</div>
-</div>
-<div class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>s2 <span class="op">=</span> s.pages</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'type: '</span>, <span class="bu">type</span>(s2), <span class="st">'</span><span class="ch">\n</span><span class="st">shape: '</span>, s2.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>type:  &lt;class 'numpy.ndarray'&gt; 
-shape:  (96, 512, 512)</code></pre>
-</div>
-</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

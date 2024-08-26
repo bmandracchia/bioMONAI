@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Deep learning library biomedical data built on top of MONAI">
+<meta name="description" content="Data visualization">
 
-<title>bioMONAI</title>
+<title>bioMONAI - Visualize</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -97,12 +97,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="bioMONAI">
-<meta property="og:description" content="Deep learning library biomedical data built on top of MONAI">
+<meta property="og:title" content="bioMONAI - Visualize">
+<meta property="og:description" content="Data visualization">
+<meta property="og:image" content="https://bmandracchia.github.io/bioMONAI/09_visualize_files/figure-html/cell-5-output-2.png">
 <meta property="og:site-name" content="bioMONAI">
-<meta name="twitter:title" content="bioMONAI">
-<meta name="twitter:description" content="Deep learning library biomedical data built on top of MONAI">
-<meta name="twitter:card" content="summary">
+<meta property="og:image:height" content="1175">
+<meta property="og:image:width" content="1175">
+<meta name="twitter:title" content="bioMONAI - Visualize">
+<meta name="twitter:description" content="Data visualization">
+<meta name="twitter:image" content="https://bmandracchia.github.io/bioMONAI/09_visualize_files/figure-html/cell-5-output-2.png">
+<meta name="twitter:image-height" content="1175">
+<meta name="twitter:image-width" content="1175">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar floating nav-fixed">
@@ -126,7 +132,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">bioMONAI</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./visualize.html">Visualize</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -140,7 +146,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bioMONAI</span></a>
   </div>
 </li>
@@ -200,7 +206,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./visualize.html" class="sidebar-item-text sidebar-link">
+  <a href="./visualize.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Visualize</span></a>
   </div>
 </li>
@@ -262,8 +268,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#install" id="toc-install" class="nav-link active" data-scroll-target="#install">Install</a></li>
-  <li><a href="#how-to-use" id="toc-how-to-use" class="nav-link" data-scroll-target="#how-to-use">How to use</a></li>
+  <li><a href="#display-3d-images" id="toc-display-3d-images" class="nav-link active" data-scroll-target="#display-3d-images">Display 3D images</a>
+  <ul class="collapse">
+  <li><a href="#mosaic_image_3d" id="toc-mosaic_image_3d" class="nav-link" data-scroll-target="#mosaic_image_3d">mosaic_image_3d</a></li>
+  <li><a href="#tiff2torch" id="toc-tiff2torch" class="nav-link" data-scroll-target="#tiff2torch">tiff2torch</a></li>
+  <li><a href="#show_images_grid" id="toc-show_images_grid" class="nav-link" data-scroll-target="#show_images_grid">show_images_grid</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/bmandracchia/bioMONAI/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -272,12 +282,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">bioMONAI</h1>
+<h1 class="title">Visualize</h1>
 </div>
 
 <div>
   <div class="description">
-    Deep learning library biomedical data built on top of MONAI
+    Data visualization
   </div>
 </div>
 
@@ -293,22 +303,68 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
-<p>This file will become your README and also the index of your documentation.</p>
-<section id="install" class="level2">
-<h2 class="anchored" data-anchor-id="install">Install</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install bioMONAI</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="display-3d-images" class="level2">
+<h2 class="anchored" data-anchor-id="display-3d-images">Display 3D images</h2>
+<p>Function to display the 3D volume in axial, coronal or sagittal reconstruction. The display functions does not consider the spacing between pixels, so reconstructions may look unusual.</p>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/visualize.py#L21" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="mosaic_image_3d" class="level3">
+<h3 class="anchored" data-anchor-id="mosaic_image_3d">mosaic_image_3d</h3>
+<blockquote class="blockquote">
+<pre><code> mosaic_image_3d (t:(&lt;class'numpy.ndarray'&gt;,&lt;class'torch.Tensor'&gt;),
+                  axis:int=0, figsize:tuple=(15, 15), cmap:str='gray',
+                  nrow:int=10, alpha=1.0, return_grid=False,
+                  add_to_existing=False, **kwargs)</code></pre>
+</blockquote>
+<p>Plots 2D slices of a 3D image alongside a prior specified axis. Args: t: a 3D numpy.ndarray or torch.Tensor axis: axis to split 3D array to 2D images figsize, cmap: passed to plt.imshow nrow: passed to torchvision.utils.make_grid return_grid: Whether the grid should be returned for further processing or if the plot should be displayed. add_to_existing: if set to true, no new figure will be created. Used for mask overlays</p>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/visualize.py#L75" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
-<section id="how-to-use" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-use">How to use</h2>
-<p>Fill me in please! Don’t forget code examples:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="op">+</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="tiff2torch" class="level3">
+<h3 class="anchored" data-anchor-id="tiff2torch">tiff2torch</h3>
+<blockquote class="blockquote">
+<pre><code> tiff2torch (file_path:str)</code></pre>
+</blockquote>
+<p>Load tiff into pytorch tensor</p>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/visualize.py#L87" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="show_images_grid" class="level3">
+<h3 class="anchored" data-anchor-id="show_images_grid">show_images_grid</h3>
+<blockquote class="blockquote">
+<pre><code> show_images_grid (images, ax=None, ncols=10, figsize=None, title=None,
+                   spacing=0.02, max_slices=3, ctx=None, cmap=None,
+                   norm=None, aspect=None, interpolation=None, alpha=None,
+                   vmin=None, vmax=None, origin=None, extent=None,
+                   interpolation_stage=None, filternorm=True,
+                   filterrad=4.0, resample=None, url=None, data=None,
+                   **kwargs)</code></pre>
+</blockquote>
+<p>Show a list of images arranged in a grid.</p>
+<p>Parameters: - images: list of images to display. - ncols (int): number of columns in the grid. - figsize (tuple, optional): figure size in inches. - titles (list, optional): list of titles corresponding to each image. - spacing (float, optional): spacing between subplots. - ctx: additional context passed to the <code>plt.Axes.imshow</code> function. - **kwargs: additional keyword arguments passed to <code>plt.Axes.imshow</code>.</p>
+<p>Returns: - axes: matplotlib axes containing the grid of images.</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> <span class="st">'data_examples/example_tiff.tiff'</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>img_tensor <span class="op">=</span> tiff2torch(file_path)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(img_tensor.shape)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>mosaic_image_3d(img_tensor, figsize<span class="op">=</span><span class="va">None</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>show_images_grid(img_tensor, cmap<span class="op">=</span><span class="st">'gray'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>torch.Size([96, 512, 512])</code></pre>
+</div>
 <div class="cell-output cell-output-display">
-<pre><code>2</code></pre>
+<p><img src="09_visualize_files/figure-html/cell-5-output-2.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="09_visualize_files/figure-html/cell-5-output-3.png" class="img-fluid"></p>
 </div>
 </div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

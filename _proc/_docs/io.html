@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -118,26 +152,8 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./nets.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">nets</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./losses.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Loss functions</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./transforms.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Transforms</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -148,8 +164,44 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./losses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Loss functions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./nets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">nets</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./transforms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Transforms</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Metrics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./callbacks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Callbacks</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./datasets.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Datasets</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./visualize.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Visualize</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -210,7 +262,23 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#foo" id="toc-foo" class="nav-link active" data-scroll-target="#foo">foo</a></li>
+  <li><a href="#image-readers" id="toc-image-readers" class="nav-link active" data-scroll-target="#image-readers">Image Readers</a>
+  <ul class="collapse">
+  <li><a href="#tiff-reader" id="toc-tiff-reader" class="nav-link" data-scroll-target="#tiff-reader">Tiff reader</a></li>
+  <li><a href="#tiff_reader" id="toc-tiff_reader" class="nav-link" data-scroll-target="#tiff_reader">tiff_reader</a></li>
+  <li><a href="#lif-reader" id="toc-lif-reader" class="nav-link" data-scroll-target="#lif-reader">Lif reader</a></li>
+  <li><a href="#lif_reader" id="toc-lif_reader" class="nav-link" data-scroll-target="#lif_reader">lif_reader</a></li>
+  <li><a href="#czi-reader" id="toc-czi-reader" class="nav-link" data-scroll-target="#czi-reader">CZI reader</a></li>
+  <li><a href="#czi_reader" id="toc-czi_reader" class="nav-link" data-scroll-target="#czi_reader">czi_reader</a></li>
+  <li><a href="#image-reader" id="toc-image-reader" class="nav-link" data-scroll-target="#image-reader">Image Reader</a></li>
+  <li><a href="#h5-reader" id="toc-h5-reader" class="nav-link" data-scroll-target="#h5-reader">H5 Reader</a></li>
+  <li><a href="#h5_reader" id="toc-h5_reader" class="nav-link" data-scroll-target="#h5_reader">h5_reader</a></li>
+  <li><a href="#preprocessing" id="toc-preprocessing" class="nav-link" data-scroll-target="#preprocessing">Preprocessing</a></li>
+  <li><a href="#load-and-preprocess" id="toc-load-and-preprocess" class="nav-link" data-scroll-target="#load-and-preprocess">Load and preprocess</a></li>
+  <li><a href="#read-multichannel-data" id="toc-read-multichannel-data" class="nav-link" data-scroll-target="#read-multichannel-data">Read multichannel data</a></li>
+  <li><a href="#image-reader-1" id="toc-image-reader-1" class="nav-link" data-scroll-target="#image-reader-1">Image reader</a></li>
+  <li><a href="#img_reader" id="toc-img_reader" class="nav-link" data-scroll-target="#img_reader">img_reader</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/bmandracchia/bioMONAI/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -240,15 +308,276 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<section id="image-readers" class="level2">
+<h2 class="anchored" data-anchor-id="image-readers">Image Readers</h2>
+<section id="tiff-reader" class="level3">
+<h3 class="anchored" data-anchor-id="tiff-reader">Tiff reader</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/template.py#L7" target="_blank" style="float:right; font-size:smaller">source</a></p>
-<section id="foo" class="level3">
-<h3 class="anchored" data-anchor-id="foo">foo</h3>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L15" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="tiff_reader" class="level3">
+<h3 class="anchored" data-anchor-id="tiff_reader">tiff_reader</h3>
 <blockquote class="blockquote">
-<pre><code> foo ()</code></pre>
+<pre><code> tiff_reader (path, units='um')</code></pre>
 </blockquote>
+<p>Reads a TIFF file and returns the image data along with an identity affine matrix.</p>
+<section id="parameters" class="level4">
+<h4 class="anchored" data-anchor-id="parameters">Parameters</h4>
+<p>path (str): The path to the TIFF file to be read. units (str, optional): The units for the image data. Default is ‘um’ (micrometers).</p>
+</section>
+<section id="returns" class="level4">
+<h4 class="anchored" data-anchor-id="returns">Returns</h4>
+<p>tuple: A tuple containing: - data (numpy.ndarray): The image data read from the TIFF file as a 4D array (1, Z, Y, X). - affine (numpy.ndarray): A 4x4 identity affine matrix.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>path</td>
+<td></td>
+<td></td>
+<td>The path to the TIFF file to be read</td>
+</tr>
+<tr class="even">
+<td>units</td>
+<td>str</td>
+<td>um</td>
+<td>The units for the image data.</td>
+</tr>
+</tbody>
+</table>
+<div class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> <span class="st">'data_examples/example_tiff.tiff'</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>d, _ <span class="op">=</span> tiff_reader(file_path)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>d.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="36">
+<pre><code>(1, 96, 512, 512)</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="lif-reader" class="level3">
+<h3 class="anchored" data-anchor-id="lif-reader">Lif reader</h3>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L50" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="lif_reader" class="level3">
+<h3 class="anchored" data-anchor-id="lif_reader">lif_reader</h3>
+<blockquote class="blockquote">
+<pre><code> lif_reader (path, units='um', scene=0, time=0, reconstruct_mosaic=False)</code></pre>
+</blockquote>
+<p>Reads a LIF (Leica Image File) and returns the image data along with an identity affine matrix.</p>
+<p>Parameters: path (str): The path to the LIF file to be read. units (str, optional). scene (int, optional): The scene index to be read from the LIF file. Default is 0. time (int, optional): The time index to be read from the LIF file. Default is 0. reconstruct_mosaic (bool, optional): Whether to reconstruct a mosaic image from the file. Default is False.</p>
+<p>Returns: tuple: A tuple containing: - data (numpy.ndarray): The image data read from the LIF file in ZYX format. - affine (numpy.ndarray): A 4x4 identity affine matrix.</p>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>path</td>
+<td></td>
+<td></td>
+<td>The path to the LIF file to be read</td>
+</tr>
+<tr class="even">
+<td>units</td>
+<td>str</td>
+<td>um</td>
+<td>The units for the image data.</td>
+</tr>
+<tr class="odd">
+<td>scene</td>
+<td>int</td>
+<td>0</td>
+<td>The scene index to be read from the LIF file</td>
+</tr>
+<tr class="even">
+<td>time</td>
+<td>int</td>
+<td>0</td>
+<td>The time index to be read from the LIF file</td>
+</tr>
+<tr class="odd">
+<td>reconstruct_mosaic</td>
+<td>bool</td>
+<td>False</td>
+<td>Whether to reconstruct a mosaic image from the file</td>
+</tr>
+</tbody>
+</table>
+<div class="cell" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># file_path_2 = 'data_examples/2022-12-05.lif'</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># e, _ = lif_reader(file_path_2, units='um')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="czi-reader" class="level3">
+<h3 class="anchored" data-anchor-id="czi-reader">CZI reader</h3>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L88" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="czi_reader" class="level3">
+<h3 class="anchored" data-anchor-id="czi_reader">czi_reader</h3>
+<blockquote class="blockquote">
+<pre><code> czi_reader (path)</code></pre>
+</blockquote>
+<p>Reads a CZI (Zeiss CZI format) file and returns the image data along with an identity affine matrix.</p>
+<p>Parameters: path (str): The path to the CZI file to be read.</p>
+<p>Returns: tuple: A tuple containing: - data (numpy.ndarray): The image data read from the CZI file. - affine (numpy.ndarray): A 4x4 identity affine matrix.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>path</td>
+<td>The path to the CZI file to be read</td>
+</tr>
+</tbody>
+</table>
+<div class="cell" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>file_path_3 <span class="op">=</span> <span class="st">'data_examples/example_czi.czi'</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>f, _ <span class="op">=</span> czi_reader(file_path_3)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>f.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="40">
+<pre><code>(1, 1, 1, 1, 1, 1, 1, 1, 1920, 1920)</code></pre>
+</div>
+</div>
+</section>
+<section id="image-reader" class="level3">
+<h3 class="anchored" data-anchor-id="image-reader">Image Reader</h3>
+<div class="cell" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> <span class="st">'data_examples/example_tiff.tiff'</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>test_img, _ <span class="op">=</span> _image_reader(file_path)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>test_img.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="42">
+<pre><code>(1, 96, 512, 512)</code></pre>
+</div>
+</div>
+</section>
+<section id="h5-reader" class="level3">
+<h3 class="anchored" data-anchor-id="h5-reader">H5 Reader</h3>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L171" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="h5_reader" class="level3">
+<h3 class="anchored" data-anchor-id="h5_reader">h5_reader</h3>
+<blockquote class="blockquote">
+<pre><code> h5_reader (path, dataset)</code></pre>
+</blockquote>
+<div class="cell" data-execution_count="44">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># f = h5_reader('data_examples/hdf5_data.h5','dataset1')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="preprocessing" class="level3">
+<h3 class="anchored" data-anchor-id="preprocessing">Preprocessing</h3>
+</section>
+<section id="load-and-preprocess" class="level3">
+<h3 class="anchored" data-anchor-id="load-and-preprocess">Load and preprocess</h3>
+<div class="cell" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load and process any file</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># org_img, input_img, org_size = _load_and_preprocess(file_path)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="read-multichannel-data" class="level3">
+<h3 class="anchored" data-anchor-id="read-multichannel-data">Read multichannel data</h3>
+<div class="cell" data-execution_count="49">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># file_names = get_image_files('data_examples')</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># _multi_channel(file_names);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="image-reader-1" class="level3">
+<h3 class="anchored" data-anchor-id="image-reader-1">Image reader</h3>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L277" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="img_reader" class="level3">
+<h3 class="anchored" data-anchor-id="img_reader">img_reader</h3>
+<blockquote class="blockquote">
+<pre><code> img_reader (file_path:(&lt;class'str'&gt;,&lt;class'pathlib.Path'&gt;,&lt;class'fastcore
+             .foundation.L'&gt;,&lt;class'list'&gt;), dtype=&lt;class 'torch.Tensor'&gt;,
+             reorder:bool=False, resample:list=None,
+             only_tensor:bool=True)</code></pre>
+</blockquote>
+<p>Loads and preprocesses a medical image.</p>
+<p>Args: file_path: Path to the image. Can be a string, Path object or a list. dtype: Datatype for the return value. Defaults to torchTensor. reorder: Whether to reorder the data to be closest to canonical (RAS+) orientation. Defaults to False. resample: Whether to resample image to different voxel sizes and image dimensions. Defaults to None. only_tensor: To return only an image tensor. Defaults to True.</p>
+<p>Returns: The preprocessed image. Returns only the image tensor if only_tensor is True, otherwise returns original image, preprocessed image, and original size.</p>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>file_path</td>
+<td>(&lt;class ‘str’&gt;, &lt;class ‘pathlib.Path’&gt;, &lt;class ‘fastcore.foundation.L’&gt;, &lt;class ‘list’&gt;)</td>
+<td></td>
+<td>Path to the image</td>
+</tr>
+<tr class="even">
+<td>dtype</td>
+<td>_TensorMeta</td>
+<td>Tensor</td>
+<td>Datatype for the return value. Defaults to torchTensor</td>
+</tr>
+<tr class="odd">
+<td>reorder</td>
+<td>bool</td>
+<td>False</td>
+<td>Whether to reorder to canonical orientation</td>
+</tr>
+<tr class="even">
+<td>resample</td>
+<td>list</td>
+<td>None</td>
+<td>Whether to resample image to different voxel sizes and image dimensions</td>
+</tr>
+<tr class="odd">
+<td>only_tensor</td>
+<td>bool</td>
+<td>True</td>
+<td>To return only an image tensor</td>
+</tr>
+</tbody>
+</table>
+<div class="cell" data-execution_count="51">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#img_reader(file_path_2)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
