@@ -112,4 +112,6 @@ d = { 'settings': { 'branch': 'main',
             'bioMONAI.visualize': { 'bioMONAI.visualize._fig_bounds': ('visualize.html#_fig_bounds', 'bioMONAI/visualize.py'),
                                     'bioMONAI.visualize.mosaic_image_3d': ('visualize.html#mosaic_image_3d', 'bioMONAI/visualize.py'),
                                     'bioMONAI.visualize.show_images_grid': ('visualize.html#show_images_grid', 'bioMONAI/visualize.py'),
-                                    'bioMONAI.visualize.tiff2torch': ('visualize.html#tiff2torch', 'bioMONAI/visualize.py')}}}
+                                    'bioMONAI.visualize.show_plane': ('visualize.html#show_plane', 'bioMONAI/visualize.py'),
+                                    'bioMONAI.visualize.tiff2torch': ('visualize.html#tiff2torch', 'bioMONAI/visualize.py'),
+                                    'bioMONAI.visualize.visualize_slices': ('visualize.html#visualize_slices', 'bioMONAI/visualize.py')}}}
