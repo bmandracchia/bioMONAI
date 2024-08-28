@@ -9,7 +9,7 @@ from fastai.data.all import *
 from torchio import ScalarImage, ToCanonical, Resample
 import multipagetiff as mtif
 
-from .core import torchTensor, torch_from_numpy
+from .core import torchTensor, torch_from_numpy, L
 
 # %% ../nbs/02_io.ipynb 6
 def tiff2torch(file_path: str):

@@ -47,17 +47,13 @@ def plot_image(values):
     plt.show()
 
 
-# Example usage:
-plot_image(data[35])
-
-
-# %% ../nbs/09_visualize.ipynb 8
+# %% ../nbs/09_visualize.ipynb 9
 # Utility function for determining figure bounds
 def _fig_bounds(x):
     r = x//8
     return min(15, max(1,r))
 
-# %% ../nbs/09_visualize.ipynb 9
+# %% ../nbs/09_visualize.ipynb 10
 def mosaic_image_3d(t: (np.ndarray, torchTensor),
                   axis: int = 0,
                   figsize: tuple = (15,15),
@@ -111,7 +107,7 @@ def mosaic_image_3d(t: (np.ndarray, torchTensor),
     plt.imshow(grid[0,:,:], cmap=cmap, alpha=alpha)
     plt.axis('off')
 
-# %% ../nbs/09_visualize.ipynb 10
+# %% ../nbs/09_visualize.ipynb 11
 @delegates(plt.Axes.imshow, keep=True, but=['shape', 'imlim'])
 def show_images_grid(images, ax=None, ncols=10, figsize=None, title=None, spacing=0.02, max_slices=3, ctx=None, **kwargs):
     """
@@ -184,7 +180,7 @@ def show_images_grid(images, ax=None, ncols=10, figsize=None, title=None, spacin
 
     return ax
 
-# %% ../nbs/09_visualize.ipynb 14
+# %% ../nbs/09_visualize.ipynb 15
 def show_plane(ax, plane, cmap="gray", title=None, lines=None, linestyle='--', linecolor='white'):
     """
     Display a slice of the image tensor on a given axis with optional dashed lines.
@@ -208,7 +204,7 @@ def show_plane(ax, plane, cmap="gray", title=None, lines=None, linestyle='--', l
         ax.axvline(lines[1], color=linecolor, linestyle=linestyle)
 
 
-# %% ../nbs/09_visualize.ipynb 15
+# %% ../nbs/09_visualize.ipynb 16
 def visualize_slices(data, planes=None, showlines=True, **kwargs):
     """
     Visualize slices of a 3D image tensor along its planes, rows, and columns.
@@ -243,7 +239,7 @@ def visualize_slices(data, planes=None, showlines=True, **kwargs):
     plt.show()
 
 
-# %% ../nbs/09_visualize.ipynb 18
+# %% ../nbs/09_visualize.ipynb 19
 def slice_explorer(data, **kwargs):
     """
     Visualizes the provided data using Plotly's interactive imshow function with animation support.
@@ -273,7 +269,7 @@ def slice_explorer(data, **kwargs):
 
 
 
-# %% ../nbs/09_visualize.ipynb 21
+# %% ../nbs/09_visualize.ipynb 22
 def plot_volume(values, opacity=0.1, min=0.1, max=0.8, surface_count=5, width=800, height=600):
     """
     Plot a 3D volume using Plotly. The function assumes that 'values' is a 3D array representing the volume data.
