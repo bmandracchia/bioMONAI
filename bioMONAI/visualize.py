@@ -151,7 +151,7 @@ def show_images_grid(images, ax=None, ncols=10, figsize=None, title=None, spacin
 
     return ax
 
-# %% ../nbs/09_visualize.ipynb 10
+# %% ../nbs/09_visualize.ipynb 11
 def show_plane(ax, plane, cmap="gray", title=None, lines=None, linestyle='--', linecolor='white'):
     """
     Display a slice of the image tensor on a given axis with optional dashed lines.
@@ -175,7 +175,7 @@ def show_plane(ax, plane, cmap="gray", title=None, lines=None, linestyle='--', l
         ax.axvline(lines[1], color=linecolor, linestyle=linestyle)
 
 
-# %% ../nbs/09_visualize.ipynb 11
+# %% ../nbs/09_visualize.ipynb 12
 def visualize_slices(data, planes=None, showlines=True, **kwargs):
     """
     Visualize slices of a 3D image tensor along its planes, rows, and columns.
