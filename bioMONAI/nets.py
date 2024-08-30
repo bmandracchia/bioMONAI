@@ -3,17 +3,16 @@
 # %% auto 0
 __all__ = ['DnCNN']
 
-# %% ../nbs/04_nets.ipynb 6
-from fastai.vision.all import ConvLayer, Lambda, MaxPool, NormType, nn, np
+# %% ../nbs/04_nets.ipynb 5
 from torch import cat as torch_cat
 from torch import Tensor as torch_Tensor
+import torch.nn as nn
 import torch.nn.functional as F
 import torch.nn as nn
 from monai.networks.blocks import Convolution
 from monai.networks.layers.factories import Act, Norm, Pool
-from monai.networks.nets import resnet
+
 from monai.utils import set_determinism
-from torchvision.models.resnet import resnet50 #, resnet18
 
 from monai.networks.nets import BasicUNet, AttentionUnet, DynUNet, UNet, BasicUNet, ResNet, ResNetFeatures
 
@@ -22,22 +21,68 @@ from typing import List, Tuple, Optional, Union
 
 from .core import attributesFromDict
 
-# %% ../nbs/04_nets.ipynb 9
-class DnCNN(nn.Module):
-    def __init__(self, channels, num_of_layers=9, features=64, kernel_size=3):
-        super(DnCNN, self).__init__()
-        padding = 1
-        layers = []
-        layers.append(ConvLayer(channels, features,
-                      ks=kernel_size, padding=padding, norm_type=None))
-        for _ in range(num_of_layers-2):
-            layers.append(ConvLayer(features, features,
-                          ks=kernel_size, padding=padding))
-        layers.append(nn.Conv2d(in_channels=features, out_channels=channels,
-                      kernel_size=kernel_size, padding=padding, bias=False))
-        self.dncnn = nn.Sequential(*layers)
+# %% ../nbs/04_nets.ipynb 8
+import torch.nn as nn
 
+class DnCNN(nn.Module):
+    """
+    A Deep Neural Network for Image Denoising (DnCNN) model.
+    
+    Args:
+        spatial_dims (int, optional): The number of spatial dimensions. Default is 2.
+        in_channels (int, optional): The number of input channels. Default is 1 (grayscale image).
+        out_channels (int, optional): The number of output channels. Default is 1 (denoised image).
+        num_of_layers (int, optional): The number of convolutional layers in the network. Default is 9.
+        features (int, optional): The number of feature maps in the first layer and subsequent layers. Default is 64.
+        kernel_size (int or tuple, optional): The size of the convolution kernel. Default is 3.
+    """
+    def __init__(self, spatial_dims=2, in_channels=1, out_channels=1, num_of_layers=9, features=64, kernel_size=3):
+        super(DnCNN, self).__init__()
+        
+        # Create a list to hold the layers of the network
+        layers = []
+        
+        # Append the first convolution layer with specific parameters
+        layers.append(Convolution(spatial_dims=spatial_dims,
+                                  in_channels=in_channels,
+                                  out_channels=features,
+                                  kernel_size=kernel_size,
+                                  bias=False,
+                                  norm=None))
+        
+        # Append the remaining convolution layers with default parameters
+        for _ in range(num_of_layers-2):
+            layers.append(Convolution(spatial_dims=spatial_dims,
+                                      in_channels=features,
+                                      out_channels=features,
+                                      kernel_size=kernel_size))
+        
+        # Append the final convolution layer with specific parameters
+        layers.append(Convolution(spatial_dims=spatial_dims,
+                                  in_channels=features,
+                                  out_channels=out_channels,
+                                  kernel_size=kernel_size,
+                                  bias=False,
+                                  norm=None))
+        
+        # Convert the list of layers into a sequential container
+        self.dncnn = nn.Sequential(*layers)
+        
     def forward(self, x):
+        """
+        Forward pass of the DnCNN model.
+        
+        Args:
+            x (torch.Tensor): The input image tensor with shape [batch_size, in_channels, height, width].
+        
+        Returns:
+            torch.Tensor: The denoised output image tensor with shape [batch_size, out_channels, height, width].
+        """
+        # Compute the residual by passing the input through the network
         residual = self.dncnn(x)
+        
+        # Subtract the residual from the original input to get the denoised output
         denoised = x - residual
+        
         return denoised
+
