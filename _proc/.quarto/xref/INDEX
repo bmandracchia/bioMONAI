@@ -1,50 +1,60 @@
 {
-  "04_transforms.ipynb": {
-    "transforms.html": "cb859dea"
-  },
-  "05_io.ipynb": {
-    "io.html": "177d07cf"
-  },
-  "index.ipynb": {
-    "index.html": "7c6d1c08"
-  },
-  "06_datasets.ipynb": {
-    "datasets.html": "ef62fe9c"
-  },
-  "999_template.ipynb": {
-    "template.html": "51ddb4bd"
-  },
-  "00_core.ipynb": {
-    "core.html": "e91f5fd7"
-  },
-  "03_data.ipynb": {
-    "data.html": "6f659b19"
-  },
-  "01_nets.ipynb": {
-    "nets.html": "e377d3f1"
-  },
-  "02_losses.ipynb": {
-    "losses.html": "0fe15498"
-  },
-  "901_demo_RI2FL_2d.ipynb": {
-    "demo_ri2fl_2d.html": "4aef3c2e"
-  },
   "901_demo_cell_segmentation.ipynb": {
-    "demo_cell_segmentation.html": "81faa5d5"
+    "demo_cell_segmentation.html": "ecc4044f"
+  },
+  "03_losses.ipynb": {
+    "losses.html": "fca8f40d"
   },
   "901_demo_cell_segmentation-2.ipynb": {
-    "demo_cell_segmentation-2.html": "f0c767af"
+    "demo_cell_segmentation-2.html": "d193feea"
   },
   "901_demo_cell_segmentation-2-3D.ipynb": {
-    "demo_cell_segmentation-2-3d.html": "c108a850"
+    "demo_cell_segmentation-2-3d.html": "c8118546"
   },
   "902_demo_2.ipynb": {
-    "902_demo_2.html": "40de3d59"
+    "902_demo_2.html": "be355ed9"
+  },
+  "05_transforms.ipynb": {
+    "transforms.html": "994b420d"
+  },
+  "06_metrics.ipynb": {
+    "metrics.html": "99d82e5c"
+  },
+  "01_data.ipynb": {
+    "data.html": "4d276e0f"
   },
   "902_demo_PNG_images.ipynb": {
-    "demo_png_images.html": "30a7b172"
+    "demo_png_images.html": "fd7c4ece"
+  },
+  "09_visualize.ipynb": {
+    "visualize.html": "9fd1590d"
+  },
+  "index.ipynb": {
+    "index.html": "f86429e9",
+    "README.md": "8fc477a2"
+  },
+  "08_datasets.ipynb": {
+    "datasets.html": "4c6a2955"
+  },
+  "999_template.ipynb": {
+    "template.html": "6d615ee3"
+  },
+  "02_io.ipynb": {
+    "io.html": "a5fb1725"
+  },
+  "00_core.ipynb": {
+    "core.html": "2215a626"
+  },
+  "07_callbacks.ipynb": {
+    "callbacks.html": "81d67d32"
+  },
+  "04_nets.ipynb": {
+    "nets.html": "5f507292"
+  },
+  "901_demo_RI2FL_2d.ipynb": {
+    "demo_ri2fl_2d.html": "1805cc5e"
   },
   "fourier_ring_correlation.ipynb": {
-    "fourier_ring_correlation.html": "e6a1ed88"
+    "fourier_ring_correlation.html": "49771ecc"
   }
 }

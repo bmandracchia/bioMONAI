@@ -152,26 +152,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./nets.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">nets</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./losses.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Loss functions</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./transforms.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Transforms</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -182,8 +164,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./losses.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Loss functions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./nets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">nets</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./transforms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Transforms</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Metrics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./callbacks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Callbacks</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./datasets.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Datasets</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./visualize.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Visualize</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -252,16 +270,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#dice-loss" id="toc-dice-loss" class="nav-link" data-scroll-target="#dice-loss">Dice Loss</a></li>
   <li><a href="#diceloss" id="toc-diceloss" class="nav-link" data-scroll-target="#diceloss">DiceLoss</a></li>
   <li><a href="#fourier-ring-correlation" id="toc-fourier-ring-correlation" class="nav-link" data-scroll-target="#fourier-ring-correlation">Fourier Ring Correlation</a></li>
-  <li><a href="#radial_mask" id="toc-radial_mask" class="nav-link" data-scroll-target="#radial_mask">radial_mask</a></li>
-  <li><a href="#get_radial_masks" id="toc-get_radial_masks" class="nav-link" data-scroll-target="#get_radial_masks">get_radial_masks</a></li>
-  <li><a href="#get_fourier_ring_correlations" id="toc-get_fourier_ring_correlations" class="nav-link" data-scroll-target="#get_fourier_ring_correlations">get_fourier_ring_correlations</a></li>
   <li><a href="#frcloss" id="toc-frcloss" class="nav-link" data-scroll-target="#frcloss">FRCLoss</a></li>
   <li><a href="#seventh_fourier_ring_correlation" id="toc-seventh_fourier_ring_correlation" class="nav-link" data-scroll-target="#seventh_fourier_ring_correlation">seventh_fourier_ring_correlation</a></li>
-  </ul></li>
-  <li><a href="#metrics" id="toc-metrics" class="nav-link" data-scroll-target="#metrics">Metrics</a>
-  <ul class="collapse">
-  <li><a href="#ssim" id="toc-ssim" class="nav-link" data-scroll-target="#ssim">SSIM</a></li>
-  <li><a href="#frcm" id="toc-frcm" class="nav-link" data-scroll-target="#frcm">FRCM</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/bmandracchia/bioMONAI/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
@@ -312,7 +322,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="combined-loss" class="level3">
 <h3 class="anchored" data-anchor-id="combined-loss">Combined Loss</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L14" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L22" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="combinedloss" class="level3">
 <h3 class="anchored" data-anchor-id="combinedloss">CombinedLoss</h3>
@@ -324,7 +334,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="dice-loss" class="level3">
 <h3 class="anchored" data-anchor-id="dice-loss">Dice Loss</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L27" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L35" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="diceloss" class="level3">
 <h3 class="anchored" data-anchor-id="diceloss">DiceLoss</h3>
@@ -335,147 +345,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The Dice coefficient is a measure of overlap between two samples. It ranges from 0 (no overlap) to 1 (perfect overlap). The Dice loss is computed as 1 - Dice coefficient, so it ranges from 1 (no overlap) to 0 (perfect overlap).</p>
 <p>Attributes: smooth (float): A smoothing factor to avoid division by zero and ensure numerical stability.</p>
 <p>Methods: forward(inputs, targets): Computes the Dice loss between the predicted probabilities (inputs) and the ground truth (targets).</p>
-<div class="cell" data-execution_count="11">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># inputs and targets must be equally dimensional tensors</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> torch.randn((<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">256</span>, <span class="dv">256</span>))  <span class="co"># Input</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>targets <span class="op">=</span> torch.randint(<span class="dv">0</span>, <span class="dv">2</span>, (<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">256</span>, <span class="dv">256</span>)).<span class="bu">float</span>()  <span class="co"># Ground Truth</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>dice_loss <span class="op">=</span> DiceLoss()</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute loss</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> dice_loss(inputs, targets)</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Dice Loss:'</span>, loss.item())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch <span class="im">import</span> randn, randint</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> randn((<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">256</span>, <span class="dv">256</span>))  <span class="co"># Input</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>targets <span class="op">=</span> randint(<span class="dv">0</span>, <span class="dv">2</span>, (<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">256</span>, <span class="dv">256</span>)).<span class="bu">float</span>()  <span class="co"># Ground Truth</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>dice_loss <span class="op">=</span> DiceLoss()</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute loss</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> dice_loss(inputs, targets)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Dice Loss:'</span>, loss.item())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Dice Loss: 0.5015131235122681</code></pre>
+<pre><code>Dice Loss: 0.4987461566925049</code></pre>
 </div>
 </div>
 </section>
 <section id="fourier-ring-correlation" class="level3">
 <h3 class="anchored" data-anchor-id="fourier-ring-correlation">Fourier Ring Correlation</h3>
-<section id="radial-mask" class="level4">
-<h4 class="anchored" data-anchor-id="radial-mask">Radial mask</h4>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L80" target="_blank" style="float:right; font-size:smaller">source</a></p>
-</section>
-</section>
-<section id="radial_mask" class="level3">
-<h3 class="anchored" data-anchor-id="radial_mask">radial_mask</h3>
-<blockquote class="blockquote">
-<pre><code> radial_mask (r, cx=128, cy=128, sx=array([  0,   1,   2,   3,   4,   5,
-              6,   7,   8,   9,  10,  11,  12,         13,  14,  15,  16,
-              17,  18,  19,  20,  21,  22,  23,  24,  25,         26,  27,
-              28,  29,  30,  31,  32,  33,  34,  35,  36,  37,  38,
-              39,  40,  41,  42,  43,  44,  45,  46,  47,  48,  49,  50,
-              51,         52,  53,  54,  55,  56,  57,  58,  59,  60,  61,
-              62,  63,  64,         65,  66,  67,  68,  69,  70,  71,  72,
-              73,  74,  75,  76,  77,         78,  79,  80,  81,  82,  83,
-              84,  85,  86,  87,  88,  89,  90,         91,  92,  93,  94,
-              95,  96,  97,  98,  99, 100, 101, 102, 103,        104, 105,
-              106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116,
-              117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128,
-              129,        130, 131, 132, 133, 134, 135, 136, 137, 138,
-              139, 140, 141, 142,        143, 144, 145, 146, 147, 148,
-              149, 150, 151, 152, 153, 154, 155,        156, 157, 158,
-              159, 160, 161, 162, 163, 164, 165, 166, 167, 168,
-              169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180,
-              181,        182, 183, 184, 185, 186, 187, 188, 189, 190,
-              191, 192, 193, 194,        195, 196, 197, 198, 199, 200,
-              201, 202, 203, 204, 205, 206, 207,        208, 209, 210,
-              211, 212, 213, 214, 215, 216, 217, 218, 219, 220,
-              221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232,
-              233,        234, 235, 236, 237, 238, 239, 240, 241, 242,
-              243, 244, 245, 246,        247, 248, 249, 250, 251, 252,
-              253, 254, 255]), sy=array([  0,   1,   2,   3,   4,   5,
-              6,   7,   8,   9,  10,  11,  12,         13,  14,  15,  16,
-              17,  18,  19,  20,  21,  22,  23,  24,  25,         26,  27,
-              28,  29,  30,  31,  32,  33,  34,  35,  36,  37,  38,
-              39,  40,  41,  42,  43,  44,  45,  46,  47,  48,  49,  50,
-              51,         52,  53,  54,  55,  56,  57,  58,  59,  60,  61,
-              62,  63,  64,         65,  66,  67,  68,  69,  70,  71,  72,
-              73,  74,  75,  76,  77,         78,  79,  80,  81,  82,  83,
-              84,  85,  86,  87,  88,  89,  90,         91,  92,  93,  94,
-              95,  96,  97,  98,  99, 100, 101, 102, 103,        104, 105,
-              106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116,
-              117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128,
-              129,        130, 131, 132, 133, 134, 135, 136, 137, 138,
-              139, 140, 141, 142,        143, 144, 145, 146, 147, 148,
-              149, 150, 151, 152, 153, 154, 155,        156, 157, 158,
-              159, 160, 161, 162, 163, 164, 165, 166, 167, 168,
-              169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180,
-              181,        182, 183, 184, 185, 186, 187, 188, 189, 190,
-              191, 192, 193, 194,        195, 196, 197, 198, 199, 200,
-              201, 202, 203, 204, 205, 206, 207,        208, 209, 210,
-              211, 212, 213, 214, 215, 216, 217, 218, 219, 220,
-              221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232,
-              233,        234, 235, 236, 237, 238, 239, 240, 241, 242,
-              243, 244, 245, 246,        247, 248, 249, 250, 251, 252,
-              253, 254, 255]), delta=1)</code></pre>
-</blockquote>
-<p>Generate a radial mask.</p>
-<section id="parameters" class="level4">
-<h4 class="anchored" data-anchor-id="parameters">Parameters:</h4>
-<ul>
-<li>r (int or float): Radius of the circular mask.</li>
-<li>cx (int, optional): X-coordinate of the center of the circular mask. Defaults to 128.</li>
-<li>cy (int, optional): Y-coordinate of the center of the circular mask. Defaults to 128.</li>
-<li>sx (numpy.ndarray, optional): Array of x-coordinates forming a grid. Defaults to np.arange(0, 256).</li>
-<li>sy (numpy.ndarray, optional): Array of y-coordinates forming a grid. Defaults to np.arange(0, 256).</li>
-<li>delta (int or float, optional): Thickness adjustment for the circular mask. Defaults to 1.</li>
-</ul>
-</section>
-<section id="returns" class="level4">
-<h4 class="anchored" data-anchor-id="returns">Returns:</h4>
-<ul>
-<li>numpy.ndarray: Radial mask.</li>
-</ul>
-<hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L117" target="_blank" style="float:right; font-size:smaller">source</a></p>
-</section>
-</section>
-<section id="get_radial_masks" class="level3">
-<h3 class="anchored" data-anchor-id="get_radial_masks">get_radial_masks</h3>
-<blockquote class="blockquote">
-<pre><code> get_radial_masks (width, height)</code></pre>
-</blockquote>
-<p>Generates a set of radial masks and corresponding to spatial frequencies.</p>
-<section id="parameters-1" class="level4">
-<h4 class="anchored" data-anchor-id="parameters-1">Parameters:</h4>
-<pre><code>- width (int): Width of the image.
-- height (int): Height of the image.</code></pre>
-</section>
-<section id="returns-1" class="level4">
-<h4 class="anchored" data-anchor-id="returns-1">Returns:</h4>
-<pre><code>tuple: A tuple containing:
-    - numpy.ndarray: Array of radial masks.
-    - numpy.ndarray: Array of spatial frequencies corresponding to the masks.</code></pre>
-</section>
-<section id="fourier-ring-correlation-1" class="level4">
-<h4 class="anchored" data-anchor-id="fourier-ring-correlation-1">Fourier ring correlation</h4>
-<hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L150" target="_blank" style="float:right; font-size:smaller">source</a></p>
-</section>
-</section>
-<section id="get_fourier_ring_correlations" class="level3">
-<h3 class="anchored" data-anchor-id="get_fourier_ring_correlations">get_fourier_ring_correlations</h3>
-<blockquote class="blockquote">
-<pre><code> get_fourier_ring_correlations (image1, image2)</code></pre>
-</blockquote>
-<p>Compute Fourier Ring Correlation (FRC) between two images.</p>
-<section id="args" class="level4">
-<h4 class="anchored" data-anchor-id="args">Args:</h4>
-<pre><code>- image1 (torch.Tensor): First input image.
-- image2 (torch.Tensor): Second input image.</code></pre>
-</section>
-<section id="returns-2" class="level4">
-<h4 class="anchored" data-anchor-id="returns-2">Returns:</h4>
-<pre><code>tuple: A tuple containing:
-    - torch.Tensor: Fourier Ring Correlation values.
-    - torch.Tensor: Array of spatial frequencies.</code></pre>
-<hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L221" target="_blank" style="float:right; font-size:smaller">source</a></p>
-</section>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L88" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="frcloss" class="level3">
 <h3 class="anchored" data-anchor-id="frcloss">FRCLoss</h3>
@@ -483,16 +374,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> FRCLoss (image1, image2)</code></pre>
 </blockquote>
 <p>Compute the Fourier Ring Correlation (FRC) loss between two images.</p>
-<section id="args-1" class="level4">
-<h4 class="anchored" data-anchor-id="args-1">Args:</h4>
+<section id="args" class="level4">
+<h4 class="anchored" data-anchor-id="args">Args:</h4>
 <pre><code>- image1 (torch.Tensor): The first input image.
 - image2 (torch.Tensor): The second input image.</code></pre>
 </section>
-<section id="returns-3" class="level4">
-<h4 class="anchored" data-anchor-id="returns-3">Returns:</h4>
+<section id="returns" class="level4">
+<h4 class="anchored" data-anchor-id="returns">Returns:</h4>
 <pre><code>- torch.Tensor: The FRC loss.</code></pre>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L241" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L105" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 </section>
 <section id="seventh_fourier_ring_correlation" class="level3">
@@ -501,43 +392,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> seventh_fourier_ring_correlation (image1, image2)</code></pre>
 </blockquote>
 <p>Calculate the cutoff frequency at when Fourier ring correlation drops to 1/7.</p>
-<section id="args-2" class="level4">
-<h4 class="anchored" data-anchor-id="args-2">Args:</h4>
+<section id="args-1" class="level4">
+<h4 class="anchored" data-anchor-id="args-1">Args:</h4>
 <pre><code>- image1 (torch.Tensor): The first input image.
 - image2 (torch.Tensor): The second input image.</code></pre>
 </section>
-<section id="returns-4" class="level4">
-<h4 class="anchored" data-anchor-id="returns-4">Returns:</h4>
+<section id="returns-1" class="level4">
+<h4 class="anchored" data-anchor-id="returns-1">Returns:</h4>
 <pre><code>- float: The cutoff frequency.</code></pre>
-</section>
-</section>
-</section>
-<section id="metrics" class="level1">
-<h1>Metrics</h1>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L276" target="_blank" style="float:right; font-size:smaller">source</a></p>
-<section id="ssim" class="level3">
-<h3 class="anchored" data-anchor-id="ssim">SSIM</h3>
-<blockquote class="blockquote">
-<pre><code> SSIM (x, y, spatial_dims=2)</code></pre>
-</blockquote>
-<hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L282" target="_blank" style="float:right; font-size:smaller">source</a></p>
-</section>
-<section id="frcm" class="level3">
-<h3 class="anchored" data-anchor-id="frcm">FRCM</h3>
-<blockquote class="blockquote">
-<pre><code> FRCM (image1, image2)</code></pre>
-</blockquote>
-<p>Compute the area under the Fourier Ring Correlation (FRC) curve between two images.</p>
-<section id="args-3" class="level4">
-<h4 class="anchored" data-anchor-id="args-3">Args:</h4>
-<pre><code>- image1 (torch.Tensor): The first input image.
-- image2 (torch.Tensor): The second input image.</code></pre>
-</section>
-<section id="returns-5" class="level4">
-<h4 class="anchored" data-anchor-id="returns-5">Returns:</h4>
-<pre><code>- float: The area under the FRC curve.</code></pre>
 
 
 </section>

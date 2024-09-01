@@ -152,26 +152,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./nets.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">nets</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./losses.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Loss functions</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./transforms.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Transforms</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -182,8 +164,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./losses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Loss functions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./nets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">nets</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./transforms.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Transforms</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Metrics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./callbacks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Callbacks</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./datasets.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Datasets</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./visualize.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Visualize</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -259,7 +277,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#randflip" id="toc-randflip" class="nav-link" data-scroll-target="#randflip">RandFlip</a></li>
   <li><a href="#randomrot90" id="toc-randomrot90" class="nav-link" data-scroll-target="#randomrot90">RandomRot90</a></li>
   <li><a href="#randrot90" id="toc-randrot90" class="nav-link" data-scroll-target="#randrot90">RandRot90</a></li>
-  <li><a href="#convert-notebook" id="toc-convert-notebook" class="nav-link" data-scroll-target="#convert-notebook">Convert notebook</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -295,7 +312,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Data Augmentation</h1>
 <section id="utilities" class="level2">
 <h2 class="anchored" data-anchor-id="utilities">Utilities</h2>
-<div class="cell" data-execution_count="4">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># # Define a random tensor</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># orig_size = (10, 8)</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># rand_tensor = torch.rand(3, *orig_size)  # Random tensor with shape (3, 10, 8)</span></span>
@@ -310,7 +327,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># print("Original tensor shape:", rand_tensor.shape)</span></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># print("Cropped tensor shape:", result_tensor.shape)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="6">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a random tensor</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>orig_size <span class="op">=</span> (<span class="dv">10</span>, <span class="dv">8</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>rand_tensor <span class="op">=</span> torch.rand(<span class="dv">3</span>, <span class="op">*</span>orig_size)  <span class="co"># Random tensor with shape (3, 10, 8)</span></span>
@@ -420,7 +437,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<div class="cell" data-execution_count="9">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a random tensor</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>orig_size <span class="op">=</span> (<span class="dv">65</span>, <span class="dv">65</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>rand_tensor <span class="op">=</span> torch.rand(<span class="dv">8</span>, <span class="op">*</span>orig_size) </span>
@@ -444,7 +461,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Randomly crops an ND image to a specified size.</p>
 <p>This transform randomly crops an ND image to a specified size during training and performs a center crop during validation. It supports both 2D and 3D images and videos, assuming the first dimension is the batch dimension.</p>
 <p>Args: size (int or tuple): The size to crop the image to. this can have any number of dimensions. If a single value is provided, it will be duplicated for each spatial dimension, up to a maximum of 3 dimensions. threshold (float): The minimum average intensity threshold for the cropped patch. **kwargs: Additional keyword arguments to be passed to the parent class.</p>
-<div class="cell" data-execution_count="32">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a random tensor</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>orig_size <span class="op">=</span> (<span class="dv">65</span>, <span class="dv">65</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>rand_tensor <span class="op">=</span> torch.rand(<span class="dv">8</span>, <span class="op">*</span>orig_size) </span>
@@ -513,7 +530,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<div class="cell" data-execution_count="34">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a random tensor</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>orig_size <span class="op">=</span> (<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">4</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>rand_tensor <span class="op">=</span> torch.rand(<span class="op">*</span>orig_size) </span>
@@ -609,7 +626,7 @@ metatensor([[[0.0011, 0.5974, 0.4358, 0.1329],
 </tr>
 </tbody>
 </table>
-<div class="cell" data-execution_count="36">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a random tensor</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>orig_size <span class="op">=</span> (<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">4</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>rand_tensor <span class="op">=</span> torch.rand(<span class="op">*</span>orig_size) </span>
@@ -638,9 +655,7 @@ tensor([[[0.8310, 0.7337, 0.4620, 0.6483],
          [0.4874, 0.4285, 0.0029, 0.2368]]])</code></pre>
 </div>
 </div>
-</section>
-<section id="convert-notebook" class="level3">
-<h3 class="anchored" data-anchor-id="convert-notebook">Convert notebook</h3>
+<hr>
 
 
 </section>
