@@ -6,10 +6,10 @@ __all__ = ['RandCrop2D', 'RandCropND', 'RandCropND_T', 'RandFlip', 'RandRot90']
 # %% ../nbs/05_transforms.ipynb 3
 from fastai.vision.all import *
 from fastai.data.all import *
-from monai.transforms import SpatialCrop, Flip, Rotate90
+from monai.transforms import SpatialCrop, Flip, Rotate90, Spacing
 from numpy import percentile, isscalar, float32 as np_float32
 
-# %% ../nbs/05_transforms.ipynb 11
+# %% ../nbs/05_transforms.ipynb 13
 def _process_sz(size, ndim=3):
     if isinstance(size,int): 
         size=(size,)*ndim
@@ -20,7 +20,7 @@ def _get_sz(x):
     if not isinstance(x, Tensor): return fastuple(x.size)
     return fastuple(getattr(x, 'img_size', getattr(x, 'sz', (x.shape[1:])))) # maybe it should swap x and y axes 
 
-# %% ../nbs/05_transforms.ipynb 14
+# %% ../nbs/05_transforms.ipynb 16
 class RandCrop2D(RandTransform):
     "Randomly crop an image to `size`"
     split_idx,order = None,1
@@ -50,7 +50,7 @@ class RandCrop2D(RandTransform):
     def encodes(self, x):
         return SpatialCrop(roi_center=self.ctr, roi_size=self.size, lazy=self.lazy)(x)
 
-# %% ../nbs/05_transforms.ipynb 15
+# %% ../nbs/05_transforms.ipynb 17
 class RandCropND(RandTransform):
     """
     Randomly crops an ND image to a specified size.
@@ -103,7 +103,7 @@ class RandCropND(RandTransform):
         return SpatialCrop(roi_start=self.tl, roi_end=self.br, lazy=self.lazy)(x)
     
 
-# %% ../nbs/05_transforms.ipynb 17
+# %% ../nbs/05_transforms.ipynb 19
 class RandCropND_T(RandTransform):
     """
     Randomly crops an ND image to a specified size.
@@ -166,7 +166,7 @@ class RandCropND_T(RandTransform):
         return cropped_img
     
 
-# %% ../nbs/05_transforms.ipynb 19
+# %% ../nbs/05_transforms.ipynb 21
 class RandFlip(RandTransform):
     """
     Randomly flips an ND image over a specified axis.
@@ -199,7 +199,7 @@ class RandFlip(RandTransform):
         else:
             return x
 
-# %% ../nbs/05_transforms.ipynb 21
+# %% ../nbs/05_transforms.ipynb 23
 class RandRot90(RandTransform):
     """
     Randomly rotate an ND image by 90 degrees in the plane specified by axes.
