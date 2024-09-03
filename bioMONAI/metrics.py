@@ -11,10 +11,10 @@ from torch import abs, sqrt, div, complex64, where, isinf, zeros_like, real, isn
 from torch.fft import fftshift
 from torch.fft import fft2
 
+from monai.losses import SSIMLoss
 from monai.metrics import LossMetric
 
 from .core import torch_from_numpy
-from .losses import SSIMLoss
 
 # %% ../nbs/06_metrics.ipynb 4
 def SSIMMetric(x, y, spatial_dims=2):

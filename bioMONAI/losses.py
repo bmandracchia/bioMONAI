@@ -3,10 +3,10 @@
 # %% auto 0
 __all__ = ['CombinedLoss', 'DiceLoss', 'FRCLoss', 'seventh_fourier_ring_correlation']
 
-# %% ../nbs/03_losses.ipynb 4
+# %% ../nbs/03_losses.ipynb 3
 from .core import store_attr
 
-# %% ../nbs/03_losses.ipynb 5
+# %% ../nbs/03_losses.ipynb 4
 import numpy as np
 
 from monai.losses import SSIMLoss
@@ -18,7 +18,7 @@ from scipy.optimize import curve_fit
 from .metrics import FRCMetric, get_fourier_ring_correlations
 
 
-# %% ../nbs/03_losses.ipynb 8
+# %% ../nbs/03_losses.ipynb 7
 class CombinedLoss:
     "losses combined"
     def __init__(self, spatial_dims=2, alpha=0.33, beta=0.33):
@@ -31,7 +31,7 @@ class CombinedLoss:
         return (1 - self.alpha - self.beta) * self.SSIM_loss(pred, targ) + self.alpha * self.MSE_loss(pred, targ) + self.beta * self.MAE_loss(pred, targ)
         
 
-# %% ../nbs/03_losses.ipynb 10
+# %% ../nbs/03_losses.ipynb 9
 class DiceLoss(nn.Module):
 
     """
