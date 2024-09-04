@@ -16,25 +16,30 @@ from skimage import util
 from skimage.data import cells3d
 
 # %% ../nbs/00_core.ipynb 5
-from torch import squeeze as torchsqueeze
-from torch import max as torchmax
-from torch import from_numpy as torch_from_numpy
+from torch import squeeze as torchsqueeze, max as torchmax, from_numpy as torch_from_numpy, device as torch_device
+from torch.cuda import is_available as is_cuda_available
 
 # %% ../nbs/00_core.ipynb 6
-from fastai.vision.all import BypassNewMeta, DisplayedTransform, store_attr
-from fastai.data.all import delegates, hasattrs, Path, List, L, typedispatch
+from collections.abc import MutableSequence
+from typing import MutableSequence
+    
+from fastai.callback.core import Callback
+from fastai.data.all import DataLoaders, Path, trainable_params, delegates, hasattrs, Path, List, L, typedispatch
+from fastai.optimizer import Adam, OptimWrapper, Optimizer
+from fastai.vision.all import BypassNewMeta, DisplayedTransform, store_attr, DataBlock, Learner, ShowGraphCallback, CSVLogger
 
-# %% ../nbs/00_core.ipynb 8
+
+# %% ../nbs/00_core.ipynb 10
 # maybe this should be changed for fastai store_attr()
 def attributesFromDict(d):
     self = d.pop('self')
     for n, v in d.items():
         setattr(self, n, v)
 
-# %% ../nbs/00_core.ipynb 9
+# %% ../nbs/00_core.ipynb 12
 def img2float(image, force_copy=False):
     return util.img_as_float(image, force_copy=force_copy)
 
-# %% ../nbs/00_core.ipynb 10
+# %% ../nbs/00_core.ipynb 13
 def img2Tensor(image):
     return torchTensor(img2float(image))

@@ -2,7 +2,8 @@
 
 # %% auto 0
 __all__ = ['MetaResolver', 'BioImageBase', 'BioImage', 'BioImageStack', 'BioImageProject', 'BioImageMulti', 'Tensor2BioImage',
-           'BioImageBlock', 'get_gt', 'get_target', 'get_noisy_pair', 'show_batch', 'show_results']
+           'BioImageBlock', 'BioDataBlock', 'BioDataloader', 'get_gt', 'get_target', 'get_noisy_pair', 'show_batch',
+           'show_results']
 
 # %% ../nbs/01_data.ipynb 4
 import os
@@ -10,6 +11,8 @@ import os
 from .core import MetaTensor, torchTensor, BypassNewMeta, DisplayedTransform, torchsqueeze, Path, List, L, torchmax, randint, typedispatch
 from .io import img_reader
 from .visualize import show_images_grid
+
+from fastai.vision.all import DataBlock, TfmdDL, get_image_files, TransformBlock
 
 # %% ../nbs/01_data.ipynb 6
 class MetaResolver(type(torchTensor), metaclass=BypassNewMeta):
@@ -214,13 +217,51 @@ def BioImageBlock(cls:BioImageBase=BioImageStack):
     "A `TransformBlock` for images of `cls`"
     return TransformBlock(type_tfms=cls.create, batch_tfms=[Tensor2BioImage(cls)]) # IntToFloatTensor
 
+# %% ../nbs/01_data.ipynb 29
+class BioDataBlock(DataBlock):
+    def __init__(self, 
+            blocks:list=(BioImageBlock(cls=BioImageProject), BioImageBlock(cls=BioImage)), # One or more `TransformBlock`s
+            dl_type:TfmdDL=None, # Task specific `TfmdDL`, defaults to `block`'s dl_type or`TfmdDL`
+            get_items=get_image_files,
+            get_y=None,
+            get_x=None,
+            getters:list=None, # Getter functions applied to results of `get_items`
+            n_inp:int=None, # Number of inputs
+            item_tfms:list=None, # `ItemTransform`s, applied on an item 
+            batch_tfms:list=None, # `Transform`s or `RandTransform`s, applied by batch
+            **kwargs, 
+        ):
+        super().__init__(
+            blocks=blocks, 
+            dl_type=dl_type, 
+            get_items=get_items,
+            get_y=get_y,
+            get_x=get_x,
+            getters=getters, 
+            n_inp=n_inp, 
+            item_tfms=item_tfms, 
+            batch_tfms=batch_tfms,
+            **kwargs,
+            )
+        
+
 # %% ../nbs/01_data.ipynb 30
+class BioDataloader():
+    def __init__(self, data_source, dataloader_ops=None, datablock_ops=None):
+        self.datablock = BioDataBlock(**datablock_ops)
+        self.dataloder = self.datablock.dataloaders(data_source, **dataloader_ops)
+        return self.dataloder
+
+# %% ../nbs/01_data.ipynb 32
+from fastai.vision.all import get_image_files
+
+# %% ../nbs/01_data.ipynb 33
 def get_gt(path, gt_file_name="avg50.png"): 
     def _fn(fn): return Path(path/"gt")/f"{parent_label(fn)}"/gt_file_name
     return _fn
 
 
-# %% ../nbs/01_data.ipynb 31
+# %% ../nbs/01_data.ipynb 34
 def get_target(path, same_filename=True, target_file_prefix="target", signal_file_prefix="signal"):
     # Define a function to construct the target file name based on input parameters
     def construct_target_filename(file_name):
@@ -249,14 +290,14 @@ def get_target(path, same_filename=True, target_file_prefix="target", signal_fil
     return generate_target_path
 
 
-# %% ../nbs/01_data.ipynb 35
+# %% ../nbs/01_data.ipynb 38
 def get_noisy_pair(fn):
     tmp = get_image_files(fn.parent, recurse=False)
     fn2 = tmp[randint(0,len(tmp)-1)]
     while fn2 == fn: fn2 = tmp[randint(0,len(tmp)-1)]
     return fn2
 
-# %% ../nbs/01_data.ipynb 38
+# %% ../nbs/01_data.ipynb 41
 @typedispatch
 def show_batch(x:BioImageBase, y:BioImageBase, samples, ctxs=None, max_n=10, nrows=None, ncols=None, figsize=None, **kwargs):
     if ctxs is None: ctxs = get_grid(min(len(samples), max_n), nrows=nrows, ncols=ncols, figsize=figsize, double=True)
@@ -264,7 +305,7 @@ def show_batch(x:BioImageBase, y:BioImageBase, samples, ctxs=None, max_n=10, nro
         ctxs[i::2] = [b.show(ctx=c, **kwargs) for b,c,_ in zip(samples.itemgot(i),ctxs[i::2],range(max_n))]
     return ctxs
 
-# %% ../nbs/01_data.ipynb 40
+# %% ../nbs/01_data.ipynb 43
 @typedispatch
 def show_results(x:BioImageBase, y:BioImageBase, samples, outs, ctxs=None, max_n=10, figsize=None, **kwargs):
     if ctxs is None: ctxs = get_grid(3*min(len(samples), max_n), ncols=3, figsize=figsize, title='Input/Target/Prediction')

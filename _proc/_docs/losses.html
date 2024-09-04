@@ -313,8 +313,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#ssimloss" id="toc-ssimloss" class="nav-link active" data-scroll-target="#ssimloss">SSIMLoss</a></li>
-  <li><a href="#combined-loss" id="toc-combined-loss" class="nav-link" data-scroll-target="#combined-loss">Combined Loss</a></li>
+  <li><a href="#combined-losses" id="toc-combined-losses" class="nav-link" data-scroll-target="#combined-losses">Combined Losses</a></li>
   <li><a href="#combinedloss" id="toc-combinedloss" class="nav-link" data-scroll-target="#combinedloss">CombinedLoss</a></li>
+  <li><a href="#msssimloss" id="toc-msssimloss" class="nav-link" data-scroll-target="#msssimloss">MSSSIMLoss</a></li>
+  <li><a href="#msssiml1loss" id="toc-msssiml1loss" class="nav-link" data-scroll-target="#msssiml1loss">MSSSIML1Loss</a></li>
+  <li><a href="#msssiml2loss" id="toc-msssiml2loss" class="nav-link" data-scroll-target="#msssiml2loss">MSSSIML2Loss</a></li>
   <li><a href="#dice-loss" id="toc-dice-loss" class="nav-link" data-scroll-target="#dice-loss">Dice Loss</a></li>
   <li><a href="#diceloss" id="toc-diceloss" class="nav-link" data-scroll-target="#diceloss">DiceLoss</a></li>
   <li><a href="#fourier-ring-correlation" id="toc-fourier-ring-correlation" class="nav-link" data-scroll-target="#fourier-ring-correlation">Fourier Ring Correlation</a></li>
@@ -372,10 +375,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>For more info, visit https://vicuesoft.com/glossary/term/ssim-ms-ssim/</p>
 <p>SSIM reference paper: Wang, Zhou, et al.&nbsp;“Image quality assessment: from error visibility to structural similarity.” IEEE transactions on image processing 13.4 (2004): 600-612.</p>
 </section>
-<section id="combined-loss" class="level3">
-<h3 class="anchored" data-anchor-id="combined-loss">Combined Loss</h3>
+<section id="combined-losses" class="level3">
+<h3 class="anchored" data-anchor-id="combined-losses">Combined Losses</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L22" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L25" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="combinedloss" class="level3">
 <h3 class="anchored" data-anchor-id="combinedloss">CombinedLoss</h3>
@@ -383,11 +386,112 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> CombinedLoss (spatial_dims=2, alpha=0.33, beta=0.33)</code></pre>
 </blockquote>
 <p>losses combined</p>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L38" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="msssimloss" class="level3">
+<h3 class="anchored" data-anchor-id="msssimloss">MSSSIMLoss</h3>
+<blockquote class="blockquote">
+<pre><code> MSSSIMLoss (C1=0.0001, C2=0.0009, sigma=(0.5, 1.0, 2.0, 4.0, 8.0))</code></pre>
+</blockquote>
+<p>Base class for all neural network modules.</p>
+<p>Your models should also subclass this class.</p>
+<p>Modules can also contain other Modules, allowing to nest them in a tree structure. You can assign the submodules as regular attributes::</p>
+<pre><code>import torch.nn as nn
+import torch.nn.functional as F
+
+class Model(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = nn.Conv2d(1, 20, 5)
+        self.conv2 = nn.Conv2d(20, 20, 5)
+
+    def forward(self, x):
+        x = F.relu(self.conv1(x))
+        return F.relu(self.conv2(x))</code></pre>
+<p>Submodules assigned in this way will be registered, and will have their parameters converted too when you call :meth:<code>to</code>, etc.</p>
+<p>.. note:: As per the example above, an <code>__init__()</code> call to the parent class must be made before assignment on the child.</p>
+<p>:ivar training: Boolean represents whether this module is in training or evaluation mode. :vartype training: bool</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>msssim_loss <span class="op">=</span> MSSSIMLoss()</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> torch.rand(<span class="dv">10</span>, <span class="dv">3</span>, <span class="dv">33</span>, <span class="dv">33</span>)  <span class="co"># Example output</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>target <span class="op">=</span> torch.rand(<span class="dv">10</span>, <span class="dv">3</span>, <span class="dv">33</span>, <span class="dv">33</span>)  <span class="co"># Example target</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> msssim_loss(output, target)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(loss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L97" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="msssiml1loss" class="level3">
+<h3 class="anchored" data-anchor-id="msssiml1loss">MSSSIML1Loss</h3>
+<blockquote class="blockquote">
+<pre><code> MSSSIML1Loss (alpha=0.025, C1=0.0001, C2=0.0009, sigma=(0.5, 1.0, 2.0,
+               4.0, 8.0))</code></pre>
+</blockquote>
+<p>Base class for all neural network modules.</p>
+<p>Your models should also subclass this class.</p>
+<p>Modules can also contain other Modules, allowing to nest them in a tree structure. You can assign the submodules as regular attributes::</p>
+<pre><code>import torch.nn as nn
+import torch.nn.functional as F
+
+class Model(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = nn.Conv2d(1, 20, 5)
+        self.conv2 = nn.Conv2d(20, 20, 5)
+
+    def forward(self, x):
+        x = F.relu(self.conv1(x))
+        return F.relu(self.conv2(x))</code></pre>
+<p>Submodules assigned in this way will be registered, and will have their parameters converted too when you call :meth:<code>to</code>, etc.</p>
+<p>.. note:: As per the example above, an <code>__init__()</code> call to the parent class must be made before assignment on the child.</p>
+<p>:ivar training: Boolean represents whether this module is in training or evaluation mode. :vartype training: bool</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>msssim_l1_loss <span class="op">=</span> MSSSIML1Loss()</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> torch.rand(<span class="dv">10</span>, <span class="dv">3</span>, <span class="dv">33</span>, <span class="dv">33</span>).cuda()  <span class="co"># Example output</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>target <span class="op">=</span> torch.rand(<span class="dv">10</span>, <span class="dv">3</span>, <span class="dv">33</span>, <span class="dv">33</span>).cuda()  <span class="co"># Example target</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> msssim_l1_loss(output, target)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(loss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L136" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="msssiml2loss" class="level3">
+<h3 class="anchored" data-anchor-id="msssiml2loss">MSSSIML2Loss</h3>
+<blockquote class="blockquote">
+<pre><code> MSSSIML2Loss (alpha=0.1, C1=0.0001, C2=0.0009, sigma=(0.5, 1.0, 2.0, 4.0,
+               8.0))</code></pre>
+</blockquote>
+<p>Base class for all neural network modules.</p>
+<p>Your models should also subclass this class.</p>
+<p>Modules can also contain other Modules, allowing to nest them in a tree structure. You can assign the submodules as regular attributes::</p>
+<pre><code>import torch.nn as nn
+import torch.nn.functional as F
+
+class Model(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = nn.Conv2d(1, 20, 5)
+        self.conv2 = nn.Conv2d(20, 20, 5)
+
+    def forward(self, x):
+        x = F.relu(self.conv1(x))
+        return F.relu(self.conv2(x))</code></pre>
+<p>Submodules assigned in this way will be registered, and will have their parameters converted too when you call :meth:<code>to</code>, etc.</p>
+<p>.. note:: As per the example above, an <code>__init__()</code> call to the parent class must be made before assignment on the child.</p>
+<p>:ivar training: Boolean represents whether this module is in training or evaluation mode. :vartype training: bool</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>msssim_l2_loss <span class="op">=</span> MSSSIML2Loss()</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> torch.rand(<span class="dv">10</span>, <span class="dv">3</span>, <span class="dv">33</span>, <span class="dv">33</span>).cuda()  <span class="co"># Example output</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>target <span class="op">=</span> torch.rand(<span class="dv">10</span>, <span class="dv">3</span>, <span class="dv">33</span>, <span class="dv">33</span>).cuda()  <span class="co"># Example target</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> msssim_l2_loss(output, target)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(loss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="dice-loss" class="level3">
 <h3 class="anchored" data-anchor-id="dice-loss">Dice Loss</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L35" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L175" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="diceloss" class="level3">
 <h3 class="anchored" data-anchor-id="diceloss">DiceLoss</h3>
@@ -399,28 +503,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Attributes: smooth (float): A smoothing factor to avoid division by zero and ensure numerical stability.</p>
 <p>Methods: forward(inputs, targets): Computes the Dice loss between the predicted probabilities (inputs) and the ground truth (targets).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># inputs and targets must be equally dimensional tensors</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch <span class="im">import</span> randn, randint</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># inputs and targets must be equally dimensional tensors</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch <span class="im">import</span> randn, randint</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Dice Loss: 0.4994280934333801</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> randn((<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">256</span>, <span class="dv">256</span>))  <span class="co"># Input</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>targets <span class="op">=</span> randint(<span class="dv">0</span>, <span class="dv">2</span>, (<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">256</span>, <span class="dv">256</span>)).<span class="bu">float</span>()  <span class="co"># Ground Truth</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>dice_loss <span class="op">=</span> DiceLoss()</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute loss</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> dice_loss(inputs, targets)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Dice Loss:'</span>, loss.item())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> randn((<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">256</span>, <span class="dv">256</span>))  <span class="co"># Input</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>targets <span class="op">=</span> randint(<span class="dv">0</span>, <span class="dv">2</span>, (<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">256</span>, <span class="dv">256</span>)).<span class="bu">float</span>()  <span class="co"># Ground Truth</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>dice_loss <span class="op">=</span> DiceLoss()</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute loss</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> dice_loss(inputs, targets)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Dice Loss:'</span>, loss.item())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="fourier-ring-correlation" class="level3">
 <h3 class="anchored" data-anchor-id="fourier-ring-correlation">Fourier Ring Correlation</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L88" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L228" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="frcloss" class="level3">
 <h3 class="anchored" data-anchor-id="frcloss">FRCLoss</h3>
@@ -437,7 +541,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h4 class="anchored" data-anchor-id="returns">Returns:</h4>
 <pre><code>- torch.Tensor: The FRC loss.</code></pre>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L105" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L245" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 </section>
 <section id="seventh_fourier_ring_correlation" class="level3">

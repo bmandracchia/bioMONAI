@@ -330,10 +330,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#data-conversion" id="toc-data-conversion" class="nav-link" data-scroll-target="#data-conversion">Data conversion</a></li>
   <li><a href="#tensor2bioimage" id="toc-tensor2bioimage" class="nav-link" data-scroll-target="#tensor2bioimage">Tensor2BioImage</a></li>
   </ul></li>
-  <li><a href="#data-blocks" id="toc-data-blocks" class="nav-link" data-scroll-target="#data-blocks">Data blocks</a>
+  <li><a href="#data-blocks-and-dataloader" id="toc-data-blocks-and-dataloader" class="nav-link" data-scroll-target="#data-blocks-and-dataloader">Data blocks and Dataloader</a>
   <ul>
   <li><a href="#imageblock" id="toc-imageblock" class="nav-link" data-scroll-target="#imageblock">ImageBlock</a></li>
   <li><a href="#bioimageblock" id="toc-bioimageblock" class="nav-link" data-scroll-target="#bioimageblock">BioImageBlock</a></li>
+  <li><a href="#biodatablock" id="toc-biodatablock" class="nav-link" data-scroll-target="#biodatablock">BioDataBlock</a></li>
+  <li><a href="#biodataloader" id="toc-biodataloader" class="nav-link" data-scroll-target="#biodataloader">BioDataloader</a></li>
   </ul></li>
   <li><a href="#data-getters" id="toc-data-getters" class="nav-link" data-scroll-target="#data-getters">Data getters</a>
   <ul>
@@ -381,7 +383,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="meta-resolver" class="level3">
 <h3 class="anchored" data-anchor-id="meta-resolver">Meta resolver</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L15" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L18" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="metaresolver" class="level3">
 <h3 class="anchored" data-anchor-id="metaresolver">MetaResolver</h3>
@@ -393,7 +395,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="bioimagebase" class="level3">
 <h3 class="anchored" data-anchor-id="bioimagebase">BioImageBase</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L24" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L27" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="bioimagebase-1" class="level3">
 <h3 class="anchored" data-anchor-id="bioimagebase-1">BioImageBase</h3>
@@ -406,7 +408,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="bioimage">BioImage</h3>
 <p>class for 2D Images</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L96" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L99" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="bioimage-1" class="level3">
 <h3 class="anchored" data-anchor-id="bioimage-1">BioImage</h3>
@@ -426,7 +428,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="bioimagestack">BioImageStack</h3>
 <p>class for 3D images</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L130" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L133" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="bioimagestack-1" class="level3">
 <h3 class="anchored" data-anchor-id="bioimagestack-1">BioImageStack</h3>
@@ -446,7 +448,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="bioimageproject">BioImageProject</h3>
 <p>2D representations of 3D stack using maximum intensity projection</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L138" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L141" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="bioimageproject-1" class="level3">
 <h3 class="anchored" data-anchor-id="bioimageproject-1">BioImageProject</h3>
@@ -467,7 +469,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="bioimagemulti">BioImageMulti</h3>
 <p>Multichannel datasets</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L172" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L175" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="bioimagemulti-1" class="level3">
 <h3 class="anchored" data-anchor-id="bioimagemulti-1">BioImageMulti</h3>
@@ -523,7 +525,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="data-conversion" class="level3">
 <h3 class="anchored" data-anchor-id="data-conversion">Data conversion</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L201" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L204" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="tensor2bioimage" class="level3">
 <h3 class="anchored" data-anchor-id="tensor2bioimage">Tensor2BioImage</h3>
@@ -534,12 +536,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>A transform with a <code>__repr__</code> that shows its attrs</p>
 </section>
 </section>
-<section id="data-blocks" class="level2">
-<h2 class="anchored" data-anchor-id="data-blocks">Data blocks</h2>
+<section id="data-blocks-and-dataloader" class="level2">
+<h2 class="anchored" data-anchor-id="data-blocks-and-dataloader">Data blocks and Dataloader</h2>
 <section id="imageblock" class="level3">
 <h3 class="anchored" data-anchor-id="imageblock">ImageBlock</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L213" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L216" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="bioimageblock" class="level3">
 <h3 class="anchored" data-anchor-id="bioimageblock">BioImageBlock</h3>
@@ -548,6 +550,107 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
                 '__main__.BioImageStack'&gt;)</code></pre>
 </blockquote>
 <p>A <code>TransformBlock</code> for images of <code>cls</code></p>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L221" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="biodatablock" class="level3">
+<h3 class="anchored" data-anchor-id="biodatablock">BioDataBlock</h3>
+<blockquote class="blockquote">
+<pre><code> BioDataBlock (blocks:list=(&lt;fastai.data.block.TransformBlock object at
+               0x7f368d1d6d90&gt;, &lt;fastai.data.block.TransformBlock object
+               at 0x7f359f9a87d0&gt;), dl_type:fastai.data.core.TfmdDL=None,
+               get_items=&lt;function get_image_files&gt;, get_y=None,
+               get_x=None, getters:list=None, n_inp:int=None,
+               item_tfms:list=None, batch_tfms:list=None, **kwargs)</code></pre>
+</blockquote>
+<p>Generic container to quickly build <code>Datasets</code> and <code>DataLoaders</code>.</p>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>blocks</td>
+<td>list</td>
+<td>(&lt;fastai.data.block.TransformBlock object at 0x7f368d1d6d90&gt;, &lt;fastai.data.block.TransformBlock object at 0x7f359f9a87d0&gt;)</td>
+<td>One or more <code>TransformBlock</code>s</td>
+</tr>
+<tr class="even">
+<td>dl_type</td>
+<td>TfmdDL</td>
+<td>None</td>
+<td>Task specific <code>TfmdDL</code>, defaults to <code>block</code>’s dl_type or<code>TfmdDL</code></td>
+</tr>
+<tr class="odd">
+<td>get_items</td>
+<td>function</td>
+<td>get_image_files</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>get_y</td>
+<td>NoneType</td>
+<td>None</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>get_x</td>
+<td>NoneType</td>
+<td>None</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>getters</td>
+<td>list</td>
+<td>None</td>
+<td>Getter functions applied to results of <code>get_items</code></td>
+</tr>
+<tr class="odd">
+<td>n_inp</td>
+<td>int</td>
+<td>None</td>
+<td>Number of inputs</td>
+</tr>
+<tr class="even">
+<td>item_tfms</td>
+<td>list</td>
+<td>None</td>
+<td><code>ItemTransform</code>s, applied on an item</td>
+</tr>
+<tr class="odd">
+<td>batch_tfms</td>
+<td>list</td>
+<td>None</td>
+<td><code>Transform</code>s or <code>RandTransform</code>s, applied by batch</td>
+</tr>
+<tr class="even">
+<td>kwargs</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L249" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="biodataloader" class="level3">
+<h3 class="anchored" data-anchor-id="biodataloader">BioDataloader</h3>
+<blockquote class="blockquote">
+<pre><code> BioDataloader (data_source, dataloader_ops=None, datablock_ops=None)</code></pre>
+</blockquote>
+<p>Initialize self. See help(type(self)) for accurate signature.</p>
 </section>
 </section>
 <section id="data-getters" class="level2">
@@ -557,14 +660,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>These function are tailor-made for some test datasets, eventually they must be changed/adapted to more general cases</p>
 </blockquote>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L218" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L259" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="get_gt" class="level3">
 <h3 class="anchored" data-anchor-id="get_gt">get_gt</h3>
 <blockquote class="blockquote">
 <pre><code> get_gt (path, gt_file_name='avg50.png')</code></pre>
 </blockquote>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L224" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L265" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="get_target" class="level3">
 <h3 class="anchored" data-anchor-id="get_target">get_target</h3>
@@ -573,15 +676,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
              signal_file_prefix='signal')</code></pre>
 </blockquote>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(get_target(<span class="st">'train_folder/target'</span>, same_filename<span class="op">=</span><span class="va">False</span>)(<span class="st">'../signal/signal01.tif'</span>))</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(get_target(<span class="st">'train_folder/target'</span>)(<span class="st">'../signal/image01.tif'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(get_target(<span class="st">'train_folder/target'</span>, same_filename<span class="op">=</span><span class="va">False</span>)(<span class="st">'../signal/signal01.tif'</span>))</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(get_target(<span class="st">'train_folder/target'</span>)(<span class="st">'../signal/image01.tif'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(get_target(<span class="st">'train_folder'</span>, same_filename<span class="op">=</span><span class="va">False</span>, target_file_prefix<span class="op">=</span><span class="st">"cameraman_clean"</span>, signal_file_prefix<span class="op">=</span><span class="st">"cameraman_noisy"</span>)(<span class="st">'../signal/cameraman_noisy.tif'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(get_target(<span class="st">'train_folder'</span>, same_filename<span class="op">=</span><span class="va">False</span>, target_file_prefix<span class="op">=</span><span class="st">"cameraman_clean"</span>, signal_file_prefix<span class="op">=</span><span class="st">"cameraman_noisy"</span>)(<span class="st">'../signal/cameraman_noisy.tif'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Get as ground truth another noisy image randomly chosen in the same folder as the input image</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L253" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L294" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="get_noisy_pair" class="level3">
 <h3 class="anchored" data-anchor-id="get_noisy_pair">get_noisy_pair</h3>
@@ -602,27 +705,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="example" class="level2">
 <h2 class="anchored" data-anchor-id="example">Example</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from monai.transforms import ScaleIntensity</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># from bioMONAI.transforms import *</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># from fastai.vision.all import *</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># spatial_dimensions = 2</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co"># roi_size = [32]*spatial_dimensions</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># item_tfms = [RandCropND(roi_size), ScaleIntensity]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from monai.transforms import ScaleIntensity</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># from bioMONAI.transforms import *</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># from fastai.vision.all import *</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co"># spatial_dimensions = 2</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co"># roi_size = [32]*spatial_dimensions</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co"># item_tfms = [RandCropND(roi_size), ScaleIntensity]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># file_folder = '../../bioMONAI_0/_data/Thunder_20230308/nuevos_datos/dataset_2'</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># dblock = DataBlock(blocks=(BioImageBlock(cls=BioImageProject), BioImageBlock(cls=BioImageProject)),</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                    get_items=get_image_files,</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co">#                    get_y=get_target('../../bioMONAI_0/_data/Thunder_20230308/nuevos_datos/dataset_2/targets', same_filename=True),</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co">#                    splitter=RandomSplitter(valid_pct=0.2),</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co">#                    item_tfms=item_tfms,</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co">#                    )</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co"># # dblock.summary(file_folder)</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="co"># dls = dblock.dataloaders(file_folder, bs=2)</span></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="co"># dls.show_batch(max_n=2, cmap='viridis')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># file_folder = '../../bioMONAI_0/_data/Thunder_20230308/nuevos_datos/dataset_2'</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># dblock = DataBlock(blocks=(BioImageBlock(cls=BioImageProject), BioImageBlock(cls=BioImageProject)),</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                    get_items=get_image_files,</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co">#                    get_y=get_target('../../bioMONAI_0/_data/Thunder_20230308/nuevos_datos/dataset_2/targets', same_filename=True),</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co">#                    splitter=RandomSplitter(valid_pct=0.2),</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co">#                    item_tfms=item_tfms,</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co">#                    )</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co"># # dblock.summary(file_folder)</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co"># dls = dblock.dataloaders(file_folder, bs=2)</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co"># dls.show_batch(max_n=2, cmap='viridis')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
 

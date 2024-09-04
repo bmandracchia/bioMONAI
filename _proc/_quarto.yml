@@ -26,12 +26,18 @@ website:
         href: https://bmandracchia.github.io
       - text: "Resources"
         menu:
+          - text: monai
+            icon: link
+            href: https://monai.io/
           - text: fast.ai
             icon: link
             href: https://docs.fast.ai
           - text: fastcore
             icon: link
             href: https://fastcore.fast.ai
+          - text: fastxtend
+            icon: link
+            href: https://fastxtend.benjaminwarner.dev
           - text: nbdev
             icon: link
             href: https://nbdev.fast.ai
