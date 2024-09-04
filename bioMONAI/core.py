@@ -26,7 +26,7 @@ from typing import MutableSequence
 from fastai.callback.core import Callback
 from fastai.data.all import DataLoaders, Path, trainable_params, delegates, hasattrs, Path, List, L, typedispatch
 from fastai.optimizer import Adam, OptimWrapper, Optimizer
-from fastai.vision.all import BypassNewMeta, DisplayedTransform, store_attr, DataBlock, Learner, ShowGraphCallback, CSVLogger, Any
+from fastai.vision.all import BypassNewMeta, DisplayedTransform, store_attr, DataBlock, Learner, ShowGraphCallback, CSVLogger, Any, minimum, steep, valley, slide
 
 
 # %% ../nbs/00_core.ipynb 13
@@ -64,6 +64,9 @@ class fastTrainer(Learner):
                  metrics: Any | MutableSequence | None = None, 
                  csv_log: bool = False, 
                  show_graph: bool = True,
+                 show_summary: bool = False,
+                 find_lr: bool = False,
+                 find_lr_fn = valley,
                  path: str | Path | None = None, 
                  model_dir: str | Path = 'models', 
                  wd: float | int | None = None, 
@@ -79,6 +82,13 @@ class fastTrainer(Learner):
                 cbs.append(CSVLogger(fname='history.csv', append=False))
         
         super().__init__(dataloaders, model, loss_fn, optimizer, lr, splitter, cbs, metrics, path, model_dir, wd, wd_bn_bias, train_bn, moms)
+        
+        if show_summary:
+                print(self.summary())
+        if find_lr:
+                self.lr_find(suggest_funcs=find_lr_fn)
+                lr = float('%.1g'%(lr))
+                print('Inferred learning rate: ', lr)
 
 
 # %% ../nbs/00_core.ipynb 15
