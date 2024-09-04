@@ -12,7 +12,7 @@ from .core import MetaTensor, torchTensor, BypassNewMeta, DisplayedTransform, to
 from .io import img_reader
 from .visualize import show_images_grid
 
-from fastai.vision.all import DataBlock, TfmdDL, get_image_files, TransformBlock
+from fastai.vision.all import DataBlock, TfmdDL, get_image_files, TransformBlock, get_grid, merge, show_image
 
 # %% ../nbs/01_data.ipynb 6
 class MetaResolver(type(torchTensor), metaclass=BypassNewMeta):
@@ -247,9 +247,11 @@ class BioDataBlock(DataBlock):
 
 # %% ../nbs/01_data.ipynb 30
 class BioDataloader():
-    def __init__(self, data_source, dataloader_ops=None, datablock_ops=None):
+    def __init__(self, data_source, dataloader_ops=None, datablock_ops=None, show_summary: bool =False):
         self.datablock = BioDataBlock(**datablock_ops)
         self.dataloder = self.datablock.dataloaders(data_source, **dataloader_ops)
+        if show_summary:
+            print(self.datablock.summary(data_source))
         return self.dataloder
 
 # %% ../nbs/01_data.ipynb 32

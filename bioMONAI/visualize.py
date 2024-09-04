@@ -6,7 +6,7 @@ __all__ = ['plot_image', 'mosaic_image_3d', 'show_images_grid', 'show_plane', 'v
 # %% ../nbs/09_visualize.ipynb 3
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+# from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 import plotly.io as pio
 import plotly.express as px
 import plotly.graph_objects as go
@@ -16,7 +16,7 @@ import torchvision
 from fastai.vision.all import plt, ifnone
 
 from .core import torchTensor, tensor, delegates, torch_from_numpy, hasattrs, img2float, cells3d
-from .io import tiff2torch
+# from bioMONAI.io import tiff2torch
 
 # %% ../nbs/09_visualize.ipynb 6
 def plot_image(values):
