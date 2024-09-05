@@ -35,84 +35,114 @@ class CombinedLoss:
         
 
 # %% ../nbs/03_losses.ipynb 8
-class MSSSIMLoss(nn.Module):
-    def __init__(self, C1=0.01**2, C2=0.03**2, sigma=(0.5, 1., 2., 4., 8.)):
+class MSSSIMLoss(torch.nn.Module):
+    def __init__(self, spatial_dims=2, window_size: int = 11, sigma: float = 1.5, reduction: str = "mean", levels: int = 5, weights=None):
+        """
+        Multi-Scale Structural Similarity (MSSSIM) Loss using MONAI's SSIMLoss as the base.
+
+        Args:
+            window_size (int): Size of the Gaussian window for SSIM.
+            sigma (float): Standard deviation of the Gaussian.
+            reduction (str): Specifies the reduction to apply to the output ('mean', 'sum', or 'none').
+            levels (int): Number of scales to use for MS-SSIM.
+            weights (list): Weights to apply to each scale. If None, default values are used.
+        """
         super(MSSSIMLoss, self).__init__()
-        self.C1 = C1
-        self.C2 = C2
+        self.ssim = SSIMLoss(spatial_dims, win_size=window_size, kernel_sigma=sigma, reduction="none")
+        self.levels = levels
+        if weights is None:
+            # Default weights for 5 levels, typically used in MS-SSIM
+            self.weights = torch.FloatTensor([0.0448, 0.2856, 0.3001, 0.2363, 0.1333])
+        else:
+            self.weights = torch.FloatTensor(weights)
+        self.weights = self.weights[:levels]
+        self.reduction = reduction
+
+    def forward(self, x, y):
+        # Ensure input tensors are the same size
+        if x.size() != y.size():
+            raise ValueError("Input images must have the same dimensions.")
+        
+        # Make sure the weights match the number of levels
+        if len(self.weights) != self.levels:
+            raise ValueError(f"Number of weights ({len(self.weights)}) must match the number of levels ({self.levels}).")
+        
+        msssim_values = []
+        for i in range(self.levels):
+            # Compute SSIM at this scale
+            ssim_value = self.ssim(x, y)
+            msssim_values.append(ssim_value * self.weights[i])
+
+            # Downsample images for the next scale, except at the last scale
+            if i < self.levels - 1:
+                x = F.avg_pool2d(x, kernel_size=2, stride=2)
+                y = F.avg_pool2d(y, kernel_size=2, stride=2)
+
+        # Stack and sum weighted SSIM values from all scales
+        msssim = torch.stack(msssim_values, dim=0).sum(dim=0)/self.weights.sum()
+
+        # Apply reduction (mean or sum)
+        if self.reduction == "mean":
+            return msssim.mean()
+        elif self.reduction == "sum":
+            return msssim.sum()
+        else:
+            return msssim
+
+
+# %% ../nbs/03_losses.ipynb 11
+class MSSSIML1Loss(torch.nn.Module):
+    def __init__(self, spatial_dims=2, alpha: float = 0.025, window_size: int = 11, sigma: float = 1.5, reduction: str = "mean", levels: int = 3, weights=None):
+        """
+        Multi-Scale Structural Similarity (MSSSIM) with Gaussian-weighted L1 Loss.
+
+        Args:
+            alpha (float): Weighting factor between MS-SSIM and L1 loss. Controls the balance between the two losses.
+            window_size (int): Size of the Gaussian window for SSIM.
+            sigma (float): Standard deviation of the Gaussian.
+            reduction (str): Specifies the reduction to apply to the output ('mean', 'sum', or 'none').
+            levels (int): Number of scales to use for MS-SSIM.
+            weights (list): Weights to apply to each scale. If None, default values are used.
+        """
+        super(MSSSIML1Loss, self).__init__()
+        self.msssim = MSSSIMLoss(spatial_dims=spatial_dims, window_size=window_size, sigma=sigma, reduction="none", levels=levels, weights=weights)
+        self.alpha = alpha
+        self.reduction = reduction
+        self.window_size = window_size
         self.sigma = sigma
 
     def forward(self, x, y):
-        # Check dimensions
-        if x.size() != y.size():
-            raise ValueError("Input images must have the same dimensions.")
-        if x.size(2) % 2 != 1 or y.size(2) % 2 != 1:
-            raise ValueError("Odd patch size preferred")
-
-        num_scale = len(self.sigma)
-        width = x.size(2)
-        batch_size = x.size(0)
-        channels = x.size(1)
-
-        # Initialize variables
-        mux = torch.empty((num_scale, batch_size, channels, 1, 1), device=x.device)
-        muy = torch.empty_like(mux)
-        sigmax2 = torch.empty_like(mux)
-        sigmay2 = torch.empty_like(mux)
-        sigmaxy = torch.empty_like(mux)
-        l = torch.empty_like(mux)
-        cs = torch.empty_like(mux)
-        Pcs = torch.ones((batch_size,), device=x.device)
-
-        for i, sigma in enumerate(self.sigma):
-            # Create Gaussian filter
-            weights = torch.exp(-torch.arange(-(width // 2), width // 2 + 1, dtype=torch.float32, device=x.device)**2 / (2 * sigma**2))
-            weights = torch.outer(weights, weights)
-            weights = weights / torch.sum(weights)
-            weights = weights.view(1, 1, width, width).expand(channels, 1, -1, -1)
-
-            # Compute mean and variance
-            mux[i] = F.conv2d(x, weights, padding=0, groups=channels)
-            muy[i] = F.conv2d(y, weights, padding=0, groups=channels)
-            sigmax2[i] = F.conv2d(x * x, weights, padding=0, groups=channels) - mux[i] ** 2
-            sigmay2[i] = F.conv2d(y * y, weights, padding=0, groups=channels) - muy[i] ** 2
-            sigmaxy[i] = F.conv2d(x * y, weights, padding=0, groups=channels) - mux[i] * muy[i]
-
-            # Compute luminance and contrast-structure components
-            l[i] = (2 * mux[i] * muy[i] + self.C1) / (mux[i] ** 2 + muy[i] ** 2 + self.C1)
-            cs[i] = (2 * sigmaxy[i] + self.C2) / (sigmax2[i] + sigmay2[i] + self.C2)
-            Pcs *= cs[i].view(batch_size, -1).prod(dim=-1)
-
-        # Final MSSSIM calculation
-        msssim = l[-1].view(batch_size, -1).prod(dim=-1) * Pcs
-        loss = 1 - msssim.mean()
-
-        return loss
-
-    def backward(self, x, y):
-        raise NotImplementedError("The backward function is not implemented as PyTorch handles gradients automatically.")
-
-
-# %% ../nbs/03_losses.ipynb 10
-class MSSSIML1Loss(nn.Module):
-    def __init__(self, alpha=0.025, C1=0.01**2, C2=0.03**2, sigma=(0.5, 1., 2., 4., 8.)):
-        super(MSSSIML1Loss, self).__init__()
-        self.alpha = alpha
-        self.msssim_loss = MSSSIMLoss(C1=C1, C2=C2, sigma=sigma)
-
-    def forward(self, x, y):
         # Compute MSSSIM loss
-        loss_MSSSIM = self.msssim_loss(x, y)
+        msssim_loss = self.msssim(x, y)
 
-        # Compute L1 loss, weighted by a Gaussian filter
+        # Compute L1 loss with Gaussian weighting
+        # Generate Gaussian kernel based on the input size
+        batch_size, _, height, width = x.size()
+        gaussian = self.get_gaussian_weight(x.size()).to(x.device)
+
+        # Apply the Gaussian kernel as a weight to the L1 loss
         l1_loss = F.l1_loss(x, y, reduction='none')
-        gaussian_weight = self.get_gaussian_weight(x.size())
-        weighted_l1_loss = (l1_loss * gaussian_weight).mean()
+        l1_loss = l1_loss * gaussian
 
-        # Combine the losses
-        total_loss = self.alpha * loss_MSSSIM + (1 - self.alpha) * weighted_l1_loss
-        return total_loss
+        # Sum or average the L1 loss based on the reduction
+        if self.reduction == "mean":
+            l1_loss = l1_loss.mean(dim=(1, 2, 3))  # Reduce over all spatial dimensions
+        elif self.reduction == "sum":
+            l1_loss = l1_loss.sum(dim=(1, 2, 3))   # Sum over all spatial dimensions
+        else:
+            l1_loss = l1_loss  # No reduction if 'none' is specified
 
+        # Combine the two losses
+        combined_loss = self.alpha * msssim_loss + (1 - self.alpha) * l1_loss
+
+        # Apply final reduction to the combined loss
+        if self.reduction == "mean":
+            return combined_loss.mean()
+        elif self.reduction == "sum":
+            return combined_loss.sum()
+        else:
+            return combined_loss
+        
     def get_gaussian_weight(self, size):
         """Generate a Gaussian weight tensor based on input size."""
         batch_size, channels, width, height = size
@@ -120,38 +150,74 @@ class MSSSIML1Loss(nn.Module):
 
         x = torch.arange(width, dtype=torch.float32, device='cuda')
         y = torch.arange(height, dtype=torch.float32, device='cuda')
-        
+
+        # Handle even-sized patches by adjusting the center position calculation
+        center_x = (width - 1) / 2.0 if width % 2 == 1 else width / 2.0
+        center_y = (height - 1) / 2.0 if height % 2 == 1 else height / 2.0
+
         # Explicitly pass the indexing argument
         x_grid, y_grid = torch.meshgrid(x, y, indexing='ij')
-        
-        gaussian = torch.exp(-((x_grid - width//2)**2 + (y_grid - height//2)**2) / (2 * sigma**2))
+
+        gaussian = torch.exp(-((x_grid - center_x)**2 + (y_grid - center_y)**2) / (2 * sigma**2))
         gaussian /= gaussian.sum()  # Normalize the Gaussian
 
         gaussian_weight = gaussian.view(1, 1, width, height)
         gaussian_weight = gaussian_weight.expand(batch_size, channels, -1, -1)
         return gaussian_weight
 
+# %% ../nbs/03_losses.ipynb 13
+class MSSSIML2Loss(torch.nn.Module):
+    def __init__(self, spatial_dims=2, alpha: float = 0.1, window_size: int = 11, sigma: float = 1.5, reduction: str = "mean", levels: int = 3, weights=None):
+        """
+        Multi-Scale Structural Similarity (MSSSIM) with Gaussian-weighted L1 Loss.
 
-# %% ../nbs/03_losses.ipynb 12
-class MSSSIML2Loss(nn.Module):
-    def __init__(self, alpha=0.1, C1=0.01**2, C2=0.03**2, sigma=(0.5, 1., 2., 4., 8.)):
+        Args:
+            alpha (float): Weighting factor between MS-SSIM and L1 loss. Controls the balance between the two losses.
+            window_size (int): Size of the Gaussian window for SSIM.
+            sigma (float): Standard deviation of the Gaussian.
+            reduction (str): Specifies the reduction to apply to the output ('mean', 'sum', or 'none').
+            levels (int): Number of scales to use for MS-SSIM.
+            weights (list): Weights to apply to each scale. If None, default values are used.
+        """
         super(MSSSIML2Loss, self).__init__()
+        self.msssim = MSSSIMLoss(spatial_dims=spatial_dims, window_size=window_size, sigma=sigma, reduction="none", levels=levels, weights=weights)
         self.alpha = alpha
-        self.msssim_loss = MSSSIMLoss(C1=C1, C2=C2, sigma=sigma)
+        self.reduction = reduction
+        self.window_size = window_size
+        self.sigma = sigma
 
     def forward(self, x, y):
         # Compute MSSSIM loss
-        loss_MSSSIM = self.msssim_loss(x, y)
+        msssim_loss = self.msssim(x, y)
 
-        # Compute L2 loss, weighted by a Gaussian filter
-        l2_loss = F.mse_loss(x, y, reduction='none')  # L2 loss (without reduction)
-        gaussian_weight = self.get_gaussian_weight(x.size())
-        weighted_l2_loss = (l2_loss * gaussian_weight).mean() / 2.0  # Weighted L2 loss
+        # Compute L1 loss with Gaussian weighting
+        # Generate Gaussian kernel based on the input size
+        batch_size, _, height, width = x.size()
+        gaussian = self.get_gaussian_weight(x.size()).to(x.device)
 
-        # Combine the losses
-        total_loss = self.alpha * loss_MSSSIM + (1 - self.alpha) * weighted_l2_loss
-        return total_loss
+        # Apply the Gaussian kernel as a weight to the L1 loss
+        l2_loss = F.mse_loss(x, y, reduction='none')
+        l2_loss = l2_loss * gaussian
 
+        # Sum or average the L1 loss based on the reduction
+        if self.reduction == "mean":
+            l2_loss = l2_loss.mean(dim=(1, 2, 3))  # Reduce over all spatial dimensions
+        elif self.reduction == "sum":
+            l2_loss = l2_loss.sum(dim=(1, 2, 3))   # Sum over all spatial dimensions
+        else:
+            l2_loss = l2_loss  # No reduction if 'none' is specified
+
+        # Combine the two losses
+        combined_loss = self.alpha * msssim_loss + (1 - self.alpha) * l2_loss
+
+        # Apply final reduction to the combined loss
+        if self.reduction == "mean":
+            return combined_loss.mean()
+        elif self.reduction == "sum":
+            return combined_loss.sum()
+        else:
+            return combined_loss
+        
     def get_gaussian_weight(self, size):
         """Generate a Gaussian weight tensor based on input size."""
         batch_size, channels, width, height = size
@@ -159,19 +225,22 @@ class MSSSIML2Loss(nn.Module):
 
         x = torch.arange(width, dtype=torch.float32, device='cuda')
         y = torch.arange(height, dtype=torch.float32, device='cuda')
-        
+
+        # Handle even-sized patches by adjusting the center position calculation
+        center_x = (width - 1) / 2.0 if width % 2 == 1 else width / 2.0
+        center_y = (height - 1) / 2.0 if height % 2 == 1 else height / 2.0
+
         # Explicitly pass the indexing argument
         x_grid, y_grid = torch.meshgrid(x, y, indexing='ij')
-        
-        gaussian = torch.exp(-((x_grid - width//2)**2 + (y_grid - height//2)**2) / (2 * sigma**2))
+
+        gaussian = torch.exp(-((x_grid - center_x)**2 + (y_grid - center_y)**2) / (2 * sigma**2))
         gaussian /= gaussian.sum()  # Normalize the Gaussian
 
         gaussian_weight = gaussian.view(1, 1, width, height)
         gaussian_weight = gaussian_weight.expand(batch_size, channels, -1, -1)
         return gaussian_weight
 
-
-# %% ../nbs/03_losses.ipynb 15
+# %% ../nbs/03_losses.ipynb 16
 class DiceLoss(nn.Module):
 
     """
@@ -224,7 +293,7 @@ class DiceLoss(nn.Module):
         return loss
         
 
-# %% ../nbs/03_losses.ipynb 19
+# %% ../nbs/03_losses.ipynb 20
 def FRCLoss(image1, image2):
 
     """
@@ -241,7 +310,7 @@ def FRCLoss(image1, image2):
     return (1 - FRCMetric(image1, image2))
     
 
-# %% ../nbs/03_losses.ipynb 20
+# %% ../nbs/03_losses.ipynb 21
 def seventh_fourier_ring_correlation(image1,image2):
 
 
