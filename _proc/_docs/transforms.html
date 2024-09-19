@@ -347,7 +347,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#random-transforms" id="toc-random-transforms" class="nav-link" data-scroll-target="#random-transforms">Random Transforms</a></li>
   <li><a href="#randcrop2d" id="toc-randcrop2d" class="nav-link" data-scroll-target="#randcrop2d">RandCrop2D</a></li>
   <li><a href="#randcropnd" id="toc-randcropnd" class="nav-link" data-scroll-target="#randcropnd">RandCropND</a></li>
-  <li><a href="#randcropnd_t" id="toc-randcropnd_t" class="nav-link" data-scroll-target="#randcropnd_t">RandCropND_T</a></li>
   <li><a href="#randflip" id="toc-randflip" class="nav-link" data-scroll-target="#randflip">RandFlip</a></li>
   <li><a href="#randrot90" id="toc-randrot90" class="nav-link" data-scroll-target="#randrot90">RandRot90</a></li>
   </ul></li>
@@ -609,27 +608,6 @@ resampler = Resample(**kwargs={'pixdim': [1.5, 1.5, 3]})</code></pre>
 <hr>
 <p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/transforms.py#L230" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
-<section id="randcropnd_t" class="level3">
-<h3 class="anchored" data-anchor-id="randcropnd_t">RandCropND_T</h3>
-<blockquote class="blockquote">
-<pre><code> RandCropND_T (size:int|tuple, threshold:float, max_count=5, lazy=False,
-               **kwargs)</code></pre>
-</blockquote>
-<p>Randomly crops an ND image to a specified size.</p>
-<p>This transform randomly crops an ND image to a specified size during training and performs a center crop during validation. It supports both 2D and 3D images and videos, assuming the first dimension is the batch dimension.</p>
-<p>Args: size (int or tuple): The size to crop the image to. this can have any number of dimensions. If a single value is provided, it will be duplicated for each spatial dimension, up to a maximum of 3 dimensions. threshold (float): The minimum average intensity threshold for the cropped patch. **kwargs: Additional keyword arguments to be passed to the parent class.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a random tensor</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>orig_size <span class="op">=</span> (<span class="dv">65</span>, <span class="dv">65</span>)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>rand_tensor <span class="op">=</span> torch.rand(<span class="dv">8</span>, <span class="op">*</span>orig_size) </span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>):</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    tst <span class="op">=</span> RandCropND_T((<span class="dv">64</span>,<span class="dv">64</span>), <span class="dv">1</span>, <span class="dv">2</span>)(rand_tensor)</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    test_eq((<span class="dv">8</span>,<span class="dv">64</span>,<span class="dv">64</span>),tst.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/transforms.py#L293" target="_blank" style="float:right; font-size:smaller">source</a></p>
-</section>
 <section id="randflip" class="level3">
 <h3 class="anchored" data-anchor-id="randflip">RandFlip</h3>
 <blockquote class="blockquote">
@@ -685,14 +663,14 @@ resampler = Resample(**kwargs={'pixdim': [1.5, 1.5, 3]})</code></pre>
 </tbody>
 </table>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a random tensor</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>orig_size <span class="op">=</span> (<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">4</span>)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>rand_tensor <span class="op">=</span> torch.rand(<span class="op">*</span>orig_size) </span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'orig tensor: '</span>, rand_tensor, <span class="st">'</span><span class="ch">\n</span><span class="st">'</span>)</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(RandFlip(prob<span class="op">=</span><span class="fl">.75</span>, spatial_axis<span class="op">=</span><span class="va">None</span>)(rand_tensor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a random tensor</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>orig_size <span class="op">=</span> (<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">4</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>rand_tensor <span class="op">=</span> torch.rand(<span class="op">*</span>orig_size) </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'orig tensor: '</span>, rand_tensor, <span class="st">'</span><span class="ch">\n</span><span class="st">'</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(RandFlip(prob<span class="op">=</span><span class="fl">.75</span>, spatial_axis<span class="op">=</span><span class="va">None</span>)(rand_tensor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>orig tensor:  tensor([[[0.8728, 0.8128, 0.0749, 0.1325],
          [0.4135, 0.4166, 0.0704, 0.6041],
@@ -714,7 +692,7 @@ metatensor([[[0.8872, 0.7666, 0.3936, 0.2372],
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/transforms.py#L326" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/transforms.py#L263" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="randrot90" class="level3">
 <h3 class="anchored" data-anchor-id="randrot90">RandRot90</h3>
@@ -778,14 +756,14 @@ metatensor([[[0.8872, 0.7666, 0.3936, 0.2372],
 </tbody>
 </table>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a random tensor</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>orig_size <span class="op">=</span> (<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">4</span>)</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>rand_tensor <span class="op">=</span> torch.rand(<span class="op">*</span>orig_size) </span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'orig tensor: '</span>, rand_tensor, <span class="st">'</span><span class="ch">\n</span><span class="st">'</span>)</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(RandRot90(prob<span class="op">=</span><span class="fl">.75</span>)(rand_tensor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a random tensor</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>orig_size <span class="op">=</span> (<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">4</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>rand_tensor <span class="op">=</span> torch.rand(<span class="op">*</span>orig_size) </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'orig tensor: '</span>, rand_tensor, <span class="st">'</span><span class="ch">\n</span><span class="st">'</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(RandRot90(prob<span class="op">=</span><span class="fl">.75</span>)(rand_tensor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>orig tensor:  tensor([[[0.5017, 0.8685, 0.2517, 0.5876],
          [0.0879, 0.4498, 0.1788, 0.0592],
@@ -806,7 +784,6 @@ metatensor([[[0.2497, 0.7514, 0.0879, 0.5017],
          [0.7886, 0.2972, 0.0592, 0.5876]]])</code></pre>
 </div>
 </div>
-<hr>
 
 
 </section>

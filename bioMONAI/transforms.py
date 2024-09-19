@@ -2,7 +2,7 @@
 
 # %% auto 0
 __all__ = ['Resample', 'RandCameraNoise', 'ScaleIntensityRange', 'ScaleIntensityPercentiles', 'RandCrop2D', 'RandCropND',
-           'RandCropND_T', 'RandFlip', 'RandRot90']
+           'RandFlip', 'RandRot90']
 
 # %% ../nbs/05_transforms.ipynb 3
 import numpy as np
@@ -227,69 +227,6 @@ class RandCropND(RandTransform):
     
 
 # %% ../nbs/05_transforms.ipynb 24
-class RandCropND_T(RandTransform):
-    """
-    Randomly crops an ND image to a specified size.
-
-    This transform randomly crops an ND image to a specified size during training and performs
-    a center crop during validation. It supports both 2D and 3D images and videos, assuming
-    the first dimension is the batch dimension.
-
-    Args:
-        size (int or tuple): The size to crop the image to. this can have any number of dimensions. 
-                             If a single value is provided, it will be duplicated for each spatial 
-                             dimension, up to a maximum of 3 dimensions.
-        threshold (float): The minimum average intensity threshold for the cropped patch.
-        **kwargs: Additional keyword arguments to be passed to the parent class.
-    """
-
-    split_idx, order = None, 1
-        
-    def __init__(self, size: int | tuple, threshold: float, max_count=5, lazy=False, **kwargs):
-        size = _process_sz(size)
-        store_attr()
-        super().__init__(**kwargs)
-
-    def before_call(self, b, split_idx: int):
-        "Randomly position crop if train dataset else center crop"
-        self.orig_sz = _get_sz(b)
-        if split_idx:
-            self.tl = tuple((osz - sz) // 2 for osz, sz in zip(self.orig_sz, self.size))
-            self.br = tuple((osz + sz) // 2 for osz, sz in zip(self.orig_sz, self.size))
-        else:
-            tl = [] # top-left corner
-            br = [] # bottom-right corner
-            for osz, sz in zip(self.orig_sz, self.size):
-                w_dif = osz - sz
-                if w_dif < 0:
-                    w_rand = (0, 0) # No random cropping if input size is smaller than crop size
-                    sz = osz # Adjust crop size to match input size
-                else:
-                    w_rand = (0, w_dif)
-                rnd = random.randint(*w_rand)
-                tl.append(rnd)
-                br.append(rnd + sz)
-            self.tl = fastuple(*tl)
-            self.br = fastuple(*br)
-
-    def encodes(self, x):
-        "Apply spatial crop transformation to the input image."
-        count = 0
-        while count < self.max_count:
-            # Crop image
-            cropped_img = SpatialCrop(roi_start=self.tl, roi_end=self.br, lazy=self.lazy)(x)
-            # Check average intensity
-            avg_intensity = np.mean(cropped_img)
-            if (avg_intensity >= self.threshold):
-                break # Accept the crop if intensity is above threshold
-            # Choose new random crop
-            # print("repeat")
-            count += 1
-            self.before_call(x, None)
-        return cropped_img
-    
-
-# %% ../nbs/05_transforms.ipynb 26
 class RandFlip(RandTransform):
     """
     Randomly flips an ND image over a specified axis.
@@ -322,7 +259,7 @@ class RandFlip(RandTransform):
         else:
             return x
 
-# %% ../nbs/05_transforms.ipynb 28
+# %% ../nbs/05_transforms.ipynb 26
 class RandRot90(RandTransform):
     """
     Randomly rotate an ND image by 90 degrees in the plane specified by axes.
