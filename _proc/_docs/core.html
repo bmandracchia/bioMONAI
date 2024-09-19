@@ -21,40 +21,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -132,6 +98,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-resources">    
         <li>
+    <a class="dropdown-item" href="https://monai.io/" rel="" target=""><i class="bi bi-link" role="img">
+</i> 
+ <span class="dropdown-text">monai</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="https://docs.fast.ai" rel="" target=""><i class="bi bi-link" role="img">
 </i> 
  <span class="dropdown-text">fast.ai</span></a>
@@ -140,6 +111,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="https://fastcore.fast.ai" rel="" target=""><i class="bi bi-link" role="img">
 </i> 
  <span class="dropdown-text">fastcore</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://fastxtend.benjaminwarner.dev" rel="" target=""><i class="bi bi-link" role="img">
+</i> 
+ <span class="dropdown-text">fastxtend</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="https://nbdev.fast.ai" rel="" target=""><i class="bi bi-link" role="img">
@@ -327,6 +303,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#utils" id="toc-utils" class="nav-link" data-scroll-target="#utils">Utils</a>
   <ul>
   <li><a href="#attributesfromdict" id="toc-attributesfromdict" class="nav-link" data-scroll-target="#attributesfromdict">attributesFromDict</a></li>
+  <li><a href="#get_device" id="toc-get_device" class="nav-link" data-scroll-target="#get_device">get_device</a></li>
   <li><a href="#img2float" id="toc-img2float" class="nav-link" data-scroll-target="#img2float">img2float</a></li>
   <li><a href="#img2tensor" id="toc-img2tensor" class="nav-link" data-scroll-target="#img2tensor">img2Tensor</a></li>
   </ul></li>
@@ -497,6 +474,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="engine" class="level2">
 <h2 class="anchored" data-anchor-id="engine">Engine</h2>
 <hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L33" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="fasttrainer" class="level3">
 <h3 class="anchored" data-anchor-id="fasttrainer">fastTrainer</h3>
 <blockquote class="blockquote">
@@ -508,6 +486,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
               nion[fastai.callback.core.Callback,MutableSequence,NoneType]
               =None, metrics:Union[Any,MutableSequence,NoneType]=None,
               csv_log:bool=False, show_graph:bool=True,
+              show_summary:bool=False, find_lr:bool=False,
+              find_lr_fn=&lt;function valley&gt;,
               path:str|pathlib.Path|None=None,
               model_dir:str|pathlib.Path='models', wd:float|int|None=None,
               wd_bn_bias:bool=False, train_bn:bool=True,
@@ -520,18 +500,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="utils" class="level2">
 <h2 class="anchored" data-anchor-id="utils">Utils</h2>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L34" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L96" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="attributesfromdict" class="level3">
 <h3 class="anchored" data-anchor-id="attributesfromdict">attributesFromDict</h3>
 <blockquote class="blockquote">
 <pre><code> attributesFromDict (d)</code></pre>
 </blockquote>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_device():</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> torch_device(<span class="st">"cuda"</span> <span class="cf">if</span> is_cuda_available() <span class="cf">else</span> <span class="st">"cpu"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L40" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L102" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="get_device" class="level3">
+<h3 class="anchored" data-anchor-id="get_device">get_device</h3>
+<blockquote class="blockquote">
+<pre><code> get_device ()</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L106" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="img2float" class="level3">
 <h3 class="anchored" data-anchor-id="img2float">img2float</h3>
@@ -539,7 +523,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> img2float (image, force_copy=False)</code></pre>
 </blockquote>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L44" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L110" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="img2tensor" class="level3">
 <h3 class="anchored" data-anchor-id="img2tensor">img2Tensor</h3>

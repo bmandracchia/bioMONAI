@@ -9,7 +9,7 @@ from dataclasses import dataclass, field
 from typing import List, Tuple, Optional, Union
 
 from torch import cat as torch_cat
-from torch import Tensor as torch_Tensor
+from torch import Tensor as torch_Tensor, randn as torch_randn
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.nn as nn

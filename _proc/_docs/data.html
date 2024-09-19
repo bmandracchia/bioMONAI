@@ -132,6 +132,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-resources">    
         <li>
+    <a class="dropdown-item" href="https://monai.io/" rel="" target=""><i class="bi bi-link" role="img">
+</i> 
+ <span class="dropdown-text">monai</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="https://docs.fast.ai" rel="" target=""><i class="bi bi-link" role="img">
 </i> 
  <span class="dropdown-text">fast.ai</span></a>
@@ -140,6 +145,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="https://fastcore.fast.ai" rel="" target=""><i class="bi bi-link" role="img">
 </i> 
  <span class="dropdown-text">fastcore</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://fastxtend.benjaminwarner.dev" rel="" target=""><i class="bi bi-link" role="img">
+</i> 
+ <span class="dropdown-text">fastxtend</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="https://nbdev.fast.ai" rel="" target=""><i class="bi bi-link" role="img">
@@ -332,10 +342,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#data-blocks-and-dataloader" id="toc-data-blocks-and-dataloader" class="nav-link" data-scroll-target="#data-blocks-and-dataloader">Data blocks and Dataloader</a>
   <ul>
-  <li><a href="#imageblock" id="toc-imageblock" class="nav-link" data-scroll-target="#imageblock">ImageBlock</a></li>
   <li><a href="#bioimageblock" id="toc-bioimageblock" class="nav-link" data-scroll-target="#bioimageblock">BioImageBlock</a></li>
   <li><a href="#biodatablock" id="toc-biodatablock" class="nav-link" data-scroll-target="#biodatablock">BioDataBlock</a></li>
-  <li><a href="#biodataloader" id="toc-biodataloader" class="nav-link" data-scroll-target="#biodataloader">BioDataloader</a></li>
+  <li><a href="#get_dataloader" id="toc-get_dataloader" class="nav-link" data-scroll-target="#get_dataloader">get_dataloader</a></li>
   </ul></li>
   <li><a href="#data-getters" id="toc-data-getters" class="nav-link" data-scroll-target="#data-getters">Data getters</a>
   <ul>
@@ -538,16 +547,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="data-blocks-and-dataloader" class="level2">
 <h2 class="anchored" data-anchor-id="data-blocks-and-dataloader">Data blocks and Dataloader</h2>
-<section id="imageblock" class="level3">
-<h3 class="anchored" data-anchor-id="imageblock">ImageBlock</h3>
 <hr>
 <p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L216" target="_blank" style="float:right; font-size:smaller">source</a></p>
-</section>
 <section id="bioimageblock" class="level3">
 <h3 class="anchored" data-anchor-id="bioimageblock">BioImageBlock</h3>
 <blockquote class="blockquote">
-<pre><code> BioImageBlock (cls:__main__.BioImageBase=&lt;class
-                '__main__.BioImageStack'&gt;)</code></pre>
+<pre><code> BioImageBlock (cls:__main__.BioImageBase=&lt;class '__main__.BioImage'&gt;)</code></pre>
 </blockquote>
 <p>A <code>TransformBlock</code> for images of <code>cls</code></p>
 <hr>
@@ -557,8 +562,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="biodatablock">BioDataBlock</h3>
 <blockquote class="blockquote">
 <pre><code> BioDataBlock (blocks:list=(&lt;fastai.data.block.TransformBlock object at
-               0x7f368d1d6d90&gt;, &lt;fastai.data.block.TransformBlock object
-               at 0x7f359f9a87d0&gt;), dl_type:fastai.data.core.TfmdDL=None,
+               0x7fefe7a7c550&gt;, &lt;fastai.data.block.TransformBlock object
+               at 0x7fefe76a6290&gt;), dl_type:fastai.data.core.TfmdDL=None,
                get_items=&lt;function get_image_files&gt;, get_y=None,
                get_x=None, getters:list=None, n_inp:int=None,
                item_tfms:list=None, batch_tfms:list=None, **kwargs)</code></pre>
@@ -583,7 +588,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td>blocks</td>
 <td>list</td>
-<td>(&lt;fastai.data.block.TransformBlock object at 0x7f368d1d6d90&gt;, &lt;fastai.data.block.TransformBlock object at 0x7f359f9a87d0&gt;)</td>
+<td>(&lt;fastai.data.block.TransformBlock object at 0x7fefe7a7c550&gt;, &lt;fastai.data.block.TransformBlock object at 0x7fefe76a6290&gt;)</td>
 <td>One or more <code>TransformBlock</code>s</td>
 </tr>
 <tr class="even">
@@ -645,12 +650,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 <p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L249" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
-<section id="biodataloader" class="level3">
-<h3 class="anchored" data-anchor-id="biodataloader">BioDataloader</h3>
+<section id="get_dataloader" class="level3">
+<h3 class="anchored" data-anchor-id="get_dataloader">get_dataloader</h3>
 <blockquote class="blockquote">
-<pre><code> BioDataloader (data_source, dataloader_ops=None, datablock_ops=None)</code></pre>
+<pre><code> get_dataloader (data_source, show_summary:bool=False, **kwargs)</code></pre>
 </blockquote>
-<p>Initialize self. See help(type(self)) for accurate signature.</p>
+<p>Create and return a DataLoader from a BioDataBlock using provided keyword arguments.</p>
+<p>Args: data_source (any): The source of the data to be loaded by the dataloader. This can be any type that is compatible with the dataloading method specified in kwargs (e.g., paths, datasets). show_summary (bool, optional): If True, print a summary of the BioDataBlock after creation. Default is False. **kwargs: Additional keyword arguments to configure the DataLoader and BioDataBlock. Supported keys include: ‘blocks’, ‘dl_type’, ‘get_items’, ‘get_y’, ‘get_x’, ‘getters’, ‘n_inp’, ‘item_tfms’, ‘batch_tfms’.</p>
+<p>Returns: DataLoader: A PyTorch DataLoader object populated with the data from the BioDataBlock. If show_summary is True, it also prints a summary of the datablock after creation.</p>
+<p>Example: &gt;&gt;&gt; dataloader = get_dataloader(data_path, show_summary=True, blocks=‘train’, dl_type=‘ImageDataLoader’)</p>
 </section>
 </section>
 <section id="data-getters" class="level2">
@@ -660,14 +668,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>These function are tailor-made for some test datasets, eventually they must be changed/adapted to more general cases</p>
 </blockquote>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L259" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L296" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="get_gt" class="level3">
 <h3 class="anchored" data-anchor-id="get_gt">get_gt</h3>
 <blockquote class="blockquote">
 <pre><code> get_gt (path, gt_file_name='avg50.png')</code></pre>
 </blockquote>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L265" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L302" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="get_target" class="level3">
 <h3 class="anchored" data-anchor-id="get_target">get_target</h3>
@@ -684,7 +692,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Get as ground truth another noisy image randomly chosen in the same folder as the input image</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L294" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L331" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="get_noisy_pair" class="level3">
 <h3 class="anchored" data-anchor-id="get_noisy_pair">get_noisy_pair</h3>
