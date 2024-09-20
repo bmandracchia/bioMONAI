@@ -29,51 +29,35 @@ from fastai.optimizer import Adam, OptimWrapper, Optimizer
 from fastai.vision.all import BypassNewMeta, DisplayedTransform, store_attr, DataBlock, Learner, ShowGraphCallback, CSVLogger, Any, minimum, steep, valley, slide
 
 
-# %% ../nbs/00_core.ipynb 13
+# %% ../nbs/00_core.ipynb 14
 class fastTrainer(Learner):
     """
     A custom implementation of the FastAI Learner class for training models in bioinformatics applications.
-    
-    Parameters:
-        dataloaders (DataLoaders): The DataLoader objects containing training and validation datasets.
-        model (callable): A callable model that will be trained on the dataset.
-        loss_fn (Any | None): The loss function to optimize during training. If None, defaults to a suitable default.
-        optimizer (Optimizer | OptimWrapper): The optimizer function to use. Defaults to Adam if not specified.
-        lr (float | slice): Learning rate for the optimizer. Can be a float or a slice object for learning rate scheduling.
-        splitter (callable): A callable that determines which parameters of the model should be updated during training.
-        callbacks (Callback | MutableSequence | None): Optional list of callback functions to customize training behavior.
-        metrics (Any | MutableSequence | None): Metrics to evaluate the performance of the model during training.
-        csv_log (bool): Whether to log training history to a CSV file. If True, logs will be appended to 'history.csv'.
-        path (str | Path | None): The base directory where models are saved or loaded from. Defaults to None.
-        model_dir (str | Path): Subdirectory within the base path where trained models are stored. Default is 'models'.
-        wd (float | int | None): Weight decay factor for optimization. Defaults to None.
-        wd_bn_bias (bool): Whether to apply weight decay to batch normalization and bias parameters.
-        train_bn (bool): Whether to update the batch normalization statistics during training.
-        moms (tuple): Tuple of tuples representing the momentum values for different layers in the model. Defaults to FastAI's default settings if not specified.
-        default_cbs (bool): Automatically include default callbacks such as ShowGraphCallback and CSVLogger.
+
     """
     
     def __init__(self, 
-                 dataloaders: DataLoaders, 
-                 model: callable, 
-                 loss_fn: Any | None = None, 
-                 optimizer: Optimizer | OptimWrapper = Adam, 
-                 lr: float | slice = 1e-3, 
-                 splitter: callable = trainable_params, 
-                 callbacks: Callback | MutableSequence | None = None, 
-                 metrics: Any | MutableSequence | None = None, 
-                 csv_log: bool = False, 
-                 show_graph: bool = True,
-                 show_summary: bool = False,
-                 find_lr: bool = False,
-                 find_lr_fn = valley,
-                 path: str | Path | None = None, 
-                 model_dir: str | Path = 'models', 
+                 dataloaders: DataLoaders, # The DataLoader objects containing training and validation datasets.
+                 model: callable, # A callable model that will be trained on the dataset.
+                 loss_fn: Any | None = None, # The loss function to optimize during training. If None, defaults to a suitable default.
+                 optimizer: Optimizer | OptimWrapper = Adam, # The optimizer function to use. Defaults to Adam if not specified.
+                 lr: float | slice = 1e-3, # Learning rate for the optimizer. Can be a float or a slice object for learning rate scheduling.
+                 splitter: callable = trainable_params, # 
+                 callbacks: Callback | MutableSequence | None = None, # A callable that determines which parameters of the model should be updated during training.
+                 metrics: Any | MutableSequence | None = None, # Optional list of callback functions to customize training behavior.
+                 csv_log: bool = False, # Metrics to evaluate the performance of the model during training.
+                 show_graph: bool = True, # Whether to log training history to a CSV file. If True, logs will be appended to 'history.csv'.
+                 show_summary: bool = False, # The base directory where models are saved or loaded from. Defaults to None.
+                 find_lr: bool = False, # Subdirectory within the base path where trained models are stored. Default is 'models'.
+                 find_lr_fn = valley, # Weight decay factor for optimization. Defaults to None.
+                 path: str | Path | None = None, # Whether to apply weight decay to batch normalization and bias parameters.
+                 model_dir: str | Path = 'models', # Whether to update the batch normalization statistics during training.
                  wd: float | int | None = None, 
                  wd_bn_bias: bool = False, 
                  train_bn: bool = True, 
-                 moms: tuple = ..., 
-                 default_cbs: bool = True):
+                 moms: tuple = ..., # Tuple of tuples representing the momentum values for different layers in the model. Defaults to FastAI's default settings if not specified.
+                 default_cbs: bool = True, # Automatically include default callbacks such as ShowGraphCallback and CSVLogger.
+                 ):
         cbs = callbacks if callbacks is not None else []  # Ensure cbs is a list
         if default_cbs:
             if show_graph:
@@ -91,21 +75,21 @@ class fastTrainer(Learner):
                 print('Inferred learning rate: ', lr)
 
 
-# %% ../nbs/00_core.ipynb 15
+# %% ../nbs/00_core.ipynb 16
 # maybe this should be changed for fastai store_attr()
 def attributesFromDict(d):
     self = d.pop('self')
     for n, v in d.items():
         setattr(self, n, v)
 
-# %% ../nbs/00_core.ipynb 16
+# %% ../nbs/00_core.ipynb 17
 def get_device():
     return torch_device("cuda" if is_cuda_available() else "cpu")
 
-# %% ../nbs/00_core.ipynb 17
+# %% ../nbs/00_core.ipynb 18
 def img2float(image, force_copy=False):
     return util.img_as_float(image, force_copy=force_copy)
 
-# %% ../nbs/00_core.ipynb 18
+# %% ../nbs/00_core.ipynb 19
 def img2Tensor(image):
     return torchTensor(img2float(image))

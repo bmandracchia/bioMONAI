@@ -268,7 +268,7 @@ def slice_explorer(data, **kwargs):
 
 
 
-# %% ../nbs/09_visualize.ipynb 22
+# %% ../nbs/09_visualize.ipynb 24
 def plot_volume(values, opacity=0.1, min=0.1, max=0.8, surface_count=5, width=800, height=600):
     """
     Plot a 3D volume using Plotly. The function assumes that 'values' is a 3D array representing the volume data.
