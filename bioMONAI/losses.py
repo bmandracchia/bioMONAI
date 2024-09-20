@@ -107,7 +107,7 @@ class MSSSIMLoss(torch.nn.Module):
             return msssim
 
 
-# %% ../nbs/03_losses.ipynb 12
+# %% ../nbs/03_losses.ipynb 11
 class MSSSIML1Loss(torch.nn.Module):
     def __init__(self, spatial_dims=2, alpha: float = 0.025, window_size: int = 11, sigma: float = 1.5, reduction: str = "mean", levels: int = 3, weights=None):
         """
@@ -182,7 +182,7 @@ class MSSSIML1Loss(torch.nn.Module):
         gaussian_weight = gaussian_weight.expand(batch_size, channels, -1, -1)
         return gaussian_weight
 
-# %% ../nbs/03_losses.ipynb 14
+# %% ../nbs/03_losses.ipynb 13
 class MSSSIML2Loss(torch.nn.Module):
     def __init__(self, spatial_dims=2, alpha: float = 0.1, window_size: int = 11, sigma: float = 1.5, reduction: str = "mean", levels: int = 3, weights=None):
         """
@@ -257,7 +257,7 @@ class MSSSIML2Loss(torch.nn.Module):
         gaussian_weight = gaussian_weight.expand(batch_size, channels, -1, -1)
         return gaussian_weight
 
-# %% ../nbs/03_losses.ipynb 17
+# %% ../nbs/03_losses.ipynb 16
 class DiceLoss(nn.Module):
 
     """
@@ -310,7 +310,7 @@ class DiceLoss(nn.Module):
         return loss
         
 
-# %% ../nbs/03_losses.ipynb 21
+# %% ../nbs/03_losses.ipynb 20
 def FRCLoss(image1, image2):
 
     """
@@ -327,7 +327,7 @@ def FRCLoss(image1, image2):
     return (1 - FRCMetric(image1, image2))
     
 
-# %% ../nbs/03_losses.ipynb 22
+# %% ../nbs/03_losses.ipynb 21
 def seventh_fourier_ring_correlation(image1,image2):
 
 

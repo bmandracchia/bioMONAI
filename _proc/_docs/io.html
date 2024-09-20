@@ -553,13 +553,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="h5-reader" class="level3">
 <h3 class="anchored" data-anchor-id="h5-reader">H5 Reader</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L181" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L172" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="h5_reader" class="level3">
 <h3 class="anchored" data-anchor-id="h5_reader">h5_reader</h3>
 <blockquote class="blockquote">
-<pre><code> h5_reader (path, dataset)</code></pre>
+<pre><code> h5_reader (path, dataset=None)</code></pre>
 </blockquote>
+<p>Reads a *.h5 (HDF5 format) file and returns the image data along with an identity affine matrix.</p>
+<p>Parameters: path (str): The path to the file to be read.</p>
+<p>Returns: tuple: A tuple containing: - data (numpy.ndarray): The image data read from the file. - affine (numpy.ndarray): A 4x4 identity affine matrix.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>path</td>
+<td></td>
+<td></td>
+<td>The path to the HDF5 file to be read</td>
+</tr>
+<tr class="even">
+<td>dataset</td>
+<td>NoneType</td>
+<td>None</td>
+<td>The dataset to load</td>
+</tr>
+</tbody>
+</table>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># f = h5_reader('data_examples/hdf5_data.h5','dataset1')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -585,7 +612,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="image-reader-1" class="level3">
 <h3 class="anchored" data-anchor-id="image-reader-1">Image reader</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L287" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L295" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="img_reader" class="level3">
 <h3 class="anchored" data-anchor-id="img_reader">img_reader</h3>

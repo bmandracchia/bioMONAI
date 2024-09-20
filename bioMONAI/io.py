@@ -143,7 +143,7 @@ def _image_reader(path, # The file path to the image
         
     # Support for tiff files    
     path = str(path)
-    if (path[-4:]=="tiff"):
+    if (path[-4:]=="tiff" or path[-3:]=="tif"):
 
         # Reorder for tiff files
         data = image_aics.get_image_data("CZYX", T=0)  # returns 4D CZYX numpy array
@@ -152,15 +152,6 @@ def _image_reader(path, # The file path to the image
         
         return data, affine
 
-    if (path[-3:]=="tif"):
-
-        # Reorder for tif files
-        data = image_aics.get_image_data("CZYX", T=0)  # returns 4D CZYX numpy array
-        
-        affine = np.eye(4) #to change
-        
-        return data, affine
-    
 
     # Convert to numpy array    
     data = image_aics.data
@@ -178,15 +169,32 @@ def _image_reader(path, # The file path to the image
 # %% ../nbs/02_io.ipynb 19
 import h5py
 
-def h5_reader(path, dataset):
-    with h5py.File(path, 'r') as hdf:
-            ls = list(hdf.keys())
-            print('List of datasets in this file: \n',ls)
-            data = hdf.get(dataset)
-            dataset1 = np.array(data)
-            print('Shape of dataset1: \n', dataset1.shape)
+def h5_reader(path, # The path to the HDF5 file to be read
+                dataset=None, # The dataset to load
+              ):
 
-    return dataset1
+    """
+    Reads a *.h5 (HDF5 format) file and returns the image data along with an identity affine matrix.
+
+    Parameters:
+    path (str): The path to the file to be read.
+
+    Returns:
+    tuple: A tuple containing:
+        - data (numpy.ndarray): The image data read from the file.
+        - affine (numpy.ndarray): A 4x4 identity affine matrix.
+    """
+
+    with h5py.File(path, 'r') as hdf:
+            if dataset == None: print('List of datasets in this file: \n',list(hdf.keys())); return None
+            else:
+                data = np.array(hdf.get(dataset))
+
+    # Create a 4x4 identity affine NumpyArray
+    affine = np.eye(4)
+
+    # Return the image data and the affine matrix
+    return data, affine
 
 
 # %% ../nbs/02_io.ipynb 22
@@ -227,7 +235,7 @@ def _preprocess(obj, # The object to preprocess
 def _load_and_preprocess(file_path, # Image file path
                          reorder=False, # Whether to reorder data for canonical (RAS+) orientation
                          resample=False, # Whether to resample image to different voxel sizes and dimensions
-                         reader=_image_reader # Whether to resample image to different voxel sizes and dimensions
+                         reader=_image_reader # Image reader
                         ):
     """
     Helper function to load and preprocess an image.

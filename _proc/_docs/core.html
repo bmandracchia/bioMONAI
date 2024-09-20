@@ -295,6 +295,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#learner" id="toc-learner" class="nav-link" data-scroll-target="#learner">Learner</a></li>
   <li><a href="#showgraphcallback" id="toc-showgraphcallback" class="nav-link" data-scroll-target="#showgraphcallback">ShowGraphCallback</a></li>
   <li><a href="#csvlogger" id="toc-csvlogger" class="nav-link" data-scroll-target="#csvlogger">CSVLogger</a></li>
+  <li><a href="#cells3d" id="toc-cells3d" class="nav-link" data-scroll-target="#cells3d">cells3d</a></li>
   </ul></li>
   <li><a href="#engine" id="toc-engine" class="nav-link" data-scroll-target="#engine">Engine</a>
   <ul>
@@ -469,6 +470,15 @@ ul.task-list li input[type="checkbox"] {
 <pre><code> CSVLogger (fname='history.csv', append=False)</code></pre>
 </blockquote>
 <p>Log the results displayed in <code>learn.path/fname</code></p>
+<hr>
+</section>
+<section id="cells3d" class="level3">
+<h3 class="anchored" data-anchor-id="cells3d">cells3d</h3>
+<blockquote class="blockquote">
+<pre><code> cells3d ()</code></pre>
+</blockquote>
+<p>3D fluorescence microscopy image of cells.</p>
+<p>The returned data is a 3D multichannel array with dimensions provided in <code>(z, c, y, x)</code> order. Each voxel has a size of <code>(0.29 0.26 0.26)</code> micrometer. Channel 0 contains cell membranes, channel 1 contains nuclei.</p>
 </section>
 </section>
 <section id="engine" class="level2">
@@ -494,7 +504,144 @@ ul.task-list li input[type="checkbox"] {
               moms:tuple=Ellipsis, default_cbs:bool=True)</code></pre>
 </blockquote>
 <p>A custom implementation of the FastAI Learner class for training models in bioinformatics applications.</p>
-<p>Parameters: dataloaders (DataLoaders): The DataLoader objects containing training and validation datasets. model (callable): A callable model that will be trained on the dataset. loss_fn (Any | None): The loss function to optimize during training. If None, defaults to a suitable default. optimizer (Optimizer | OptimWrapper): The optimizer function to use. Defaults to Adam if not specified. lr (float | slice): Learning rate for the optimizer. Can be a float or a slice object for learning rate scheduling. splitter (callable): A callable that determines which parameters of the model should be updated during training. callbacks (Callback | MutableSequence | None): Optional list of callback functions to customize training behavior. metrics (Any | MutableSequence | None): Metrics to evaluate the performance of the model during training. csv_log (bool): Whether to log training history to a CSV file. If True, logs will be appended to ‘history.csv’. path (str | Path | None): The base directory where models are saved or loaded from. Defaults to None. model_dir (str | Path): Subdirectory within the base path where trained models are stored. Default is ‘models’. wd (float | int | None): Weight decay factor for optimization. Defaults to None. wd_bn_bias (bool): Whether to apply weight decay to batch normalization and bias parameters. train_bn (bool): Whether to update the batch normalization statistics during training. moms (tuple): Tuple of tuples representing the momentum values for different layers in the model. Defaults to FastAI’s default settings if not specified. default_cbs (bool): Automatically include default callbacks such as ShowGraphCallback and CSVLogger.</p>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>dataloaders</td>
+<td>DataLoaders</td>
+<td></td>
+<td>The DataLoader objects containing training and validation datasets.</td>
+</tr>
+<tr class="even">
+<td>model</td>
+<td>callable</td>
+<td></td>
+<td>A callable model that will be trained on the dataset.</td>
+</tr>
+<tr class="odd">
+<td>loss_fn</td>
+<td>typing.Any | None</td>
+<td>None</td>
+<td>The loss function to optimize during training. If None, defaults to a suitable default.</td>
+</tr>
+<tr class="even">
+<td>optimizer</td>
+<td>fastai.optimizer.Optimizer | fastai.optimizer.OptimWrapper</td>
+<td>Adam</td>
+<td>The optimizer function to use. Defaults to Adam if not specified.</td>
+</tr>
+<tr class="odd">
+<td>lr</td>
+<td>float | slice</td>
+<td>0.001</td>
+<td>Learning rate for the optimizer. Can be a float or a slice object for learning rate scheduling.</td>
+</tr>
+<tr class="even">
+<td>splitter</td>
+<td>callable</td>
+<td>trainable_params</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>callbacks</td>
+<td>Union</td>
+<td>None</td>
+<td>A callable that determines which parameters of the model should be updated during training.</td>
+</tr>
+<tr class="even">
+<td>metrics</td>
+<td>Union</td>
+<td>None</td>
+<td>Optional list of callback functions to customize training behavior.</td>
+</tr>
+<tr class="odd">
+<td>csv_log</td>
+<td>bool</td>
+<td>False</td>
+<td>Metrics to evaluate the performance of the model during training.</td>
+</tr>
+<tr class="even">
+<td>show_graph</td>
+<td>bool</td>
+<td>True</td>
+<td>Whether to log training history to a CSV file. If True, logs will be appended to ‘history.csv’.</td>
+</tr>
+<tr class="odd">
+<td>show_summary</td>
+<td>bool</td>
+<td>False</td>
+<td>The base directory where models are saved or loaded from. Defaults to None.</td>
+</tr>
+<tr class="even">
+<td>find_lr</td>
+<td>bool</td>
+<td>False</td>
+<td>Subdirectory within the base path where trained models are stored. Default is ‘models’.</td>
+</tr>
+<tr class="odd">
+<td>find_lr_fn</td>
+<td>function</td>
+<td>valley</td>
+<td>Weight decay factor for optimization. Defaults to None.</td>
+</tr>
+<tr class="even">
+<td>path</td>
+<td>str | pathlib.Path | None</td>
+<td>None</td>
+<td>Whether to apply weight decay to batch normalization and bias parameters.</td>
+</tr>
+<tr class="odd">
+<td>model_dir</td>
+<td>str | pathlib.Path</td>
+<td>models</td>
+<td>Whether to update the batch normalization statistics during training.</td>
+</tr>
+<tr class="even">
+<td>wd</td>
+<td>float | int | None</td>
+<td>None</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>wd_bn_bias</td>
+<td>bool</td>
+<td>False</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>train_bn</td>
+<td>bool</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>moms</td>
+<td>tuple</td>
+<td>Ellipsis</td>
+<td>Tuple of tuples representing the momentum values for different layers in the model. Defaults to FastAI’s default settings if not specified.</td>
+</tr>
+<tr class="even">
+<td>default_cbs</td>
+<td>bool</td>
+<td>True</td>
+<td>Automatically include default callbacks such as ShowGraphCallback and CSVLogger.</td>
+</tr>
+</tbody>
+</table>
 </section>
 </section>
 <section id="utils" class="level2">
