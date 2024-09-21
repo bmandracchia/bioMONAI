@@ -2,14 +2,17 @@
 
 # %% auto 0
 __all__ = ['MetaResolver', 'BioImageBase', 'BioImage', 'BioImageStack', 'BioImageProject', 'BioImageMulti', 'Tensor2BioImage',
-           'BioImageBlock', 'get_gt', 'get_target', 'get_noisy_pair', 'show_batch', 'show_results']
+           'BioImageBlock', 'BioDataBlock', 'get_dataloader', 'get_gt', 'get_target', 'get_noisy_pair', 'show_batch',
+           'show_results']
 
 # %% ../nbs/01_data.ipynb 4
 import os
 
 from .core import MetaTensor, torchTensor, BypassNewMeta, DisplayedTransform, torchsqueeze, Path, List, L, torchmax, randint, typedispatch
-from .io import img_reader
+from .io import image_reader
 from .visualize import show_images_grid
+
+from fastai.vision.all import DataBlock, TfmdDL, get_image_files, TransformBlock, get_grid, merge, show_image, RandomSplitter
 
 # %% ../nbs/01_data.ipynb 6
 class MetaResolver(type(torchTensor), metaclass=BypassNewMeta):
@@ -50,7 +53,7 @@ class BioImageBase(MetaTensor, metaclass=MetaResolver):
         if isinstance(fn, torchTensor):
             return cls(fn)
 
-        return img_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder)
+        return image_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder)
 
     @classmethod
     def item_preprocessing(cls, resample: (List, int, tuple), reorder: bool):
@@ -115,7 +118,7 @@ class BioImage(BioImageBase):
         if isinstance(fn, torchTensor):
             return cls(fn)
 
-        return torchsqueeze(img_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder), 1)
+        return torchsqueeze(image_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder), 1)
     
     def show(self, ctx=None, **kwargs):
         "Show image using `merge(self._show_args, kwargs)`"
@@ -157,7 +160,7 @@ class BioImageProject(BioImageBase):
         if isinstance(fn, torchTensor):
             return cls(fn)
 
-        img = img_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder)
+        img = image_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder)
         return torchmax(img, dim=1)[0]  # Taking the maximum intensity projection along axis 1
     
     def show(self, ctx=None, **kwargs):
@@ -190,7 +193,7 @@ class BioImageMulti(BioImageBase):
         if isinstance(fn, torchTensor):
             return cls(fn)
 
-        return torchsqueeze(img_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder), 0)
+        return torchsqueeze(image_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder), 0)
     
     def __repr__(self) -> str:
         """Returns the string representation of the ImageBase instance."""
@@ -209,18 +212,93 @@ class Tensor2BioImage(DisplayedTransform):
         if isinstance(o, torchTensor):
             return self.cls(o)
 
-# %% ../nbs/01_data.ipynb 28
-def BioImageBlock(cls:BioImageBase=BioImageStack):
+# %% ../nbs/01_data.ipynb 27
+def BioImageBlock(cls:BioImageBase=BioImage):
     "A `TransformBlock` for images of `cls`"
     return TransformBlock(type_tfms=cls.create, batch_tfms=[Tensor2BioImage(cls)]) # IntToFloatTensor
 
-# %% ../nbs/01_data.ipynb 30
+# %% ../nbs/01_data.ipynb 28
+class BioDataBlock(DataBlock):
+    def __init__(self, 
+            blocks:list=(BioImageBlock(cls=BioImage), BioImageBlock(cls=BioImage)), # One or more `TransformBlock`s
+            dl_type:TfmdDL=None, # Task specific `TfmdDL`, defaults to `block`'s dl_type or`TfmdDL`
+            get_items=get_image_files,
+            get_y=None,
+            get_x=None,
+            getters:list=None, # Getter functions applied to results of `get_items`
+            n_inp:int=None, # Number of inputs
+            item_tfms:list=None, # `ItemTransform`s, applied on an item 
+            batch_tfms:list=None, # `Transform`s or `RandTransform`s, applied by batch
+            **kwargs, 
+        ):
+        super().__init__(
+            blocks=blocks, 
+            dl_type=dl_type, 
+            get_items=get_items,
+            get_y=get_y,
+            get_x=get_x,
+            getters=getters, 
+            n_inp=n_inp, 
+            item_tfms=item_tfms, 
+            batch_tfms=batch_tfms,
+            **kwargs,
+            )
+        
+
+# %% ../nbs/01_data.ipynb 29
+def get_dataloader(data_source, show_summary:bool=False, **kwargs):
+    """
+    Create and return a DataLoader from a BioDataBlock using provided keyword arguments.
+    
+    Args:
+        data_source (any): The source of the data to be loaded by the dataloader.
+                            This can be any type that is compatible with the dataloading method 
+                            specified in kwargs (e.g., paths, datasets).
+        show_summary (bool, optional): If True, print a summary of the BioDataBlock after creation.
+                                       Default is False.
+        **kwargs: Additional keyword arguments to configure the DataLoader and BioDataBlock.
+                  Supported keys include: 'blocks', 'dl_type', 'get_items', 'get_y', 
+                  'get_x', 'getters', 'n_inp', 'item_tfms', 'batch_tfms'.
+    
+    Returns:
+        DataLoader: A PyTorch DataLoader object populated with the data from the BioDataBlock.
+                     If show_summary is True, it also prints a summary of the datablock after creation.
+    
+    Example:
+        >>> dataloader = get_dataloader(data_path, show_summary=True, blocks='train', dl_type='ImageDataLoader')
+    """
+    # Define the keys for BioDataBlock operations
+    datablock_ops_keys = ['blocks','dl_type','get_items','get_y','get_x','getters','n_inp','item_tfms','batch_tfms']
+    
+    # Filter and assign kwargs to datablock_ops dictionary for BioDataBlock initialization
+    datablock_ops = {key: value for key, value in kwargs.items() if key in datablock_ops_keys}
+    
+    # Filter and assign remaining kwargs to dataloader_ops dictionary for DataLoader creation
+    dataloader_ops = {key: value for key, value in kwargs.items() if key not in datablock_ops_keys}
+    
+    # Initialize BioDataBlock with specified operations
+    datablock = BioDataBlock(**datablock_ops)
+    
+    # Create and return the DataLoader from the initialized BioDataBlock
+    dataloder = datablock.dataloaders(data_source, **dataloader_ops)
+    
+    # Optionally print a summary of the BioDataBlock if show_summary is True
+    if show_summary:
+        print(datablock.summary(data_source))
+    
+    return dataloder
+
+
+# %% ../nbs/01_data.ipynb 31
+from fastai.vision.all import get_image_files
+
+# %% ../nbs/01_data.ipynb 32
 def get_gt(path, gt_file_name="avg50.png"): 
     def _fn(fn): return Path(path/"gt")/f"{parent_label(fn)}"/gt_file_name
     return _fn
 
 
-# %% ../nbs/01_data.ipynb 31
+# %% ../nbs/01_data.ipynb 33
 def get_target(path, same_filename=True, target_file_prefix="target", signal_file_prefix="signal"):
     # Define a function to construct the target file name based on input parameters
     def construct_target_filename(file_name):
@@ -249,14 +327,14 @@ def get_target(path, same_filename=True, target_file_prefix="target", signal_fil
     return generate_target_path
 
 
-# %% ../nbs/01_data.ipynb 35
+# %% ../nbs/01_data.ipynb 37
 def get_noisy_pair(fn):
     tmp = get_image_files(fn.parent, recurse=False)
     fn2 = tmp[randint(0,len(tmp)-1)]
     while fn2 == fn: fn2 = tmp[randint(0,len(tmp)-1)]
     return fn2
 
-# %% ../nbs/01_data.ipynb 38
+# %% ../nbs/01_data.ipynb 40
 @typedispatch
 def show_batch(x:BioImageBase, y:BioImageBase, samples, ctxs=None, max_n=10, nrows=None, ncols=None, figsize=None, **kwargs):
     if ctxs is None: ctxs = get_grid(min(len(samples), max_n), nrows=nrows, ncols=ncols, figsize=figsize, double=True)
@@ -264,7 +342,7 @@ def show_batch(x:BioImageBase, y:BioImageBase, samples, ctxs=None, max_n=10, nro
         ctxs[i::2] = [b.show(ctx=c, **kwargs) for b,c,_ in zip(samples.itemgot(i),ctxs[i::2],range(max_n))]
     return ctxs
 
-# %% ../nbs/01_data.ipynb 40
+# %% ../nbs/01_data.ipynb 42
 @typedispatch
 def show_results(x:BioImageBase, y:BioImageBase, samples, outs, ctxs=None, max_n=10, figsize=None, **kwargs):
     if ctxs is None: ctxs = get_grid(3*min(len(samples), max_n), ncols=3, figsize=figsize, title='Input/Target/Prediction')

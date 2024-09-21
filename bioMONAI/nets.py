@@ -9,7 +9,7 @@ from dataclasses import dataclass, field
 from typing import List, Tuple, Optional, Union
 
 from torch import cat as torch_cat
-from torch import Tensor as torch_Tensor
+from torch import Tensor as torch_Tensor, randn as torch_randn
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.nn as nn
@@ -23,7 +23,8 @@ from monai.networks.layers.factories import Act, Norm, Pool
 from monai.utils import set_determinism
 from monai.networks.nets import BasicUNet, AttentionUnet, DynUNet, UNet, BasicUNet, ResNet, ResNetFeatures
 
-from .core import attributesFromDict
+from .core import get_device
+
 
 # %% ../nbs/04_nets.ipynb 8
 import torch.nn as nn

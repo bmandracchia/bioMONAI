@@ -82,9 +82,69 @@ ul.task-list li input[type="checkbox"] {
     <span class="navbar-title">bioMONAI</span>
     </a>
   </div>
-        <div class="quarto-navbar-tools ms-auto">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://bmandracchia.github.io" rel="" target="">
+ <span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-resources" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Resources</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-resources">    
+        <li>
+    <a class="dropdown-item" href="https://monai.io/" rel="" target=""><i class="bi bi-link" role="img">
+</i> 
+ <span class="dropdown-text">monai</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.fast.ai" rel="" target=""><i class="bi bi-link" role="img">
+</i> 
+ <span class="dropdown-text">fast.ai</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://fastcore.fast.ai" rel="" target=""><i class="bi bi-link" role="img">
+</i> 
+ <span class="dropdown-text">fastcore</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://fastxtend.benjaminwarner.dev" rel="" target=""><i class="bi bi-link" role="img">
+</i> 
+ <span class="dropdown-text">fastxtend</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://nbdev.fast.ai" rel="" target=""><i class="bi bi-link" role="img">
+</i> 
+ <span class="dropdown-text">nbdev</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/bmandracchia/bioMONAI/issues" rel="" target=""><i class="bi bi-bug" role="img">
+</i> 
+ <span class="dropdown-text">Report an Issue</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/bmandracchia/bioMONAI/" rel="" target=""><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/" rel="" target=""><i class="bi bi-twitter" role="img" aria-label="Twitter">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
 </div>
-          <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
@@ -137,7 +197,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./nets.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">nets</span></a>
+ <span class="menu-text">Networks</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -228,7 +288,22 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#foo" id="toc-foo" class="nav-link active" data-scroll-target="#foo">foo</a></li>
+  <li><a href="#training-callbacks" id="toc-training-callbacks" class="nav-link active" data-scroll-target="#training-callbacks">Training Callbacks</a>
+  <ul>
+  <li><a href="#shortepochcallback" id="toc-shortepochcallback" class="nav-link" data-scroll-target="#shortepochcallback">ShortEpochCallback</a></li>
+  <li><a href="#gradientaccumulation" id="toc-gradientaccumulation" class="nav-link" data-scroll-target="#gradientaccumulation">GradientAccumulation</a></li>
+  <li><a href="#earlystoppingcallback" id="toc-earlystoppingcallback" class="nav-link" data-scroll-target="#earlystoppingcallback">EarlyStoppingCallback</a></li>
+  <li><a href="#savemodelcallback" id="toc-savemodelcallback" class="nav-link" data-scroll-target="#savemodelcallback">SaveModelCallback</a></li>
+  <li><a href="#reducelronplateau" id="toc-reducelronplateau" class="nav-link" data-scroll-target="#reducelronplateau">ReduceLROnPlateau</a></li>
+  </ul></li>
+  <li><a href="#schedulers" id="toc-schedulers" class="nav-link" data-scroll-target="#schedulers">Schedulers</a>
+  <ul>
+  <li><a href="#paramscheduler" id="toc-paramscheduler" class="nav-link" data-scroll-target="#paramscheduler">ParamScheduler</a></li>
+  <li><a href="#schedcos" id="toc-schedcos" class="nav-link" data-scroll-target="#schedcos">SchedCos</a></li>
+  <li><a href="#schedexp" id="toc-schedexp" class="nav-link" data-scroll-target="#schedexp">SchedExp</a></li>
+  <li><a href="#schedlin" id="toc-schedlin" class="nav-link" data-scroll-target="#schedlin">SchedLin</a></li>
+  <li><a href="#schedno" id="toc-schedno" class="nav-link" data-scroll-target="#schedno">SchedNo</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/bmandracchia/bioMONAI/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -256,17 +331,286 @@ ul.task-list li input[type="checkbox"] {
   
 
 </header>
-
+<script src="https://static.cloudflareinsights.com/beacon.min.js?token=62f27bdcb8964407a52676798db9edfa" defer=""></script>
 <!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<section id="training-callbacks" class="level2">
+<h2 class="anchored" data-anchor-id="training-callbacks">Training Callbacks</h2>
+<p>Callbacks that add functionlities during the training phase, including Callbacks that make decisions depending how a monitored metric/loss behaves</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/template.py#L7" target="_blank" style="float:right; font-size:smaller">source</a></p>
-<section id="foo" class="level3">
-<h3 class="anchored" data-anchor-id="foo">foo</h3>
+<p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/training.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="shortepochcallback" class="level3">
+<h3 class="anchored" data-anchor-id="shortepochcallback">ShortEpochCallback</h3>
 <blockquote class="blockquote">
-<pre><code> foo ()</code></pre>
+<pre><code> ShortEpochCallback (pct=0.01, short_valid=True)</code></pre>
 </blockquote>
+<p>Fit just <code>pct</code> of an epoch, then stop</p>
+<hr>
+<p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/training.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="gradientaccumulation" class="level3">
+<h3 class="anchored" data-anchor-id="gradientaccumulation">GradientAccumulation</h3>
+<blockquote class="blockquote">
+<pre><code> GradientAccumulation (n_acc=32)</code></pre>
+</blockquote>
+<p>Accumulate gradients before updating weights</p>
+<hr>
+<p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/tracker.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="earlystoppingcallback" class="level3">
+<h3 class="anchored" data-anchor-id="earlystoppingcallback">EarlyStoppingCallback</h3>
+<blockquote class="blockquote">
+<pre><code> EarlyStoppingCallback (monitor='valid_loss', comp=None, min_delta=0.0,
+                        patience=1, reset_on_fit=True)</code></pre>
+</blockquote>
+<p>A <code>TrackerCallback</code> that terminates training when monitored quantity stops improving.</p>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>monitor</td>
+<td>str</td>
+<td>valid_loss</td>
+<td>value (usually loss or metric) being monitored.</td>
+</tr>
+<tr class="even">
+<td>comp</td>
+<td>NoneType</td>
+<td>None</td>
+<td>numpy comparison operator; np.less if monitor is loss, np.greater if monitor is metric.</td>
+</tr>
+<tr class="odd">
+<td>min_delta</td>
+<td>float</td>
+<td>0.0</td>
+<td>minimum delta between the last monitor value and the best monitor value.</td>
+</tr>
+<tr class="even">
+<td>patience</td>
+<td>int</td>
+<td>1</td>
+<td>number of epochs to wait when training has not improved model.</td>
+</tr>
+<tr class="odd">
+<td>reset_on_fit</td>
+<td>bool</td>
+<td>True</td>
+<td>before model fitting, reset value being monitored to -infinity (if monitor is metric) or +infinity (if monitor is loss).</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/tracker.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="savemodelcallback" class="level3">
+<h3 class="anchored" data-anchor-id="savemodelcallback">SaveModelCallback</h3>
+<blockquote class="blockquote">
+<pre><code> SaveModelCallback (monitor='valid_loss', comp=None, min_delta=0.0,
+                    fname='model', every_epoch=False, at_end=False,
+                    with_opt=False, reset_on_fit=True)</code></pre>
+</blockquote>
+<p>A <code>TrackerCallback</code> that saves the model’s best during training and loads it at the end.</p>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>monitor</td>
+<td>str</td>
+<td>valid_loss</td>
+<td>value (usually loss or metric) being monitored.</td>
+</tr>
+<tr class="even">
+<td>comp</td>
+<td>NoneType</td>
+<td>None</td>
+<td>numpy comparison operator; np.less if monitor is loss, np.greater if monitor is metric.</td>
+</tr>
+<tr class="odd">
+<td>min_delta</td>
+<td>float</td>
+<td>0.0</td>
+<td>minimum delta between the last monitor value and the best monitor value.</td>
+</tr>
+<tr class="even">
+<td>fname</td>
+<td>str</td>
+<td>model</td>
+<td>model name to be used when saving model.</td>
+</tr>
+<tr class="odd">
+<td>every_epoch</td>
+<td>bool</td>
+<td>False</td>
+<td>if true, save model after every epoch; else save only when model is better than existing best.</td>
+</tr>
+<tr class="even">
+<td>at_end</td>
+<td>bool</td>
+<td>False</td>
+<td>if true, save model when training ends; else load best model if there is only one saved model.</td>
+</tr>
+<tr class="odd">
+<td>with_opt</td>
+<td>bool</td>
+<td>False</td>
+<td>if true, save optimizer state (if any available) when saving model.</td>
+</tr>
+<tr class="even">
+<td>reset_on_fit</td>
+<td>bool</td>
+<td>True</td>
+<td>before model fitting, reset value being monitored to -infinity (if monitor is metric) or +infinity (if monitor is loss).</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/tracker.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="reducelronplateau" class="level3">
+<h3 class="anchored" data-anchor-id="reducelronplateau">ReduceLROnPlateau</h3>
+<blockquote class="blockquote">
+<pre><code> ReduceLROnPlateau (monitor='valid_loss', comp=None, min_delta=0.0,
+                    patience=1, factor=10.0, min_lr=0, reset_on_fit=True)</code></pre>
+</blockquote>
+<p>A <code>TrackerCallback</code> that reduces learning rate when a metric has stopped improving.</p>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>monitor</td>
+<td>str</td>
+<td>valid_loss</td>
+<td>value (usually loss or metric) being monitored.</td>
+</tr>
+<tr class="even">
+<td>comp</td>
+<td>NoneType</td>
+<td>None</td>
+<td>numpy comparison operator; np.less if monitor is loss, np.greater if monitor is metric.</td>
+</tr>
+<tr class="odd">
+<td>min_delta</td>
+<td>float</td>
+<td>0.0</td>
+<td>minimum delta between the last monitor value and the best monitor value.</td>
+</tr>
+<tr class="even">
+<td>patience</td>
+<td>int</td>
+<td>1</td>
+<td>number of epochs to wait when training has not improved model.</td>
+</tr>
+<tr class="odd">
+<td>factor</td>
+<td>float</td>
+<td>10.0</td>
+<td>the denominator to divide the learning rate by, when reducing the learning rate.</td>
+</tr>
+<tr class="even">
+<td>min_lr</td>
+<td>int</td>
+<td>0</td>
+<td>the minimum learning rate allowed; learning rate cannot be reduced below this minimum.</td>
+</tr>
+<tr class="odd">
+<td>reset_on_fit</td>
+<td>bool</td>
+<td>True</td>
+<td>before model fitting, reset value being monitored to -infinity (if monitor is metric) or +infinity (if monitor is loss).</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="schedulers" class="level2">
+<h2 class="anchored" data-anchor-id="schedulers">Schedulers</h2>
+<p>Callback and helper functions to schedule hyper-parameters</p>
+<hr>
+<p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/schedule.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="paramscheduler" class="level3">
+<h3 class="anchored" data-anchor-id="paramscheduler">ParamScheduler</h3>
+<blockquote class="blockquote">
+<pre><code> ParamScheduler (scheds)</code></pre>
+</blockquote>
+<p>Schedule hyper-parameters according to <code>scheds</code></p>
+<p><code>scheds</code> is a dictionary with one key for each hyper-parameter you want to schedule, with either a scheduler or a list of schedulers as values (in the second case, the list must have the same length as the the number of parameters groups of the optimizer).</p>
+<hr>
+<p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/schedule.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="schedcos" class="level3">
+<h3 class="anchored" data-anchor-id="schedcos">SchedCos</h3>
+<blockquote class="blockquote">
+<pre><code> SchedCos (start, end)</code></pre>
+</blockquote>
+<p>Cosine schedule function from <code>start</code> to <code>end</code></p>
+<hr>
+<p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/schedule.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="schedexp" class="level3">
+<h3 class="anchored" data-anchor-id="schedexp">SchedExp</h3>
+<blockquote class="blockquote">
+<pre><code> SchedExp (start, end)</code></pre>
+</blockquote>
+<p>Exponential schedule function from <code>start</code> to <code>end</code></p>
+<hr>
+<p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/schedule.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="schedlin" class="level3">
+<h3 class="anchored" data-anchor-id="schedlin">SchedLin</h3>
+<blockquote class="blockquote">
+<pre><code> SchedLin (start, end)</code></pre>
+</blockquote>
+<p>Linear schedule function from <code>start</code> to <code>end</code></p>
+<hr>
+<p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/schedule.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="schedno" class="level3">
+<h3 class="anchored" data-anchor-id="schedno">SchedNo</h3>
+<blockquote class="blockquote">
+<pre><code> SchedNo (start, end)</code></pre>
+</blockquote>
+<p>Constant schedule function with <code>start</code> value</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -501,9 +845,47 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       });
     }
   }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp("https:\/\/bmandracchia\.github\.io\/bioMONAI");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
 });
 </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Copyright © 2024 Biagio Mandracchia, MIT License</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/bmandracchia/bioMONAI/">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
 
 
 
