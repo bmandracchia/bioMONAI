@@ -3,10 +3,14 @@
 # %% auto 0
 __all__ = ['MetaResolver', 'BioImageBase', 'BioImage', 'BioImageStack', 'BioImageProject', 'BioImageMulti', 'Tensor2BioImage',
            'BioImageBlock', 'BioDataBlock', 'get_dataloader', 'get_gt', 'get_target', 'get_noisy_pair', 'show_batch',
-           'show_results']
+           'show_results', 'extract_patches', 'save_patches_grid', 'extract_random_patches', 'save_patches_random']
 
 # %% ../nbs/01_data.ipynb 4
 import os
+import numpy as np
+import h5py
+from tqdm import tqdm 
+import random
 
 from .core import MetaTensor, torchTensor, BypassNewMeta, DisplayedTransform, torchsqueeze, Path, List, L, torchmax, randint, typedispatch
 from .io import image_reader
@@ -350,3 +354,177 @@ def show_results(x:BioImageBase, y:BioImageBase, samples, outs, ctxs=None, max_n
         ctxs[i::3] = [b.show(ctx=c, **kwargs) for b,c,_ in zip(samples.itemgot(i),ctxs[i::3],range(max_n))]
     ctxs[2::3] = [b.show(ctx=c, **kwargs) for b,c,_ in zip(outs.itemgot(0),ctxs[2::3],range(max_n))]
     return ctxs
+
+# %% ../nbs/01_data.ipynb 44
+def extract_patches(data, patch_size, overlap):
+    """
+    Extracts n-dimensional patches from the input data.
+    
+    Parameters:
+    - data: numpy array of the input data (n-dimensional).
+    - patch_size: tuple of integers defining the size of the patches in each dimension.
+    - overlap: float (between 0 and 1) indicating overlap between patches.
+    
+    Returns:
+    - A list of patches as numpy arrays.
+    """
+    data_shape = data.shape
+    strides = tuple(int(p * (1 - overlap)) for p in patch_size)  # Calculate the stride for each dimension
+    
+    # Compute the range of indices for each dimension
+    slices = [range(0, data_shape[i] - patch_size[i] + 1, strides[i]) for i in range(len(patch_size))]
+    
+    # Generate patches
+    patches = []
+    for indices in np.ndindex(*[len(s) for s in slices]):
+        # Create slices for each dimension
+        patch_slices = tuple(slice(slices[dim][idx], slices[dim][idx] + patch_size[dim]) for dim, idx in enumerate(indices))
+        patches.append(data[patch_slices])
+    
+    return patches
+
+# %% ../nbs/01_data.ipynb 45
+def save_patches_grid(data_folder, gt_folder, output_folder, patch_size, overlap):
+    """
+    Loads n-dimensional data from data_folder and gt_folder, generates patches, and saves them into individual HDF5 files.
+    Each HDF5 file will have datasets with the structure X/patch_idx and y/patch_idx.
+    
+    Parameters:
+    - data_folder: Path to the folder containing data files (n-dimensional data).
+    - gt_folder: Path to the folder containing ground truth (gt) files (n-dimensional data).
+    - output_folder: Path to the folder where the HDF5 files will be saved.
+    - patch_size: tuple of integers defining the size of the patches.
+    - overlap: float (between 0 and 1) defining the overlap between patches.
+    """
+    
+    # Ensure output folder exists
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+    
+    # Ensure the folders contain the same number of files
+    data_files = sorted([f for f in os.listdir(data_folder) if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
+    gt_files = sorted([f for f in os.listdir(gt_folder) if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
+    
+    print(data_files)
+    
+    if len(data_files) != len(gt_files):
+        raise ValueError("The number of files in data_folder and gt_folder must be the same.")
+    
+    # Loop through the files in the folders with progress bar
+    for data_file_name, gt_file_name in tqdm(zip(data_files, gt_files), total=len(data_files), desc="Processing files"):
+        data_file_path = os.path.join(data_folder, data_file_name)
+        gt_file_path = os.path.join(gt_folder, gt_file_name)
+        
+        # Load the images 
+        data = np.array(image_reader(data_file_path)[0])
+        gt = np.array(image_reader(gt_file_path)[0])
+        
+        if data.shape != gt.shape:
+            raise ValueError(f"Shape mismatch between {data_file_name} and {gt_file_name}")
+        
+        # Extract patches from both datasets
+        data_patches_nd = extract_patches(data, patch_size, overlap)
+        gt_patches_nd = extract_patches(gt, patch_size, overlap)
+        
+        # Create a new HDF5 file for this pair of files
+        hdf5_filename = os.path.join(output_folder, f"{os.path.splitext(data_file_name)[0]}.h5")
+        
+        with h5py.File(hdf5_filename, 'w') as hf:
+            # Store each patch in a separate dataset with a progress bar for each file
+            for patch_idx, (data_patch, gt_patch) in enumerate(tqdm(zip(data_patches_nd, gt_patches_nd), 
+                                                                    total=len(data_patches_nd), 
+                                                                    desc=f"Saving patches for {data_file_name}", 
+                                                                    leave=False)):
+                hf.create_dataset(f'X/{patch_idx}', data=data_patch)
+                hf.create_dataset(f'y/{patch_idx}', data=gt_patch)
+        
+
+# %% ../nbs/01_data.ipynb 48
+def extract_random_patches(data, patch_size, num_patches):
+    """
+    Extracts a specified number of random n-dimensional patches from the input data.
+    
+    Parameters:
+    - data: numpy array of the input data (n-dimensional).
+    - patch_size: tuple of integers defining the size of the patches in each dimension.
+    - num_patches: number of random patches to extract.
+    
+    Returns:
+    - A list of randomly cropped patches as numpy arrays.
+    """
+    data_shape = data.shape
+    ndim = len(data_shape)
+    
+    # Ensure patch size fits within the data dimensions
+    for dim in range(ndim):
+        if patch_size[dim] > data_shape[dim]:
+            raise ValueError(f"Patch size {patch_size[dim]} exceeds data dimension {data_shape[dim]} in dimension {dim}")
+    
+    patches = []
+    
+    for _ in range(num_patches):
+        # Randomly select the starting point for each dimension
+        start_coords = [random.randint(0, data_shape[dim] - patch_size[dim]) for dim in range(ndim)]
+        
+        # Create slices for the selected patch
+        patch_slices = tuple(slice(start_coords[dim], start_coords[dim] + patch_size[dim]) for dim in range(ndim))
+        
+        # Extract the patch and add to the list
+        patches.append(data[patch_slices])
+    
+    return patches
+
+
+# %% ../nbs/01_data.ipynb 49
+def save_patches_random(data_folder, gt_folder, output_folder, patch_size, num_patches):
+    """
+    Loads n-dimensional data from data_folder and gt_folder, generates random patches, and saves them into individual HDF5 files.
+    Each HDF5 file will have datasets with the structure X/patch_idx and y/patch_idx.
+    
+    Parameters:
+    - data_folder: Path to the folder containing data files (n-dimensional data).
+    - gt_folder: Path to the folder containing ground truth (gt) files (n-dimensional data).
+    - output_folder: Path to the folder where the HDF5 files will be saved.
+    - patch_size: tuple of integers defining the size of the patches.
+    - num_patches: number of random patches to extract per file.
+    """
+    
+    # Ensure output folder exists
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+    
+    # Ensure the folders contain the same number of files
+    data_files = sorted([f for f in os.listdir(data_folder) if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
+    gt_files = sorted([f for f in os.listdir(gt_folder) if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
+    
+    if len(data_files) != len(gt_files):
+        raise ValueError("The number of files in data_folder and gt_folder must be the same.")
+    
+    # Loop through the files in the folders with progress bar
+    for data_file_name, gt_file_name in tqdm(zip(data_files, gt_files), total=len(data_files), desc="Processing files"):
+        data_file_path = os.path.join(data_folder, data_file_name)
+        gt_file_path = os.path.join(gt_folder, gt_file_name)
+        
+        # Load the images
+        data = np.array(image_reader(data_file_path)[0])
+        gt = np.array(image_reader(gt_file_path)[0])        
+        if data.shape != gt.shape:
+            raise ValueError(f"Shape mismatch between {data_file_name} and {gt_file_name}")
+        
+        # Extract random patches from both datasets
+        data_patches_nd = extract_random_patches(data, patch_size, num_patches)
+        gt_patches_nd = extract_random_patches(gt, patch_size, num_patches)
+        
+        # Create a new HDF5 file for this pair of files
+        hdf5_filename = os.path.join(output_folder, f"{os.path.splitext(data_file_name)[0]}_random_patches.h5")
+        
+        with h5py.File(hdf5_filename, 'w') as hf:
+            # Store each patch in a separate dataset with a progress bar for each file
+            for patch_idx, (data_patch, gt_patch) in enumerate(tqdm(zip(data_patches_nd, gt_patches_nd), 
+                                                                    total=num_patches, 
+                                                                    desc=f"Saving random patches for {data_file_name}", 
+                                                                    leave=False)):
+                hf.create_dataset(f'X/{patch_idx}', data=data_patch)
+                hf.create_dataset(f'y/{patch_idx}', data=gt_patch)
+        
+

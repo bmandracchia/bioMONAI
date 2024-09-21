@@ -357,7 +357,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#show-batch" id="toc-show-batch" class="nav-link" data-scroll-target="#show-batch">Show batch</a></li>
   <li><a href="#show-results" id="toc-show-results" class="nav-link" data-scroll-target="#show-results">Show results</a></li>
   </ul></li>
-  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
+  <li><a href="#preprocessing" id="toc-preprocessing" class="nav-link" data-scroll-target="#preprocessing">Preprocessing</a>
+  <ul>
+  <li><a href="#extract_patches" id="toc-extract_patches" class="nav-link" data-scroll-target="#extract_patches">extract_patches</a></li>
+  <li><a href="#save_patches_grid" id="toc-save_patches_grid" class="nav-link" data-scroll-target="#save_patches_grid">save_patches_grid</a></li>
+  <li><a href="#extract_random_patches" id="toc-extract_random_patches" class="nav-link" data-scroll-target="#extract_random_patches">extract_random_patches</a></li>
+  <li><a href="#save_random_patches" id="toc-save_random_patches" class="nav-link" data-scroll-target="#save_random_patches">save_random_patches</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/bmandracchia/bioMONAI/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -425,7 +431,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> BioImage (*args, **kwargs)</code></pre>
 </blockquote>
 <p>Subclass of BioImageBase that represents 2D and 3D image objects.</p>
-<div class="cell">
+<div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> BioImage.create(<span class="st">'data_examples/example_tiff.tiff'</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -445,7 +451,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> BioImageStack (*args, **kwargs)</code></pre>
 </blockquote>
 <p>Subclass of BioImageBase that represents a 3D image object.</p>
-<div class="cell">
+<div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> BioImageStack.create(<span class="st">'data_examples/example_tiff.tiff'</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -465,11 +471,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> BioImageProject (*args, **kwargs)</code></pre>
 </blockquote>
 <p>Subclass of BioImageBase that represents a 2D image object.</p>
-<div class="cell">
+<div class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> BioImageProject.create(<span class="st">'data_examples/example_tiff.tiff'</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#a = BioImageProject.create('../../bioMONAI_0/_data/Thunder_20230308/nuevos_datos/dataset_2/inputs/1.tif')</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>a.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
+<div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>torch.Size([1, 512, 512])</code></pre>
 </div>
 </div>
@@ -486,7 +492,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> BioImageMulti (*args, **kwargs)</code></pre>
 </blockquote>
 <p>Subclass of BioImageBase that represents a multi-channel 2D image object.</p>
-<div class="cell">
+<div class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a = BioImageMulti.create('../../bioMONAI_0/_data/Babesia/RI/O11_RI_frame01.tiff')#'../_data/Babesia/RI/O11_RI_frame01.tiff'</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># print(a.shape)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -494,7 +500,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="bioimage4d" class="level3">
 <h3 class="anchored" data-anchor-id="bioimage4d">BioImage4D</h3>
 <p>4D datasets</p>
-<div class="cell">
+<div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># TO FINISH</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BioImage4D(BioImageBase):</span>
@@ -524,7 +530,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Returns the string representation of the ImageBase instance."""</span></span>
 <span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"BioImage4D</span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>as_tensor()<span class="sc">.</span><span class="fu">__repr__</span>()[<span class="dv">6</span>:]<span class="sc">}</span><span class="ss">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from torch import randn as torchrandn</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># b = BioImage4D.create(torchrandn(3,10, 4, 5))#'../_data/Babesia/RI/O11_RI_frame01.tiff'</span></span>
@@ -562,8 +568,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="biodatablock">BioDataBlock</h3>
 <blockquote class="blockquote">
 <pre><code> BioDataBlock (blocks:list=(&lt;fastai.data.block.TransformBlock object at
-               0x7fb993159b50&gt;, &lt;fastai.data.block.TransformBlock object
-               at 0x7fb8a58e6450&gt;), dl_type:fastai.data.core.TfmdDL=None,
+               0x7f16ebc5fa10&gt;, &lt;fastai.data.block.TransformBlock object
+               at 0x7f16eb90b910&gt;), dl_type:fastai.data.core.TfmdDL=None,
                get_items=&lt;function get_image_files&gt;, get_y=None,
                get_x=None, getters:list=None, n_inp:int=None,
                item_tfms:list=None, batch_tfms:list=None, **kwargs)</code></pre>
@@ -588,7 +594,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td>blocks</td>
 <td>list</td>
-<td>(&lt;fastai.data.block.TransformBlock object at 0x7fb993159b50&gt;, &lt;fastai.data.block.TransformBlock object at 0x7fb8a58e6450&gt;)</td>
+<td>(&lt;fastai.data.block.TransformBlock object at 0x7f16ebc5fa10&gt;, &lt;fastai.data.block.TransformBlock object at 0x7f16eb90b910&gt;)</td>
 <td>One or more <code>TransformBlock</code>s</td>
 </tr>
 <tr class="even">
@@ -683,12 +689,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> get_target (path, same_filename=True, target_file_prefix='target',
              signal_file_prefix='signal')</code></pre>
 </blockquote>
-<div class="cell">
+<div class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(get_target(<span class="st">'train_folder/target'</span>, same_filename<span class="op">=</span><span class="va">False</span>)(<span class="st">'../signal/signal01.tif'</span>))</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(get_target(<span class="st">'train_folder/target'</span>)(<span class="st">'../signal/image01.tif'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>train_folder/target/target01.tif
+train_folder/target/image01.tif</code></pre>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(get_target(<span class="st">'train_folder'</span>, same_filename<span class="op">=</span><span class="va">False</span>, target_file_prefix<span class="op">=</span><span class="st">"cameraman_clean"</span>, signal_file_prefix<span class="op">=</span><span class="st">"cameraman_noisy"</span>)(<span class="st">'../signal/cameraman_noisy.tif'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(get_target(<span class="st">'train_folder'</span>, same_filename<span class="op">=</span><span class="va">False</span>, target_file_prefix<span class="op">=</span><span class="st">"cameraman_clean"</span>, signal_file_prefix<span class="op">=</span><span class="st">"cameraman_noisy"</span>)(<span class="st">'../signal/cameraman_noisy.tif'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>train_folder/cameraman_clean.tif</code></pre>
+</div>
 </div>
 <p>Get as ground truth another noisy image randomly chosen in the same folder as the input image</p>
 <hr>
@@ -710,34 +723,64 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="show-results">Show results</h3>
 </section>
 </section>
-<section id="example" class="level2">
-<h2 class="anchored" data-anchor-id="example">Example</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from monai.transforms import ScaleIntensity</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># from bioMONAI.transforms import *</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># from fastai.vision.all import *</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co"># spatial_dimensions = 2</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co"># roi_size = [32]*spatial_dimensions</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co"># item_tfms = [RandCropND(roi_size), ScaleIntensity]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="preprocessing" class="level2">
+<h2 class="anchored" data-anchor-id="preprocessing">Preprocessing</h2>
+<hr>
+<section id="extract_patches" class="level3">
+<h3 class="anchored" data-anchor-id="extract_patches">extract_patches</h3>
+<blockquote class="blockquote">
+<pre><code> extract_patches (data, patch_size, overlap)</code></pre>
+</blockquote>
+<p>Extracts n-dimensional patches from the input data.</p>
+<p>Parameters: - data: numpy array of the input data (n-dimensional). - patch_size: tuple of integers defining the size of the patches in each dimension. - overlap: float (between 0 and 1) indicating overlap between patches.</p>
+<p>Returns: - A list of patches as numpy arrays.</p>
+<hr>
+</section>
+<section id="save_patches_grid" class="level3">
+<h3 class="anchored" data-anchor-id="save_patches_grid">save_patches_grid</h3>
+<blockquote class="blockquote">
+<pre><code> save_patches_grid (data_folder, gt_folder, output_folder, patch_size,
+                    overlap)</code></pre>
+</blockquote>
+<p>Loads n-dimensional data from data_folder and gt_folder, generates patches, and saves them into individual HDF5 files. Each HDF5 file will have datasets with the structure X/patch_idx and y/patch_idx.</p>
+<p>Parameters: - data_folder: Path to the folder containing data files (n-dimensional data). - gt_folder: Path to the folder containing ground truth (gt) files (n-dimensional data). - output_folder: Path to the folder where the HDF5 files will be saved. - patch_size: tuple of integers defining the size of the patches. - overlap: float (between 0 and 1) defining the overlap between patches.</p>
+<div class="cell" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>data_folder <span class="op">=</span> <span class="st">'/home/biagio/Code/Noise2Model/_data/Confocal_BPAE_B/raw/1'</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>gt_folder <span class="op">=</span> <span class="st">'/home/biagio/Code/Noise2Model/_data/Confocal_BPAE_B/gt/1'</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>output_folder <span class="op">=</span> <span class="st">'./_test'</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>patch_size <span class="op">=</span> (<span class="dv">64</span>,<span class="dv">64</span>)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>overlap <span class="op">=</span><span class="dv">0</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>save_patches_grid(data_folder, gt_folder, output_folder, patch_size, overlap)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[]</code></pre>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># file_folder = '../../bioMONAI_0/_data/Thunder_20230308/nuevos_datos/dataset_2'</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># dblock = DataBlock(blocks=(BioImageBlock(cls=BioImageProject), BioImageBlock(cls=BioImageProject)),</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                    get_items=get_image_files,</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co">#                    get_y=get_target('../../bioMONAI_0/_data/Thunder_20230308/nuevos_datos/dataset_2/targets', same_filename=True),</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co">#                    splitter=RandomSplitter(valid_pct=0.2),</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co">#                    item_tfms=item_tfms,</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co">#                    )</span></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co"># # dblock.summary(file_folder)</span></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co"># dls = dblock.dataloaders(file_folder, bs=2)</span></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co"># dls.show_batch(max_n=2, cmap='viridis')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Processing files: 0it [00:00, ?it/s]</code></pre>
+</div>
 </div>
 <hr>
+</section>
+<section id="extract_random_patches" class="level3">
+<h3 class="anchored" data-anchor-id="extract_random_patches">extract_random_patches</h3>
+<blockquote class="blockquote">
+<pre><code> extract_random_patches (data, patch_size, num_patches)</code></pre>
+</blockquote>
+<p>Extracts a specified number of random n-dimensional patches from the input data.</p>
+<p>Parameters: - data: numpy array of the input data (n-dimensional). - patch_size: tuple of integers defining the size of the patches in each dimension. - num_patches: number of random patches to extract.</p>
+<p>Returns: - A list of randomly cropped patches as numpy arrays.</p>
+<hr>
+</section>
+<section id="save_random_patches" class="level3">
+<h3 class="anchored" data-anchor-id="save_random_patches">save_random_patches</h3>
+<blockquote class="blockquote">
+<pre><code> save_random_patches (data_folder, gt_folder, output_folder, patch_size,
+                      num_patches)</code></pre>
+</blockquote>
+<p>Loads n-dimensional data from data_folder and gt_folder, generates random patches, and saves them into individual HDF5 files. Each HDF5 file will have datasets with the structure X/patch_idx and y/patch_idx.</p>
+<p>Parameters: - data_folder: Path to the folder containing data files (n-dimensional data). - gt_folder: Path to the folder containing ground truth (gt) files (n-dimensional data). - output_folder: Path to the folder where the HDF5 files will be saved. - patch_size: tuple of integers defining the size of the patches. - num_patches: number of random patches to extract per file.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
