@@ -9,7 +9,7 @@ __all__ = ['MetaResolver', 'BioImageBase', 'BioImage', 'BioImageStack', 'BioImag
 import os
 
 from .core import MetaTensor, torchTensor, BypassNewMeta, DisplayedTransform, torchsqueeze, Path, List, L, torchmax, randint, typedispatch
-from .io import img_reader
+from .io import image_reader
 from .visualize import show_images_grid
 
 from fastai.vision.all import DataBlock, TfmdDL, get_image_files, TransformBlock, get_grid, merge, show_image, RandomSplitter
@@ -53,7 +53,7 @@ class BioImageBase(MetaTensor, metaclass=MetaResolver):
         if isinstance(fn, torchTensor):
             return cls(fn)
 
-        return img_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder)
+        return image_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder)
 
     @classmethod
     def item_preprocessing(cls, resample: (List, int, tuple), reorder: bool):
@@ -118,7 +118,7 @@ class BioImage(BioImageBase):
         if isinstance(fn, torchTensor):
             return cls(fn)
 
-        return torchsqueeze(img_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder), 1)
+        return torchsqueeze(image_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder), 1)
     
     def show(self, ctx=None, **kwargs):
         "Show image using `merge(self._show_args, kwargs)`"
@@ -160,7 +160,7 @@ class BioImageProject(BioImageBase):
         if isinstance(fn, torchTensor):
             return cls(fn)
 
-        img = img_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder)
+        img = image_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder)
         return torchmax(img, dim=1)[0]  # Taking the maximum intensity projection along axis 1
     
     def show(self, ctx=None, **kwargs):
@@ -193,7 +193,7 @@ class BioImageMulti(BioImageBase):
         if isinstance(fn, torchTensor):
             return cls(fn)
 
-        return torchsqueeze(img_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder), 0)
+        return torchsqueeze(image_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder), 0)
     
     def __repr__(self) -> str:
         """Returns the string representation of the ImageBase instance."""

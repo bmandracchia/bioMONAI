@@ -23,7 +23,8 @@ from monai.networks.layers.factories import Act, Norm, Pool
 from monai.utils import set_determinism
 from monai.networks.nets import BasicUNet, AttentionUnet, DynUNet, UNet, BasicUNet, ResNet, ResNetFeatures
 
-from .core import attributesFromDict
+from .core import get_device
+
 
 # %% ../nbs/04_nets.ipynb 8
 import torch.nn as nn

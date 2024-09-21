@@ -76,7 +76,7 @@ class fastTrainer(Learner):
 
 
 # %% ../nbs/00_core.ipynb 16
-# maybe this should be changed for fastai store_attr()
+# maybe this one should be changed for fastai store_attr()
 def attributesFromDict(d):
     self = d.pop('self')
     for n, v in d.items():
