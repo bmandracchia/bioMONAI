@@ -338,7 +338,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#args" id="toc-args" class="nav-link" data-scroll-target="#args">Args:</a></li>
   <li><a href="#returns" id="toc-returns" class="nav-link" data-scroll-target="#returns">Returns:</a></li>
   </ul></li>
-  <li><a href="#seventh_fourier_ring_correlation" id="toc-seventh_fourier_ring_correlation" class="nav-link" data-scroll-target="#seventh_fourier_ring_correlation">seventh_fourier_ring_correlation</a>
+  <li><a href="#fcrcutoff" id="toc-fcrcutoff" class="nav-link" data-scroll-target="#fcrcutoff">FCRCutoff</a>
   <ul>
   <li><a href="#args-1" id="toc-args-1" class="nav-link" data-scroll-target="#args-1">Args:</a></li>
   <li><a href="#returns-1" id="toc-returns-1" class="nav-link" data-scroll-target="#returns-1">Returns:</a></li>
@@ -587,13 +587,12 @@ class Model(nn.Module):
 <h4 class="anchored" data-anchor-id="returns">Returns:</h4>
 <pre><code>- torch.Tensor: The FRC loss.</code></pre>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/losses.py#L325" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 </section>
-<section id="seventh_fourier_ring_correlation" class="level3">
-<h3 class="anchored" data-anchor-id="seventh_fourier_ring_correlation">seventh_fourier_ring_correlation</h3>
+<section id="fcrcutoff" class="level3">
+<h3 class="anchored" data-anchor-id="fcrcutoff">FCRCutoff</h3>
 <blockquote class="blockquote">
-<pre><code> seventh_fourier_ring_correlation (image1, image2)</code></pre>
+<pre><code> FCRCutoff (image1, image2)</code></pre>
 </blockquote>
 <p>Calculate the cutoff frequency at when Fourier ring correlation drops to 1/7.</p>
 <section id="args-1" class="level4">
@@ -604,7 +603,6 @@ class Model(nn.Module):
 <section id="returns-1" class="level4">
 <h4 class="anchored" data-anchor-id="returns-1">Returns:</h4>
 <pre><code>- float: The cutoff frequency.</code></pre>
-<hr>
 
 
 </section>
