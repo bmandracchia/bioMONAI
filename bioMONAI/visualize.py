@@ -10,13 +10,11 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 import plotly.io as pio
 import plotly.express as px
 import plotly.graph_objects as go
-from skimage import util
-from skimage.data import cells3d
 import torchvision
 
 from fastai.vision.all import plt, ifnone
 
-from .core import torchTensor, tensor, delegates, torch_from_numpy, hasattrs
+from .core import torchTensor, tensor, delegates, torch_from_numpy, hasattrs, img2float, cells3d
 from .io import tiff2torch
 
 # %% ../nbs/09_visualize.ipynb 6

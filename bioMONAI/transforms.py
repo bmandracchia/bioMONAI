@@ -132,7 +132,7 @@ def ScaleIntensityPercentiles(x, pmin=3, pmax=99.8, axis=None, eps=1e-20, dtype=
     return ScaleIntensityRange(x, mi, ma, eps=eps, dtype=dtype)
 
 
-# %% ../nbs/05_transforms.ipynb 18
+# %% ../nbs/05_transforms.ipynb 16
 def _process_sz(size, ndim=3):
     if isinstance(size,int): 
         size=(size,)*ndim
@@ -143,7 +143,7 @@ def _get_sz(x):
     if not isinstance(x, Tensor): return fastuple(x.size)
     return fastuple(getattr(x, 'img_size', getattr(x, 'sz', (x.shape[1:])))) # maybe it should swap x and y axes 
 
-# %% ../nbs/05_transforms.ipynb 21
+# %% ../nbs/05_transforms.ipynb 18
 class RandCrop2D(RandTransform):
     "Randomly crop an image to `size`"
     split_idx,order = None,1
@@ -173,7 +173,7 @@ class RandCrop2D(RandTransform):
     def encodes(self, x):
         return SpatialCrop(roi_center=self.ctr, roi_size=self.size, lazy=self.lazy)(x)
 
-# %% ../nbs/05_transforms.ipynb 22
+# %% ../nbs/05_transforms.ipynb 19
 class RandCropND(RandTransform):
     """
     Randomly crops an ND image to a specified size.
@@ -226,7 +226,7 @@ class RandCropND(RandTransform):
         return SpatialCrop(roi_start=self.tl, roi_end=self.br, lazy=self.lazy)(x)
     
 
-# %% ../nbs/05_transforms.ipynb 24
+# %% ../nbs/05_transforms.ipynb 21
 class RandFlip(RandTransform):
     """
     Randomly flips an ND image over a specified axis.
@@ -259,7 +259,7 @@ class RandFlip(RandTransform):
         else:
             return x
 
-# %% ../nbs/05_transforms.ipynb 26
+# %% ../nbs/05_transforms.ipynb 23
 class RandRot90(RandTransform):
     """
     Randomly rotate an ND image by 90 degrees in the plane specified by axes.

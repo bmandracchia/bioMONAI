@@ -213,7 +213,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./core.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">core</span></a>
+ <span class="menu-text">Core</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -528,7 +528,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="02_io_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<p>… or enconding them in the path, where datasets are subfolders and patches the image files.</p>
+<p>… or enconding them in the path, where datasets are subfolders and patches the image files. The latter being compatible with <a href="https://bmandracchia.github.io/bioMONAI/io.html#image_reader"><code>image_reader</code></a> syntaxis.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> file_path <span class="op">+</span> <span class="st">'/'</span> <span class="op">+</span> dataset_name <span class="op">+</span> <span class="st">'/'</span> <span class="op">+</span> <span class="st">'</span><span class="sc">%d</span><span class="st">'</span><span class="op">%</span>(patch_num)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>im , _ <span class="op">=</span> hdf5_reader()(f)</span>

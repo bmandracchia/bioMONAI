@@ -18,7 +18,7 @@ from .visualize import show_images_grid
 
 from fastai.vision.all import DataBlock, TfmdDL, get_image_files, TransformBlock, get_grid, merge, show_image, RandomSplitter
 
-# %% ../nbs/01_data.ipynb 6
+# %% ../nbs/01_data.ipynb 5
 class MetaResolver(type(torchTensor), metaclass=BypassNewMeta):
     """
     A class to bypass metaclass conflict:
@@ -27,7 +27,7 @@ class MetaResolver(type(torchTensor), metaclass=BypassNewMeta):
     pass
     
 
-# %% ../nbs/01_data.ipynb 8
+# %% ../nbs/01_data.ipynb 6
 class BioImageBase(MetaTensor, metaclass=MetaResolver):
     """
     A class that represents an image object.
@@ -99,7 +99,7 @@ class BioImageBase(MetaTensor, metaclass=MetaResolver):
         """Returns the string representation of the ImageBase instance."""
         return f"BioImageBase{self.as_tensor().__repr__()[6:]}"
 
-# %% ../nbs/01_data.ipynb 10
+# %% ../nbs/01_data.ipynb 7
 class BioImage(BioImageBase):
     """Subclass of BioImageBase that represents 2D and 3D image objects."""
     _show_args = {'cmap':'gray'}
@@ -133,7 +133,7 @@ class BioImage(BioImageBase):
     #     return f'{self.__class__.__name__} shape={"x".join([str(d) for d in self.shape])}'
         return f"BioImage{self.as_tensor().__repr__()[6:]}"
 
-# %% ../nbs/01_data.ipynb 13
+# %% ../nbs/01_data.ipynb 9
 class BioImageStack(BioImageBase):
     """Subclass of BioImageBase that represents a 3D image object."""
     
@@ -141,9 +141,9 @@ class BioImageStack(BioImageBase):
         """Returns the string representation of the ImageBase instance."""
         return f"BioImageStack{self.as_tensor().__repr__()[6:]}"
 
-# %% ../nbs/01_data.ipynb 16
+# %% ../nbs/01_data.ipynb 11
 class BioImageProject(BioImageBase):
-    """Subclass of BioImageBase that represents a 2D image object."""
+    """Subclass of BioImageBase that represents a 3D image stack as a 2D image object using maximum intensity projection."""
     _show_args = {'cmap':'gray'}
     
     @classmethod
@@ -175,7 +175,7 @@ class BioImageProject(BioImageBase):
         """Returns the string representation of the ImageBase instance."""
         return f"BioImage{self.as_tensor().__repr__()[6:]}"
 
-# %% ../nbs/01_data.ipynb 19
+# %% ../nbs/01_data.ipynb 13
 class BioImageMulti(BioImageBase):
     """Subclass of BioImageBase that represents a multi-channel 2D image object."""
     
@@ -204,7 +204,7 @@ class BioImageMulti(BioImageBase):
         return f"BioImageMulti{self.as_tensor().__repr__()[6:]}"
         
 
-# %% ../nbs/01_data.ipynb 25
+# %% ../nbs/01_data.ipynb 18
 class Tensor2BioImage(DisplayedTransform):
     def __init__(self, cls:BioImageBase=BioImageStack):
         self.cls = cls
@@ -216,12 +216,12 @@ class Tensor2BioImage(DisplayedTransform):
         if isinstance(o, torchTensor):
             return self.cls(o)
 
-# %% ../nbs/01_data.ipynb 27
+# %% ../nbs/01_data.ipynb 20
 def BioImageBlock(cls:BioImageBase=BioImage):
     "A `TransformBlock` for images of `cls`"
     return TransformBlock(type_tfms=cls.create, batch_tfms=[Tensor2BioImage(cls)]) # IntToFloatTensor
 
-# %% ../nbs/01_data.ipynb 28
+# %% ../nbs/01_data.ipynb 21
 class BioDataBlock(DataBlock):
     def __init__(self, 
             blocks:list=(BioImageBlock(cls=BioImage), BioImageBlock(cls=BioImage)), # One or more `TransformBlock`s
@@ -249,7 +249,7 @@ class BioDataBlock(DataBlock):
             )
         
 
-# %% ../nbs/01_data.ipynb 29
+# %% ../nbs/01_data.ipynb 22
 def get_dataloader(data_source, show_summary:bool=False, **kwargs):
     """
     Create and return a DataLoader from a BioDataBlock using provided keyword arguments.
@@ -293,16 +293,16 @@ def get_dataloader(data_source, show_summary:bool=False, **kwargs):
     return dataloder
 
 
-# %% ../nbs/01_data.ipynb 31
+# %% ../nbs/01_data.ipynb 24
 from fastai.vision.all import get_image_files
 
-# %% ../nbs/01_data.ipynb 32
+# %% ../nbs/01_data.ipynb 25
 def get_gt(path, gt_file_name="avg50.png"): 
     def _fn(fn): return Path(path/"gt")/f"{parent_label(fn)}"/gt_file_name
     return _fn
 
 
-# %% ../nbs/01_data.ipynb 33
+# %% ../nbs/01_data.ipynb 26
 def get_target(path, same_filename=True, target_file_prefix="target", signal_file_prefix="signal"):
     # Define a function to construct the target file name based on input parameters
     def construct_target_filename(file_name):
@@ -331,31 +331,79 @@ def get_target(path, same_filename=True, target_file_prefix="target", signal_fil
     return generate_target_path
 
 
-# %% ../nbs/01_data.ipynb 37
+# %% ../nbs/01_data.ipynb 30
 def get_noisy_pair(fn):
     tmp = get_image_files(fn.parent, recurse=False)
     fn2 = tmp[randint(0,len(tmp)-1)]
     while fn2 == fn: fn2 = tmp[randint(0,len(tmp)-1)]
     return fn2
 
-# %% ../nbs/01_data.ipynb 40
+# %% ../nbs/01_data.ipynb 33
 @typedispatch
-def show_batch(x:BioImageBase, y:BioImageBase, samples, ctxs=None, max_n=10, nrows=None, ncols=None, figsize=None, **kwargs):
-    if ctxs is None: ctxs = get_grid(min(len(samples), max_n), nrows=nrows, ncols=ncols, figsize=figsize, double=True)
+def show_batch(x: BioImageBase, y: BioImageBase, samples, ctxs=None, max_n=10, nrows=None, ncols=None, figsize=None, **kwargs):
+    """
+    Display a batch of images and their corresponding labels.
+    
+    Args:
+        x (BioImageBase): The input image data.
+        y (BioImageBase): The target label data.
+        samples (list or Tensor): List of sample indices to display.
+        ctxs (List[Context], optional): List of contexts for displaying images. If None, create new ones using get_grid().
+        max_n (int, optional): Maximum number of samples to display. Default is 10.
+        nrows (int, optional): Number of rows in the grid if ctxs are not provided.
+        ncols (int, optional): Number of columns in the grid if ctxs are not provided.
+        figsize (tuple, optional): Figure size for the image display.
+        **kwargs: Additional keyword arguments to pass to the show method of BioImageBase.
+    
+    Returns:
+        List[Context]: A list of contexts after displaying the images and labels.
+    """
+    # If ctxs are not provided, create new ones using get_grid()
+    if ctxs is None:
+        ctxs = get_grid(min(len(samples), max_n), nrows=nrows, ncols=ncols, figsize=figsize, double=True)
+    
+    # Loop through the images and labels in pairs (x and y)
     for i in range(2):
-        ctxs[i::2] = [b.show(ctx=c, **kwargs) for b,c,_ in zip(samples.itemgot(i),ctxs[i::2],range(max_n))]
+        # Display each image-label pair in a specific context
+        ctxs[i::2] = [b.show(ctx=c, **kwargs) for b, c, _ in zip(samples.itemgot(i), ctxs[i::2], range(max_n))]
+    
     return ctxs
 
-# %% ../nbs/01_data.ipynb 42
+
+# %% ../nbs/01_data.ipynb 36
 @typedispatch
-def show_results(x:BioImageBase, y:BioImageBase, samples, outs, ctxs=None, max_n=10, figsize=None, **kwargs):
-    if ctxs is None: ctxs = get_grid(3*min(len(samples), max_n), ncols=3, figsize=figsize, title='Input/Target/Prediction')
+def show_results(x: BioImageBase, y: BioImageBase, samples, outs, ctxs=None, max_n=10, figsize=None, **kwargs):
+    """
+    Display a batch of input images along with their predicted and target labels.
+    
+    Args:
+        x (BioImageBase): The input image data.
+        y (BioImageBase): The target label data.
+        samples (list or Tensor): List of sample indices to display.
+        outs (list or Tensor): List of output predictions corresponding to the samples.
+        ctxs (List[Context], optional): List of contexts for displaying images. If None, create new ones using get_grid().
+        max_n (int, optional): Maximum number of samples to display. Default is 10.
+        figsize (tuple, optional): Figure size for the image display.
+        **kwargs: Additional keyword arguments to pass to the show method of BioImageBase.
+    
+    Returns:
+        List[Context]: A list of contexts after displaying the images and labels.
+    """
+    # If ctxs are not provided, create new ones using get_grid() with a specific title and size
+    if ctxs is None: 
+        ctxs = get_grid(3 * min(len(samples), max_n), ncols=3, figsize=figsize, title='Input/Target/Prediction')
+    
+    # Loop through the images and display them in a specific context for input (x) and output predictions (outs)
     for i in range(2):
-        ctxs[i::3] = [b.show(ctx=c, **kwargs) for b,c,_ in zip(samples.itemgot(i),ctxs[i::3],range(max_n))]
-    ctxs[2::3] = [b.show(ctx=c, **kwargs) for b,c,_ in zip(outs.itemgot(0),ctxs[2::3],range(max_n))]
+        ctxs[i::3] = [b.show(ctx=c, **kwargs) for b, c, _ in zip(samples.itemgot(i), ctxs[i::3], range(max_n))]
+    
+    # Display the target labels (y) in a specific context after the input images
+    ctxs[2::3] = [b.show(ctx=c, **kwargs) for b, c, _ in zip(outs.itemgot(0), ctxs[2::3], range(max_n))]
+    
     return ctxs
 
-# %% ../nbs/01_data.ipynb 44
+
+# %% ../nbs/01_data.ipynb 39
 def extract_patches(data, patch_size, overlap):
     """
     Extracts n-dimensional patches from the input data.
@@ -383,7 +431,7 @@ def extract_patches(data, patch_size, overlap):
     
     return patches
 
-# %% ../nbs/01_data.ipynb 45
+# %% ../nbs/01_data.ipynb 40
 def save_patches_grid(data_folder, gt_folder, output_folder, patch_size, overlap):
     """
     Loads n-dimensional data from data_folder and gt_folder, generates patches, and saves them into individual HDF5 files.
@@ -439,7 +487,7 @@ def save_patches_grid(data_folder, gt_folder, output_folder, patch_size, overlap
                 hf.create_dataset(f'y/{patch_idx}', data=gt_patch)
         
 
-# %% ../nbs/01_data.ipynb 48
+# %% ../nbs/01_data.ipynb 44
 def extract_random_patches(data, patch_size, num_patches):
     """
     Extracts a specified number of random n-dimensional patches from the input data.
@@ -475,7 +523,7 @@ def extract_random_patches(data, patch_size, num_patches):
     return patches
 
 
-# %% ../nbs/01_data.ipynb 49
+# %% ../nbs/01_data.ipynb 45
 def save_patches_random(data_folder, gt_folder, output_folder, patch_size, num_patches):
     """
     Loads n-dimensional data from data_folder and gt_folder, generates random patches, and saves them into individual HDF5 files.
