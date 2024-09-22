@@ -364,7 +364,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg" class="img-fluid" alt="License"></a> <img src="https://img.shields.io/badge/python-3.7+-blue.svg" class="img-fluid" alt="Python Version"> <img src="https://img.shields.io/badge/jupyter-%23f37626.svg?style=flat&amp;logo=jupyter&amp;logoColor=white" class="img-fluid" alt="Jupyter Notebook"></p>
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>bioMONAI is a collaborative platform for developing and deploying deep learning models in medical imaging using the MONAI framework and Jupyter notebooks. This project aims to facilitate interoperability, reproducibility, and community collaboration in biomedical research.</p>
+<p>bioMONAI is a low-code Python-based platform for developing and deploying deep learning models in biomedical imaging built on top of the <a href="https://monai.io/">MONAI</a> framework, <a href="https://github.com/fastai/fastai">fastai</a>, and <a href="https://torchio.readthedocs.io/">TorchIO</a>. This project aims to facilitate interoperability, reproducibility, and community collaboration in biomedical research.</p>
 </section>
 <section id="table-of-contents" class="level2">
 <h2 class="anchored" data-anchor-id="table-of-contents">Table of Contents</h2>
@@ -384,11 +384,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="installation" class="level2">
 <h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<p>To install the BioMONAI nbs environment, follow these steps:</p>
+<p>To install the bioMONAI environment, follow these steps:</p>
 <ol type="1">
 <li><p><strong>Clone the repository:</strong></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/bmandracchia/biomonai.git</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> biomonai-nbs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> biomonai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p><strong>Create a new Conda environment (recommended):</strong></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> biomonai python=3.7</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate biomonai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
@@ -400,28 +400,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="getting-started" class="level2">
 <h2 class="anchored" data-anchor-id="getting-started">Getting Started</h2>
-<p>To get started with BioMONAI nbs, follow these steps:</p>
-<ol type="1">
-<li><p><strong>Clone the repository:</strong></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/your_username/biomonai-nbs.git</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> biomonai-nbs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Activate your Conda environment:</strong></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate biomonai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Open Jupyter Notebook:</strong></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">jupyter</span> notebook</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Navigate to the notebooks directory and open a sample notebook:</strong></p>
-<ul>
-<li>You should see a list of available notebooks in your browser. Open one to start exploring!</li>
-</ul></li>
-</ol>
+<p>To get started with bioMONAI, the best way is to try out our tutorials, which will walk you through model training for various tasks like classification, regression, and segmentation.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Notebook</th>
+<th>Open in Colab</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><a href="http://localhost:3348/902_demo_2.html">Tutorial classification</a> <br>to be updated.</td>
+<td><a href="https://colab.research.google.com/github.com/bmandracchia/bioMONAI/nightly/nbs/901_demo_RI2FL_2d.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Google Colab"></a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://nbviewer.org/github.com/bmandracchia/bioMONAI/nightly/nbs/901_demo_RI2FL_2d.ipynb">Tutorial regression</a> <br>to be updated.</td>
+<td><a href="https://colab.research.google.com/github.com/bmandracchia/bioMONAI/nightly/nbs/901_demo_RI2FL_2d.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Google Colab"></a></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="usage" class="level2">
 <h2 class="anchored" data-anchor-id="usage">Usage</h2>
-<p>To use BioMONAI nbs for your own projects, follow these steps:</p>
+<p>To use bioMONAI for your own projects, follow these steps:</p>
 <ol type="1">
 <li><p><strong>Create a new Jupyter notebook or open an existing one.</strong></p></li>
 <li><p><strong>Import necessary modules:</strong></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> bioMONAI</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> bioMONAI</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p><strong>Start coding! You can now leverage MONAI’s capabilities alongside the interactive features of Jupyter notebooks.</strong></p></li>
 </ol>
 </section>
@@ -431,20 +436,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol type="1">
 <li><p><strong>Fork the repository on GitHub.</strong></p></li>
 <li><p><strong>Clone your fork:</strong></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/your_username/biomonai-nbs.git</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> biomonai-nbs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/your_username/biomonai.git</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> biomonai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p><strong>Create a new branch for your changes:</strong></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout <span class="at">-b</span> feature/new-feature</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout <span class="at">-b</span> feature/new-feature</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p><strong>Make your changes and commit them:</strong></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add new feature: &lt;feature description&gt;"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add new feature: &lt;feature description&gt;"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p><strong>Push to your fork and create a pull request on GitHub.</strong></p></li>
 <li><p><strong>Wait for the review, and merge if everything looks good!</strong></p></li>
 </ol>
 </section>
 <section id="license" class="level2">
 <h2 class="anchored" data-anchor-id="license">License</h2>
-<p>BioMONAI nbs is released under the Apache 2.0 license. See <a href="https://github.com/your_username/biomonai-nbs/blob/main/LICENSE">LICENSE</a> for more details.</p>
+<p>bioMONAI is released under the Apache 2.0 license. See <a href="https://github.com/your_username/biomonai-nbs/blob/main/LICENSE">LICENSE</a> for more details.</p>
 <hr>
 </section>
 <section id="contact" class="level2">
