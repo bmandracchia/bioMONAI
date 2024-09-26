@@ -180,7 +180,7 @@ def _load_and_preprocess(file_path, # Image file path
         tuple: Original image, preprocessed image, and its original size.
     """
     if reader is None:
-        hdf5_ext = [ext for ext in ['.h5','.hdf5'] if ext in file_path]
+        hdf5_ext = [ext for ext in ['.h5','.hdf5'] if ext in str(file_path)]
         if hdf5_ext:
             path, dataset, patch = split_hdf_path(file_path, hdf5_exts=hdf5_ext)
             reader = hdf5_reader(dataset=dataset, patch=patch, hdf5_exts=hdf5_ext)

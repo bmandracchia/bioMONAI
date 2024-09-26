@@ -7,6 +7,7 @@ __all__ = ['fastTrainer', 'attributesFromDict', 'get_device', 'img2float', 'img2
 from torch import Tensor as torchTensor
 from torch import tensor
 from monai.data import MetaTensor
+from monai.utils import set_determinism
 
 import torch.nn.functional as F
 
