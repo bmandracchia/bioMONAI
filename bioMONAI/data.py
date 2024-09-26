@@ -297,13 +297,60 @@ def get_dataloader(data_source, show_summary:bool=False, **kwargs):
 from fastai.vision.all import get_image_files
 
 # %% ../nbs/01_data.ipynb 25
-def get_gt(path, gt_file_name="avg50.png"): 
-    def _fn(fn): return Path(path/"gt")/f"{parent_label(fn)}"/gt_file_name
+def get_gt(path_gt, gt_file_name="avg50.png"):
+    """
+    Constructs a path to a ground truth file based on the given `path_gt` and `gt_file_name`.
+    
+    This function uses a lambda function to create a new path by appending `gt_file_name` to 
+    the parent directory of the input file, as specified by `path_gt`.
+    
+    Parameters:
+        path_gt (str or Path): The base directory where the ground truth files are stored, 
+                               or a file path from which to derive the parent directory.
+        gt_file_name (str, optional): The name of the ground truth file. Defaults to "avg50.png".
+    
+    Returns:
+        callable: A function that takes a single argument (a filename) and returns a Path object 
+                   representing the full path to the ground truth file. When called with a filename, 
+                   this function constructs the path by combining `path_gt` or the parent directory of 
+                   the filename with `gt_file_name`.
+    
+    Example:
+        If you have a file path like "./data/images/123/image.png" and you want to find the corresponding
+        ground truth file, you might call get_gt("./data/gt_images")(path). This would return a Path object 
+        pointing to "./data/gt_images/123/avg50.png".
+    """
+    
+    # Convert path_gt to Path object if it's a string
+    path_gt = Path(path_gt)
+    
+    # Define the lambda function that constructs the full path
+    _fn = lambda fn: path_gt / f"{Path(fn).parent}" / gt_file_name
+    
     return _fn
 
 
 # %% ../nbs/01_data.ipynb 26
 def get_target(path, same_filename=True, target_file_prefix="target", signal_file_prefix="signal"):
+    """
+    Constructs and returns functions for generating file paths to "target" files based on given input parameters.
+    
+    This function defines two nested helper functions within its scope: \n
+        - `construct_target_filename(file_name)`: Constructs a target file name by inserting the specified prefix into the original file name.
+        - `generate_target_path(file_name)`: Generates a path to the target file based on whether `same_filename` is set to True or False.
+    
+    The main function returns the appropriate helper function based on the value of `same_filename`.
+    
+    Parameters: \n
+        path (str): The base directory where the files are located. This should be a string representing an absolute or relative path.
+        same_filename (bool, optional): If True, the target file name will match the original file name; otherwise, it will use the specified prefix. Defaults to True.
+        target_file_prefix (str, optional): The prefix to insert into the target file name if `same_filename` is False. Defaults to "target".
+        signal_file_prefix (str, optional): The prefix used in the original file names that should be replaced by the target prefix. Defaults to "signal".
+    
+    Returns: \n
+        callable: A function that takes a file name as input and returns its corresponding target file path based on the specified parameters.
+    
+    """
     # Define a function to construct the target file name based on input parameters
     def construct_target_filename(file_name):
         # Split the file name based on the signal file prefix
@@ -331,29 +378,51 @@ def get_target(path, same_filename=True, target_file_prefix="target", signal_fil
     return generate_target_path
 
 
+
 # %% ../nbs/01_data.ipynb 30
 def get_noisy_pair(fn):
+    """
+    Get another "noisy" version of the input file by selecting a file from the same directory.
+    
+    This function first retrieves all image files in the directory of the input file `fn` (excluding subdirectories). 
+    It then selects one of these files at random, ensuring that it is not the original file itself to avoid creating a trivial "noisy" pair.
+    
+    Parameters: \n
+        fn (Path or str): The path to the original image file. This should be a Path object but accepts string inputs for convenience.
+    
+    Returns: \n
+        Path: A Path object pointing to the selected noisy file.
+    
+    """
+    
+    # Convert fn to Path object if it's not already one
+    fn = Path(fn)
+    
+    # Get all image files in the parent directory of the input file
     tmp = get_image_files(fn.parent, recurse=False)
-    fn2 = tmp[randint(0,len(tmp)-1)]
-    while fn2 == fn: fn2 = tmp[randint(0,len(tmp)-1)]
+    
+    # Select a random file from the list, ensuring it's not the original file
+    fn2 = tmp[randint(0, len(tmp) - 1)]
+    while fn2 == fn:
+        fn2 = tmp[randint(0, len(tmp) - 1)]
+    
     return fn2
 
-# %% ../nbs/01_data.ipynb 33
+
+# %% ../nbs/01_data.ipynb 32
 @typedispatch
-def show_batch(x: BioImageBase, y: BioImageBase, samples, ctxs=None, max_n=10, nrows=None, ncols=None, figsize=None, **kwargs):
+def show_batch(x: BioImageBase,     # The input image data.
+               y: BioImageBase,     # The target label data.
+               samples,             # List of sample indices to display.
+               ctxs=None,           # List of contexts for displaying images. If None, create new ones using get_grid().
+               max_n: int=10,       # Maximum number of samples to display. Default is 10.
+               nrows: int=None,     # Number of rows in the grid if ctxs are not provided.
+               ncols: int=None,     # Number of columns in the grid if ctxs are not provided.
+               figsize: tuple=None, # Figure size for the image display.
+               **kwargs,            # Additional keyword arguments to pass to the show method of BioImageBase.
+               ):
     """
     Display a batch of images and their corresponding labels.
-    
-    Args:
-        x (BioImageBase): The input image data.
-        y (BioImageBase): The target label data.
-        samples (list or Tensor): List of sample indices to display.
-        ctxs (List[Context], optional): List of contexts for displaying images. If None, create new ones using get_grid().
-        max_n (int, optional): Maximum number of samples to display. Default is 10.
-        nrows (int, optional): Number of rows in the grid if ctxs are not provided.
-        ncols (int, optional): Number of columns in the grid if ctxs are not provided.
-        figsize (tuple, optional): Figure size for the image display.
-        **kwargs: Additional keyword arguments to pass to the show method of BioImageBase.
     
     Returns:
         List[Context]: A list of contexts after displaying the images and labels.
@@ -370,23 +439,21 @@ def show_batch(x: BioImageBase, y: BioImageBase, samples, ctxs=None, max_n=10, n
     return ctxs
 
 
-# %% ../nbs/01_data.ipynb 36
+# %% ../nbs/01_data.ipynb 34
 @typedispatch
-def show_results(x: BioImageBase, y: BioImageBase, samples, outs, ctxs=None, max_n=10, figsize=None, **kwargs):
+def show_results(x: BioImageBase, # The input image data.
+                 y: BioImageBase, # The target label data.
+                 samples, # List of sample indices to display.
+                 outs, # List of output predictions corresponding to the samples.
+                 ctxs=None, # List of contexts for displaying images. If None, create new ones using get_grid().
+                 max_n=10, # Maximum number of samples to display.
+                 figsize=None, # Figure size for the image display.
+                 **kwargs, # Additional keyword arguments to pass to the show method of BioImageBase.
+                 ):
     """
     Display a batch of input images along with their predicted and target labels.
-    
-    Args:
-        x (BioImageBase): The input image data.
-        y (BioImageBase): The target label data.
-        samples (list or Tensor): List of sample indices to display.
-        outs (list or Tensor): List of output predictions corresponding to the samples.
-        ctxs (List[Context], optional): List of contexts for displaying images. If None, create new ones using get_grid().
-        max_n (int, optional): Maximum number of samples to display. Default is 10.
-        figsize (tuple, optional): Figure size for the image display.
-        **kwargs: Additional keyword arguments to pass to the show method of BioImageBase.
-    
-    Returns:
+   
+    Returns: \n
         List[Context]: A list of contexts after displaying the images and labels.
     """
     # If ctxs are not provided, create new ones using get_grid() with a specific title and size
@@ -403,7 +470,7 @@ def show_results(x: BioImageBase, y: BioImageBase, samples, outs, ctxs=None, max
     return ctxs
 
 
-# %% ../nbs/01_data.ipynb 39
+# %% ../nbs/01_data.ipynb 37
 def extract_patches(data, patch_size, overlap):
     """
     Extracts n-dimensional patches from the input data.
@@ -431,7 +498,7 @@ def extract_patches(data, patch_size, overlap):
     
     return patches
 
-# %% ../nbs/01_data.ipynb 40
+# %% ../nbs/01_data.ipynb 38
 def save_patches_grid(data_folder, gt_folder, output_folder, patch_size, overlap):
     """
     Loads n-dimensional data from data_folder and gt_folder, generates patches, and saves them into individual HDF5 files.
@@ -487,7 +554,7 @@ def save_patches_grid(data_folder, gt_folder, output_folder, patch_size, overlap
                 hf.create_dataset(f'y/{patch_idx}', data=gt_patch)
         
 
-# %% ../nbs/01_data.ipynb 44
+# %% ../nbs/01_data.ipynb 42
 def extract_random_patches(data, patch_size, num_patches):
     """
     Extracts a specified number of random n-dimensional patches from the input data.
@@ -523,7 +590,7 @@ def extract_random_patches(data, patch_size, num_patches):
     return patches
 
 
-# %% ../nbs/01_data.ipynb 45
+# %% ../nbs/01_data.ipynb 43
 def save_patches_random(data_folder, gt_folder, output_folder, patch_size, num_patches):
     """
     Loads n-dimensional data from data_folder and gt_folder, generates random patches, and saves them into individual HDF5 files.

@@ -25,15 +25,7 @@ class Resample(Spacing):
     Attributes:
         pixdim (list or tuple): The voxel dimensions of the image after resampling. If not provided during initialization, this will be determined based on the sampling factor and original image properties.
     
-    Methods:
-        None
     
-    Example Usage:
-        # Creating a Resample object with a specified sampling factor
-        resampler = Resample(sampling=2)
-        
-        # Creating a Resample object with custom voxel dimensions
-        resampler = Resample(**kwargs={'pixdim': [1.5, 1.5, 3]})
     """
     
     def __init__(self, sampling, **kwargs):
@@ -59,29 +51,28 @@ class RandCameraNoise(RandTransform):
     """
     Simulates camera noise by adding Poisson shot noise, dark current noise, and optionally CMOS fixed pattern noise.
     
-    Args:
-        input_image (numpy.ndarray): The original image as a NumPy array.
-        qe (float, optional): Quantum efficiency of the camera (0 to 1). Default is 0.7.
-        gain (float or numpy.ndarray, optional): Camera gain factor. If an array, it should be broadcastable with input_image shape. Default is 2.
-        exp_time (float, optional): Exposure time in seconds. Default is 0.1.
-        dark_current (float, optional): Dark current per pixel in electrons/second. Default is 0.06.
-        readout (float, optional): Readout noise standard deviation in electrons. Default is 2.5.
-        bitdepth (int, optional): Bit depth of the camera output. Default is 16.
-        offset (int or float, optional): Offset value to add to each pixel after conversion to ADU. Default is 100.
-        seed (int, optional): Seed for random number generator for reproducibility. Default is 42.
-        simulation (bool, optional): If True, assumes input_image is already in units of photons and does not convert from electrons. Default is False.
-        camera (str, optional): Specifies the type of camera ('cmos' or any other). Used to add CMOS fixed pattern noise if 'cmos' is specified. Default is 'cmos'.
-        gain_variance (float, optional): Variance for the gain noise in CMOS cameras. Only applicable if camera type is 'cmos'. Default is 0.1.
-        offset_variance (float, optional): Variance for the offset noise in CMOS cameras. Only applicable if camera type is 'cmos'. Default is 5.
-    
     Returns:
         numpy.ndarray: The noisy image as a NumPy array with dimensions of input_image.
     """
-    def __init__(self, qe=0.7, gain=2, exp_time=0.1, dark_current=0.06, readout=2.5, bitdepth=16, offset=100, seed=42, simulation=False, camera='cmos', gain_variance=.1, offset_variance=5):
+    def __init__(self, qe=0.7, # Quantum efficiency of the camera (0 to 1).
+                 gain=2, # Camera gain factor. If an array, it should be broadcastable with input_image shape. 
+                 exp_time=0.1, # Exposure time in seconds. 
+                 dark_current=0.06, # Dark current per pixel in electrons/second. 
+                 readout=2.5, # Readout noise standard deviation in electrons.
+                 bitdepth=16, # Bit depth of the camera output.
+                 offset=100, # Offset value to add to each pixel after conversion to ADU.
+                 seed=42, # Seed for random number generator for reproducibility. 
+                 simulation=False, # If True, assumes input_image is already in units of photons and does not convert from electrons.
+                 camera='cmos', # Specifies the type of camera ('cmos' or any other). Used to add CMOS fixed pattern noise if 'cmos' is specified. 
+                 gain_variance=.1, # Variance for the gain noise in CMOS cameras. Only applicable if camera type is 'cmos'. 
+                 offset_variance=5 # Variance for the offset noise in CMOS cameras. Only applicable if camera type is 'cmos'.
+                 ):
         store_attr()
         self.rs = np.random.RandomState(seed=seed)
         
-    def encode(self, input_image):
+    def encode(self, 
+               input_image, # The original image as a NumPy array.
+               ):
         rs = self.rs
         # If simulation mode, assume input_image is already in units of photons
         if not self.simulation:
