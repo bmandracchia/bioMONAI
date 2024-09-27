@@ -1,60 +1,47 @@
 {
-  "901_demo_cell_segmentation.ipynb": {
-    "demo_cell_segmentation.html": "ecc4044f"
-  },
   "03_losses.ipynb": {
-    "losses.html": "fca8f40d"
-  },
-  "901_demo_cell_segmentation-2.ipynb": {
-    "demo_cell_segmentation-2.html": "d193feea"
-  },
-  "901_demo_cell_segmentation-2-3D.ipynb": {
-    "demo_cell_segmentation-2-3d.html": "c8118546"
+    "losses.html": "617e44ff"
   },
   "902_demo_2.ipynb": {
-    "902_demo_2.html": "be355ed9"
+    "demo_2.html": "d9c8805d"
   },
   "05_transforms.ipynb": {
-    "transforms.html": "994b420d"
+    "transforms.html": "c8b573f8"
   },
   "06_metrics.ipynb": {
-    "metrics.html": "99d82e5c"
+    "metrics.html": "b4cb9898"
   },
   "01_data.ipynb": {
-    "data.html": "4d276e0f"
-  },
-  "902_demo_PNG_images.ipynb": {
-    "demo_png_images.html": "fd7c4ece"
+    "data.html": "d9b385bb"
   },
   "09_visualize.ipynb": {
-    "visualize.html": "9fd1590d"
+    "visualize.html": "abcecf4e"
   },
   "index.ipynb": {
-    "index.html": "f86429e9",
-    "README.md": "8fc477a2"
+    "index.html": "a91f535b"
   },
   "08_datasets.ipynb": {
-    "datasets.html": "4c6a2955"
+    "datasets.html": "25c91919"
   },
   "999_template.ipynb": {
-    "template.html": "6d615ee3"
+    "template.html": "8d9f97ca"
   },
   "02_io.ipynb": {
-    "io.html": "a5fb1725"
+    "io.html": "24826f48"
   },
   "00_core.ipynb": {
-    "core.html": "2215a626"
+    "core.html": "2c999fe8"
   },
   "07_callbacks.ipynb": {
-    "callbacks.html": "81d67d32"
+    "callbacks.html": "2fa36ec7"
   },
   "04_nets.ipynb": {
-    "nets.html": "5f507292"
+    "nets.html": "b61b0d28"
   },
   "901_demo_RI2FL_2d.ipynb": {
-    "demo_ri2fl_2d.html": "1805cc5e"
+    "demo_ri2fl_2d.html": "06a6df2d"
   },
   "fourier_ring_correlation.ipynb": {
-    "fourier_ring_correlation.html": "49771ecc"
+    "fourier_ring_correlation.html": "bad39679"
   }
 }

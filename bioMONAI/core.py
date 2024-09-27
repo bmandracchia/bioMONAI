@@ -3,10 +3,11 @@
 # %% auto 0
 __all__ = ['fastTrainer', 'attributesFromDict', 'get_device', 'img2float', 'img2Tensor']
 
-# %% ../nbs/00_core.ipynb 4
+# %% ../nbs/00_core.ipynb 5
 from torch import Tensor as torchTensor
 from torch import tensor
 from monai.data import MetaTensor
+from monai.utils import set_determinism
 
 import torch.nn.functional as F
 
@@ -15,11 +16,11 @@ from random import randint
 from skimage import util
 from skimage.data import cells3d
 
-# %% ../nbs/00_core.ipynb 5
+# %% ../nbs/00_core.ipynb 6
 from torch import squeeze as torchsqueeze, max as torchmax, from_numpy as torch_from_numpy, device as torch_device
 from torch.cuda import is_available as is_cuda_available
 
-# %% ../nbs/00_core.ipynb 6
+# %% ../nbs/00_core.ipynb 7
 from collections.abc import MutableSequence
 from typing import MutableSequence
     
@@ -29,7 +30,7 @@ from fastai.optimizer import Adam, OptimWrapper, Optimizer
 from fastai.vision.all import BypassNewMeta, DisplayedTransform, store_attr, DataBlock, Learner, ShowGraphCallback, CSVLogger, Any, minimum, steep, valley, slide
 
 
-# %% ../nbs/00_core.ipynb 14
+# %% ../nbs/00_core.ipynb 16
 class fastTrainer(Learner):
     """
     A custom implementation of the FastAI Learner class for training models in bioinformatics applications.
@@ -75,21 +76,21 @@ class fastTrainer(Learner):
                 print('Inferred learning rate: ', lr)
 
 
-# %% ../nbs/00_core.ipynb 16
+# %% ../nbs/00_core.ipynb 19
 # maybe this one should be changed for fastai store_attr()
 def attributesFromDict(d):
     self = d.pop('self')
     for n, v in d.items():
         setattr(self, n, v)
 
-# %% ../nbs/00_core.ipynb 17
+# %% ../nbs/00_core.ipynb 20
 def get_device():
     return torch_device("cuda" if is_cuda_available() else "cpu")
 
-# %% ../nbs/00_core.ipynb 18
+# %% ../nbs/00_core.ipynb 21
 def img2float(image, force_copy=False):
     return util.img_as_float(image, force_copy=force_copy)
 
-# %% ../nbs/00_core.ipynb 19
+# %% ../nbs/00_core.ipynb 22
 def img2Tensor(image):
     return torchTensor(img2float(image))

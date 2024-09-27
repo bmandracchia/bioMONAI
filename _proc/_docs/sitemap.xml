@@ -2,78 +2,62 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://bmandracchia.github.io/bioMONAI/fourier_ring_correlation.html</loc>
-    <lastmod>2024-09-19T16:11:21.980Z</lastmod>
+    <lastmod>2024-09-26T18:19:14.164Z</lastmod>
   </url>
   <url>
     <loc>https://bmandracchia.github.io/bioMONAI/nets.html</loc>
-    <lastmod>2024-09-21T16:30:47.236Z</lastmod>
+    <lastmod>2024-09-26T20:07:31.548Z</lastmod>
   </url>
   <url>
     <loc>https://bmandracchia.github.io/bioMONAI/core.html</loc>
-    <lastmod>2024-09-21T16:30:46.496Z</lastmod>
+    <lastmod>2024-09-26T20:08:44.536Z</lastmod>
   </url>
   <url>
     <loc>https://bmandracchia.github.io/bioMONAI/template.html</loc>
-    <lastmod>2024-08-28T15:16:24.968Z</lastmod>
+    <lastmod>2024-09-26T20:08:26.444Z</lastmod>
   </url>
   <url>
     <loc>https://bmandracchia.github.io/bioMONAI/index.html</loc>
-    <lastmod>2024-09-21T16:30:45.508Z</lastmod>
-  </url>
-  <url>
-    <loc>https://bmandracchia.github.io/bioMONAI/demo_png_images.html</loc>
-    <lastmod>2024-09-03T09:50:11.956Z</lastmod>
-  </url>
-  <url>
-    <loc>https://bmandracchia.github.io/bioMONAI/metrics.html</loc>
-    <lastmod>2024-09-21T16:30:44.212Z</lastmod>
-  </url>
-  <url>
-    <loc>https://bmandracchia.github.io/bioMONAI/902_demo_2.html</loc>
-    <lastmod>2024-09-20T09:05:05.992Z</lastmod>
-  </url>
-  <url>
-    <loc>https://bmandracchia.github.io/bioMONAI/demo_cell_segmentation-2.html</loc>
-    <lastmod>2024-08-28T15:16:08.588Z</lastmod>
-  </url>
-  <url>
-    <loc>https://bmandracchia.github.io/bioMONAI/demo_cell_segmentation.html</loc>
-    <lastmod>2024-08-28T15:16:07.708Z</lastmod>
-  </url>
-  <url>
-    <loc>https://bmandracchia.github.io/bioMONAI/losses.html</loc>
-    <lastmod>2024-09-21T16:31:36.796Z</lastmod>
-  </url>
-  <url>
-    <loc>https://bmandracchia.github.io/bioMONAI/demo_cell_segmentation-2-3d.html</loc>
-    <lastmod>2024-08-28T15:16:09.972Z</lastmod>
-  </url>
-  <url>
-    <loc>https://bmandracchia.github.io/bioMONAI/transforms.html</loc>
-    <lastmod>2024-09-21T16:30:43.936Z</lastmod>
+    <lastmod>2024-09-26T19:18:21.400Z</lastmod>
   </url>
   <url>
     <loc>https://bmandracchia.github.io/bioMONAI/data.html</loc>
-    <lastmod>2024-09-21T16:30:44.576Z</lastmod>
+    <lastmod>2024-09-26T20:06:38.096Z</lastmod>
+  </url>
+  <url>
+    <loc>https://bmandracchia.github.io/bioMONAI/transforms.html</loc>
+    <lastmod>2024-09-26T20:07:34.620Z</lastmod>
+  </url>
+  <url>
+    <loc>https://bmandracchia.github.io/bioMONAI/losses.html</loc>
+    <lastmod>2024-09-26T20:07:29.996Z</lastmod>
+  </url>
+  <url>
+    <loc>https://bmandracchia.github.io/bioMONAI/demo_2.html</loc>
+    <lastmod>2024-09-26T20:08:23.328Z</lastmod>
+  </url>
+  <url>
+    <loc>https://bmandracchia.github.io/bioMONAI/metrics.html</loc>
+    <lastmod>2024-09-26T20:07:36.748Z</lastmod>
   </url>
   <url>
     <loc>https://bmandracchia.github.io/bioMONAI/visualize.html</loc>
-    <lastmod>2024-09-21T16:30:45.228Z</lastmod>
+    <lastmod>2024-09-26T20:08:10.404Z</lastmod>
   </url>
   <url>
     <loc>https://bmandracchia.github.io/bioMONAI/datasets.html</loc>
-    <lastmod>2024-09-21T16:30:45.792Z</lastmod>
+    <lastmod>2024-09-26T20:07:53.248Z</lastmod>
   </url>
   <url>
     <loc>https://bmandracchia.github.io/bioMONAI/io.html</loc>
-    <lastmod>2024-09-21T16:30:46.112Z</lastmod>
+    <lastmod>2024-09-26T18:19:12.528Z</lastmod>
   </url>
   <url>
     <loc>https://bmandracchia.github.io/bioMONAI/callbacks.html</loc>
-    <lastmod>2024-09-21T16:30:46.864Z</lastmod>
+    <lastmod>2024-09-26T20:07:48.440Z</lastmod>
   </url>
   <url>
     <loc>https://bmandracchia.github.io/bioMONAI/demo_ri2fl_2d.html</loc>
-    <lastmod>2024-09-21T16:30:48.972Z</lastmod>
+    <lastmod>2024-09-26T20:08:19.580Z</lastmod>
   </url>
 </urlset>

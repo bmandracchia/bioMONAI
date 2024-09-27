@@ -213,7 +213,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./core.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">core</span></a>
+ <span class="menu-text">Core</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -278,32 +278,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./demo_cell_segmentation-2-3d.html" class="sidebar-item-text sidebar-link">
+  <a href="./demo_2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Demo: 2D image RI2FL</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./demo_cell_segmentation-2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Demo: 2D image RI2FL</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./demo_cell_segmentation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Demo: 2D image RI2FL</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./902_demo_2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">902_demo_2.html</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./demo_png_images.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Test</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -415,11 +391,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<div class="cell" data-execution_count="24">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> <span class="st">'data_examples/example_tiff.tiff'</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>test_img, _ <span class="op">=</span> aics_image_reader(file_path)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>test_img.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="24">
+<div class="cell-output cell-output-display">
 <pre><code>(1, 96, 512, 512)</code></pre>
 </div>
 </div>
@@ -514,10 +490,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <p>Images can be loaded by explicitly writing dataset name and path number…</p>
-<div class="cell" data-execution_count="27">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.visualize <span class="im">import</span> plot_image</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="28">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> <span class="st">'./data_examples/0450_1.hdf5'</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>dataset_name<span class="op">=</span><span class="st">'clean'</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>patch_num<span class="op">=</span><span class="dv">10</span></span>
@@ -528,8 +504,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="02_io_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<p>… or enconding them in the path, where datasets are subfolders and patches the image files.</p>
-<div class="cell" data-execution_count="29">
+<p>… or enconding them in the path, where datasets are subfolders and patches the image files. The latter being compatible with <a href="https://bmandracchia.github.io/bioMONAI/io.html#image_reader"><code>image_reader</code></a> syntaxis.</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> file_path <span class="op">+</span> <span class="st">'/'</span> <span class="op">+</span> dataset_name <span class="op">+</span> <span class="st">'/'</span> <span class="op">+</span> <span class="st">'</span><span class="sc">%d</span><span class="st">'</span><span class="op">%</span>(patch_num)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>im , _ <span class="op">=</span> hdf5_reader()(f)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>plot_image(im[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -543,7 +519,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="load-and-preprocess" class="level3">
 <h3 class="anchored" data-anchor-id="load-and-preprocess">Load and preprocess</h3>
-<div class="cell" data-execution_count="32">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>org_img, _, _ <span class="op">=</span> _load_and_preprocess(f)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>test_eq(org_img.data[<span class="dv">0</span>].shape, im.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -551,7 +527,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="read-multichannel-data" class="level3">
 <h3 class="anchored" data-anchor-id="read-multichannel-data">Read multichannel data</h3>
-<div class="cell" data-execution_count="34">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> _multi_channel([f], only_tensor<span class="op">=</span><span class="va">True</span>)<span class="op">;</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>test_eq(t[<span class="dv">0</span>].shape, im.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -613,7 +589,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<div class="cell" data-execution_count="36">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>test_eq(image_reader(f)[<span class="dv">0</span>].shape, im.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
