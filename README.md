@@ -10,7 +10,7 @@ Notebook](https://img.shields.io/badge/jupyter-%23f37626.svg?style=flat&logo=jup
 ## Overview
 
 bioMONAI is a collaborative platform for developing and deploying deep
-learning models in medical imaging using the MONAI framework and Jupyter
+learning models in medical imaging using the MONAI framework, fastai, TorchIO, and Jupyter
 notebooks. This project aims to facilitate interoperability,
 reproducibility, and community collaboration in biomedical research.
 
@@ -34,7 +34,7 @@ To install the BioMONAI nbs environment, follow these steps:
 
     ``` bash
     git clone https://github.com/bmandracchia/biomonai.git
-    cd biomonai-nbs
+    cd biomonai
     ```
 
 2.  **Create a new Conda environment (recommended):**
@@ -58,13 +58,13 @@ To install the BioMONAI nbs environment, follow these steps:
 
 ## Getting Started
 
-To get started with BioMONAI nbs, follow these steps:
+To get started with BioMONAI, follow these steps:
 
 1.  **Clone the repository:**
 
     ``` bash
-    git clone https://github.com/your_username/biomonai-nbs.git
-    cd biomonai-nbs
+    git clone https://github.com/your_username/biomonai.git
+    cd biomonai
     ```
 
 2.  **Activate your Conda environment:**
@@ -109,8 +109,8 @@ nbs, follow these steps:
 2.  **Clone your fork:**
 
     ``` bash
-    git clone https://github.com/your_username/biomonai-nbs.git
-    cd biomonai-nbs
+    git clone https://github.com/your_username/biomonai.git
+    cd biomonai
     ```
 
 3.  **Create a new branch for your changes:**
@@ -132,7 +132,7 @@ nbs, follow these steps:
 
 ## License
 
-BioMONAI nbs is released under the Apache 2.0 license. See
+BioMONAI is released under the Apache 2.0 license. See
 [LICENSE](https://github.com/your_username/biomonai-nbs/blob/main/LICENSE)
 for more details.
 
@@ -144,5 +144,4 @@ If you have any questions or need further assistance, please open an
 issue on GitHub or contact us directly at:
 
 - Project Lead: [Biagio Mandracchia](mailto:biagio.mandracchia@uva.es)
-- Contributors: [Contributor
-  Names](mailto:contributor1@example.com,%20contributor2@example.com)
+- Contributors: [Juan Pita-López](mailto:juan.pita@uva.es), [Rosa-María Menchón-Lara](mailto:rosamaria.menchon@uva.es)
