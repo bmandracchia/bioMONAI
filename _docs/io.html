@@ -341,24 +341,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="image-readers" class="level2">
 <h2 class="anchored" data-anchor-id="image-readers">Image Readers</h2>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L17" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L19" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="tiff2torch" class="level3">
 <h3 class="anchored" data-anchor-id="tiff2torch">tiff2torch</h3>
 <blockquote class="blockquote">
 <pre><code> tiff2torch (file_path:str)</code></pre>
 </blockquote>
-<p>Load tiff into pytorch tensor</p>
+<p><em>Load tiff into pytorch tensor</em></p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L27" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L29" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="aics_image_reader" class="level3">
 <h3 class="anchored" data-anchor-id="aics_image_reader">aics_image_reader</h3>
 <blockquote class="blockquote">
 <pre><code> aics_image_reader (path)</code></pre>
 </blockquote>
-<p>Reads an image from the specified path using AICSImage library.</p>
+<p>*Reads an image from the specified path using AICSImage library.</p>
 <p>Parameters: path (str): The file path to the image.</p>
-<p>Returns: tuple: A tuple containing the image data and its affine transformation matrix. The image data is a NumPy array representing the image. The affine transformation matrix is a 4x4 NumPy array.</p>
+<p>Returns: tuple: A tuple containing the image data and its affine transformation matrix. The image data is a NumPy array representing the image. The affine transformation matrix is a 4x4 NumPy array.*</p>
 <table class="table">
 <thead>
 <tr class="header">
@@ -385,7 +385,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="hierarchical-data-format" class="level3">
 <h3 class="anchored" data-anchor-id="hierarchical-data-format">Hierarchical Data Format</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L71" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L73" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="split_hdf_path" class="level3">
 <h3 class="anchored" data-anchor-id="split_hdf_path">split_hdf_path</h3>
@@ -425,7 +425,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L86" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L88" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="hdf5_reader" class="level3">
 <h3 class="anchored" data-anchor-id="hdf5_reader">hdf5_reader</h3>
@@ -434,7 +434,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
               hdf5_exts:(&lt;class'fastcore.foundation.L'&gt;,&lt;class'list'&gt;)=['.
               h5', '.hdf5'])</code></pre>
 </blockquote>
-<p>Initialize self. See help(type(self)) for accurate signature.</p>
+<p><em>Initialize self. See help(type(self)) for accurate signature.</em></p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -517,7 +517,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="image-reader" class="level3">
 <h3 class="anchored" data-anchor-id="image-reader">Image reader</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L233" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L235" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="image_reader" class="level3">
 <h3 class="anchored" data-anchor-id="image_reader">image_reader</h3>
@@ -526,9 +526,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
                re.foundation.L'&gt;,&lt;class'list'&gt;), dtype=&lt;class
                'torch.Tensor'&gt;, only_tensor:bool=True, **kwargs)</code></pre>
 </blockquote>
-<p>Loads and preprocesses a medical image.</p>
+<p>*Loads and preprocesses a medical image.</p>
 <p>Args: file_path: Path to the image. Can be a string, Path object or a list. dtype: Datatype for the return value. Defaults to torchTensor. reorder: Whether to reorder the data to be closest to canonical (RAS+) orientation. Defaults to False. resample: Whether to resample image to different voxel sizes and image dimensions. Defaults to None. only_tensor: To return only an image tensor. Defaults to True.</p>
-<p>Returns: The preprocessed image. Returns only the image tensor if only_tensor is True, otherwise returns original image, preprocessed image, and original size.</p>
+<p>Returns: The preprocessed image. Returns only the image tensor if only_tensor is True, otherwise returns original image, preprocessed image, and original size.*</p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">

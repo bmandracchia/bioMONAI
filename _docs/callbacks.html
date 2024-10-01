@@ -301,7 +301,7 @@ ul.task-list li input[type="checkbox"] {
 <blockquote class="blockquote">
 <pre><code> ShortEpochCallback (pct=0.01, short_valid=True)</code></pre>
 </blockquote>
-<p>Fit just <code>pct</code> of an epoch, then stop</p>
+<p><em>Fit just <code>pct</code> of an epoch, then stop</em></p>
 <hr>
 <p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/training.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
@@ -310,7 +310,7 @@ ul.task-list li input[type="checkbox"] {
 <blockquote class="blockquote">
 <pre><code> GradientAccumulation (n_acc=32)</code></pre>
 </blockquote>
-<p>Accumulate gradients before updating weights</p>
+<p><em>Accumulate gradients before updating weights</em></p>
 <hr>
 <p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/tracker.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
@@ -320,7 +320,7 @@ ul.task-list li input[type="checkbox"] {
 <pre><code> EarlyStoppingCallback (monitor='valid_loss', comp=None, min_delta=0.0,
                         patience=1, reset_on_fit=True)</code></pre>
 </blockquote>
-<p>A <code>TrackerCallback</code> that terminates training when monitored quantity stops improving.</p>
+<p><em>A <code>TrackerCallback</code> that terminates training when monitored quantity stops improving.</em></p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -379,7 +379,7 @@ ul.task-list li input[type="checkbox"] {
                     fname='model', every_epoch=False, at_end=False,
                     with_opt=False, reset_on_fit=True)</code></pre>
 </blockquote>
-<p>A <code>TrackerCallback</code> that saves the model’s best during training and loads it at the end.</p>
+<p><em>A <code>TrackerCallback</code> that saves the model’s best during training and loads it at the end.</em></p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -455,7 +455,7 @@ ul.task-list li input[type="checkbox"] {
 <pre><code> ReduceLROnPlateau (monitor='valid_loss', comp=None, min_delta=0.0,
                     patience=1, factor=10.0, min_lr=0, reset_on_fit=True)</code></pre>
 </blockquote>
-<p>A <code>TrackerCallback</code> that reduces learning rate when a metric has stopped improving.</p>
+<p><em>A <code>TrackerCallback</code> that reduces learning rate when a metric has stopped improving.</em></p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -528,7 +528,7 @@ ul.task-list li input[type="checkbox"] {
 <blockquote class="blockquote">
 <pre><code> ParamScheduler (scheds)</code></pre>
 </blockquote>
-<p>Schedule hyper-parameters according to <code>scheds</code></p>
+<p><em>Schedule hyper-parameters according to <code>scheds</code></em></p>
 <p><code>scheds</code> is a dictionary with one key for each hyper-parameter you want to schedule, with either a scheduler or a list of schedulers as values (in the second case, the list must have the same length as the the number of parameters groups of the optimizer).</p>
 <hr>
 <p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/schedule.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
@@ -538,7 +538,7 @@ ul.task-list li input[type="checkbox"] {
 <blockquote class="blockquote">
 <pre><code> SchedCos (start, end)</code></pre>
 </blockquote>
-<p>Cosine schedule function from <code>start</code> to <code>end</code></p>
+<p><em>Cosine schedule function from <code>start</code> to <code>end</code></em></p>
 <hr>
 <p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/schedule.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
@@ -547,7 +547,7 @@ ul.task-list li input[type="checkbox"] {
 <blockquote class="blockquote">
 <pre><code> SchedExp (start, end)</code></pre>
 </blockquote>
-<p>Exponential schedule function from <code>start</code> to <code>end</code></p>
+<p><em>Exponential schedule function from <code>start</code> to <code>end</code></em></p>
 <hr>
 <p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/schedule.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
@@ -556,7 +556,7 @@ ul.task-list li input[type="checkbox"] {
 <blockquote class="blockquote">
 <pre><code> SchedLin (start, end)</code></pre>
 </blockquote>
-<p>Linear schedule function from <code>start</code> to <code>end</code></p>
+<p><em>Linear schedule function from <code>start</code> to <code>end</code></em></p>
 <hr>
 <p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/schedule.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
@@ -565,7 +565,7 @@ ul.task-list li input[type="checkbox"] {
 <blockquote class="blockquote">
 <pre><code> SchedNo (start, end)</code></pre>
 </blockquote>
-<p>Constant schedule function with <code>start</code> value</p>
+<p><em>Constant schedule function with <code>start</code> value</em></p>
 
 
 </section>

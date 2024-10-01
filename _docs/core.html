@@ -307,7 +307,7 @@ ul.task-list li input[type="checkbox"] {
             n_inp:int=None, item_tfms:list=None, batch_tfms:list=None,
             get_items=None, splitter=None, get_y=None, get_x=None)</code></pre>
 </blockquote>
-<p>Generic container to quickly build <code>Datasets</code> and <code>DataLoaders</code>.</p>
+<p><em>Generic container to quickly build <code>Datasets</code> and <code>DataLoaders</code>.</em></p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -394,13 +394,13 @@ ul.task-list li input[type="checkbox"] {
 <blockquote class="blockquote">
 <pre><code> DataLoaders (*loaders, path:str|pathlib.Path='.', device=None)</code></pre>
 </blockquote>
-<p>Basic wrapper around several <code>DataLoader</code>s.</p>
+<p><em>Basic wrapper around several <code>DataLoader</code>s.</em></p>
 <hr>
 <p><a href="https://github.com/fastai/fastai/blob/master/fastai/learner.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="learner" class="level3">
 <h3 class="anchored" data-anchor-id="learner">Learner</h3>
-<p>Group together a <code>model</code>, some <code>dls</code> and a <code>loss_func</code> to handle training</p>
+<p><em>Group together a <code>model</code>, some <code>dls</code> and a <code>loss_func</code> to handle training</em></p>
 <hr>
 <p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/progress.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
@@ -419,7 +419,7 @@ ul.task-list li input[type="checkbox"] {
                     after_cancel_epoch=None, after_epoch=None,
                     after_cancel_fit=None, after_fit=None)</code></pre>
 </blockquote>
-<p>Update a graph of training and validation loss</p>
+<p><em>Update a graph of training and validation loss</em></p>
 <hr>
 <p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/progress.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
@@ -428,7 +428,7 @@ ul.task-list li input[type="checkbox"] {
 <blockquote class="blockquote">
 <pre><code> CSVLogger (fname='history.csv', append=False)</code></pre>
 </blockquote>
-<p>Log the results displayed in <code>learn.path/fname</code></p>
+<p><em>Log the results displayed in <code>learn.path/fname</code></em></p>
 <pre><code>Unknown section Notes</code></pre>
 <hr>
 </section>
@@ -437,15 +437,15 @@ ul.task-list li input[type="checkbox"] {
 <blockquote class="blockquote">
 <pre><code> cells3d ()</code></pre>
 </blockquote>
-<p>3D fluorescence microscopy image of cells.</p>
-<p>The returned data is a 3D multichannel array with dimensions provided in <code>(z, c, y, x)</code> order. Each voxel has a size of <code>(0.29 0.26 0.26)</code> micrometer. Channel 0 contains cell membranes, channel 1 contains nuclei.</p>
+<p>*3D fluorescence microscopy image of cells.</p>
+<p>The returned data is a 3D multichannel array with dimensions provided in <code>(z, c, y, x)</code> order. Each voxel has a size of <code>(0.29 0.26 0.26)</code> micrometer. Channel 0 contains cell membranes, channel 1 contains nuclei.*</p>
 </section>
 </section>
 <section id="engine" class="level2">
 <h2 class="anchored" data-anchor-id="engine">Engine</h2>
 <p>Core engine for model training. See tutorials for usage examples.</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L34" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L36" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="fasttrainer" class="level3">
 <h3 class="anchored" data-anchor-id="fasttrainer">fastTrainer</h3>
 <blockquote class="blockquote">
@@ -464,7 +464,7 @@ ul.task-list li input[type="checkbox"] {
               wd_bn_bias:bool=False, train_bn:bool=True,
               moms:tuple=Ellipsis, default_cbs:bool=True)</code></pre>
 </blockquote>
-<p>A custom implementation of the FastAI Learner class for training models in bioinformatics applications.</p>
+<p><em>A custom implementation of the FastAI Learner class for training models in bioinformatics applications.</em></p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -609,14 +609,14 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="utils">Utils</h2>
 <p>Utility functions.</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L81" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L83" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="attributesfromdict" class="level3">
 <h3 class="anchored" data-anchor-id="attributesfromdict">attributesFromDict</h3>
 <blockquote class="blockquote">
 <pre><code> attributesFromDict (d)</code></pre>
 </blockquote>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L87" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L89" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="get_device" class="level3">
 <h3 class="anchored" data-anchor-id="get_device">get_device</h3>
@@ -624,7 +624,7 @@ ul.task-list li input[type="checkbox"] {
 <pre><code> get_device ()</code></pre>
 </blockquote>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L91" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L93" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="img2float" class="level3">
 <h3 class="anchored" data-anchor-id="img2float">img2float</h3>
@@ -632,7 +632,7 @@ ul.task-list li input[type="checkbox"] {
 <pre><code> img2float (image, force_copy=False)</code></pre>
 </blockquote>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L95" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L97" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="img2tensor" class="level3">
 <h3 class="anchored" data-anchor-id="img2tensor">img2Tensor</h3>

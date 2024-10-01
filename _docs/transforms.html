@@ -339,16 +339,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="sampling" class="level2">
 <h2 class="anchored" data-anchor-id="sampling">Sampling</h2>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/transforms.py#L15" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/transforms.py#L17" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="resample" class="level3">
 <h3 class="anchored" data-anchor-id="resample">Resample</h3>
 <blockquote class="blockquote">
 <pre><code> Resample (sampling, **kwargs)</code></pre>
 </blockquote>
-<p>A subclass of Spacing that handles image resampling based on specified sampling factors or voxel dimensions.</p>
+<p>*A subclass of Spacing that handles image resampling based on specified sampling factors or voxel dimensions.</p>
 <p>The <a href="https://bmandracchia.github.io/bioMONAI/transforms.html#resample"><code>Resample</code></a> class inherits from <code>Spacing</code> and provides a flexible way to adjust the spacing (voxel size) of images by specifying either a sampling factor or explicitly providing new voxel dimensions.</p>
 <p>Args: sampling (int, optional): Sampling factor for isotropic resampling. Default is 1, indicating no change in resolution. **kwargs: Additional keyword arguments that can include ‘pixdim’ to specify custom voxel dimensions.</p>
-<p>Attributes: pixdim (list or tuple): The voxel dimensions of the image after resampling. If not provided during initialization, this will be determined based on the sampling factor and original image properties.</p>
+<p>Attributes: pixdim (list or tuple): The voxel dimensions of the image after resampling. If not provided during initialization, this will be determined based on the sampling factor and original image properties.*</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.core <span class="im">import</span> cells3d, img2Tensor</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.visualize <span class="im">import</span> visualize_slices</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -374,7 +374,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="noise" class="level2">
 <h2 class="anchored" data-anchor-id="noise">Noise</h2>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/transforms.py#L50" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/transforms.py#L52" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="randcameranoise" class="level3">
 <h3 class="anchored" data-anchor-id="randcameranoise">RandCameraNoise</h3>
 <blockquote class="blockquote">
@@ -383,8 +383,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
                   simulation=False, camera='cmos', gain_variance=0.1,
                   offset_variance=5)</code></pre>
 </blockquote>
-<p>Simulates camera noise by adding Poisson shot noise, dark current noise, and optionally CMOS fixed pattern noise.</p>
-<p>Returns: numpy.ndarray: The noisy image as a NumPy array with dimensions of input_image.</p>
+<p>*Simulates camera noise by adding Poisson shot noise, dark current noise, and optionally CMOS fixed pattern noise.</p>
+<p>Returns: numpy.ndarray: The noisy image as a NumPy array with dimensions of input_image.*</p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -505,9 +505,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
                  dtype:Union[numpy.dtype,type,str,NoneType]=&lt;class
                  'numpy.float32'&gt;)</code></pre>
 </blockquote>
-<p>Scale the intensity of input image to the given value range (minv, maxv). If <code>minv</code> and <code>maxv</code> not provided, use <code>factor</code> to scale image by <code>v = v * (1 + factor)</code>.</p>
+<p><em>Scale the intensity of input image to the given value range (minv, maxv). If <code>minv</code> and <code>maxv</code> not provided, use <code>factor</code> to scale image by <code>v = v * (1 + factor)</code>.</em></p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/transforms.py#L122" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/transforms.py#L124" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="scaleintensitypercentiles" class="level3">
 <h3 class="anchored" data-anchor-id="scaleintensitypercentiles">ScaleIntensityPercentiles</h3>
@@ -515,17 +515,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> ScaleIntensityPercentiles (x, pmin=3, pmax=99.8, axis=None, eps=1e-20,
                             dtype=&lt;class 'numpy.float32'&gt;)</code></pre>
 </blockquote>
-<p>Percentile-based image normalization.</p>
+<p><em>Percentile-based image normalization.</em></p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/transforms.py#L134" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/transforms.py#L136" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="scaleintensityvariance" class="level3">
 <h3 class="anchored" data-anchor-id="scaleintensityvariance">ScaleIntensityVariance</h3>
 <blockquote class="blockquote">
 <pre><code> ScaleIntensityVariance (ndim=2)</code></pre>
 </blockquote>
-<p>Scales the intensity variance of an ND image to a target value.</p>
-<p>Args: target_variance (float): The desired variance for the scaled intensities. ndim (int): Number of spatial dimensions in the image. Default is 2 for 2D images.</p>
+<p>*Scales the intensity variance of an ND image to a target value.</p>
+<p>Args: target_variance (float): The desired variance for the scaled intensities. ndim (int): Number of spatial dimensions in the image. Default is 2 for 2D images.*</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage with a random tensor of shape (1, 3, 256, 256)</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>rand_tensor <span class="op">=</span> torch.rand(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">256</span>, <span class="dv">256</span>)</span>
@@ -547,13 +547,13 @@ Scaled Tensor Variance: 1.0</code></pre>
 <section id="data-augmentation" class="level2">
 <h2 class="anchored" data-anchor-id="data-augmentation">Data Augmentation</h2>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/transforms.py#L174" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/transforms.py#L176" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="randcrop2d" class="level3">
 <h3 class="anchored" data-anchor-id="randcrop2d">RandCrop2D</h3>
 <blockquote class="blockquote">
 <pre><code> RandCrop2D (size:int|tuple, lazy=False, **kwargs)</code></pre>
 </blockquote>
-<p>Randomly crop an image to <code>size</code></p>
+<p><em>Randomly crop an image to <code>size</code></em></p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -591,16 +591,16 @@ Scaled Tensor Variance: 1.0</code></pre>
 </tbody>
 </table>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/transforms.py#L204" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/transforms.py#L206" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="randcropnd" class="level3">
 <h3 class="anchored" data-anchor-id="randcropnd">RandCropND</h3>
 <blockquote class="blockquote">
 <pre><code> RandCropND (size:int|tuple, lazy=False, **kwargs)</code></pre>
 </blockquote>
-<p>Randomly crops an ND image to a specified size.</p>
+<p>*Randomly crops an ND image to a specified size.</p>
 <p>This transform randomly crops an ND image to a specified size during training and performs a center crop during validation. It supports both 2D and 3D images and videos, assuming the first dimension is the batch dimension.</p>
-<p>Args: size (int or tuple): The size to crop the image to. this can have any number of dimensions. If a single value is provided, it will be duplicated for each spatial dimension, up to a maximum of 3 dimensions. **kwargs: Additional keyword arguments to be passed to the parent class.</p>
+<p>Args: size (int or tuple): The size to crop the image to. this can have any number of dimensions. If a single value is provided, it will be duplicated for each spatial dimension, up to a maximum of 3 dimensions. **kwargs: Additional keyword arguments to be passed to the parent class.*</p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -646,14 +646,14 @@ Scaled Tensor Variance: 1.0</code></pre>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    test_eq((<span class="dv">8</span>,<span class="dv">64</span>,<span class="dv">64</span>),RandCropND((<span class="dv">64</span>,<span class="dv">64</span>))(rand_tensor).shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/transforms.py#L257" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/transforms.py#L259" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="randflip" class="level3">
 <h3 class="anchored" data-anchor-id="randflip">RandFlip</h3>
 <blockquote class="blockquote">
 <pre><code> RandFlip (prob=0.1, spatial_axis=None, ndim=2, lazy=False, **kwargs)</code></pre>
 </blockquote>
-<p>Randomly flips an ND image over a specified axis.</p>
+<p><em>Randomly flips an ND image over a specified axis.</em></p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -732,7 +732,7 @@ metatensor([[[0.8872, 0.7666, 0.3936, 0.2372],
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/transforms.py#L290" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/transforms.py#L292" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="randrot90" class="level3">
 <h3 class="anchored" data-anchor-id="randrot90">RandRot90</h3>
@@ -740,7 +740,7 @@ metatensor([[[0.8872, 0.7666, 0.3936, 0.2372],
 <pre><code> RandRot90 (prob=0.1, max_k=3, spatial_axes=(0, 1), ndim=2, lazy=False,
             **kwargs)</code></pre>
 </blockquote>
-<p>Randomly rotate an ND image by 90 degrees in the plane specified by axes.</p>
+<p><em>Randomly rotate an ND image by 90 degrees in the plane specified by axes.</em></p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
