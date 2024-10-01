@@ -13,6 +13,3 @@ website:
       - 08_datasets.ipynb
       - 09_visualize.ipynb
       - 901_demo_RI2FL_2d.ipynb
-      - 902_demo_2.ipynb
-      - 999_template.ipynb
-      - fourier_ring_correlation.ipynb
