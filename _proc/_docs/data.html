@@ -398,7 +398,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> BioImage (*args, **kwargs)</code></pre>
 </blockquote>
 <p>Subclass of BioImageBase that represents 2D and 3D image objects.</p>
-<div class="cell" data-execution_count="10">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> BioImage.create(<span class="st">'data_examples/example_tiff.tiff'</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -414,7 +414,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> BioImageStack (*args, **kwargs)</code></pre>
 </blockquote>
 <p>Subclass of BioImageBase that represents a 3D image object.</p>
-<div class="cell" data-execution_count="12">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> BioImageStack.create(<span class="st">'data_examples/example_tiff.tiff'</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -430,10 +430,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> BioImageProject (*args, **kwargs)</code></pre>
 </blockquote>
 <p>Subclass of BioImageBase that represents a 3D image stack as a 2D image object using maximum intensity projection.</p>
-<div class="cell" data-execution_count="14">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> BioImageProject.create(<span class="st">'data_examples/example_tiff.tiff'</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>a.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="14">
+<div class="cell-output cell-output-display">
 <pre><code>torch.Size([1, 512, 512])</code></pre>
 </div>
 </div>
@@ -446,7 +446,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> BioImageMulti (*args, **kwargs)</code></pre>
 </blockquote>
 <p>Subclass of BioImageBase that represents a multi-channel 2D image object.</p>
-<div class="cell" data-execution_count="16">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load a 3D image stack as a multichannel image</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> BioImageMulti.create(<span class="st">'data_examples/example_tiff.tiff'</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Differently from BioImageStack, here the third dimension is encoded as channels.</span></span>
@@ -487,8 +487,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="biodatablock">BioDataBlock</h3>
 <blockquote class="blockquote">
 <pre><code> BioDataBlock (blocks:list=(&lt;fastai.data.block.TransformBlock object at
-               0x7f8eff4dca50&gt;, &lt;fastai.data.block.TransformBlock object
-               at 0x7f8eff2942d0&gt;), dl_type:fastai.data.core.TfmdDL=None,
+               0x7ff5ca1d1310&gt;, &lt;fastai.data.block.TransformBlock object
+               at 0x7ff5c9bbc7d0&gt;), dl_type:fastai.data.core.TfmdDL=None,
                get_items=&lt;function get_image_files&gt;, get_y=None,
                get_x=None, getters:list=None, n_inp:int=None,
                item_tfms:list=None, batch_tfms:list=None, **kwargs)</code></pre>
@@ -513,7 +513,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td>blocks</td>
 <td>list</td>
-<td>(&lt;fastai.data.block.TransformBlock object at 0x7f8eff4dca50&gt;, &lt;fastai.data.block.TransformBlock object at 0x7f8eff2942d0&gt;)</td>
+<td>(&lt;fastai.data.block.TransformBlock object at 0x7ff5ca1d1310&gt;, &lt;fastai.data.block.TransformBlock object at 0x7ff5c9bbc7d0&gt;)</td>
 <td>One or more <code>TransformBlock</code>s</td>
 </tr>
 <tr class="even">
@@ -625,7 +625,7 @@ target_file_prefix (str, optional): The prefix to insert into the target file na
 signal_file_prefix (str, optional): The prefix used in the original file names that should be replaced by the target prefix. Defaults to "signal".</code></pre>
 <p>Returns:</p>
 <pre><code>callable: A function that takes a file name as input and returns its corresponding target file path based on the specified parameters.</code></pre>
-<div class="cell" data-execution_count="26">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(get_target(<span class="st">'train_folder/target'</span>, same_filename<span class="op">=</span><span class="va">False</span>)(<span class="st">'../signal/signal01.tif'</span>))</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(get_target(<span class="st">'train_folder/target'</span>)(<span class="st">'../signal/image01.tif'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -633,7 +633,7 @@ signal_file_prefix (str, optional): The prefix used in the original file names t
 train_folder/target/image01.tif</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="27">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(get_target(<span class="st">'train_folder'</span>, same_filename<span class="op">=</span><span class="va">False</span>, target_file_prefix<span class="op">=</span><span class="st">"cameraman_clean"</span>, signal_file_prefix<span class="op">=</span><span class="st">"cameraman_noisy"</span>)(<span class="st">'../signal/cameraman_noisy.tif'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>train_folder/cameraman_clean.tif</code></pre>
@@ -820,7 +820,7 @@ train_folder/target/image01.tif</code></pre>
 <section id="preprocessing" class="level2">
 <h2 class="anchored" data-anchor-id="preprocessing">Preprocessing</h2>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L476" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L474" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="extract_patches" class="level3">
 <h3 class="anchored" data-anchor-id="extract_patches">extract_patches</h3>
 <blockquote class="blockquote">
@@ -830,7 +830,7 @@ train_folder/target/image01.tif</code></pre>
 <p>Parameters: - data: numpy array of the input data (n-dimensional). - patch_size: tuple of integers defining the size of the patches in each dimension. - overlap: float (between 0 and 1) indicating overlap between patches.</p>
 <p>Returns: - A list of patches as numpy arrays.</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L504" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L502" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="save_patches_grid" class="level3">
 <h3 class="anchored" data-anchor-id="save_patches_grid">save_patches_grid</h3>
@@ -840,7 +840,7 @@ train_folder/target/image01.tif</code></pre>
 </blockquote>
 <p>Loads n-dimensional data from data_folder and gt_folder, generates patches, and saves them into individual HDF5 files. Each HDF5 file will have datasets with the structure X/patch_idx and y/patch_idx.</p>
 <p>Parameters: - data_folder: Path to the folder containing data files (n-dimensional data). - gt_folder: Path to the folder containing ground truth (gt) files (n-dimensional data). - output_folder: Path to the folder where the HDF5 files will be saved. - patch_size: tuple of integers defining the size of the patches. - overlap: float (between 0 and 1) defining the overlap between patches.</p>
-<div class="cell" data-execution_count="34">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>data_folder <span class="op">=</span> <span class="st">'/home/biagio/Code/Noise2Model/_data/Confocal_BPAE_B/raw/1'</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>gt_folder <span class="op">=</span> <span class="st">'/home/biagio/Code/Noise2Model/_data/Confocal_BPAE_B/raw/1'</span></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>output_folder <span class="op">=</span> <span class="st">'./_test'</span></span>
@@ -854,11 +854,11 @@ train_folder/target/image01.tif</code></pre>
 <pre><code>Processing files: 100%|██████████| 50/50 [00:01&lt;00:00, 36.83it/s]</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="35">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.io <span class="im">import</span> hdf5_reader</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.visualize <span class="im">import</span> plot_image</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="36">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> <span class="st">'./_test/HV110_P0500510000.h5/X/1'</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>im , _ <span class="op">=</span> hdf5_reader()(file_path)</span>
@@ -868,7 +868,7 @@ train_folder/target/image01.tif</code></pre>
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L560" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L558" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="extract_random_patches" class="level3">
 <h3 class="anchored" data-anchor-id="extract_random_patches">extract_random_patches</h3>
@@ -879,7 +879,7 @@ train_folder/target/image01.tif</code></pre>
 <p>Parameters: - data: numpy array of the input data (n-dimensional). - patch_size: tuple of integers defining the size of the patches in each dimension. - num_patches: number of random patches to extract.</p>
 <p>Returns: - A list of randomly cropped patches as numpy arrays.</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L596" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L594" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="save_patches_random" class="level3">
 <h3 class="anchored" data-anchor-id="save_patches_random">save_patches_random</h3>
@@ -889,7 +889,7 @@ train_folder/target/image01.tif</code></pre>
 </blockquote>
 <p>Loads n-dimensional data from data_folder and gt_folder, generates random patches, and saves them into individual HDF5 files. Each HDF5 file will have datasets with the structure X/patch_idx and y/patch_idx.</p>
 <p>Parameters: - data_folder: Path to the folder containing data files (n-dimensional data). - gt_folder: Path to the folder containing ground truth (gt) files (n-dimensional data). - output_folder: Path to the folder where the HDF5 files will be saved. - patch_size: tuple of integers defining the size of the patches. - num_patches: number of random patches to extract per file.</p>
-<div class="cell" data-execution_count="39">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>data_folder <span class="op">=</span> <span class="st">'/home/biagio/Code/Noise2Model/_data/Confocal_BPAE_B/raw/1'</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>gt_folder <span class="op">=</span> <span class="st">'/home/biagio/Code/Noise2Model/_data/Confocal_BPAE_B/raw/1'</span></span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>output_folder <span class="op">=</span> <span class="st">'./_test2'</span></span>
@@ -900,7 +900,7 @@ train_folder/target/image01.tif</code></pre>
 <pre><code>Processing files: 100%|██████████| 50/50 [00:00&lt;00:00, 55.37it/s]</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="40">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> <span class="st">'./_test2/HV110_P0500510000_random_patches.h5/X/1'</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>im , _ <span class="op">=</span> hdf5_reader()(file_path)</span>
