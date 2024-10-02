@@ -6,6 +6,9 @@ on:
       - main
       - nightly
 
+permissions:
+  contents: write  # Ensure the workflow can write to the repository
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -14,14 +17,9 @@ jobs:
     - name: Checkout the repository
       uses: actions/checkout@v3
 
-    - name: Set up Node.js (optional, if you need it for building docs)
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16'
-
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./_docs
+        publish_dir: _docs
         publish_branch: gh-pages
