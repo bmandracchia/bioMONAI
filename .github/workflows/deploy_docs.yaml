@@ -19,9 +19,6 @@ jobs:
       with:
         node-version: '16'
 
-    - name: Build documentation (if your docs need building)
-      run: npm run build-docs # or any other command to build docs
-
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
       with:
