@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Deep learning library for biomedical data built on top of MONAI">
+<meta name="description" content="Event handlers">
 
-<title>bioMONAI</title>
+<title>bioMONAI - Callbacks</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -97,14 +63,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="bioMONAI">
-<meta property="og:description" content="Deep learning library for biomedical data built on top of MONAI">
-<meta property="og:image" content="https://img.shields.io/badge/license-Apache 2.0-blue.svg">
+<meta property="og:title" content="bioMONAI - Callbacks">
+<meta property="og:description" content="Event handlers">
 <meta property="og:site-name" content="bioMONAI">
-<meta name="twitter:title" content="bioMONAI">
-<meta name="twitter:description" content="Deep learning library for biomedical data built on top of MONAI">
-<meta name="twitter:image" content="https://img.shields.io/badge/license-Apache 2.0-blue.svg">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="bioMONAI - Callbacks">
+<meta name="twitter:description" content="Event handlers">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="nav-sidebar floating nav-fixed">
@@ -188,7 +152,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">bioMONAI</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./callbacks.html">Callbacks</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -202,7 +166,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bioMONAI</span></a>
   </div>
 </li>
@@ -250,7 +214,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./callbacks.html" class="sidebar-item-text sidebar-link">
+  <a href="./callbacks.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Callbacks</span></a>
   </div>
 </li>
@@ -282,14 +246,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#table-of-contents" id="toc-table-of-contents" class="nav-link" data-scroll-target="#table-of-contents">Table of Contents</a></li>
-  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
-  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">Getting Started</a></li>
-  <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
-  <li><a href="#contributing" id="toc-contributing" class="nav-link" data-scroll-target="#contributing">Contributing</a></li>
-  <li><a href="#license" id="toc-license" class="nav-link" data-scroll-target="#license">License</a></li>
-  <li><a href="#contact" id="toc-contact" class="nav-link" data-scroll-target="#contact">Contact</a></li>
+  <li><a href="#training-callbacks" id="toc-training-callbacks" class="nav-link active" data-scroll-target="#training-callbacks">Training Callbacks</a>
+  <ul>
+  <li><a href="#shortepochcallback" id="toc-shortepochcallback" class="nav-link" data-scroll-target="#shortepochcallback">ShortEpochCallback</a></li>
+  <li><a href="#gradientaccumulation" id="toc-gradientaccumulation" class="nav-link" data-scroll-target="#gradientaccumulation">GradientAccumulation</a></li>
+  <li><a href="#earlystoppingcallback" id="toc-earlystoppingcallback" class="nav-link" data-scroll-target="#earlystoppingcallback">EarlyStoppingCallback</a></li>
+  <li><a href="#savemodelcallback" id="toc-savemodelcallback" class="nav-link" data-scroll-target="#savemodelcallback">SaveModelCallback</a></li>
+  <li><a href="#reducelronplateau" id="toc-reducelronplateau" class="nav-link" data-scroll-target="#reducelronplateau">ReduceLROnPlateau</a></li>
+  </ul></li>
+  <li><a href="#schedulers" id="toc-schedulers" class="nav-link" data-scroll-target="#schedulers">Schedulers</a>
+  <ul>
+  <li><a href="#paramscheduler" id="toc-paramscheduler" class="nav-link" data-scroll-target="#paramscheduler">ParamScheduler</a></li>
+  <li><a href="#schedcos" id="toc-schedcos" class="nav-link" data-scroll-target="#schedcos">SchedCos</a></li>
+  <li><a href="#schedexp" id="toc-schedexp" class="nav-link" data-scroll-target="#schedexp">SchedExp</a></li>
+  <li><a href="#schedlin" id="toc-schedlin" class="nav-link" data-scroll-target="#schedlin">SchedLin</a></li>
+  <li><a href="#schedno" id="toc-schedno" class="nav-link" data-scroll-target="#schedno">SchedNo</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/bmandracchia/bioMONAI/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -298,12 +270,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">bioMONAI</h1>
+<h1 class="title">Callbacks</h1>
 </div>
 
 <div>
   <div class="description">
-    Deep learning library for biomedical data built on top of MONAI
+    Event handlers
   </div>
 </div>
 
@@ -319,106 +291,284 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 <script src="https://static.cloudflareinsights.com/beacon.min.js?token=62f27bdcb8964407a52676798db9edfa" defer=""></script>
 <!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
-<p><a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg" class="img-fluid" alt="License"></a> <img src="https://img.shields.io/badge/python-3.7+-blue.svg" class="img-fluid" alt="Python Version"> <img src="https://img.shields.io/badge/jupyter-%23f37626.svg?style=flat&amp;logo=jupyter&amp;logoColor=white" class="img-fluid" alt="Jupyter Notebook"></p>
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>bioMONAI is a low-code Python-based platform for developing and deploying deep learning models in biomedical imaging built on top of the <a href="https://monai.io/">MONAI</a> framework, <a href="https://github.com/fastai/fastai">fastai</a>, and <a href="https://torchio.readthedocs.io/">TorchIO</a>. This project aims to facilitate interoperability, reproducibility, and community collaboration in biomedical research.</p>
+<section id="training-callbacks" class="level2">
+<h2 class="anchored" data-anchor-id="training-callbacks">Training Callbacks</h2>
+<p>Callbacks that add functionlities during the training phase, including Callbacks that make decisions depending how a monitored metric/loss behaves</p>
+<hr>
+<p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/training.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="shortepochcallback" class="level3">
+<h3 class="anchored" data-anchor-id="shortepochcallback">ShortEpochCallback</h3>
+<blockquote class="blockquote">
+<pre><code> ShortEpochCallback (pct=0.01, short_valid=True)</code></pre>
+</blockquote>
+<p><em>Fit just <code>pct</code> of an epoch, then stop</em></p>
+<hr>
+<p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/training.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
-<section id="table-of-contents" class="level2">
-<h2 class="anchored" data-anchor-id="table-of-contents">Table of Contents</h2>
-<ul>
-<li><a href="#biomonai">bioMONAI</a>
-<ul>
-<li><a href="#overview">Overview</a></li>
-<li><a href="#table-of-contents">Table of Contents</a></li>
-<li><a href="#installation">Installation</a></li>
-<li><a href="#getting-started">Getting Started</a></li>
-<li><a href="#usage">Usage</a></li>
-<li><a href="#contributing">Contributing</a></li>
-<li><a href="#license">License</a></li>
-<li><a href="#contact">Contact</a></li>
-</ul></li>
-</ul>
+<section id="gradientaccumulation" class="level3">
+<h3 class="anchored" data-anchor-id="gradientaccumulation">GradientAccumulation</h3>
+<blockquote class="blockquote">
+<pre><code> GradientAccumulation (n_acc=32)</code></pre>
+</blockquote>
+<p><em>Accumulate gradients before updating weights</em></p>
+<hr>
+<p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/tracker.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<p>To install the bioMONAI environment, follow these steps:</p>
-<ol type="1">
-<li><p><strong>Clone the repository:</strong></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/bmandracchia/biomonai.git</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> biomonai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Create a new Conda environment (recommended):</strong></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> biomonai python=3.7</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate biomonai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Install dependencies:</strong></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Install MONAI and other necessary packages:</strong></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install bioMONAI</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-</ol>
-</section>
-<section id="getting-started" class="level2">
-<h2 class="anchored" data-anchor-id="getting-started">Getting Started</h2>
-<p>To get started with bioMONAI, the best way is to try out our tutorials, which will walk you through model training for various tasks like classification, regression, and segmentation.</p>
+<section id="earlystoppingcallback" class="level3">
+<h3 class="anchored" data-anchor-id="earlystoppingcallback">EarlyStoppingCallback</h3>
+<blockquote class="blockquote">
+<pre><code> EarlyStoppingCallback (monitor='valid_loss', comp=None, min_delta=0.0,
+                        patience=1, reset_on_fit=True)</code></pre>
+</blockquote>
+<p><em>A <code>TrackerCallback</code> that terminates training when monitored quantity stops improving.</em></p>
 <table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;">Notebook</th>
-<th>Open in Colab</th>
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><a href="http://localhost:3348/902_demo_2.html">Tutorial classification</a> <br>(to be updated.)</td>
-<td><a href="https://colab.research.google.com/github.com/bmandracchia/bioMONAI/nightly/nbs/901_demo_RI2FL_2d.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Google Colab"></a></td>
+<td>monitor</td>
+<td>str</td>
+<td>valid_loss</td>
+<td>value (usually loss or metric) being monitored.</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><a href="https://nbviewer.org/github.com/bmandracchia/bioMONAI/nightly/nbs/901_demo_RI2FL_2d.ipynb">Tutorial regression</a> <br>(to be updated.)</td>
-<td><a href="https://colab.research.google.com/github.com/bmandracchia/bioMONAI/nightly/nbs/901_demo_RI2FL_2d.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Google Colab"></a></td>
+<td>comp</td>
+<td>NoneType</td>
+<td>None</td>
+<td>numpy comparison operator; np.less if monitor is loss, np.greater if monitor is metric.</td>
+</tr>
+<tr class="odd">
+<td>min_delta</td>
+<td>float</td>
+<td>0.0</td>
+<td>minimum delta between the last monitor value and the best monitor value.</td>
+</tr>
+<tr class="even">
+<td>patience</td>
+<td>int</td>
+<td>1</td>
+<td>number of epochs to wait when training has not improved model.</td>
+</tr>
+<tr class="odd">
+<td>reset_on_fit</td>
+<td>bool</td>
+<td>True</td>
+<td>before model fitting, reset value being monitored to -infinity (if monitor is metric) or +infinity (if monitor is loss).</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/tracker.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="savemodelcallback" class="level3">
+<h3 class="anchored" data-anchor-id="savemodelcallback">SaveModelCallback</h3>
+<blockquote class="blockquote">
+<pre><code> SaveModelCallback (monitor='valid_loss', comp=None, min_delta=0.0,
+                    fname='model', every_epoch=False, at_end=False,
+                    with_opt=False, reset_on_fit=True)</code></pre>
+</blockquote>
+<p><em>A <code>TrackerCallback</code> that saves the model’s best during training and loads it at the end.</em></p>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>monitor</td>
+<td>str</td>
+<td>valid_loss</td>
+<td>value (usually loss or metric) being monitored.</td>
+</tr>
+<tr class="even">
+<td>comp</td>
+<td>NoneType</td>
+<td>None</td>
+<td>numpy comparison operator; np.less if monitor is loss, np.greater if monitor is metric.</td>
+</tr>
+<tr class="odd">
+<td>min_delta</td>
+<td>float</td>
+<td>0.0</td>
+<td>minimum delta between the last monitor value and the best monitor value.</td>
+</tr>
+<tr class="even">
+<td>fname</td>
+<td>str</td>
+<td>model</td>
+<td>model name to be used when saving model.</td>
+</tr>
+<tr class="odd">
+<td>every_epoch</td>
+<td>bool</td>
+<td>False</td>
+<td>if true, save model after every epoch; else save only when model is better than existing best.</td>
+</tr>
+<tr class="even">
+<td>at_end</td>
+<td>bool</td>
+<td>False</td>
+<td>if true, save model when training ends; else load best model if there is only one saved model.</td>
+</tr>
+<tr class="odd">
+<td>with_opt</td>
+<td>bool</td>
+<td>False</td>
+<td>if true, save optimizer state (if any available) when saving model.</td>
+</tr>
+<tr class="even">
+<td>reset_on_fit</td>
+<td>bool</td>
+<td>True</td>
+<td>before model fitting, reset value being monitored to -infinity (if monitor is metric) or +infinity (if monitor is loss).</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/tracker.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="reducelronplateau" class="level3">
+<h3 class="anchored" data-anchor-id="reducelronplateau">ReduceLROnPlateau</h3>
+<blockquote class="blockquote">
+<pre><code> ReduceLROnPlateau (monitor='valid_loss', comp=None, min_delta=0.0,
+                    patience=1, factor=10.0, min_lr=0, reset_on_fit=True)</code></pre>
+</blockquote>
+<p><em>A <code>TrackerCallback</code> that reduces learning rate when a metric has stopped improving.</em></p>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>monitor</td>
+<td>str</td>
+<td>valid_loss</td>
+<td>value (usually loss or metric) being monitored.</td>
+</tr>
+<tr class="even">
+<td>comp</td>
+<td>NoneType</td>
+<td>None</td>
+<td>numpy comparison operator; np.less if monitor is loss, np.greater if monitor is metric.</td>
+</tr>
+<tr class="odd">
+<td>min_delta</td>
+<td>float</td>
+<td>0.0</td>
+<td>minimum delta between the last monitor value and the best monitor value.</td>
+</tr>
+<tr class="even">
+<td>patience</td>
+<td>int</td>
+<td>1</td>
+<td>number of epochs to wait when training has not improved model.</td>
+</tr>
+<tr class="odd">
+<td>factor</td>
+<td>float</td>
+<td>10.0</td>
+<td>the denominator to divide the learning rate by, when reducing the learning rate.</td>
+</tr>
+<tr class="even">
+<td>min_lr</td>
+<td>int</td>
+<td>0</td>
+<td>the minimum learning rate allowed; learning rate cannot be reduced below this minimum.</td>
+</tr>
+<tr class="odd">
+<td>reset_on_fit</td>
+<td>bool</td>
+<td>True</td>
+<td>before model fitting, reset value being monitored to -infinity (if monitor is metric) or +infinity (if monitor is loss).</td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="usage" class="level2">
-<h2 class="anchored" data-anchor-id="usage">Usage</h2>
-<p>To use bioMONAI for your own projects, follow these steps:</p>
-<ol type="1">
-<li><p><strong>Create a new Jupyter notebook or open an existing one.</strong></p></li>
-<li><p><strong>Import necessary modules:</strong></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> bioMONAI</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Start coding! You can now leverage MONAI’s capabilities alongside the interactive features of Jupyter notebooks.</strong></p></li>
-</ol>
 </section>
-<section id="contributing" class="level2">
-<h2 class="anchored" data-anchor-id="contributing">Contributing</h2>
-<p>We welcome contributions from the community! To contribute to BioMONAI nbs, follow these steps:</p>
-<ol type="1">
-<li><p><strong>Fork the repository on GitHub.</strong></p></li>
-<li><p><strong>Clone your fork:</strong></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/your_username/biomonai.git</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> biomonai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Create a new branch for your changes:</strong></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout <span class="at">-b</span> feature/new-feature</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Make your changes and commit them:</strong></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add new feature: &lt;feature description&gt;"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Push to your fork and create a pull request on GitHub.</strong></p></li>
-<li><p><strong>Wait for the review, and merge if everything looks good!</strong></p></li>
-</ol>
-</section>
-<section id="license" class="level2">
-<h2 class="anchored" data-anchor-id="license">License</h2>
-<p>bioMONAI is released under the Apache 2.0 license. See <a href="https://github.com/your_username/biomonai-nbs/blob/main/LICENSE">LICENSE</a> for more details.</p>
+<section id="schedulers" class="level2">
+<h2 class="anchored" data-anchor-id="schedulers">Schedulers</h2>
+<p>Callback and helper functions to schedule hyper-parameters</p>
 <hr>
+<p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/schedule.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="paramscheduler" class="level3">
+<h3 class="anchored" data-anchor-id="paramscheduler">ParamScheduler</h3>
+<blockquote class="blockquote">
+<pre><code> ParamScheduler (scheds)</code></pre>
+</blockquote>
+<p><em>Schedule hyper-parameters according to <code>scheds</code></em></p>
+<p><code>scheds</code> is a dictionary with one key for each hyper-parameter you want to schedule, with either a scheduler or a list of schedulers as values (in the second case, the list must have the same length as the the number of parameters groups of the optimizer).</p>
+<hr>
+<p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/schedule.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
-<section id="contact" class="level2">
-<h2 class="anchored" data-anchor-id="contact">Contact</h2>
-<p>If you have any questions or need further assistance, please open an issue on GitHub or contact us directly at:</p>
-<ul>
-<li>Project Lead: <a href="mailto:biagio.mandracchia@uva.es">Biagio Mandracchia</a></li>
-<li>Contributors: <a href="mailto:juan.pita@uva.es">Juan Pita-López</a>, <a href="mailto:rosamaria.menchon@uva.es">Rosa-María Menchón-Lara</a></li>
-</ul>
+<section id="schedcos" class="level3">
+<h3 class="anchored" data-anchor-id="schedcos">SchedCos</h3>
+<blockquote class="blockquote">
+<pre><code> SchedCos (start, end)</code></pre>
+</blockquote>
+<p><em>Cosine schedule function from <code>start</code> to <code>end</code></em></p>
+<hr>
+<p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/schedule.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="schedexp" class="level3">
+<h3 class="anchored" data-anchor-id="schedexp">SchedExp</h3>
+<blockquote class="blockquote">
+<pre><code> SchedExp (start, end)</code></pre>
+</blockquote>
+<p><em>Exponential schedule function from <code>start</code> to <code>end</code></em></p>
+<hr>
+<p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/schedule.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="schedlin" class="level3">
+<h3 class="anchored" data-anchor-id="schedlin">SchedLin</h3>
+<blockquote class="blockquote">
+<pre><code> SchedLin (start, end)</code></pre>
+</blockquote>
+<p><em>Linear schedule function from <code>start</code> to <code>end</code></em></p>
+<hr>
+<p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/schedule.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="schedno" class="level3">
+<h3 class="anchored" data-anchor-id="schedno">SchedNo</h3>
+<blockquote class="blockquote">
+<pre><code> SchedNo (start, end)</code></pre>
+</blockquote>
+<p><em>Constant schedule function with <code>start</code> value</em></p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

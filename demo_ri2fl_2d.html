@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Deep learning library for biomedical data built on top of MONAI">
+<meta name="description" content="2D RI2FL demo">
 
-<title>bioMONAI</title>
+<title>bioMONAI - Demo: 2D image RI2FL</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -97,13 +97,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="bioMONAI">
-<meta property="og:description" content="Deep learning library for biomedical data built on top of MONAI">
-<meta property="og:image" content="https://img.shields.io/badge/license-Apache 2.0-blue.svg">
+<meta property="og:title" content="bioMONAI - Demo: 2D image RI2FL">
+<meta property="og:description" content="2D RI2FL demo">
+<meta property="og:image" content="https://bmandracchia.github.io/bioMONAI/901_demo_RI2FL_2d_files/figure-html/cell-5-output-2.png">
 <meta property="og:site-name" content="bioMONAI">
-<meta name="twitter:title" content="bioMONAI">
-<meta name="twitter:description" content="Deep learning library for biomedical data built on top of MONAI">
-<meta name="twitter:image" content="https://img.shields.io/badge/license-Apache 2.0-blue.svg">
+<meta property="og:image:height" content="222">
+<meta property="og:image:width" content="950">
+<meta name="twitter:title" content="bioMONAI - Demo: 2D image RI2FL">
+<meta name="twitter:description" content="2D RI2FL demo">
+<meta name="twitter:image" content="https://bmandracchia.github.io/bioMONAI/901_demo_RI2FL_2d_files/figure-html/cell-5-output-2.png">
+<meta name="twitter:image-height" content="222">
+<meta name="twitter:image-width" content="950">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -188,7 +192,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">bioMONAI</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./demo_ri2fl_2d.html">Demo: 2D image RI2FL</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -202,7 +206,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bioMONAI</span></a>
   </div>
 </li>
@@ -268,7 +272,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./demo_ri2fl_2d.html" class="sidebar-item-text sidebar-link">
+  <a href="./demo_ri2fl_2d.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Demo: 2D image RI2FL</span></a>
   </div>
 </li>
@@ -282,14 +286,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#table-of-contents" id="toc-table-of-contents" class="nav-link" data-scroll-target="#table-of-contents">Table of Contents</a></li>
-  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
-  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">Getting Started</a></li>
-  <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
-  <li><a href="#contributing" id="toc-contributing" class="nav-link" data-scroll-target="#contributing">Contributing</a></li>
-  <li><a href="#license" id="toc-license" class="nav-link" data-scroll-target="#license">License</a></li>
-  <li><a href="#contact" id="toc-contact" class="nav-link" data-scroll-target="#contact">Contact</a></li>
+  <li><a href="#create-dataloader" id="toc-create-dataloader" class="nav-link active" data-scroll-target="#create-dataloader">Create Dataloader</a></li>
+  <li><a href="#load-and-train-a-2d-model" id="toc-load-and-train-a-2d-model" class="nav-link" data-scroll-target="#load-and-train-a-2d-model">Load and train a 2D model</a></li>
+  <li><a href="#test-data" id="toc-test-data" class="nav-link" data-scroll-target="#test-data">Test data</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/bmandracchia/bioMONAI/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -298,12 +297,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">bioMONAI</h1>
+<h1 class="title">Demo: 2D image RI2FL</h1>
 </div>
 
 <div>
   <div class="description">
-    Deep learning library for biomedical data built on top of MONAI
+    2D RI2FL demo
   </div>
 </div>
 
@@ -319,104 +318,106 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 <script src="https://static.cloudflareinsights.com/beacon.min.js?token=62f27bdcb8964407a52676798db9edfa" defer=""></script>
 <!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
-<p><a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg" class="img-fluid" alt="License"></a> <img src="https://img.shields.io/badge/python-3.7+-blue.svg" class="img-fluid" alt="Python Version"> <img src="https://img.shields.io/badge/jupyter-%23f37626.svg?style=flat&amp;logo=jupyter&amp;logoColor=white" class="img-fluid" alt="Jupyter Notebook"></p>
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>bioMONAI is a low-code Python-based platform for developing and deploying deep learning models in biomedical imaging built on top of the <a href="https://monai.io/">MONAI</a> framework, <a href="https://github.com/fastai/fastai">fastai</a>, and <a href="https://torchio.readthedocs.io/">TorchIO</a>. This project aims to facilitate interoperability, reproducibility, and community collaboration in biomedical research.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.data <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.transforms <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.core <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.core <span class="im">import</span> Path</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.data <span class="im">import</span> get_image_files, get_target, RandomSplitter</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.nets <span class="im">import</span> BasicUNet, DynUNet</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.losses <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.metrics <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> monai.utils <span class="im">import</span> set_determinism</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> monai.transforms <span class="im">import</span> ScaleIntensity</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>set_determinism(<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>device <span class="op">=</span> get_device()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(device)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>cuda</code></pre>
+</div>
+</div>
+<section id="create-dataloader" class="level3">
+<h3 class="anchored" data-anchor-id="create-dataloader">Create Dataloader</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>bs, size <span class="op">=</span> <span class="dv">16</span>, <span class="dv">128</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> Path(<span class="st">'../_data/Babesia/'</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>path_x <span class="op">=</span> path<span class="op">/</span><span class="st">'RI'</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>path_y <span class="op">=</span> path<span class="op">/</span><span class="st">'TRITC'</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>data_ops <span class="op">=</span> {</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'blocks'</span>:       (BioImageBlock(cls<span class="op">=</span>BioImageProject), BioImageBlock(cls<span class="op">=</span>BioImage)),</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'get_items'</span>:    get_image_files,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'get_y'</span>:        get_target(path_y, same_filename<span class="op">=</span><span class="va">False</span>, signal_file_prefix<span class="op">=</span><span class="st">'RI'</span>, target_file_prefix<span class="op">=</span><span class="st">'TRITC'</span>),</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'splitter'</span>:     RandomSplitter(valid_pct<span class="op">=</span><span class="fl">0.2</span>),</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'item_tfms'</span>:    [ScaleIntensity(minv<span class="op">=</span><span class="fl">0.0</span>, maxv<span class="op">=</span><span class="fl">1.0</span>),RandCrop2D(size), RandRot90(prob<span class="op">=</span><span class="fl">0.5</span>), RandFlip(prob<span class="op">=</span><span class="fl">0.75</span>)],</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'bs'</span>: bs,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> get_dataloader(</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    path_x, </span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    show_summary<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">**</span>data_ops,</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co"># print length of training and validation datasets</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'train images:'</span>, <span class="bu">len</span>(data.train_ds.items), <span class="st">'</span><span class="ch">\n</span><span class="st">validation images:'</span>, <span class="bu">len</span>(data.valid_ds.items))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>train images: 220 
+validation images: 55</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting affine, but the applied meta contains an affine. This will be overwritten.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data.show_batch(max_n<span class="op">=</span><span class="dv">2</span>, cmap<span class="op">=</span><span class="st">'hot'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting affine, but the applied meta contains an affine. This will be overwritten.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="901_demo_RI2FL_2d_files/figure-html/cell-5-output-2.png" class="img-fluid"></p>
+</div>
+</div>
 </section>
-<section id="table-of-contents" class="level2">
-<h2 class="anchored" data-anchor-id="table-of-contents">Table of Contents</h2>
-<ul>
-<li><a href="#biomonai">bioMONAI</a>
-<ul>
-<li><a href="#overview">Overview</a></li>
-<li><a href="#table-of-contents">Table of Contents</a></li>
-<li><a href="#installation">Installation</a></li>
-<li><a href="#getting-started">Getting Started</a></li>
-<li><a href="#usage">Usage</a></li>
-<li><a href="#contributing">Contributing</a></li>
-<li><a href="#license">License</a></li>
-<li><a href="#contact">Contact</a></li>
-</ul></li>
-</ul>
+<section id="load-and-train-a-2d-model" class="level3">
+<h3 class="anchored" data-anchor-id="load-and-train-a-2d-model">Load and train a 2D model</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.nets <span class="im">import</span> Deeplab, DeeplabConfig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>config_2d <span class="op">=</span> DeeplabConfig(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    dimensions<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    in_channels<span class="op">=</span><span class="dv">1</span>,  </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    out_channels<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    backbone<span class="op">=</span><span class="st">"resnet10"</span>,  </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    aspp_dilations<span class="op">=</span>[<span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">12</span>, <span class="dv">18</span>]</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Deeplab(config_2d)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> MSSSIML1Loss(<span class="dv">2</span>, levels<span class="op">=</span><span class="dv">2</span>) <span class="co">#CombinedLoss(alpha=0, beta=0.5)</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>metrics <span class="op">=</span> [SSIMMetric, MSELoss]</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>trainer <span class="op">=</span> fastTrainer(data, model, loss_fn<span class="op">=</span>loss, metrics<span class="op">=</span>metrics, show_summary<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>trainer.fit_flat_cos(<span class="dv">500</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>trainer.show_results(cmap<span class="op">=</span><span class="st">'gray'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># trainer.save('tmp-model')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<p>To install the bioMONAI environment, follow these steps:</p>
-<ol type="1">
-<li><p><strong>Clone the repository:</strong></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/bmandracchia/biomonai.git</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> biomonai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Create a new Conda environment (recommended):</strong></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> biomonai python=3.7</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate biomonai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Install dependencies:</strong></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Install MONAI and other necessary packages:</strong></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install bioMONAI</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-</ol>
-</section>
-<section id="getting-started" class="level2">
-<h2 class="anchored" data-anchor-id="getting-started">Getting Started</h2>
-<p>To get started with bioMONAI, the best way is to try out our tutorials, which will walk you through model training for various tasks like classification, regression, and segmentation.</p>
-<table class="table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Notebook</th>
-<th>Open in Colab</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><a href="http://localhost:3348/902_demo_2.html">Tutorial classification</a> <br>(to be updated.)</td>
-<td><a href="https://colab.research.google.com/github.com/bmandracchia/bioMONAI/nightly/nbs/901_demo_RI2FL_2d.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Google Colab"></a></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><a href="https://nbviewer.org/github.com/bmandracchia/bioMONAI/nightly/nbs/901_demo_RI2FL_2d.ipynb">Tutorial regression</a> <br>(to be updated.)</td>
-<td><a href="https://colab.research.google.com/github.com/bmandracchia/bioMONAI/nightly/nbs/901_demo_RI2FL_2d.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Google Colab"></a></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="usage" class="level2">
-<h2 class="anchored" data-anchor-id="usage">Usage</h2>
-<p>To use bioMONAI for your own projects, follow these steps:</p>
-<ol type="1">
-<li><p><strong>Create a new Jupyter notebook or open an existing one.</strong></p></li>
-<li><p><strong>Import necessary modules:</strong></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> bioMONAI</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Start coding! You can now leverage MONAI’s capabilities alongside the interactive features of Jupyter notebooks.</strong></p></li>
-</ol>
-</section>
-<section id="contributing" class="level2">
-<h2 class="anchored" data-anchor-id="contributing">Contributing</h2>
-<p>We welcome contributions from the community! To contribute to BioMONAI nbs, follow these steps:</p>
-<ol type="1">
-<li><p><strong>Fork the repository on GitHub.</strong></p></li>
-<li><p><strong>Clone your fork:</strong></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/your_username/biomonai.git</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> biomonai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Create a new branch for your changes:</strong></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout <span class="at">-b</span> feature/new-feature</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Make your changes and commit them:</strong></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add new feature: &lt;feature description&gt;"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Push to your fork and create a pull request on GitHub.</strong></p></li>
-<li><p><strong>Wait for the review, and merge if everything looks good!</strong></p></li>
-</ol>
-</section>
-<section id="license" class="level2">
-<h2 class="anchored" data-anchor-id="license">License</h2>
-<p>bioMONAI is released under the Apache 2.0 license. See <a href="https://github.com/your_username/biomonai-nbs/blob/main/LICENSE">LICENSE</a> for more details.</p>
-<hr>
-</section>
-<section id="contact" class="level2">
-<h2 class="anchored" data-anchor-id="contact">Contact</h2>
-<p>If you have any questions or need further assistance, please open an issue on GitHub or contact us directly at:</p>
-<ul>
-<li>Project Lead: <a href="mailto:biagio.mandracchia@uva.es">Biagio Mandracchia</a></li>
-<li>Contributors: <a href="mailto:juan.pita@uva.es">Juan Pita-López</a>, <a href="mailto:rosamaria.menchon@uva.es">Rosa-María Menchón-Lara</a></li>
-</ul>
+<section id="test-data" class="level3">
+<h3 class="anchored" data-anchor-id="test-data">Test data</h3>
+<p>Evaluate the performance of the selected model on unseen data. It’s important to not touch this data until you have fine tuned your model to get an unbiased evaluation!</p>
 
 
 </section>

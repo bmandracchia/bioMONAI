@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Deep learning library for biomedical data built on top of MONAI">
+<meta name="description" content="Download and store datasets">
 
-<title>bioMONAI</title>
+<title>bioMONAI - Datasets</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -94,17 +94,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="bioMONAI">
-<meta property="og:description" content="Deep learning library for biomedical data built on top of MONAI">
-<meta property="og:image" content="https://img.shields.io/badge/license-Apache 2.0-blue.svg">
+<meta property="og:title" content="bioMONAI - Datasets">
+<meta property="og:description" content="Download and store datasets">
 <meta property="og:site-name" content="bioMONAI">
-<meta name="twitter:title" content="bioMONAI">
-<meta name="twitter:description" content="Deep learning library for biomedical data built on top of MONAI">
-<meta name="twitter:image" content="https://img.shields.io/badge/license-Apache 2.0-blue.svg">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="bioMONAI - Datasets">
+<meta name="twitter:description" content="Download and store datasets">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="nav-sidebar floating nav-fixed">
@@ -188,7 +189,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">bioMONAI</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./datasets.html">Datasets</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -202,7 +203,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bioMONAI</span></a>
   </div>
 </li>
@@ -256,7 +257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./datasets.html" class="sidebar-item-text sidebar-link">
+  <a href="./datasets.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Datasets</span></a>
   </div>
 </li>
@@ -282,14 +283,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#table-of-contents" id="toc-table-of-contents" class="nav-link" data-scroll-target="#table-of-contents">Table of Contents</a></li>
-  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
-  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">Getting Started</a></li>
-  <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
-  <li><a href="#contributing" id="toc-contributing" class="nav-link" data-scroll-target="#contributing">Contributing</a></li>
-  <li><a href="#license" id="toc-license" class="nav-link" data-scroll-target="#license">License</a></li>
-  <li><a href="#contact" id="toc-contact" class="nav-link" data-scroll-target="#contact">Contact</a></li>
+  <li><a href="#medmnist-datasets" id="toc-medmnist-datasets" class="nav-link active" data-scroll-target="#medmnist-datasets">MedMNIST Datasets</a></li>
+  <li><a href="#download_medmnist" id="toc-download_medmnist" class="nav-link" data-scroll-target="#download_medmnist">download_medmnist</a></li>
+  <li><a href="#download-data-via-pooch" id="toc-download-data-via-pooch" class="nav-link" data-scroll-target="#download-data-via-pooch">Download data via Pooch</a></li>
+  <li><a href="#download_dataset" id="toc-download_dataset" class="nav-link" data-scroll-target="#download_dataset">download_dataset</a></li>
+  <li><a href="#download-data-via-quiltt4" id="toc-download-data-via-quiltt4" class="nav-link" data-scroll-target="#download-data-via-quiltt4">Download data via Quilt/T4</a></li>
+  <li><a href="#aics_pipeline" id="toc-aics_pipeline" class="nav-link" data-scroll-target="#aics_pipeline">aics_pipeline</a></li>
+  <li><a href="#dataset-manifest" id="toc-dataset-manifest" class="nav-link" data-scroll-target="#dataset-manifest">Dataset Manifest</a></li>
+  <li><a href="#manifest2csv" id="toc-manifest2csv" class="nav-link" data-scroll-target="#manifest2csv">manifest2csv</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/bmandracchia/bioMONAI/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -298,12 +299,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">bioMONAI</h1>
+<h1 class="title">Datasets</h1>
 </div>
 
 <div>
   <div class="description">
-    Deep learning library for biomedical data built on top of MONAI
+    Download and store datasets
   </div>
 </div>
 
@@ -319,104 +320,163 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 <script src="https://static.cloudflareinsights.com/beacon.min.js?token=62f27bdcb8964407a52676798db9edfa" defer=""></script>
 <!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
-<p><a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg" class="img-fluid" alt="License"></a> <img src="https://img.shields.io/badge/python-3.7+-blue.svg" class="img-fluid" alt="Python Version"> <img src="https://img.shields.io/badge/jupyter-%23f37626.svg?style=flat&amp;logo=jupyter&amp;logoColor=white" class="img-fluid" alt="Jupyter Notebook"></p>
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>bioMONAI is a low-code Python-based platform for developing and deploying deep learning models in biomedical imaging built on top of the <a href="https://monai.io/">MONAI</a> framework, <a href="https://github.com/fastai/fastai">fastai</a>, and <a href="https://torchio.readthedocs.io/">TorchIO</a>. This project aims to facilitate interoperability, reproducibility, and community collaboration in biomedical research.</p>
+<section id="medmnist-datasets" class="level3">
+<h3 class="anchored" data-anchor-id="medmnist-datasets">MedMNIST Datasets</h3>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L19" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
-<section id="table-of-contents" class="level2">
-<h2 class="anchored" data-anchor-id="table-of-contents">Table of Contents</h2>
+<section id="download_medmnist" class="level3">
+<h3 class="anchored" data-anchor-id="download_medmnist">download_medmnist</h3>
+<blockquote class="blockquote">
+<pre><code> download_medmnist (dataset, file_names, output_dir)</code></pre>
+</blockquote>
+<p>*Downloads the specified MedMNIST dataset and saves the training, validation, and test datasets into the specified output directory.</p>
+<p>The function uses the dataset flag to identify and download the desired dataset and returns the corresponding PyTorch dataset objects for training, validation, and testing.</p>
+<p>Parameters:</p>
 <ul>
-<li><a href="#biomonai">bioMONAI</a>
+<li>dataset (str): The name of the MedMNIST dataset (e.g., ‘pathmnist’, ‘bloodmnist’, etc.).</li>
+<li>file_names (list): A list of file names or dataset flags, but it’s not used in this function. This can be removed unless needed for a specific purpose.</li>
+<li>output_dir (str): The path to the directory where the datasets will be saved.</li>
+</ul>
+<p>Returns:</p>
 <ul>
-<li><a href="#overview">Overview</a></li>
-<li><a href="#table-of-contents">Table of Contents</a></li>
-<li><a href="#installation">Installation</a></li>
-<li><a href="#getting-started">Getting Started</a></li>
-<li><a href="#usage">Usage</a></li>
-<li><a href="#contributing">Contributing</a></li>
-<li><a href="#license">License</a></li>
-<li><a href="#contact">Contact</a></li>
-</ul></li>
+<li>train_dataset (Dataset): The training dataset object of the selected MedMNIST dataset.</li>
+<li>val_dataset (Dataset): The validation dataset object of the selected MedMNIST dataset.</li>
+<li>test_dataset (Dataset): The test dataset object of the selected MedMNIST dataset.</li>
+</ul>
+<p>Example:</p>
+<pre><code>train, val, test = download_medmnist('pathmnist', './medmnist_data/')</code></pre>
+<p>Available Datasets (dataset flags):</p>
+<ul>
+<li>‘pathmnist’: Pathology MNIST for tissue and cell image classification.</li>
+<li>‘bloodmnist’: Blood MNIST for blood cell classification.</li>
+<li>‘dermamnist’: Dermatology MNIST for skin lesion classification.</li>
+<li>‘octmnist’: OCT MNIST for retinal OCT image classification.<br>
+</li>
+<li>‘pneumoniamnist’: Pneumonia MNIST for pneumonia detection in chest X-rays.</li>
+<li>‘chestmnist’: Chest X-ray MNIST for chest-related disease classification.</li>
+<li>‘retinamnist’: Retina MNIST for diabetic retinopathy grading.</li>
+<li>‘breastmnist’: Breast ultrasound MNIST for breast tumor classification.</li>
+<li>‘organmnist_axial’: Organ MNIST (axial view) for organ segmentation.</li>
+<li>‘organmnist_coronal’: Organ MNIST (coronal view) for organ segmentation.</li>
+<li>‘organmnist_sagittal’: Organ MNIST (sagittal view) for organ segmentation.</li>
+<li>‘tissuemnist’: Tissue MNIST for human tissue classification.*</li>
 </ul>
 </section>
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<p>To install the bioMONAI environment, follow these steps:</p>
-<ol type="1">
-<li><p><strong>Clone the repository:</strong></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/bmandracchia/biomonai.git</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> biomonai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Create a new Conda environment (recommended):</strong></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> biomonai python=3.7</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate biomonai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Install dependencies:</strong></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Install MONAI and other necessary packages:</strong></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install bioMONAI</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-</ol>
+<section id="download-data-via-pooch" class="level3">
+<h3 class="anchored" data-anchor-id="download-data-via-pooch">Download data via Pooch</h3>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L78" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
-<section id="getting-started" class="level2">
-<h2 class="anchored" data-anchor-id="getting-started">Getting Started</h2>
-<p>To get started with bioMONAI, the best way is to try out our tutorials, which will walk you through model training for various tasks like classification, regression, and segmentation.</p>
-<table class="table">
+<section id="download_dataset" class="level3">
+<h3 class="anchored" data-anchor-id="download_dataset">download_dataset</h3>
+<blockquote class="blockquote">
+<pre><code> download_dataset (base_url, expected_checksums, file_names, output_dir,
+                   processor=None)</code></pre>
+</blockquote>
+<p>*Download a dataset using Pooch and save it to the specified output directory.</p>
+<p>Parameters: base_url (str): The base URL from which the files will be downloaded. expected_checksums (dict): A dictionary mapping file names to their expected checksums. file_names (dict): A dictionary mapping task identifiers to file names. output_dir (str): The directory where the downloaded files will be saved. processor (callable, optional): A function to process the downloaded data. Defaults to None.*</p>
+</section>
+<section id="download-data-via-quiltt4" class="level3">
+<h3 class="anchored" data-anchor-id="download-data-via-quiltt4">Download data via Quilt/T4</h3>
+<p>Allen Institute Cell Science (AICS)</p>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L107" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="aics_pipeline" class="level3">
+<h3 class="anchored" data-anchor-id="aics_pipeline">aics_pipeline</h3>
+<blockquote class="blockquote">
+<pre><code> aics_pipeline (n_images_to_download=40, image_save_dir=None)</code></pre>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>image_target_paths, data_manifest <span class="op">=</span> aics_pipeline(<span class="dv">1</span>, <span class="st">"../_data/aics"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading manifest: 100%|██████████| 77165/77165 [00:01&lt;00:00, 43.7k/s]</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(image_target_paths)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>data_manifest <span class="co">#.to_csv('aics_dataset.csv')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
-<th style="text-align: left;">Notebook</th>
-<th>Open in Colab</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">ProteinDisplayName</th>
+<th data-quarto-table-cell-role="th">StructureSegmentationAlgorithmVersion</th>
+<th data-quarto-table-cell-role="th">WorkflowId</th>
+<th data-quarto-table-cell-role="th">NucMembSegmentationAlgorithm</th>
+<th data-quarto-table-cell-role="th">CellIndex</th>
+<th data-quarto-table-cell-role="th">Gene</th>
+<th data-quarto-table-cell-role="th">WellId</th>
+<th data-quarto-table-cell-role="th">StructureShortName</th>
+<th data-quarto-table-cell-role="th">NucMembSegmentationAlgorithmVersion</th>
+<th data-quarto-table-cell-role="th">WellName</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">Clone</th>
+<th data-quarto-table-cell-role="th">Col</th>
+<th data-quarto-table-cell-role="th">StructureDisplayName</th>
+<th data-quarto-table-cell-role="th">DataSetId</th>
+<th data-quarto-table-cell-role="th">ChannelNumber638</th>
+<th data-quarto-table-cell-role="th">ChannelNumberBrightfield</th>
+<th data-quarto-table-cell-role="th">PlateId</th>
+<th data-quarto-table-cell-role="th">StructEducationName</th>
+<th data-quarto-table-cell-role="th">SourceReadPath</th>
+<th data-quarto-table-cell-role="th">FeatureExplorerURL</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><a href="http://localhost:3348/902_demo_2.html">Tutorial classification</a> <br>(to be updated.)</td>
-<td><a href="https://colab.research.google.com/github.com/bmandracchia/bioMONAI/nightly/nbs/901_demo_RI2FL_2d.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Google Colab"></a></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><a href="https://nbviewer.org/github.com/bmandracchia/bioMONAI/nightly/nbs/901_demo_RI2FL_2d.ipynb">Tutorial regression</a> <br>(to be updated.)</td>
-<td><a href="https://colab.research.google.com/github.com/bmandracchia/bioMONAI/nightly/nbs/901_demo_RI2FL_2d.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Google Colab"></a></td>
+<td data-quarto-table-cell-role="th">4131</td>
+<td>Tom20</td>
+<td>51</td>
+<td>1</td>
+<td>Matlab nucleus/membrane segmentation</td>
+<td>1</td>
+<td>TOMM20</td>
+<td>24822</td>
+<td>Mitochondria</td>
+<td>1.3.0</td>
+<td>E6</td>
+<td>...</td>
+<td>27</td>
+<td>5</td>
+<td>Mitochondria</td>
+<td>3</td>
+<td>1</td>
+<td>6</td>
+<td>3500001004</td>
+<td>NaN</td>
+<td>fovs/6677e50c_3500001004_100X_20170623_5-Scene...</td>
+<td>https://cfe.allencell.org/?selectedPoint[0]=18...</td>
 </tr>
 </tbody>
 </table>
+
+<p>1 rows × 47 columns</p>
+</div>
+</div>
+</div>
 </section>
-<section id="usage" class="level2">
-<h2 class="anchored" data-anchor-id="usage">Usage</h2>
-<p>To use bioMONAI for your own projects, follow these steps:</p>
-<ol type="1">
-<li><p><strong>Create a new Jupyter notebook or open an existing one.</strong></p></li>
-<li><p><strong>Import necessary modules:</strong></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> bioMONAI</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Start coding! You can now leverage MONAI’s capabilities alongside the interactive features of Jupyter notebooks.</strong></p></li>
-</ol>
-</section>
-<section id="contributing" class="level2">
-<h2 class="anchored" data-anchor-id="contributing">Contributing</h2>
-<p>We welcome contributions from the community! To contribute to BioMONAI nbs, follow these steps:</p>
-<ol type="1">
-<li><p><strong>Fork the repository on GitHub.</strong></p></li>
-<li><p><strong>Clone your fork:</strong></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/your_username/biomonai.git</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> biomonai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Create a new branch for your changes:</strong></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout <span class="at">-b</span> feature/new-feature</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Make your changes and commit them:</strong></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add new feature: &lt;feature description&gt;"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Push to your fork and create a pull request on GitHub.</strong></p></li>
-<li><p><strong>Wait for the review, and merge if everything looks good!</strong></p></li>
-</ol>
-</section>
-<section id="license" class="level2">
-<h2 class="anchored" data-anchor-id="license">License</h2>
-<p>bioMONAI is released under the Apache 2.0 license. See <a href="https://github.com/your_username/biomonai-nbs/blob/main/LICENSE">LICENSE</a> for more details.</p>
+<section id="dataset-manifest" class="level3">
+<h3 class="anchored" data-anchor-id="dataset-manifest">Dataset Manifest</h3>
+<p>Make a manifest of all of the files in csv form</p>
 <hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L149" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
-<section id="contact" class="level2">
-<h2 class="anchored" data-anchor-id="contact">Contact</h2>
-<p>If you have any questions or need further assistance, please open an issue on GitHub or contact us directly at:</p>
-<ul>
-<li>Project Lead: <a href="mailto:biagio.mandracchia@uva.es">Biagio Mandracchia</a></li>
-<li>Contributors: <a href="mailto:juan.pita@uva.es">Juan Pita-López</a>, <a href="mailto:rosamaria.menchon@uva.es">Rosa-María Menchón-Lara</a></li>
-</ul>
+<section id="manifest2csv" class="level3">
+<h3 class="anchored" data-anchor-id="manifest2csv">manifest2csv</h3>
+<blockquote class="blockquote">
+<pre><code> manifest2csv (paths, data_manifest, signal, target, train_fraction=0.8,
+               data_save_path_train='./train.csv',
+               data_save_path_test='./test.csv')</code></pre>
+</blockquote>
 
 
 </section>
