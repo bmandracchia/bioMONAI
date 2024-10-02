@@ -9,7 +9,6 @@ __all__ = ['tiff2torch', 'aics_image_reader', 'split_hdf_path', 'hdf5_reader', '
 from fastai.vision.all import *
 from fastai.data.all import *
 from torchio import ScalarImage, ToCanonical, Resample
-import multipagetiff as mtif
 from aicsimageio import AICSImage
 import h5py
 
