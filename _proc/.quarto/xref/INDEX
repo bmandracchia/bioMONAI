@@ -1,47 +1,39 @@
 {
-  "03_losses.ipynb": {
-    "losses.html": "617e44ff"
+  "index.ipynb": {
+    "README.md": "3edfca64",
+    "index.html": "6a9ac538"
   },
-  "902_demo_2.ipynb": {
-    "demo_2.html": "d9c8805d"
+  "03_losses.ipynb": {
+    "losses.html": "64ffece2"
   },
   "05_transforms.ipynb": {
-    "transforms.html": "c8b573f8"
+    "transforms.html": "7ab8facd"
   },
   "06_metrics.ipynb": {
-    "metrics.html": "b4cb9898"
+    "metrics.html": "d1014298"
   },
   "01_data.ipynb": {
-    "data.html": "d9b385bb"
+    "data.html": "fd236103"
   },
   "09_visualize.ipynb": {
-    "visualize.html": "abcecf4e"
-  },
-  "index.ipynb": {
-    "index.html": "a91f535b"
+    "visualize.html": "4a3d0159"
   },
   "08_datasets.ipynb": {
-    "datasets.html": "25c91919"
-  },
-  "999_template.ipynb": {
-    "template.html": "8d9f97ca"
+    "datasets.html": "b32afb5d"
   },
   "02_io.ipynb": {
-    "io.html": "24826f48"
+    "io.html": "aa0c6d8a"
   },
   "00_core.ipynb": {
-    "core.html": "2c999fe8"
+    "core.html": "aac56a0e"
   },
   "07_callbacks.ipynb": {
-    "callbacks.html": "2fa36ec7"
+    "callbacks.html": "4789cb3b"
   },
   "04_nets.ipynb": {
-    "nets.html": "b61b0d28"
+    "nets.html": "f0fb55c7"
   },
   "901_demo_RI2FL_2d.ipynb": {
-    "demo_ri2fl_2d.html": "06a6df2d"
-  },
-  "fourier_ring_correlation.ipynb": {
-    "fourier_ring_correlation.html": "bad39679"
+    "demo_ri2fl_2d.html": "10bd058a"
   }
 }

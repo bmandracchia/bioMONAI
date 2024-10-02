@@ -9,10 +9,13 @@ Notebook](https://img.shields.io/badge/jupyter-%23f37626.svg?style=flat&logo=jup
 
 ## Overview
 
-bioMONAI is a collaborative platform for developing and deploying deep
-learning models in medical imaging using the MONAI framework, fastai, TorchIO, and Jupyter
-notebooks. This project aims to facilitate interoperability,
-reproducibility, and community collaboration in biomedical research.
+bioMONAI is a low-code Python-based platform for developing and
+deploying deep learning models in biomedical imaging built on top of the
+[MONAI](https://monai.io/) framework,
+[fastai](https://github.com/fastai/fastai), and
+[TorchIO](https://torchio.readthedocs.io/). This project aims to
+facilitate interoperability, reproducibility, and community
+collaboration in biomedical research.
 
 ## Table of Contents
 
@@ -28,7 +31,7 @@ reproducibility, and community collaboration in biomedical research.
 
 ## Installation
 
-To install the BioMONAI nbs environment, follow these steps:
+To install the bioMONAI environment, follow these steps:
 
 1.  **Clone the repository:**
 
@@ -58,35 +61,18 @@ To install the BioMONAI nbs environment, follow these steps:
 
 ## Getting Started
 
-To get started with BioMONAI, follow these steps:
+To get started with bioMONAI, the best way is to try out our tutorials,
+which will walk you through model training for various tasks like
+classification, regression, and segmentation.
 
-1.  **Clone the repository:**
-
-    ``` bash
-    git clone https://github.com/your_username/biomonai.git
-    cd biomonai
-    ```
-
-2.  **Activate your Conda environment:**
-
-    ``` bash
-    conda activate biomonai
-    ```
-
-3.  **Open Jupyter Notebook:**
-
-    ``` bash
-    jupyter notebook
-    ```
-
-4.  **Navigate to the notebooks directory and open a sample notebook:**
-
-    - You should see a list of available notebooks in your browser. Open
-      one to start exploring!
+| Notebook                                                                                                                              | Open in Colab                                                                                                                                                                       |
+|:--------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Tutorial classification](http://localhost:3348/902_demo_2.html) <br>(to be updated.)                                                 | [![Google Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github.com/bmandracchia/bioMONAI/nightly/nbs/901_demo_RI2FL_2d.ipynb) |
+| [Tutorial regression](https://nbviewer.org/github.com/bmandracchia/bioMONAI/nightly/nbs/901_demo_RI2FL_2d.ipynb) <br>(to be updated.) | [![Google Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github.com/bmandracchia/bioMONAI/nightly/nbs/901_demo_RI2FL_2d.ipynb) |
 
 ## Usage
 
-To use BioMONAI nbs for your own projects, follow these steps:
+To use bioMONAI for your own projects, follow these steps:
 
 1.  **Create a new Jupyter notebook or open an existing one.**
 
@@ -132,7 +118,7 @@ nbs, follow these steps:
 
 ## License
 
-BioMONAI is released under the Apache 2.0 license. See
+bioMONAI is released under the Apache 2.0 license. See
 [LICENSE](https://github.com/your_username/biomonai-nbs/blob/main/LICENSE)
 for more details.
 
@@ -144,4 +130,5 @@ If you have any questions or need further assistance, please open an
 issue on GitHub or contact us directly at:
 
 - Project Lead: [Biagio Mandracchia](mailto:biagio.mandracchia@uva.es)
-- Contributors: [Juan Pita-López](mailto:juan.pita@uva.es), [Rosa-María Menchón-Lara](mailto:rosamaria.menchon@uva.es)
+- Contributors: [Juan Pita-López](mailto:juan.pita@uva.es), [Rosa-María
+  Menchón-Lara](mailto:rosamaria.menchon@uva.es)
