@@ -18,7 +18,7 @@ deploying deep learning models in biomedical imaging built on top of the
 facilitate interoperability, reproducibility, and community
 collaboration in biomedical research.
 
-For more information, the documentation can be found
+For more information, bioMONAI documentation can be found
 [here](https://bmandracchia.github.io/bioMONAI/).
 
 ## Table of Contents
