@@ -119,7 +119,7 @@ class BioImage(BioImageBase):
                 Additional parameters for the medical image reader.
 
         Returns:
-            torchTensor : A 3D tensor as a BioImage object.
+            torchTensor : A 2D or 3D tensor as a BioImage object.
         """
         if isinstance(fn, torchTensor):
             return cls(fn)
