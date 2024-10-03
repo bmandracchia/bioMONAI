@@ -1,39 +1,39 @@
 {
-  "index.ipynb": {
-    "README.md": "3edfca64",
-    "index.html": "6a9ac538"
-  },
   "03_losses.ipynb": {
-    "losses.html": "64ffece2"
+    "losses.html": "213a92d8"
   },
   "05_transforms.ipynb": {
-    "transforms.html": "7ab8facd"
+    "transforms.html": "a90ccd08"
   },
   "06_metrics.ipynb": {
-    "metrics.html": "d1014298"
+    "metrics.html": "e026c25a"
   },
   "01_data.ipynb": {
-    "data.html": "fd236103"
+    "data.html": "dc7f490b"
   },
   "09_visualize.ipynb": {
-    "visualize.html": "4a3d0159"
+    "visualize.html": "9485bcf4"
+  },
+  "index.ipynb": {
+    "index.html": "1c8d069d",
+    "README.md": "6244273c"
   },
   "08_datasets.ipynb": {
-    "datasets.html": "b32afb5d"
+    "datasets.html": "a11fd21f"
   },
   "02_io.ipynb": {
-    "io.html": "aa0c6d8a"
+    "io.html": "d725f6a3"
   },
   "00_core.ipynb": {
-    "core.html": "aac56a0e"
+    "core.html": "9a0fbf3f"
   },
   "07_callbacks.ipynb": {
-    "callbacks.html": "4789cb3b"
+    "callbacks.html": "8e97674f"
   },
   "04_nets.ipynb": {
-    "nets.html": "f0fb55c7"
+    "nets.html": "3f0b7cb0"
   },
   "901_demo_RI2FL_2d.ipynb": {
-    "demo_ri2fl_2d.html": "10bd058a"
+    "demo_ri2fl_2d.html": "37a65117"
   }
 }

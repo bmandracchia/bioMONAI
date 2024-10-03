@@ -240,20 +240,44 @@ def visualize_slices(data, planes=None, showlines=True, **kwargs):
 
 
 # %% ../nbs/09_visualize.ipynb 19
-def slice_explorer(data, **kwargs):
+def slice_explorer(data, order='CZYX', **kwargs):
     """
     Visualizes the provided data using Plotly's interactive imshow function with animation support.
     
     Args:
         data (np.array or pd.DataFrame): The data to be visualized, typically a 2D array representing an image sequence.
+        order (str): The order of dimensions in the data (e.g., 'CZYX').
         
     Returns:
         None: Displays the plot directly.
     """
+
+    # Handle 4D data with channel dimension
     if len(data.shape) == 4:
-        fig = px.imshow(data, animation_frame=0, binary_string=True, labels=dict(animation_frame="slice", facet_col='channel'), facet_col=1)
+        target_order = 'ZCYX'
+        # If data is already in 'ZCYX' order, no need to transpose
+        if order != target_order:
+            # Create a mapping from the current order to the target order
+            current_order_indices = [order.index(dim) for dim in target_order]
+            
+            # Reorder the data to match 'ZCYX'
+            data = np.transpose(data, current_order_indices)
+    
+        fig = px.imshow(
+            data,
+            animation_frame=0, 
+            binary_string=True, 
+            labels=dict(animation_frame="slice", facet_col='channel'), 
+            facet_col=1
+        )
+    # Handle 3D data (no channel dimension)
     elif len(data.shape) == 3:
-        fig = px.imshow(data, animation_frame=0, binary_string=True, labels=dict(animation_frame="slice"))
+        fig = px.imshow(
+            data,
+            animation_frame=0, 
+            binary_string=True, 
+            labels=dict(animation_frame="slice")
+        )
     else:
         raise ValueError("Input must be a 3D or 4D array.")
 
@@ -266,8 +290,6 @@ def slice_explorer(data, **kwargs):
         
     # Display the plot using Plotly's show function
     pio.show(fig)
-
-
 
 # %% ../nbs/09_visualize.ipynb 22
 def plot_volume(values, opacity=0.1, min=0.1, max=0.8, surface_count=5, width=800, height=600):
