@@ -19,10 +19,11 @@ import medmnist
 def download_medmnist(dataset:str , # The name of the MedMNIST dataset (e.g., 'pathmnist', 'bloodmnist', etc.).
                       output_dir:str ='.', # The path to the directory where the datasets will be saved.
                       download_only=False, # If True, the function will only download the dataset into the output directory without returning dataset objects. Defaults to False.
+                      unzip_data=False, # If True, the function will unzip any downloaded .npz files in the dataset.
                       ):
     """
     Downloads the specified MedMNIST dataset and saves the training, validation, and test datasets 
-    into the specified output directory. 
+    into the specified output directory. Optionally, it can unzip .npz dataset files.
     
     The function uses the dataset flag to identify and download the desired dataset.
     Optionally, it can return the corresponding PyTorch dataset objects for training, validation,
@@ -32,6 +33,11 @@ def download_medmnist(dataset:str , # The name of the MedMNIST dataset (e.g., 'p
     - train_dataset (Dataset): The training dataset object (if download_only is False).
     - val_dataset (Dataset): The validation dataset object (if download_only is False).
     - test_dataset (Dataset): The test dataset object (if download_only is False).
+    
+    Example:
+    ```
+    train, val, test = download_medmnist('pathmnist', './medmnist_data/', unzip_data=True)
+    ```
     
     Available Datasets (dataset flags):
     - 'pathmnist': Pathology MNIST for tissue and cell image classification.
@@ -67,14 +73,35 @@ def download_medmnist(dataset:str , # The name of the MedMNIST dataset (e.g., 'p
     train_dataset = dataset_class(split='train', download=True, root=output_dir)
     val_dataset = dataset_class(split='val', download=True, root=output_dir)
     test_dataset = dataset_class(split='test', download=True, root=output_dir)
-
-    # If download_only is True, skip returning the dataset objects and just download the files
+    
+    # Unzip .npz files if the unzip_data flag is True
+    if unzip_data:
+        # List all files in the output directory
+        files_in_dir = os.listdir(output_dir)
+        
+        # Look for any .npz files and extract them
+        for file_name in files_in_dir:
+            if file_name.endswith('.npz'):
+                npz_path = os.path.join(output_dir, file_name)
+                
+                # Load the .npz file
+                with np.load(npz_path) as npz_file:
+                    # Extract each array in the .npz file and save as individual files
+                    for array_name, array_data in npz_file.items():
+                        npy_file_path = os.path.join(output_dir, f"{array_name}.npy")
+                        np.save(npy_file_path, array_data)
+                        print(f"Extracted {array_name} to {npy_file_path}")
+    
+    # If download_only is True, skip returning the dataset objects and just download/unzip the files
     if download_only:
         print(f"Datasets downloaded to {output_dir}")
+        if unzip_data:
+            print(f"Datasets unzipped in {output_dir}")
         return None
     
     # Return the datasets if download_only is False
     return train_dataset, val_dataset, test_dataset
+
 
 
 
