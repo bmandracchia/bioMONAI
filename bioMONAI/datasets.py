@@ -16,31 +16,24 @@ import numpy as np
 import medmnist
 
 # %% ../nbs/08_datasets.ipynb 5
-def download_medmnist(dataset, file_names, output_dir):
+def download_medmnist(dataset:str , # The name of the MedMNIST dataset (e.g., 'pathmnist', 'bloodmnist', etc.).
+                      output_dir:str ='.', # The path to the directory where the datasets will be saved.
+                      download_only=False, # If True, the function will only download the dataset into the output directory without returning dataset objects. Defaults to False.
+                      ):
     """
     Downloads the specified MedMNIST dataset and saves the training, validation, and test datasets 
     into the specified output directory. 
     
-    The function uses the dataset flag to identify and download the desired dataset and returns
-    the corresponding PyTorch dataset objects for training, validation, and testing.
+    The function uses the dataset flag to identify and download the desired dataset.
+    Optionally, it can return the corresponding PyTorch dataset objects for training, validation,
+    and testing if download_only is set to False.
     
-    Parameters: \n
-    - dataset (str): The name of the MedMNIST dataset (e.g., 'pathmnist', 'bloodmnist', etc.).
-    - file_names (list): A list of file names or dataset flags, but it's not used in this function. This can 
-                         be removed unless needed for a specific purpose.
-    - output_dir (str): The path to the directory where the datasets will be saved.
+    Returns:
+    - train_dataset (Dataset): The training dataset object (if download_only is False).
+    - val_dataset (Dataset): The validation dataset object (if download_only is False).
+    - test_dataset (Dataset): The test dataset object (if download_only is False).
     
-    Returns: \n
-    - train_dataset (Dataset): The training dataset object of the selected MedMNIST dataset.
-    - val_dataset (Dataset): The validation dataset object of the selected MedMNIST dataset.
-    - test_dataset (Dataset): The test dataset object of the selected MedMNIST dataset.
-    
-    Example:
-    ```
-    train, val, test = download_medmnist('pathmnist', './medmnist_data/')
-    ```
-    
-    Available Datasets (dataset flags): \n  
+    Available Datasets (dataset flags):
     - 'pathmnist': Pathology MNIST for tissue and cell image classification.
     - 'bloodmnist': Blood MNIST for blood cell classification.
     - 'dermamnist': Dermatology MNIST for skin lesion classification.
@@ -55,7 +48,7 @@ def download_medmnist(dataset, file_names, output_dir):
     - 'tissuemnist': Tissue MNIST for human tissue classification.
     
     """
-    
+
     # Check if the dataset is available in the MedMNIST information dictionary
     if dataset not in medmnist.INFO:
         raise ValueError(f"The dataset '{dataset}' is not available. Please select from the available datasets.")
@@ -66,12 +59,23 @@ def download_medmnist(dataset, file_names, output_dir):
     # Get the appropriate dataset class from MedMNIST using the dataset's python class
     dataset_class = getattr(medmnist, info['python_class'])
     
-    # Download the training, validation, and test datasets
+    # Create the output directory if it doesn't exist
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    
+    # Download the datasets
     train_dataset = dataset_class(split='train', download=True, root=output_dir)
     val_dataset = dataset_class(split='val', download=True, root=output_dir)
     test_dataset = dataset_class(split='test', download=True, root=output_dir)
+
+    # If download_only is True, skip returning the dataset objects and just download the files
+    if download_only:
+        print(f"Datasets downloaded to {output_dir}")
+        return None
     
+    # Return the datasets if download_only is False
     return train_dataset, val_dataset, test_dataset
+
 
 
 # %% ../nbs/08_datasets.ipynb 7
