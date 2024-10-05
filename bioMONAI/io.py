@@ -180,6 +180,21 @@ def _load_and_preprocess(file_path, # Image file path
     Returns:
         tuple: Original image, preprocessed image, and its original size.
     """
+    # Check if the file is a .npy file
+    if str(file_path).endswith('.npy'):
+        # Load the numpy array
+        img_data = np.load(file_path)
+        
+        # Convert the numpy array 
+        org_img = ScalarImage(tensor=img_data)
+        org_size = img_data.shape
+        
+        # Apply preprocessing (resampling or reordering) if necessary
+        input_img, org_size = _preprocess(org_img, reorder, resample)
+        
+        return org_img, input_img, org_size
+
+    # If the reader is not specified, choose one based on the file extension
     if reader is None:
         hdf5_ext = [ext for ext in ['.h5','.hdf5'] if ext in str(file_path)]
         if hdf5_ext:
@@ -188,7 +203,8 @@ def _load_and_preprocess(file_path, # Image file path
             file_path = path
         else:
             reader = aics_image_reader
-        
+    
+    # Load the image using the specified reader
     org_img = ScalarImage(file_path, reader=reader)
     input_img, org_size = _preprocess(org_img, reorder, resample)
     

@@ -15,92 +15,98 @@ import pandas as pd
 import numpy as np
 import medmnist
 
+from PIL import Image
+import tifffile as tiff
+from tqdm import tqdm
+
+
 # %% ../nbs/08_datasets.ipynb 5
-def download_medmnist(dataset:str , # The name of the MedMNIST dataset (e.g., 'pathmnist', 'bloodmnist', etc.).
-                      output_dir:str ='.', # The path to the directory where the datasets will be saved.
-                      download_only=False, # If True, the function will only download the dataset into the output directory without returning dataset objects. Defaults to False.
-                      unzip_data=False, # If True, the function will unzip any downloaded .npz files in the dataset.
+def download_medmnist(dataset: str, # The name of the MedMNIST dataset (e.g., 'pathmnist', 'bloodmnist', etc.).
+                      output_dir: str = '.', # The path to the directory where the datasets will be saved.
+                      download_only: bool = False, # If True, only download the dataset into the output directory without processing.
+                      save_images: bool = True, # If True, save the images into the output directory as .png (2D datasets) or multipage .tiff (3D datasets) files.
                       ):
     """
     Downloads the specified MedMNIST dataset and saves the training, validation, and test datasets 
-    into the specified output directory. Optionally, it can unzip .npz dataset files.
-    
-    The function uses the dataset flag to identify and download the desired dataset.
-    Optionally, it can return the corresponding PyTorch dataset objects for training, validation,
-    and testing if download_only is set to False.
-    
+    into the specified output directory. Images are saved as .png for 2D data and multi-page .tiff for 3D data,
+    organized into folders named after their labels.
+
+    Args:
+    - dataset: The MedMNIST dataset name (e.g., 'pathmnist', 'bloodmnist', etc.).
+    - output_dir: Path where the images will be saved.
+    - download_only: If True, only downloads the dataset, no processing or saving.
+    - save_images: If True, save the images in the specified output directory.
+
     Returns:
-    - train_dataset (Dataset): The training dataset object (if download_only is False).
-    - val_dataset (Dataset): The validation dataset object (if download_only is False).
-    - test_dataset (Dataset): The test dataset object (if download_only is False).
-    
-    Example:
-    ```
-    train, val, test = download_medmnist('pathmnist', './medmnist_data/', unzip_data=True)
-    ```
-    
-    Available Datasets (dataset flags):
-    - 'pathmnist': Pathology MNIST for tissue and cell image classification.
-    - 'bloodmnist': Blood MNIST for blood cell classification.
-    - 'dermamnist': Dermatology MNIST for skin lesion classification.
-    - 'octmnist': OCT MNIST for retinal OCT image classification.   
-    - 'pneumoniamnist': Pneumonia MNIST for pneumonia detection in chest X-rays.
-    - 'chestmnist': Chest X-ray MNIST for chest-related disease classification.
-    - 'retinamnist': Retina MNIST for diabetic retinopathy grading.
-    - 'breastmnist': Breast ultrasound MNIST for breast tumor classification.
-    - 'organmnist_axial': Organ MNIST (axial view) for organ segmentation.
-    - 'organmnist_coronal': Organ MNIST (coronal view) for organ segmentation.
-    - 'organmnist_sagittal': Organ MNIST (sagittal view) for organ segmentation.
-    - 'tissuemnist': Tissue MNIST for human tissue classification.
-    
+    - None, saves images in the specified output directory if save_images is True.
     """
 
     # Check if the dataset is available in the MedMNIST information dictionary
     if dataset not in medmnist.INFO:
         raise ValueError(f"The dataset '{dataset}' is not available. Please select from the available datasets.")
-    
+
     # Retrieve dataset information
     info = medmnist.INFO[dataset]
-    
-    # Get the appropriate dataset class from MedMNIST using the dataset's python class
+
+    # Get the appropriate dataset class from MedMNIST
     dataset_class = getattr(medmnist, info['python_class'])
-    
+
     # Create the output directory if it doesn't exist
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
-    
+
     # Download the datasets
     train_dataset = dataset_class(split='train', download=True, root=output_dir)
     val_dataset = dataset_class(split='val', download=True, root=output_dir)
     test_dataset = dataset_class(split='test', download=True, root=output_dir)
-    
-    # Unzip .npz files if the unzip_data flag is True
-    if unzip_data:
-        # List all files in the output directory
-        files_in_dir = os.listdir(output_dir)
+
+    # Save the images into directories by their label
+    def save_images(dataset, split):
+        """Helper function to save images and labels into directories."""
+        split_dir = os.path.join(output_dir, split)
+        if not os.path.exists(split_dir):
+            os.makedirs(split_dir)
+
+        for i in tqdm(range(len(dataset))):
+            img, label = dataset[i]
+            label_dir = os.path.join(split_dir, str(label).replace("[", "").replace("]", ""))  # Remove parentheses
+            if not os.path.exists(label_dir):
+                os.makedirs(label_dir)
+
+            img_path = os.path.join(label_dir, f'{split}_{i}.png' if img.shape[0] == 1 else f'{split}_{i}.tiff')
+
+            # Save 2D images as .png
+            if img.shape[0] == 1:  # Check if it's 2D (single-channel)
+                img = Image.fromarray(img.squeeze(), mode='L')  # 'L' mode for grayscale
+                img.save(img_path)
+            # Save 3D images as multi-page .tiff
+            else:
+                tiff.imwrite(img_path, img)
+
+    # Save training, validation, and test data if save_images is True
+    if save_images:
+        print(f"Saving training images to {output_dir}...")
+        save_images(train_dataset, 'train')
+
+        print(f"Saving validation images to {output_dir}...")
+        save_images(val_dataset, 'val')
+
+        print(f"Saving test images to {output_dir}...")
+        save_images(test_dataset, 'test')
         
-        # Look for any .npz files and extract them
-        for file_name in files_in_dir:
-            if file_name.endswith('.npz'):
-                npz_path = os.path.join(output_dir, file_name)
-                
-                # Load the .npz file
-                with np.load(npz_path) as npz_file:
-                    # Extract each array in the .npz file and save as individual files
-                    for array_name, array_data in npz_file.items():
-                        npy_file_path = os.path.join(output_dir, f"{array_name}.npy")
-                        np.save(npy_file_path, array_data)
-                        print(f"Extracted {array_name} to {npy_file_path}")
-    
-    # If download_only is True, skip returning the dataset objects and just download/unzip the files
+        for file in os.listdir(output_dir):
+            if file.endswith('.npz'):
+                os.remove(os.path.join(output_dir, file))
+                print(f"Removed {file}")
+
+    # If download_only is True, skip returning the dataset objects and just download the files
     if download_only:
         print(f"Datasets downloaded to {output_dir}")
-        if unzip_data:
-            print(f"Datasets unzipped in {output_dir}")
         return None
-    
-    # Return the datasets if download_only is False
-    return train_dataset, val_dataset, test_dataset
+
+    # Return the datasets if download_only is False and save_images is False
+    return train_dataset, val_dataset, test_dataset if save_images else None
+
 
 
 
