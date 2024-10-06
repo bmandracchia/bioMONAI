@@ -21,6 +21,12 @@ from tqdm import tqdm
 
 
 # %% ../nbs/08_datasets.ipynb 5
+import os
+from tqdm import tqdm
+from PIL import Image
+import medmnist
+import tifffile as tiff
+
 def download_medmnist(dataset: str, # The name of the MedMNIST dataset (e.g., 'pathmnist', 'bloodmnist', etc.).
                       output_dir: str = '.', # The path to the directory where the datasets will be saved.
                       download_only: bool = False, # If True, only download the dataset into the output directory without processing.
@@ -73,14 +79,17 @@ def download_medmnist(dataset: str, # The name of the MedMNIST dataset (e.g., 'p
             if not os.path.exists(label_dir):
                 os.makedirs(label_dir)
 
-            img_path = os.path.join(label_dir, f'{split}_{i}.png' if img.shape[0] == 1 else f'{split}_{i}.tiff')
-
             # Save 2D images as .png
-            if img.shape[0] == 1:  # Check if it's 2D (single-channel)
+            if info['n_channels'] == 1:  # Check if it's 2D (single-channel)
+                img_path = os.path.join(label_dir, f'{split}_{i}.png')
                 img = Image.fromarray(img.squeeze(), mode='L')  # 'L' mode for grayscale
+                img.save(img_path)
+            elif info['n_channels'] == 3:  # Check if it's RGB
+                img_path = os.path.join(label_dir, f'{split}_{i}.png')
                 img.save(img_path)
             # Save 3D images as multi-page .tiff
             else:
+                img_path = os.path.join(label_dir, f'{split}_{i}.tiff')
                 tiff.imwrite(img_path, img)
 
     # Save training, validation, and test data if save_images is True
@@ -94,6 +103,7 @@ def download_medmnist(dataset: str, # The name of the MedMNIST dataset (e.g., 'p
         print(f"Saving test images to {output_dir}...")
         save_images(test_dataset, 'test')
         
+        # Clean up: remove .npz files if present
         for file in os.listdir(output_dir):
             if file.endswith('.npz'):
                 os.remove(os.path.join(output_dir, file))
@@ -107,9 +117,6 @@ def download_medmnist(dataset: str, # The name of the MedMNIST dataset (e.g., 'p
 
     # Return the datasets if download_only is False and save_images is False
     return train_dataset, val_dataset, test_dataset if not save_images else None
-
-
-
 
 
 # %% ../nbs/08_datasets.ipynb 7
