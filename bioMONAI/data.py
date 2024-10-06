@@ -18,7 +18,7 @@ from .core import MetaTensor, torchTensor, BypassNewMeta, DisplayedTransform, to
 from .io import image_reader
 from .visualize import show_images_grid
 
-from fastai.vision.all import DataBlock, TfmdDL, get_image_files, TransformBlock, get_grid, merge, show_image, RandomSplitter
+from fastai.vision.all import DataBlock, CategoryBlock, TfmdDL, get_image_files, TransformBlock, get_grid, merge, show_image, RandomSplitter
 
 # %% ../nbs/01_data.ipynb 5
 class MetaResolver(type(torchTensor), metaclass=BypassNewMeta):
@@ -411,10 +411,10 @@ def get_noisy_pair(fn):
     return fn2
 
 
-# %% ../nbs/01_data.ipynb 32
+# %% ../nbs/01_data.ipynb 33
 @typedispatch
 def show_batch(x: BioImageBase,     # The input image data.
-               y: BioImageBase,     # The target label data.
+               y: BioImageBase,     # The target image data.
                samples,             # List of sample indices to display.
                ctxs=None,           # List of contexts for displaying images. If None, create new ones using get_grid().
                max_n: int=10,       # Maximum number of samples to display. Default is 10.
@@ -424,24 +424,24 @@ def show_batch(x: BioImageBase,     # The input image data.
                **kwargs,            # Additional keyword arguments to pass to the show method of BioImageBase.
                ):
     """
-    Display a batch of images and their corresponding labels.
+    Display a batch of images and their corresponding targets.
     
     Returns:
-        List[Context]: A list of contexts after displaying the images and labels.
+        List[Context]: A list of contexts after displaying the images and targets.
     """
     # If ctxs are not provided, create new ones using get_grid()
     if ctxs is None:
         ctxs = get_grid(min(len(samples), max_n), nrows=nrows, ncols=ncols, figsize=figsize, double=True)
     
-    # Loop through the images and labels in pairs (x and y)
+    # Loop through the images and targets in pairs (x and y)
     for i in range(2):
-        # Display each image-label pair in a specific context
+        # Display each image-target pair in a specific context
         ctxs[i::2] = [b.show(ctx=c, **kwargs) for b, c, _ in zip(samples.itemgot(i), ctxs[i::2], range(max_n))]
     
     return ctxs
 
 
-# %% ../nbs/01_data.ipynb 34
+# %% ../nbs/01_data.ipynb 35
 @typedispatch
 def show_results(x: BioImageBase, # The input image data.
                  y: BioImageBase, # The target label data.
@@ -472,7 +472,7 @@ def show_results(x: BioImageBase, # The input image data.
     return ctxs
 
 
-# %% ../nbs/01_data.ipynb 37
+# %% ../nbs/01_data.ipynb 38
 def extract_patches(data, patch_size, overlap):
     """
     Extracts n-dimensional patches from the input data.
@@ -500,7 +500,7 @@ def extract_patches(data, patch_size, overlap):
     
     return patches
 
-# %% ../nbs/01_data.ipynb 38
+# %% ../nbs/01_data.ipynb 39
 def save_patches_grid(data_folder, gt_folder, output_folder, patch_size, overlap):
     """
     Loads n-dimensional data from data_folder and gt_folder, generates patches, and saves them into individual HDF5 files.
@@ -556,7 +556,7 @@ def save_patches_grid(data_folder, gt_folder, output_folder, patch_size, overlap
                 hf.create_dataset(f'y/{patch_idx}', data=gt_patch)
         
 
-# %% ../nbs/01_data.ipynb 42
+# %% ../nbs/01_data.ipynb 43
 def extract_random_patches(data, patch_size, num_patches):
     """
     Extracts a specified number of random n-dimensional patches from the input data.
@@ -592,7 +592,7 @@ def extract_random_patches(data, patch_size, num_patches):
     return patches
 
 
-# %% ../nbs/01_data.ipynb 43
+# %% ../nbs/01_data.ipynb 44
 def save_patches_random(data_folder, gt_folder, output_folder, patch_size, num_patches):
     """
     Loads n-dimensional data from data_folder and gt_folder, generates random patches, and saves them into individual HDF5 files.
