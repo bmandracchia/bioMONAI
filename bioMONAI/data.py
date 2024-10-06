@@ -221,7 +221,7 @@ class Tensor2BioImage(DisplayedTransform):
 # %% ../nbs/01_data.ipynb 20
 def BioImageBlock(cls:BioImageBase=BioImage):
     "A `TransformBlock` for images of `cls`"
-    return TransformBlock(type_tfms=cls.create, batch_tfms=[Tensor2BioImage(cls)]) # IntToFloatTensor
+    return TransformBlock(type_tfms=[cls.create, Tensor2BioImage(cls)]) # IntToFloatTensor
 
 # %% ../nbs/01_data.ipynb 21
 class BioDataBlock(DataBlock):
@@ -412,36 +412,49 @@ def get_noisy_pair(fn):
 
 
 # %% ../nbs/01_data.ipynb 33
+from fastai.vision.all import TensorCategory
+
+# %% ../nbs/01_data.ipynb 34
 @typedispatch
-def show_batch(x: BioImageBase,     # The input image data.
-               y: BioImageBase,     # The target image data.
-               samples,             # List of sample indices to display.
-               ctxs=None,           # List of contexts for displaying images. If None, create new ones using get_grid().
-               max_n: int=10,       # Maximum number of samples to display. Default is 10.
-               nrows: int=None,     # Number of rows in the grid if ctxs are not provided.
-               ncols: int=None,     # Number of columns in the grid if ctxs are not provided.
-               figsize: tuple=None, # Figure size for the image display.
-               **kwargs,            # Additional keyword arguments to pass to the show method of BioImageBase.
+def show_batch(x: BioImageBase,      # The input image data.
+               y: TensorCategory,    # The target data (categorical labels).
+               samples,              # List of sample indices to display.
+               ctxs=None,            # List of contexts for displaying images. If None, create new ones using get_grid().
+               max_n: int=10,        # Maximum number of samples to display. Default is 10.
+               nrows: int=None,      # Number of rows in the grid if ctxs are not provided.
+               ncols: int=None,      # Number of columns in the grid if ctxs are not provided.
+               figsize: tuple=None,  # Figure size for the image display.
+               **kwargs,             # Additional keyword arguments to pass to the show method of BioImageBase.
                ):
     """
-    Display a batch of images and their corresponding targets.
+    Display a batch of images with their corresponding labels as titles.
     
     Returns:
-        List[Context]: A list of contexts after displaying the images and targets.
+        List[Context]: A list of contexts after displaying the images and their labels.
     """
     # If ctxs are not provided, create new ones using get_grid()
-    if ctxs is None:
-        ctxs = get_grid(min(len(samples), max_n), nrows=nrows, ncols=ncols, figsize=figsize, double=True)
+    if ctxs is None: 
+        ctxs = get_grid(min(len(samples), max_n), nrows=nrows, ncols=ncols, figsize=figsize)
     
-    # Loop through the images and targets in pairs (x and y)
-    for i in range(2):
-        # Display each image-target pair in a specific context
-        ctxs[i::2] = [b.show(ctx=c, **kwargs) for b, c, _ in zip(samples.itemgot(i), ctxs[i::2], range(max_n))]
+    # Flatten the context in case it returns as an array
+    if isinstance(ctxs, np.ndarray):
+        ctxs = ctxs.flatten()
+    
+    # Extract the input images and the corresponding labels
+    xs, ys = samples.itemgot(0), samples.itemgot(1)
+
+    # Loop through the images and labels
+    for i in range(len(xs)):
+        # Display each input image
+        ctxs[i] = xs[i].show(ctx=ctxs[i], title=[f"Label: {ys[i]}"], **kwargs)
     
     return ctxs
 
 
-# %% ../nbs/01_data.ipynb 35
+
+
+
+# %% ../nbs/01_data.ipynb 36
 @typedispatch
 def show_results(x: BioImageBase, # The input image data.
                  y: BioImageBase, # The target label data.
@@ -472,7 +485,7 @@ def show_results(x: BioImageBase, # The input image data.
     return ctxs
 
 
-# %% ../nbs/01_data.ipynb 38
+# %% ../nbs/01_data.ipynb 39
 def extract_patches(data, patch_size, overlap):
     """
     Extracts n-dimensional patches from the input data.
@@ -500,7 +513,7 @@ def extract_patches(data, patch_size, overlap):
     
     return patches
 
-# %% ../nbs/01_data.ipynb 39
+# %% ../nbs/01_data.ipynb 40
 def save_patches_grid(data_folder, gt_folder, output_folder, patch_size, overlap):
     """
     Loads n-dimensional data from data_folder and gt_folder, generates patches, and saves them into individual HDF5 files.
@@ -556,7 +569,7 @@ def save_patches_grid(data_folder, gt_folder, output_folder, patch_size, overlap
                 hf.create_dataset(f'y/{patch_idx}', data=gt_patch)
         
 
-# %% ../nbs/01_data.ipynb 43
+# %% ../nbs/01_data.ipynb 44
 def extract_random_patches(data, patch_size, num_patches):
     """
     Extracts a specified number of random n-dimensional patches from the input data.
@@ -592,7 +605,7 @@ def extract_random_patches(data, patch_size, num_patches):
     return patches
 
 
-# %% ../nbs/01_data.ipynb 44
+# %% ../nbs/01_data.ipynb 45
 def save_patches_random(data_folder, gt_folder, output_folder, patch_size, num_patches):
     """
     Loads n-dimensional data from data_folder and gt_folder, generates random patches, and saves them into individual HDF5 files.

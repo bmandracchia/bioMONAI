@@ -50,7 +50,7 @@ def aics_image_reader(path, # The file path to the image
         # Reorder for tiff files
         data = image_aics.get_image_data("CZYX", T=0)  # returns 4D CZYX numpy array
         
-        affine = np.eye(4) #to change
+        affine = np.eye(4) 
         
         return data, affine
 
@@ -155,9 +155,6 @@ def _preprocess(obj, # The object to preprocess
     if resample and not all(np.isclose(obj.spacing, resample)):
         transform = Resample(resample)
         obj = transform(obj)
-
-    # if MedBase.affine_matrix is None:
-    #     MedBase.affine_matrix = obj.affine
 
     return obj, original_size
 

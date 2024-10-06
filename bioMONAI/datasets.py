@@ -102,10 +102,11 @@ def download_medmnist(dataset: str, # The name of the MedMNIST dataset (e.g., 'p
     # If download_only is True, skip returning the dataset objects and just download the files
     if download_only:
         print(f"Datasets downloaded to {output_dir}")
-        return None
+        print(f"Dataset info for '{dataset}': {info}")
+        return info
 
     # Return the datasets if download_only is False and save_images is False
-    return train_dataset, val_dataset, test_dataset if save_images else None
+    return train_dataset, val_dataset, test_dataset if not save_images else None
 
 
 

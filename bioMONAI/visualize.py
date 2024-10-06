@@ -117,7 +117,7 @@ def show_images_grid(images, ax=None, ncols=10, figsize=None, title=None, spacin
     - images: list of images to display.
     - ncols (int): number of columns in the grid.
     - figsize (tuple, optional): figure size in inches.
-    - titles (list, optional): list of titles corresponding to each image.
+    - title (list, optional): list of titles corresponding to each image.
     - spacing (float, optional): spacing between subplots.
     - ctx: additional context passed to the `plt.Axes.imshow` function.
     - **kwargs: additional keyword arguments passed to `plt.Axes.imshow`.
