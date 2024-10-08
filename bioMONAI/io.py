@@ -46,24 +46,23 @@ def aics_image_reader(path, # The file path to the image
     # Support for tiff files    
     path = str(path)
     if (path[-4:]=="tiff" or path[-3:]=="tif"):
-
         # Reorder for tiff files
         data = image_aics.get_image_data("CZYX", T=0)  # returns 4D CZYX numpy array
-        
         affine = np.eye(4) 
-        
         return data, affine
-
+    
+    if (path[-3:]=="png"):
+        # Reorder for png files
+        data = image_aics.get_image_data("SYX", T=0)  # returns 4D CZYX numpy array        
+        affine = np.eye(4)         
+        return data, affine
 
     # Convert to numpy array    
     data = image_aics.data
-
     # Remove singleton dimensions
     data = np.squeeze(data)
-    
     # Create an identity affine transformation matrix
     affine = np.eye(4)
-
     # Return the image data and the affine matrix
     return data, affine
 
@@ -148,8 +147,6 @@ def _preprocess(obj, # The object to preprocess
         transform = ToCanonical()
         obj = transform(obj)
     
-
-
     original_size = obj.shape[1:]
 
     if resample and not all(np.isclose(obj.spacing, resample)):
@@ -243,7 +240,7 @@ def _multi_channel(image_paths: (L, list), # List of image paths (e.g., T1, T2, 
     input_img.set_data(tensor)
     return org_img, input_img, org_size
 
-# %% ../nbs/02_io.ipynb 26
+# %% ../nbs/02_io.ipynb 27
 def image_reader(file_path: (str, Path, L, list), # Path to the image
                dtype=torchTensor, # Datatype for the return value. Defaults to torchTensor
                only_tensor: bool = True, # To return only an image tensor

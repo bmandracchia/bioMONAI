@@ -16,7 +16,7 @@ import random
 
 from .core import MetaTensor, torchTensor, BypassNewMeta, DisplayedTransform, torchsqueeze, Path, List, L, torchmax, randint, typedispatch
 from .io import image_reader
-from .visualize import show_images_grid
+from .visualize import show_images_grid, show_multichannel
 
 from fastai.vision.all import DataBlock, CategoryBlock, TfmdDL, get_image_files, TransformBlock, get_grid, merge, show_image, RandomSplitter
 
@@ -199,7 +199,11 @@ class BioImageMulti(BioImageBase):
         if isinstance(fn, torchTensor):
             return cls(fn)
 
-        return torchsqueeze(image_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder), 0)
+        return torchsqueeze(image_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder))
+    
+    def show(self, ctx=None, **kwargs):
+        "Show image using `merge(self._show_args, kwargs)`"
+        return show_multichannel(self, ctx=ctx, **merge(self._show_args, kwargs))
     
     def __repr__(self) -> str:
         """Returns the string representation of the ImageBase instance."""
