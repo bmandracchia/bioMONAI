@@ -213,7 +213,8 @@ class Tensor2BioImage(DisplayedTransform):
 
     def encodes(self, o):
         if isinstance(o, MetaTensor):
-            return self.cls(o.clone(), affine=o.affine, meta=o.meta)
+            # return self.cls(o.clone(), affine=o.affine, meta=o.meta)
+            return self.cls(o.clone(), meta=o.meta)
         
         if isinstance(o, torchTensor):
             return self.cls(o)
