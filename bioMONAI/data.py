@@ -75,7 +75,7 @@ class BioImageBase(MetaTensor, metaclass=MetaResolver):
         cls.resample = resample
         cls.reorder = reorder
 
-    def show(self, ctx=None, figsize: int = None, ncols: int = 10, **kwargs):
+    def show(self, ctx=None, figsize: int = None, ncols: int = 10, title=None, **kwargs):
         """
         Plots 2D slices of a 3D image alongside a prior specified axis.
 
@@ -88,7 +88,7 @@ class BioImageBase(MetaTensor, metaclass=MetaResolver):
         Returns:
             Shown image.
         """
-        return show_images_grid(self, ctx=ctx, ncols=ncols, **merge(self._show_args, kwargs))
+        return show_images_grid(self, ctx=ctx, ncols=ncols, title=[title], **merge(self._show_args, kwargs))
     
     def as_tensor(self) -> torchTensor:
         """
@@ -451,7 +451,7 @@ def show_batch(x: BioImageBase,      # The input image data.
     # Loop through the images and labels
     for i in range(len(xs)):
         # Display each input image
-        ctxs[i] = xs[i].show(ctx=ctxs[i], title=[f"Label: {ys[i]}"], **kwargs)
+        ctxs[i] = xs[i].show(ctx=ctxs[i], title=f"Label: {ys[i]}", **kwargs)
     
     return ctxs
 
