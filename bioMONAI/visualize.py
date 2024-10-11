@@ -71,7 +71,10 @@ def show_multichannel(img, ax=None, figsize=None, title=None, max_slices=3, ctx=
     # Handle RGB images (C=3)
     if img_tensor.ndim == 3 and img_tensor.shape[0] == 3:  # CYX format, where C=3 (RGB)
         img_to_show = img_tensor.transpose(1, 2, 0)  # Convert from CYX (Channels, Y, X) to YXC (Height, Width, Channels)
-        ax.imshow(img_to_show/255, **kwargs)
+        if max(img_to_show.flatten()) > 1.0:
+            ax.imshow(img_to_show/255, **kwargs)
+        else:
+            ax.imshow(img_to_show, **kwargs)
 
     # Handle multi-channel images (C≠3)
     else:

@@ -13,6 +13,8 @@ from fastai.data.all import *
 from monai.transforms import SpatialCrop, Flip, Rotate90, Spacing, ScaleIntensity
 from numpy import percentile, isscalar, float32 as np_float32
 
+from .data import BioImageBase
+
 # %% ../nbs/05_transforms.ipynb 5
 class Resample(Spacing):
     """
@@ -46,6 +48,12 @@ class Resample(Spacing):
             super().__init__(**kwargs)
         else:
             super().__init__(sampling, **kwargs)
+            
+    def __call__(self, img: BioImageBase):           
+        return super().__call__(img.data)
+        
+    def encodes(self, img: BioImageBase):
+        return self.__call__(img.data)
 
 
 # %% ../nbs/05_transforms.ipynb 9
@@ -58,11 +66,11 @@ class RandCameraNoise(RandTransform):
     """
     def __init__(self, qe=0.7, # Quantum efficiency of the camera (0 to 1).
                  gain=2, # Camera gain factor. If an array, it should be broadcastable with input_image shape. 
+                 offset=100, # Camera offset in ADU. If an array, it should be broadcastable with input_image shape. 
                  exp_time=0.1, # Exposure time in seconds. 
                  dark_current=0.06, # Dark current per pixel in electrons/second. 
                  readout=2.5, # Readout noise standard deviation in electrons.
                  bitdepth=16, # Bit depth of the camera output.
-                 offset=100, # Offset value to add to each pixel after conversion to ADU.
                  seed=42, # Seed for random number generator for reproducibility. 
                  simulation=False, # If True, assumes input_image is already in units of photons and does not convert from electrons.
                  camera='cmos', # Specifies the type of camera ('cmos' or any other). Used to add CMOS fixed pattern noise if 'cmos' is specified. 
@@ -72,8 +80,14 @@ class RandCameraNoise(RandTransform):
         store_attr()
         self.rs = np.random.RandomState(seed=seed)
         
-    def encode(self, 
-               input_image, # The original image as a NumPy array.
+    def before_call(self, 
+        b, 
+        split_idx:int, # Index of the train/valid dataset
+    ):
+        self.do = 1
+        
+    def encodes(self, 
+               input_image: BioImageBase, # The original image as a NumPy array.
                ):
         rs = self.rs
         # If simulation mode, assume input_image is already in units of photons
@@ -93,6 +107,9 @@ class RandCameraNoise(RandTransform):
         # Add readout noise
         read_noise = rs.normal(scale=self.readout**2, size=electrons.shape)
         electrons += read_noise  # Adding normal distributed noise based on readout standard deviation
+        
+        gain = self.gain
+        offset = self.offset
         
         if self.camera == 'cmos':
             # Add gain noise in CMOS cameras
@@ -126,9 +143,9 @@ class ScaleIntensityPercentiles(Transform):
     def __init__(x, pmin=3, pmax=99.8, axis=None, eps=1e-20, dtype=np_float32):
         store_attr()
 
-    def encodes(self, x):
+    def encodes(self, x: BioImageBase):
         mi = percentile(x, self.pmin, axis=self.axis, keepdims=True)
-        ma = percentile(x, self.pmax, axis=self.xis, keepdims=True)
+        ma = percentile(x, self.pmax, axis=self.axis, keepdims=True)
         return _scale_intensity_range(x, mi, ma, eps=self.eps, dtype=self.dtype)
 
 
@@ -144,7 +161,7 @@ class ScaleIntensityVariance(Transform):
     def __init__(self, ndim=2):
         store_attr()
         
-    def encodes(self, x):
+    def encodes(self, x: BioImageBase):
         # Calculate the current variance of the image intensities
         mean, variance = torch.mean(x), torch.var(x)
         

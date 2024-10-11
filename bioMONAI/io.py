@@ -53,7 +53,7 @@ def aics_image_reader(path, # The file path to the image
     
     if (path[-3:]=="png"):
         # Reorder for png files
-        data = image_aics.get_image_data("SYX", T=0)  # returns 4D CZYX numpy array        
+        data = image_aics.get_image_data("SZYX", T=0)  # returns 4D CZYX numpy array        
         affine = np.eye(4)         
         return data, affine
 
