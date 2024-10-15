@@ -13,7 +13,7 @@ from fastai.data.all import *
 from monai.transforms import SpatialCrop, Flip, Rotate90, Spacing, ScaleIntensity
 from numpy import percentile, isscalar, float32 as np_float32
 
-from .data import BioImageBase
+from .data import BioImageBase, BioImageStack
 
 # %% ../nbs/05_transforms.ipynb 5
 class Resample(Spacing):
@@ -86,6 +86,7 @@ class RandCameraNoise(RandTransform):
                input_image: BioImageBase, # The original image as a NumPy array.
                ):
         rs = self.rs
+        bioimagetype = type(input_image)
         # If the input image is between 0.0 and 1.0 and bitdepth is specified, rescale it to fit within the bit depth range (0 to 2^bitdepth - 1)
         max_adu = float(2**self.bitdepth - 1)  # Calculate maximum possible ADU value for the given bit depth
         if input_image.min() >= 0.0 and input_image.max() <= 1.0:
@@ -123,11 +124,10 @@ class RandCameraNoise(RandTransform):
         adu = (electrons * gain) + offset  # Convert electrons to ADU, then add offset
         adu[adu > max_adu] = max_adu  # Clip values above full scale to avoid overflow
         
-        # return adu.astype(np.uint8) if bitdepth <= 8 else adu.astype(np.uint8) 
-        return adu
+        return bioimagetype(adu)
 
 
-# %% ../nbs/05_transforms.ipynb 14
+# %% ../nbs/05_transforms.ipynb 15
 def _scale_intensity_range(x, mi, ma, eps=1e-20, dtype=np_float32):
     if dtype is not None:
         x = x.astype(dtype, copy=False)
@@ -137,7 +137,7 @@ def _scale_intensity_range(x, mi, ma, eps=1e-20, dtype=np_float32):
         x = (x - mi) / (ma - mi + eps)
     return x
 
-# %% ../nbs/05_transforms.ipynb 15
+# %% ../nbs/05_transforms.ipynb 16
 class ScaleIntensityPercentiles(Transform):
     """Percentile-based image normalization."""
     def __init__(x, pmin=3, pmax=99.8, axis=None, eps=1e-20, dtype=np_float32):
@@ -149,7 +149,7 @@ class ScaleIntensityPercentiles(Transform):
         return _scale_intensity_range(x, mi, ma, eps=self.eps, dtype=self.dtype)
 
 
-# %% ../nbs/05_transforms.ipynb 16
+# %% ../nbs/05_transforms.ipynb 17
 class ScaleIntensityVariance(Transform):
     """
     Scales the intensity variance of an ND image to a target value.
@@ -178,7 +178,7 @@ class ScaleIntensityVariance(Transform):
         return x
 
 
-# %% ../nbs/05_transforms.ipynb 19
+# %% ../nbs/05_transforms.ipynb 20
 def _process_sz(size, ndim=3):
     if isinstance(size,int): 
         size=(size,)*ndim
@@ -189,7 +189,7 @@ def _get_sz(x):
     if not isinstance(x, Tensor): return fastuple(x.size)
     return fastuple(getattr(x, 'img_size', getattr(x, 'sz', (x.shape[1:])))) # maybe it should swap x and y axes 
 
-# %% ../nbs/05_transforms.ipynb 21
+# %% ../nbs/05_transforms.ipynb 22
 class RandCrop2D(RandTransform):
     "Randomly crop an image to `size`"
     split_idx,order = None,1
@@ -219,7 +219,7 @@ class RandCrop2D(RandTransform):
     def encodes(self, x):
         return SpatialCrop(roi_center=self.ctr, roi_size=self.size, lazy=self.lazy)(x)
 
-# %% ../nbs/05_transforms.ipynb 22
+# %% ../nbs/05_transforms.ipynb 23
 class RandCropND(RandTransform):
     """
     Randomly crops an ND image to a specified size.
@@ -272,7 +272,7 @@ class RandCropND(RandTransform):
         return SpatialCrop(roi_start=self.tl, roi_end=self.br, lazy=self.lazy)(x)
     
 
-# %% ../nbs/05_transforms.ipynb 24
+# %% ../nbs/05_transforms.ipynb 25
 class RandFlip(RandTransform):
     """
     Randomly flips an ND image over a specified axis.
@@ -305,7 +305,7 @@ class RandFlip(RandTransform):
         else:
             return x
 
-# %% ../nbs/05_transforms.ipynb 26
+# %% ../nbs/05_transforms.ipynb 27
 class RandRot90(RandTransform):
     """
     Randomly rotate an ND image by 90 degrees in the plane specified by axes.
