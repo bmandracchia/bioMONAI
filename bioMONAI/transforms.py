@@ -70,8 +70,8 @@ class RandCameraNoise(RandTransform):
                  gain=2, # Camera gain factor. If an array, it should be broadcastable with input_image shape. 
                  offset=100, # Camera offset in ADU. If an array, it should be broadcastable with input_image shape. 
                  exp_time=0.1, # Exposure time in seconds. 
-                 dark_current=0.06, # Dark current per pixel in electrons/second. 
-                 readout=2.5, # Readout noise standard deviation in electrons.
+                 dark_current=0.6, # Dark current per pixel in electrons/second. 
+                 readout=1.5, # Readout noise standard deviation in electrons.
                  bitdepth=16, # Bit depth of the camera output.
                  seed=42, # Seed for random number generator for reproducibility. 
                  simulation=False, # If True, assumes input_image is already in units of photons and does not convert from electrons.
@@ -86,6 +86,11 @@ class RandCameraNoise(RandTransform):
                input_image: BioImageBase, # The original image as a NumPy array.
                ):
         rs = self.rs
+        # If the input image is between 0.0 and 1.0 and bitdepth is specified, rescale it to fit within the bit depth range (0 to 2^bitdepth - 1)
+        max_adu = float(2**self.bitdepth - 1)  # Calculate maximum possible ADU value for the given bit depth
+        if input_image.min() >= 0.0 and input_image.max() <= 1.0:
+            input_image = (input_image * max_adu).astype(np.uint16 if self.bitdepth > 8 else np.uint8)
+            
         # If simulation mode, assume input_image is already in units of photons
         if not self.simulation:
             input_photons = input_image / self.gain / self.qe * self.damp
@@ -101,7 +106,7 @@ class RandCameraNoise(RandTransform):
         electrons += dark_noise  # Convert dark current from rate to number of events
         
         # Add readout noise
-        read_noise = rs.normal(scale=self.readout**2, size=electrons.shape)
+        read_noise = rs.normal(scale=self.readout**2, size=electrons.shape)*self.bitdepth/16
         electrons += read_noise  # Adding normal distributed noise based on readout standard deviation
         
         gain = self.gain
@@ -112,10 +117,9 @@ class RandCameraNoise(RandTransform):
             gain_noise = rs.normal(scale=self.gain_variance, size=electrons.shape)
             # Add offset noise and fixed pattern noise in CMOS cameras
             offset_noise = rs.normal(scale=self.offset_variance, size=electrons.shape) + rs.normal(scale=self.offset_variance, size=electrons.shape[0])
-            gain += gain_noise  # Adjusting the gain by adding normally distributed noise
+            gain += gain_noise # Adjusting the gain by adding normally distributed noise
             offset += offset_noise  # Adding offset noise and fixed pattern noise
         
-        max_adu = 2**self.bitdepth - 1  # Calculate maximum possible ADU value for the given bit depth
         adu = (electrons * gain) + offset  # Convert electrons to ADU, then add offset
         adu[adu > max_adu] = max_adu  # Clip values above full scale to avoid overflow
         
