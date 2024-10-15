@@ -64,7 +64,9 @@ class RandCameraNoise(RandTransform):
     Returns:
         numpy.ndarray: The noisy image as a NumPy array with dimensions of input_image.
     """
-    def __init__(self, qe=0.7, # Quantum efficiency of the camera (0 to 1).
+    def __init__(self, p:float=1., # Probability of applying Transform
+                 damp=1e-2, # Dampening factor to prevent saturation when adding noise
+                 qe=0.7, # Quantum efficiency of the camera (0 to 1).
                  gain=2, # Camera gain factor. If an array, it should be broadcastable with input_image shape. 
                  offset=100, # Camera offset in ADU. If an array, it should be broadcastable with input_image shape. 
                  exp_time=0.1, # Exposure time in seconds. 
@@ -80,19 +82,13 @@ class RandCameraNoise(RandTransform):
         store_attr()
         self.rs = np.random.RandomState(seed=seed)
         
-    def before_call(self, 
-        b, 
-        split_idx:int, # Index of the train/valid dataset
-    ):
-        self.do = 1
-        
     def encodes(self, 
                input_image: BioImageBase, # The original image as a NumPy array.
                ):
         rs = self.rs
         # If simulation mode, assume input_image is already in units of photons
         if not self.simulation:
-            input_photons = input_image / self.gain / self.qe
+            input_photons = input_image / self.gain / self.qe * self.damp
         else:
             input_photons = input_image
         
