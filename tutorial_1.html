@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Tutorial Classification">
+
+<title>bioMONAI - Tutorial Classification</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="styles.css">
+<meta property="og:title" content="bioMONAI - Tutorial Classification">
+<meta property="og:description" content="Tutorial Classification">
+<meta property="og:image" content="https://bmandracchia.github.io/bioMONAI/902_tutorial_1_files/figure-html/cell-7-output-1.png">
+<meta property="og:site-name" content="bioMONAI">
+<meta property="og:image:height" content="502">
+<meta property="og:image:width" content="483">
+<meta name="twitter:title" content="bioMONAI - Tutorial Classification">
+<meta name="twitter:description" content="Tutorial Classification">
+<meta name="twitter:image" content="https://bmandracchia.github.io/bioMONAI/902_tutorial_1_files/figure-html/cell-7-output-1.png">
+<meta name="twitter:image-height" content="502">
+<meta name="twitter:image-width" content="483">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">bioMONAI</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://bmandracchia.github.io" rel="" target="">
+ <span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-resources" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Resources</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-resources">    
+        <li>
+    <a class="dropdown-item" href="https://monai.io/" rel="" target=""><i class="bi bi-link" role="img">
+</i> 
+ <span class="dropdown-text">monai</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.fast.ai" rel="" target=""><i class="bi bi-link" role="img">
+</i> 
+ <span class="dropdown-text">fast.ai</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://fastcore.fast.ai" rel="" target=""><i class="bi bi-link" role="img">
+</i> 
+ <span class="dropdown-text">fastcore</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://fastxtend.benjaminwarner.dev" rel="" target=""><i class="bi bi-link" role="img">
+</i> 
+ <span class="dropdown-text">fastxtend</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://nbdev.fast.ai" rel="" target=""><i class="bi bi-link" role="img">
+</i> 
+ <span class="dropdown-text">nbdev</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/bmandracchia/bioMONAI/issues" rel="" target=""><i class="bi bi-bug" role="img">
+</i> 
+ <span class="dropdown-text">Report an Issue</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/bmandracchia/bioMONAI/" rel="" target=""><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/" rel="" target=""><i class="bi bi-twitter" role="img" aria-label="Twitter">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tutorial_1.html">Tutorial Classification</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bioMONAI</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./core.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Core</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./io.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">I/O</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./losses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Loss functions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./nets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Networks</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./transforms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Transforms</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Metrics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./callbacks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Callbacks</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datasets</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./visualize.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Visualize</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./demo_ri2fl_2d.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Demo: 2D image RI2FL</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_1.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Tutorial Classification</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Demo: 2D image RI2FL</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#download-data" id="toc-download-data" class="nav-link active" data-scroll-target="#download-data">Download Data</a></li>
+  <li><a href="#create-dataloader" id="toc-create-dataloader" class="nav-link" data-scroll-target="#create-dataloader">Create Dataloader</a></li>
+  <li><a href="#load-and-train-a-2d-model" id="toc-load-and-train-a-2d-model" class="nav-link" data-scroll-target="#load-and-train-a-2d-model">Load and train a 2D model</a></li>
+  <li><a href="#test-data" id="toc-test-data" class="nav-link" data-scroll-target="#test-data">Test data</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/bmandracchia/bioMONAI/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Tutorial Classification</h1>
+</div>
+
+<div>
+  <div class="description">
+    Tutorial Classification
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+<script src="https://static.cloudflareinsights.com/beacon.min.js?token=62f27bdcb8964407a52676798db9edfa" defer=""></script>
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.data <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.transforms <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.core <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.core <span class="im">import</span> Path</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.data <span class="im">import</span> get_image_files, get_target, RandomSplitter</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.nets <span class="im">import</span> BasicUNet, DynUNet</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.losses <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.metrics <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.datasets <span class="im">import</span> download_medmnist</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> monai.utils <span class="im">import</span> set_determinism</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>set_determinism(<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>device <span class="op">=</span> get_device()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(device)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>cpu</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>CUDA initialization: CUDA unknown error - this may be due to an incorrectly set up environment, e.g. changing env variable CUDA_VISIBLE_DEVICES after program start. Setting the available devices to be zero. (Triggered internally at /opt/conda/conda-bld/pytorch_1682343995622/work/c10/cuda/CUDAFunctions.cpp:109.)</code></pre>
+</div>
+</div>
+<section id="download-data" class="level3">
+<h3 class="anchored" data-anchor-id="download-data">Download Data</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>image_path <span class="op">=</span> <span class="st">'../_data/medmnist_data/'</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>info <span class="op">=</span> download_medmnist(<span class="st">'bloodmnist'</span>, image_path, download_only<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>info</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Downloading https://zenodo.org/records/10519652/files/bloodmnist.npz?download=1 to ../_data/medmnist_data/bloodmnist.npz
+Using downloaded and verified file: ../_data/medmnist_data/bloodmnist.npz
+Using downloaded and verified file: ../_data/medmnist_data/bloodmnist.npz
+Saving training images to ../_data/medmnist_data/...
+Saving validation images to ../_data/medmnist_data/...
+Saving test images to ../_data/medmnist_data/...
+Removed bloodmnist.npz
+Datasets downloaded to ../_data/medmnist_data/
+Dataset info for 'bloodmnist': {'python_class': 'BloodMNIST', 'description': 'The BloodMNIST is based on a dataset of individual normal cells, captured from individuals without infection, hematologic or oncologic disease and free of any pharmacologic treatment at the moment of blood collection. It contains a total of 17,092 images and is organized into 8 classes. We split the source dataset with a ratio of 7:1:2 into training, validation and test set. The source images with resolution 3×360×363 pixels are center-cropped into 3×200×200, and then resized into 3×28×28.', 'url': 'https://zenodo.org/records/10519652/files/bloodmnist.npz?download=1', 'MD5': '7053d0359d879ad8a5505303e11de1dc', 'url_64': 'https://zenodo.org/records/10519652/files/bloodmnist_64.npz?download=1', 'MD5_64': '2b94928a2ae4916078ca51e05b6b800b', 'url_128': 'https://zenodo.org/records/10519652/files/bloodmnist_128.npz?download=1', 'MD5_128': 'adace1e0ed228fccda1f39692059dd4c', 'url_224': 'https://zenodo.org/records/10519652/files/bloodmnist_224.npz?download=1', 'MD5_224': 'b718ff6835fcbdb22ba9eacccd7b2601', 'task': 'multi-class', 'label': {'0': 'basophil', '1': 'eosinophil', '2': 'erythroblast', '3': 'immature granulocytes(myelocytes, metamyelocytes and promyelocytes)', '4': 'lymphocyte', '5': 'monocyte', '6': 'neutrophil', '7': 'platelet'}, 'n_channels': 3, 'n_samples': {'train': 11959, 'val': 1712, 'test': 3421}, 'license': 'CC BY 4.0'}</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 35461855/35461855 [00:11&lt;00:00, 3024955.63it/s]
+100%|██████████| 11959/11959 [00:02&lt;00:00, 5592.09it/s]
+100%|██████████| 1712/1712 [00:00&lt;00:00, 5460.00it/s]
+100%|██████████| 3421/3421 [00:00&lt;00:00, 5433.55it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>{'python_class': 'BloodMNIST',
+ 'description': 'The BloodMNIST is based on a dataset of individual normal cells, captured from individuals without infection, hematologic or oncologic disease and free of any pharmacologic treatment at the moment of blood collection. It contains a total of 17,092 images and is organized into 8 classes. We split the source dataset with a ratio of 7:1:2 into training, validation and test set. The source images with resolution 3×360×363 pixels are center-cropped into 3×200×200, and then resized into 3×28×28.',
+ 'url': 'https://zenodo.org/records/10519652/files/bloodmnist.npz?download=1',
+ 'MD5': '7053d0359d879ad8a5505303e11de1dc',
+ 'url_64': 'https://zenodo.org/records/10519652/files/bloodmnist_64.npz?download=1',
+ 'MD5_64': '2b94928a2ae4916078ca51e05b6b800b',
+ 'url_128': 'https://zenodo.org/records/10519652/files/bloodmnist_128.npz?download=1',
+ 'MD5_128': 'adace1e0ed228fccda1f39692059dd4c',
+ 'url_224': 'https://zenodo.org/records/10519652/files/bloodmnist_224.npz?download=1',
+ 'MD5_224': 'b718ff6835fcbdb22ba9eacccd7b2601',
+ 'task': 'multi-class',
+ 'label': {'0': 'basophil',
+  '1': 'eosinophil',
+  '2': 'erythroblast',
+  '3': 'immature granulocytes(myelocytes, metamyelocytes and promyelocytes)',
+  '4': 'lymphocyte',
+  '5': 'monocyte',
+  '6': 'neutrophil',
+  '7': 'platelet'},
+ 'n_channels': 3,
+ 'n_samples': {'train': 11959, 'val': 1712, 'test': 3421},
+ 'license': 'CC BY 4.0'}</code></pre>
+</div>
+</div>
+</section>
+<section id="create-dataloader" class="level3">
+<h3 class="anchored" data-anchor-id="create-dataloader">Create Dataloader</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.vision.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>bs, size <span class="op">=</span> <span class="dv">4</span>, <span class="dv">128</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> Path(image_path)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>path_train <span class="op">=</span> path<span class="op">/</span><span class="st">'train'</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>path_val <span class="op">=</span> path<span class="op">/</span><span class="st">'val'</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>data_ops <span class="op">=</span> {</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'blocks'</span>:       (BioImageBlock(cls<span class="op">=</span>BioImageMulti), CategoryBlock(vocab<span class="op">=</span>info[<span class="st">'label'</span>])),</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'get_items'</span>:    get_image_files,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'get_y'</span>:        parent_label,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'splitter'</span>:     GrandparentSplitter(),</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'item_tfms'</span>:    [ScaleIntensity(<span class="bu">min</span><span class="op">=</span><span class="fl">0.0</span>, <span class="bu">max</span><span class="op">=</span><span class="fl">1.0</span>),RandCrop2D(size), RandRot90(prob<span class="op">=</span><span class="fl">0.5</span>), RandFlip(prob<span class="op">=</span><span class="fl">0.75</span>)],</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'bs'</span>: bs,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> get_dataloader(</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    path, </span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    show_summary<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">**</span>data_ops,</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="co"># print length of training and validation datasets</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'train images:'</span>, <span class="bu">len</span>(data.train_ds.items), <span class="st">'</span><span class="ch">\n</span><span class="st">validation images:'</span>, <span class="bu">len</span>(data.valid_ds.items))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Setting-up type transforms pipelines
+Collecting items from ../_data/medmnist_data
+Found 17092 items
+2 datasets of sizes 13674,3418
+Setting up Pipeline: BioImageMulti.create -&gt; Tensor2BioImage -- {}
+Setting up Pipeline: parent_label -&gt; Categorize -- {'vocab': ['0', '1', '2', '3', '4', '5', '6', '7'], 'sort': True, 'add_na': False}
+
+Building one sample
+  Pipeline: BioImageMulti.create -&gt; Tensor2BioImage -- {}
+    starting from
+      ../_data/medmnist_data/train/5/train_2282.png
+    applying BioImageMulti.create gives
+      BioImageMulti of size 3x28x28
+    applying Tensor2BioImage -- {} gives
+      BioImageMulti of size 3x28x28
+  Pipeline: parent_label -&gt; Categorize -- {'vocab': ['0', '1', '2', '3', '4', '5', '6', '7'], 'sort': True, 'add_na': False}
+    starting from
+      ../_data/medmnist_data/train/5/train_2282.png
+    applying parent_label gives
+      5
+    applying Categorize -- {'vocab': ['0', '1', '2', '3', '4', '5', '6', '7'], 'sort': True, 'add_na': False} gives
+      TensorCategory(5)
+
+Final sample: (BioImageMulti([[[209., 222., 224.,  ..., 252., 253., 253.],
+         [219., 211., 210.,  ..., 252., 253., 253.],
+         [212., 211., 219.,  ..., 252., 253., 253.],
+         ...,
+         [255., 255., 255.,  ..., 199., 215., 231.],
+         [251., 255., 255.,  ..., 212., 232., 242.],
+         [250., 255., 255.,  ..., 223., 242., 250.]],
+
+        [[171., 187., 189.,  ..., 232., 231., 231.],
+         [184., 177., 176.,  ..., 232., 231., 231.],
+         [179., 178., 186.,  ..., 232., 231., 231.],
+         ...,
+         [230., 233., 232.,  ..., 176., 194., 210.],
+         [228., 233., 233.,  ..., 190., 210., 221.],
+         [228., 233., 235.,  ..., 200., 221., 228.]],
+
+        [[182., 194., 193.,  ..., 207., 208., 207.],
+         [188., 178., 175.,  ..., 207., 207., 207.],
+         [172., 171., 179.,  ..., 205., 207., 208.],
+         ...,
+         [190., 196., 197.,  ..., 184., 189., 193.],
+         [187., 195., 195.,  ..., 192., 199., 200.],
+         [187., 194., 196.,  ..., 194., 204., 204.]]]), TensorCategory(5))
+
+
+Collecting items from ../_data/medmnist_data
+Found 17092 items
+2 datasets of sizes 13674,3418
+Setting up Pipeline: BioImageMulti.create -&gt; Tensor2BioImage -- {}
+Setting up Pipeline: parent_label -&gt; Categorize -- {'vocab': ['0', '1', '2', '3', '4', '5', '6', '7'], 'sort': True, 'add_na': False}
+Setting up after_item: Pipeline: ScaleIntensity -&gt; RandCrop2D -- {'size': (128, 128), 'lazy': False, 'p': 1.0} -&gt; RandRot90 -- {'prob': 0.5, 'max_k': 3, 'spatial_axes': (0, 1), 'ndim': 2, 'lazy': False, 'p': 1.0} -&gt; RandFlip -- {'prob': 0.75, 'spatial_axis': None, 'ndim': 2, 'lazy': False, 'p': 1.0} -&gt; ToTensor
+Setting up before_batch: Pipeline: 
+Setting up after_batch: Pipeline: 
+
+Building one batch
+Applying item_tfms to the first sample:
+  Pipeline: ScaleIntensity -&gt; RandCrop2D -- {'size': (128, 128), 'lazy': False, 'p': 1.0} -&gt; RandRot90 -- {'prob': 0.5, 'max_k': 3, 'spatial_axes': (0, 1), 'ndim': 2, 'lazy': False, 'p': 1.0} -&gt; RandFlip -- {'prob': 0.75, 'spatial_axis': None, 'ndim': 2, 'lazy': False, 'p': 1.0} -&gt; ToTensor
+    starting from
+      (BioImageMulti of size 3x28x28, TensorCategory(5))
+    applying ScaleIntensity gives
+      (BioImageMulti of size 3x28x28, TensorCategory(5))
+    applying RandCrop2D -- {'size': (128, 128), 'lazy': False, 'p': 1.0} gives
+      (BioImageMulti of size 3x28x28, TensorCategory(5))
+    applying RandRot90 -- {'prob': 0.5, 'max_k': 3, 'spatial_axes': (0, 1), 'ndim': 2, 'lazy': False, 'p': 1.0} gives
+      (BioImageMulti of size 3x28x28, TensorCategory(5))
+    applying RandFlip -- {'prob': 0.75, 'spatial_axis': None, 'ndim': 2, 'lazy': False, 'p': 1.0} gives
+      (BioImageMulti of size 3x28x28, TensorCategory(5))
+    applying ToTensor gives
+      (BioImageMulti of size 3x28x28, TensorCategory(5))
+
+Adding the next 3 samples
+
+No before_batch transform to apply
+
+Collating items in a batch
+
+No batch_tfms to apply
+None
+train images: 13674 
+validation images: 3418</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>data.show_batch(max_n<span class="op">=</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="902_tutorial_1_files/figure-html/cell-7-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="load-and-train-a-2d-model" class="level3">
+<h3 class="anchored" data-anchor-id="load-and-train-a-2d-model">Load and train a 2D model</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from monai.networks.nets import densenet121</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  model = densenet121(spatial_dims=2, in_channels=3, out_channels=8)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> resnet18</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> CrossEntropyLossFlat()</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>metrics <span class="op">=</span> accuracy</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>trainer <span class="op">=</span> visionTrainer(data, model, loss_fn<span class="op">=</span>loss, metrics<span class="op">=</span>metrics, show_summary<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sequential (Input shape: 4 x 3 x 28 x 28)
+============================================================================
+Layer (type)         Output Shape         Param #    Trainable 
+============================================================================
+                     4 x 64 x 14 x 14    
+Conv2d                                    9408       True      
+BatchNorm2d                               128        True      
+ReLU                                                           
+____________________________________________________________________________
+                     4 x 64 x 7 x 7      
+MaxPool2d                                                      
+Conv2d                                    36864      True      
+BatchNorm2d                               128        True      
+ReLU                                                           
+Conv2d                                    36864      True      
+BatchNorm2d                               128        True      
+Conv2d                                    36864      True      
+BatchNorm2d                               128        True      
+ReLU                                                           
+Conv2d                                    36864      True      
+BatchNorm2d                               128        True      
+____________________________________________________________________________
+                     4 x 128 x 4 x 4     
+Conv2d                                    73728      True      
+BatchNorm2d                               256        True      
+ReLU                                                           
+Conv2d                                    147456     True      
+BatchNorm2d                               256        True      
+Conv2d                                    8192       True      
+BatchNorm2d                               256        True      
+Conv2d                                    147456     True      
+BatchNorm2d                               256        True      
+ReLU                                                           
+Conv2d                                    147456     True      
+BatchNorm2d                               256        True      
+____________________________________________________________________________
+                     4 x 256 x 2 x 2     
+Conv2d                                    294912     True      
+BatchNorm2d                               512        True      
+ReLU                                                           
+Conv2d                                    589824     True      
+BatchNorm2d                               512        True      
+Conv2d                                    32768      True      
+BatchNorm2d                               512        True      
+Conv2d                                    589824     True      
+BatchNorm2d                               512        True      
+ReLU                                                           
+Conv2d                                    589824     True      
+BatchNorm2d                               512        True      
+____________________________________________________________________________
+                     4 x 512 x 1 x 1     
+Conv2d                                    1179648    True      
+BatchNorm2d                               1024       True      
+ReLU                                                           
+Conv2d                                    2359296    True      
+BatchNorm2d                               1024       True      
+Conv2d                                    131072     True      
+BatchNorm2d                               1024       True      
+Conv2d                                    2359296    True      
+BatchNorm2d                               1024       True      
+ReLU                                                           
+Conv2d                                    2359296    True      
+BatchNorm2d                               1024       True      
+AdaptiveAvgPool2d                                              
+AdaptiveMaxPool2d                                              
+____________________________________________________________________________
+                     4 x 1024            
+Flatten                                                        
+BatchNorm1d                               2048       True      
+Dropout                                                        
+____________________________________________________________________________
+                     4 x 512             
+Linear                                    524288     True      
+ReLU                                                           
+BatchNorm1d                               1024       True      
+Dropout                                                        
+____________________________________________________________________________
+                     4 x 8               
+Linear                                    4096       True      
+____________________________________________________________________________
+
+Total params: 11,707,968
+Total trainable params: 11,707,968
+Total non-trainable params: 0
+
+Optimizer used: &lt;function Adam&gt;
+Loss function: FlattenedLoss of CrossEntropyLoss()
+
+Callbacks:
+  - TrainEvalCallback
+  - CastToTensor
+  - Recorder
+  - ProgressCallback
+  - ShowGraphCallback</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>trainer.fit(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">epoch</th>
+<th data-quarto-table-cell-role="th">train_loss</th>
+<th data-quarto-table-cell-role="th">valid_loss</th>
+<th data-quarto-table-cell-role="th">accuracy</th>
+<th data-quarto-table-cell-role="th">time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>1.941148</td>
+<td>2.192013</td>
+<td>0.252487</td>
+<td>05:51</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="902_tutorial_1_files/figure-html/cell-10-output-3.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>trainer.show_results(cmap<span class="op">=</span><span class="st">'gray'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="902_tutorial_1_files/figure-html/cell-11-output-3.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="902_tutorial_1_files/figure-html/cell-11-output-4.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="902_tutorial_1_files/figure-html/cell-11-output-5.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="902_tutorial_1_files/figure-html/cell-11-output-6.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># trainer.save('tmp-model')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="test-data" class="level3">
+<h3 class="anchored" data-anchor-id="test-data">Test data</h3>
+<p>Evaluate the performance of the selected model on unseen data. It’s important to not touch this data until you have fine tuned your model to get an unbiased evaluation!</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp("https:\/\/bmandracchia\.github\.io\/bioMONAI");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Copyright © 2024 Biagio Mandracchia, MIT License</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/bmandracchia/bioMONAI/">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>
