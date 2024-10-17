@@ -54,13 +54,13 @@ To install the bioMONAI environment, follow these steps:
 3.  **Install dependencies:**
 
     ``` bash
-    pip install -r requirements.txt
+    conda env create --file biomonai.yml
     ```
 
 4.  **Install MONAI and other necessary packages:**
 
     ``` bash
-    pip install bioMONAI
+    pip install -e .
     ```
 
 ## Getting Started
