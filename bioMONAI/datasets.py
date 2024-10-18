@@ -191,7 +191,7 @@ def aics_pipeline(n_images_to_download=40, image_save_dir=None):
 
 
 # %% ../nbs/08_datasets.ipynb 16
-def manifest2csv(paths, data_manifest, signal, target, train_fraction=0.8, data_save_path_train='./train.csv', data_save_path_test='./test.csv'):
+def manifest2csv(paths, data_manifest, signal, target, train_fraction=0.8, data_save_path='./', train='train.csv', test='test.csv'):
     df = pd.DataFrame(columns=["path_tiff", "channel_signal", "channel_target"])
 
     df["path_tiff"] = paths
@@ -202,5 +202,5 @@ def manifest2csv(paths, data_manifest, signal, target, train_fraction=0.8, data_
     df_train = df[:n_train_images]
     df_test = df[n_train_images:]
 
-    df_test.to_csv(data_save_path_test, index=False)
-    df_train.to_csv(data_save_path_train, index=False)
+    df_test.to_csv(data_save_path+test, index=False)
+    df_train.to_csv(data_save_path+train, index=False)

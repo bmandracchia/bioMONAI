@@ -138,7 +138,7 @@ def visionTrainer(  dataloaders: DataLoaders, # The DataLoader objects containin
     "Build a vision trainer from `dataloaders` and `model`"
     if n_out is None: n_out = get_c(dataloaders)
     assert n_out, "`n_out` is not defined, and could not be inferred from data, set `dataloaders.c` or pass `n_out`"
-    meta = model_meta.get(model, {'cut':None, 'split':default_split})
+    meta = model_meta.get(model, {'cut':cut, 'split':default_split})
     model_args = dict(init=init, custom_head=custom_head, concat_pool=concat_pool, pool=pool, lin_ftrs=lin_ftrs, ps=ps,
                       first_bn=first_bn, bn_final=bn_final, lin_first=lin_first, y_range=y_range, **kwargs)
     n_in = kwargs['n_in'] if 'n_in' in kwargs else 3
