@@ -4,12 +4,13 @@
 
 # %% auto 0
 __all__ = ['MetaResolver', 'BioImageBase', 'BioImage', 'BioImageStack', 'BioImageProject', 'BioImageMulti', 'Tensor2BioImage',
-           'BioImageBlock', 'BioDataBlock', 'get_dataloader', 'get_gt', 'get_target', 'get_noisy_pair', 'show_batch',
+           'BioImageBlock', 'BioDataBlock', 'BioDataLoaders', 'get_gt', 'get_target', 'get_noisy_pair', 'show_batch',
            'show_results', 'extract_patches', 'save_patches_grid', 'extract_random_patches', 'save_patches_random']
 
 # %% ../nbs/01_data.ipynb 4
 import os
 import numpy as np
+import pandas as pd
 import h5py
 from tqdm import tqdm 
 import random
@@ -18,7 +19,8 @@ from .core import MetaTensor, torchTensor, BypassNewMeta, DisplayedTransform, to
 from .io import image_reader
 from .visualize import show_images_grid, show_multichannel
 
-from fastai.vision.all import DataBlock, CategoryBlock, TfmdDL, get_image_files, TransformBlock, get_grid, merge, show_image, RandomSplitter
+from fastai.data.all import DataLoaders, delegates, RegexLabeller, is_listy, ColReader, ColSplitter
+from fastai.vision.all import DataBlock, CategoryBlock, MultiCategoryBlock, RegressionBlock, TfmdDL, get_image_files, TransformBlock, get_grid, merge, show_image, RandomSplitter, GrandparentSplitter, partial, parent_label
 
 # %% ../nbs/01_data.ipynb 5
 class MetaResolver(type(torchTensor), metaclass=BypassNewMeta):
@@ -257,48 +259,214 @@ class BioDataBlock(DataBlock):
         
 
 # %% ../nbs/01_data.ipynb 22
-def get_dataloader(data_source, show_summary:bool=False, **kwargs):
-    """
-    Create and return a DataLoader from a BioDataBlock using provided keyword arguments.
-    
-    Args:
-        data_source (any): The source of the data to be loaded by the dataloader.
-                            This can be any type that is compatible with the dataloading method 
-                            specified in kwargs (e.g., paths, datasets).
-        show_summary (bool, optional): If True, print a summary of the BioDataBlock after creation.
-                                       Default is False.
-        **kwargs: Additional keyword arguments to configure the DataLoader and BioDataBlock.
-                  Supported keys include: 'blocks', 'dl_type', 'get_items', 'get_y', 
-                  'get_x', 'getters', 'n_inp', 'item_tfms', 'batch_tfms'.
-    
-    Returns:
-        DataLoader: A PyTorch DataLoader object populated with the data from the BioDataBlock.
-                     If show_summary is True, it also prints a summary of the datablock after creation.
-    
-    Example:
-        >>> dataloader = get_dataloader(data_path, show_summary=True, blocks='train', dl_type='ImageDataLoader')
-    """
-    # Define the keys for BioDataBlock operations
-    datablock_ops_keys = ['blocks','dl_type','get_items','get_y','get_x','getters','n_inp','item_tfms','batch_tfms']
-    
-    # Filter and assign kwargs to datablock_ops dictionary for BioDataBlock initialization
-    datablock_ops = {key: value for key, value in kwargs.items() if key in datablock_ops_keys}
-    
-    # Filter and assign remaining kwargs to dataloader_ops dictionary for DataLoader creation
-    dataloader_ops = {key: value for key, value in kwargs.items() if key not in datablock_ops_keys}
-    
-    # Initialize BioDataBlock with specified operations
-    datablock = BioDataBlock(**datablock_ops)
-    
-    # Create and return the DataLoader from the initialized BioDataBlock
-    dataloder = datablock.dataloaders(data_source, **dataloader_ops)
-    
-    # Optionally print a summary of the BioDataBlock if show_summary is True
-    if show_summary:
-        print(datablock.summary(data_source))
-    
-    return dataloder
+class BioDataLoaders(DataLoaders):
+    "Basic wrapper around several `DataLoader`s with factory methods for biomedical imaging problems"
+    @classmethod
+    @delegates(DataLoaders.from_dblock)
+    def from_source(data_source, show_summary:bool=False, **kwargs):
+        """
+        Create and return a DataLoader from a BioDataBlock using provided keyword arguments.
+        
+        Args:
+            data_source (any): The source of the data to be loaded by the dataloader.
+                                This can be any type that is compatible with the dataloading method 
+                                specified in kwargs (e.g., paths, datasets).
+            show_summary (bool, optional): If True, print a summary of the BioDataBlock after creation.
+                                        Default is False.
+            **kwargs: Additional keyword arguments to configure the DataLoader and BioDataBlock.
+                    Supported keys include: 'blocks', 'dl_type', 'get_items', 'get_y', 
+                    'get_x', 'getters', 'n_inp', 'item_tfms', 'batch_tfms'.
+        
+        Returns:
+            DataLoader: A PyTorch DataLoader object populated with the data from the BioDataBlock.
+                        If show_summary is True, it also prints a summary of the datablock after creation.
+        
+        Example:
+            >>> dataloader = BioDataLoaders.from_source(data_path, show_summary=True, blocks='train', dl_type='ImageDataLoader')
+        """
+        # Define the keys for BioDataBlock operations
+        datablock_ops_keys = ['blocks','dl_type','get_items','get_y','get_x','getters','n_inp','item_tfms','batch_tfms']
+        
+        # Filter and assign kwargs to datablock_ops dictionary for BioDataBlock initialization
+        datablock_ops = {key: value for key, value in kwargs.items() if key in datablock_ops_keys}
+        
+        # Filter and assign remaining kwargs to dataloader_ops dictionary for DataLoader creation
+        dataloader_ops = {key: value for key, value in kwargs.items() if key not in datablock_ops_keys}
+        
+        # Initialize BioDataBlock with specified operations
+        datablock = BioDataBlock(**datablock_ops)
+        
+        # Create and return the DataLoader from the initialized BioDataBlock
+        dataloder = datablock.dataloaders(data_source, **dataloader_ops)
+        
+        # Optionally print a summary of the BioDataBlock if show_summary is True
+        if show_summary:
+            print(datablock.summary(data_source))
+        
+        return dataloder
 
+    @classmethod
+    @delegates(from_source)
+    def from_folder(cls, path, get_target_fn, train='train', valid='valid', valid_pct=None, seed=None, item_tfms=None,
+                    batch_tfms=None, img_cls=BioImage, target_img_cls=BioImage, **kwargs):
+        "Create from dataset in `path` with `train` and `valid` subfolders (or provide `valid_pct`)"
+        splitter = GrandparentSplitter(train_name=train, valid_name=valid) if valid_pct is None else RandomSplitter(valid_pct, seed=seed)
+        get_items = get_image_files if valid_pct else partial(get_image_files, folders=[train, valid])
+        ops = { 
+            'blocks':       (BioImageBlock(img_cls), BioImageBlock(target_img_cls)),
+            'get_items':    get_items,
+            'splitter':     splitter,
+            'get_y':        get_target_fn,
+            'item_tfms':    item_tfms,
+            'batch_tfms':   batch_tfms,
+            'path':         path,
+            }
+        return cls.from_source(path, **ops, **kwargs)
+    
+    @classmethod
+    @delegates(from_source)
+    def from_df(cls, df, path='.', valid_pct=0.2, seed=None, fn_col=0, folder=None, suff='', target_col=1, target_folder=None, target_suff='',
+                valid_col=None, item_tfms=None, batch_tfms=None, target_img_cls=BioImage, img_cls=BioImage, **kwargs):
+        "Create from `df` using `fn_col` and `target_col`"
+        pref = f'{Path(path) if folder is None else Path(path)/folder}{os.path.sep}'
+        target_pref = f'{pref if folder is None else Path(path)/target_folder}{os.path.sep}'
+        splitter = RandomSplitter(valid_pct, seed=seed) if valid_col is None else ColSplitter(valid_col)        
+        ops = { 
+            'blocks':       (BioImageBlock(img_cls), BioImageBlock(target_img_cls)),
+            'splitter':     splitter,
+            'get_x':        ColReader(fn_col, pref=pref, suff=suff),
+            'get_y':        ColReader(target_col, pref=target_pref, suff=target_suff),
+            'item_tfms':    item_tfms,
+            'batch_tfms':   batch_tfms,
+            'path':         path,
+            }
+        return cls.from_source(df, **ops, **kwargs)
+    
+    @classmethod
+    @delegates(from_df)
+    def from_csv(cls, path, csv_fname='train.csv', header='path', delimiter=None, quoting=0, **kwargs):
+        "Create from `path/csv_fname` using `fn_col` and `target_col`"
+        df = pd.read_csv(Path(path)/csv_fname, header=header, delimiter=delimiter, quoting=quoting)
+        return cls.from_df(df, path=path, **kwargs)
+    
+    @classmethod
+    @delegates(from_source)
+    def multi_from_df(cls, df, path='', path_col=0, folder=None, valid_pct=0.2, seed=None, input_col=1, input_pref='', input_suff='', target_col=2, target_pref='', target_suff='',
+                valid_col=None, item_tfms=None, batch_tfms=None, target_img_cls=BioImage, img_cls=BioImage, **kwargs):
+        "Create from `df` using `fn_col` and `target_col`"
+        pref = f'{Path(path) if folder is None else Path(path)/folder}{os.path.sep}'
+        splitter = RandomSplitter(valid_pct, seed=seed) if valid_col is None else ColSplitter(valid_col)      
+        x_suff = ColReader(input_col, pref=input_pref, suff=input_suff)
+        y_suff = ColReader(target_col, pref=target_pref, suff=target_suff)
+        ops = { 
+            'blocks':       (BioImageBlock(img_cls), BioImageBlock(target_img_cls)),
+            'splitter':     splitter,
+            'get_x':        ColReader(path_col, pref=pref, suff=x_suff),
+            'get_y':        ColReader(path_col, pref=pref, suff=y_suff),
+            'item_tfms':    item_tfms,
+            'batch_tfms':   batch_tfms,
+            'path':         path,
+            }
+        return cls.from_source(df, **ops, **kwargs)
+    
+    @classmethod
+    @delegates(multi_from_df)
+    def multi_from_csv(cls, path, csv_fname='train.csv', header='path', delimiter=None, quoting=0, **kwargs):
+        "Create from `path/csv_fname` using `fn_col` and `target_col`"
+        df = pd.read_csv(Path(path)/csv_fname, header=header, delimiter=delimiter, quoting=quoting)
+        return cls.multi_from_df(df, path=path, **kwargs)
+    
+    @classmethod
+    @delegates(from_source)
+    def class_from_folder(cls, path, train='train', valid='valid', valid_pct=None, seed=None, vocab=None, item_tfms=None,
+                    batch_tfms=None, img_cls=BioImage, **kwargs):
+        "Create from dataset in `path` with `train` and `valid` subfolders (or provide `valid_pct`)"
+        splitter = GrandparentSplitter(train_name=train, valid_name=valid) if valid_pct is None else RandomSplitter(valid_pct, seed=seed)
+        get_items = get_image_files if valid_pct else partial(get_image_files, folders=[train, valid])
+        ops = { 
+            'blocks':       (BioImageBlock(img_cls), CategoryBlock(vocab=vocab)),
+            'get_items':    get_items,
+            'splitter':     splitter,
+            'get_y':        parent_label,
+            'item_tfms':    item_tfms,
+            'batch_tfms':   batch_tfms,
+            'path':         path,
+            }
+        return cls.from_source(path, **ops, **kwargs)
+
+    @classmethod
+    @delegates(from_source)
+    def class_from_path_func(cls, path, fnames, label_func, valid_pct=0.2, seed=None, item_tfms=None, batch_tfms=None, 
+                       img_cls=BioImage, **kwargs):
+        "Create from list of `fnames` in `path`s with `label_func`"
+        ops = { 
+            'blocks':       (BioImageBlock(img_cls), CategoryBlock),
+            'splitter':     RandomSplitter(valid_pct, seed=seed),
+            'get_y':        label_func,
+            'item_tfms':    item_tfms,
+            'batch_tfms':   batch_tfms,
+            'path':         path,
+            }
+        return cls.from_source(fnames, **ops, **kwargs)
+
+    @classmethod
+    def class_from_path_re(cls, path, fnames, pat, **kwargs):
+        "Create from list of `fnames` in `path`s with re expression `pat`"
+        return cls.class_from_path_func(path, fnames, RegexLabeller(pat), **kwargs)
+
+    @classmethod
+    @delegates(from_source)
+    def class_from_name_re(cls, path, fnames, pat, **kwargs):
+        "Create from the name attrs of `fnames` in `path`s with re expression `pat`"
+        return cls.from_name_func(path, fnames, RegexLabeller(pat), **kwargs)
+
+    @classmethod
+    @delegates(from_source)
+    def class_from_df(cls, df, path='.', valid_pct=0.2, seed=None, fn_col=0, folder=None, suff='', label_col=1, label_delim=None,
+                y_block=None, valid_col=None, item_tfms=None, batch_tfms=None, img_cls=BioImage, **kwargs):
+        "Create from `df` using `fn_col` and `label_col`"
+        pref = f'{Path(path) if folder is None else Path(path)/folder}{os.path.sep}'
+        if y_block is None:
+            is_multi = (is_listy(label_col) and len(label_col) > 1) or label_delim is not None
+            y_block = MultiCategoryBlock if is_multi else CategoryBlock
+        splitter = RandomSplitter(valid_pct, seed=seed) if valid_col is None else ColSplitter(valid_col)        
+        ops = { 
+            'blocks':       (BioImageBlock(img_cls), y_block),
+            'splitter':     splitter,
+            'get_x':        ColReader(fn_col, pref=pref, suff=suff),
+            'get_y':        ColReader(label_col, label_delim=label_delim),
+            'item_tfms':    item_tfms,
+            'batch_tfms':   batch_tfms,
+            'path':         path,
+            }
+        return cls.from_source(df, **ops, **kwargs)
+    
+    @classmethod
+    def class_from_csv(cls, path, csv_fname='labels.csv', header='infer', delimiter=None, quoting=0, **kwargs):
+        "Create from `path/csv_fname` using `fn_col` and `label_col`"
+        df = pd.read_csv(Path(path)/csv_fname, header=header, delimiter=delimiter, quoting=quoting)
+        return cls.class_from_df(df, path=path, **kwargs)
+
+    @classmethod
+    @delegates(from_source)
+    def class_from_lists(cls, path, fnames, labels, valid_pct=0.2, seed:int=None, y_block=None, item_tfms=None, batch_tfms=None,
+                   img_cls=BioImage, **kwargs):
+        "Create from list of `fnames` and `labels` in `path`"
+        if y_block is None:
+            y_block = MultiCategoryBlock if is_listy(labels[0]) and len(labels[0]) > 1 else (
+                RegressionBlock if isinstance(labels[0], float) else CategoryBlock)
+        ops = { 
+            'blocks':       (BioImageBlock(img_cls), y_block),
+            'splitter':     RandomSplitter(valid_pct, seed=seed),
+            'item_tfms':    item_tfms,
+            'batch_tfms':   batch_tfms,
+            'path':         path,
+            }
+        return cls.from_source((fnames, labels), **ops, **kwargs)
+
+BioDataLoaders.class_from_csv = delegates(to=BioDataLoaders.class_from_df)(BioDataLoaders.class_from_csv)
+BioDataLoaders.class_from_path_re = delegates(to=BioDataLoaders.class_from_path_func)(BioDataLoaders.class_from_path_re)
+BioDataLoaders.class_from_name_re = delegates(to=BioDataLoaders.class_from_name_func)(BioDataLoaders.class_from_name_re)
 
 # %% ../nbs/01_data.ipynb 24
 from fastai.vision.all import get_image_files

@@ -179,6 +179,7 @@ def aics_pipeline(n_images_to_download=40, image_save_dir=None):
     downloaded_image_paths = []
     for image_source_path, image_target_path in zip(image_source_paths, image_target_paths):
         if os.path.exists(image_target_path):
+            downloaded_image_paths.append(image_target_path)
             continue  # Skip if already downloaded
         
         try:

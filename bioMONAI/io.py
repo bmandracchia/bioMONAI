@@ -206,7 +206,7 @@ def _load_and_preprocess(file_path, # Image file path
 
 
 # %% ../nbs/02_io.ipynb 23
-def _multi_channel(image_paths: (L, list), # List of image paths (e.g., T1, T2, T1CE, DWI)
+def _multi_sequence(image_paths: (L, list), # List of image paths (e.g., T1, T2, T1CE, DWI)
                    dtype=torchTensor, # Desired datatype for output
                    only_tensor: bool = True, # Whether to return only image tensor
                    squeeze: bool = False, # 
@@ -267,7 +267,7 @@ def image_reader(file_path: (str, Path, L, list), # Path to the image
     #         file_path.split(';'), reorder, resample, dtype, only_tensor)
     
     if isinstance(file_path, (L, list)):
-        return _multi_channel(file_path, dtype, only_tensor, **kwargs)
+        return _multi_sequence(file_path, dtype, only_tensor, **kwargs)
 
     org_img, input_img, org_size = _load_and_preprocess(file_path, **kwargs)
 
