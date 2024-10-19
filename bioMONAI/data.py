@@ -416,12 +416,6 @@ class BioDataLoaders(DataLoaders):
 
     @classmethod
     @delegates(from_source)
-    def class_from_name_re(cls, path, fnames, pat, **kwargs):
-        "Create from the name attrs of `fnames` in `path`s with re expression `pat`"
-        return cls.from_name_func(path, fnames, RegexLabeller(pat), **kwargs)
-
-    @classmethod
-    @delegates(from_source)
     def class_from_df(cls, df, path='.', valid_pct=0.2, seed=None, fn_col=0, folder=None, suff='', label_col=1, label_delim=None,
                 y_block=None, valid_col=None, item_tfms=None, batch_tfms=None, img_cls=BioImage, **kwargs):
         "Create from `df` using `fn_col` and `label_col`"
@@ -466,7 +460,7 @@ class BioDataLoaders(DataLoaders):
 
 BioDataLoaders.class_from_csv = delegates(to=BioDataLoaders.class_from_df)(BioDataLoaders.class_from_csv)
 BioDataLoaders.class_from_path_re = delegates(to=BioDataLoaders.class_from_path_func)(BioDataLoaders.class_from_path_re)
-BioDataLoaders.class_from_name_re = delegates(to=BioDataLoaders.class_from_name_func)(BioDataLoaders.class_from_name_re)
+
 
 # %% ../nbs/01_data.ipynb 24
 from fastai.vision.all import get_image_files
