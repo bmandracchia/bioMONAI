@@ -326,15 +326,17 @@ class BioDataLoaders(DataLoaders):
     
     @classmethod
     @delegates(from_source)
-    def from_df(cls, df, path='.', valid_pct=0.2, seed=None, fn_col=0, folder=None, suff='', target_col=1, target_folder=None, target_suff='',
+    def from_df(cls, df, path='.', valid_pct=0.2, seed=None, fn_col=0, folder=None, pref=None, suff='', target_col=1, target_folder=None, target_suff='',
                 valid_col=None, item_tfms=None, batch_tfms=None, img_cls=BioImage, target_img_cls=BioImage, **kwargs):
         "Create from `df` using `fn_col` and `target_col`"
-        pref = f'{Path(path) if folder is None else Path(path)/folder}{os.path.sep}'
+        if pref is None:
+            pref = f'{Path(path) if folder is None else Path(path)/folder}{os.path.sep}'
         target_pref = f'{pref if folder is None else Path(path)/target_folder}{os.path.sep}'
         splitter = RandomSplitter(valid_pct, seed=seed) if valid_col is None else ColSplitter(valid_col)        
         target_img_cls = img_cls if target_img_cls is None else target_img_cls
         ops = { 
             'blocks':       (BioImageBlock(img_cls), BioImageBlock(target_img_cls)),
+            'get_items':    None,
             'splitter':     splitter,
             'get_x':        ColReader(fn_col, pref=pref, suff=suff),
             'get_y':        ColReader(target_col, pref=target_pref, suff=target_suff),
