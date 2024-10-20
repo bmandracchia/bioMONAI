@@ -48,7 +48,7 @@ def string2dict(input_string:str):
     return result_dict
 
 # %% ../nbs/02_io.ipynb 8
-def split_path(file_path, # The path to the HDF5 file to split
+def split_path(file_path, # The path to the file to split
                    exts:(L, list)=['.ome.tiff', '.tiff', '.tif', '.png'] # List of filename extensions 
                    ):
     img_ext = [ext for ext in exts if ext in file_path]
@@ -79,7 +79,7 @@ def aics_image_reader(path, # The file path to the image
     """
 
     # parse path string
-    path, ind_dict = split_path(path)
+    path, ind_dict = split_path(str(path))
     # Read image using AICSImage library
     image_aics = AICSImage(path, reconstruct_mosaic=False)
         
