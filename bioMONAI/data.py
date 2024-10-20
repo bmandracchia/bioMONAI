@@ -652,7 +652,41 @@ def show_results(x: BioImageBase, # The input image data.
     return ctxs
 
 
-# %% ../nbs/01_data.ipynb 39
+# %% ../nbs/01_data.ipynb 37
+@typedispatch
+def show_results(x: BioImageBase,       # The input image data.
+                y: TensorCategory,      # The target data (categorical labels).
+                samples,                # List of sample indices to display.
+                outs,                   # List of output predictions corresponding to the samples.
+                ctxs=None,              # List of contexts for displaying images. If None, create new ones using get_grid().
+                max_n=10,               # Maximum number of samples to display.
+                nrows: int=None,        # Number of rows in the grid if ctxs are not provided.
+                ncols: int=None,        # Number of columns in the grid if ctxs are not provided.
+                figsize=None,           # Figure size for the image display.
+                **kwargs,               # Additional keyword arguments to pass to the show method of BioImageBase.
+                ):
+    """
+    Display a batch of input images along with their predicted and target labels.
+   
+    Returns: \n
+        List[Context]: A list of contexts after displaying the images and labels.
+    """
+    # If ctxs are not provided, create new ones using get_grid() with a specific title and size
+    if ctxs is None: 
+        ctxs = get_grid(min(len(samples), max_n), nrows=nrows, ncols=ncols, figsize=figsize, title='Target/Prediction')
+    
+    # Loop through the images and display them in a specific context for input (x) and output predictions (outs)
+    for i in range(2):
+        ctxs = [b.show(ctx=c, **kwargs) for b,c,_ in zip(samples.itemgot(i),ctxs,range(max_n))]
+    
+    # Display predictions and target labels (y) in green, when matching, or red, otherwise.
+    ctxs = [r.show(ctx=c, color='green' if b==r else 'red', **kwargs)
+            for b,r,c,_ in zip(samples.itemgot(1), outs.itemgot(0), ctxs, range(max_n))]
+    
+    return ctxs
+
+
+# %% ../nbs/01_data.ipynb 40
 def extract_patches(data, patch_size, overlap):
     """
     Extracts n-dimensional patches from the input data.
@@ -680,7 +714,7 @@ def extract_patches(data, patch_size, overlap):
     
     return patches
 
-# %% ../nbs/01_data.ipynb 40
+# %% ../nbs/01_data.ipynb 41
 def save_patches_grid(data_folder, gt_folder, output_folder, patch_size, overlap):
     """
     Loads n-dimensional data from data_folder and gt_folder, generates patches, and saves them into individual HDF5 files.
@@ -736,7 +770,7 @@ def save_patches_grid(data_folder, gt_folder, output_folder, patch_size, overlap
                 hf.create_dataset(f'y/{patch_idx}', data=gt_patch)
         
 
-# %% ../nbs/01_data.ipynb 44
+# %% ../nbs/01_data.ipynb 45
 def extract_random_patches(data, patch_size, num_patches):
     """
     Extracts a specified number of random n-dimensional patches from the input data.
@@ -772,7 +806,7 @@ def extract_random_patches(data, patch_size, num_patches):
     return patches
 
 
-# %% ../nbs/01_data.ipynb 45
+# %% ../nbs/01_data.ipynb 46
 def save_patches_random(data_folder, gt_folder, output_folder, patch_size, num_patches):
     """
     Loads n-dimensional data from data_folder and gt_folder, generates random patches, and saves them into individual HDF5 files.
