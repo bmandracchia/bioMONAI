@@ -289,13 +289,14 @@ class BioDataLoaders(DataLoaders):
         
         # Filter and assign kwargs to datablock_ops dictionary for BioDataBlock initialization
         datablock_ops = {key: value for key, value in kwargs.items() if key in datablock_ops_keys}
+        print(datablock_ops)
         
         # Filter and assign remaining kwargs to dataloader_ops dictionary for DataLoader creation
         dataloader_ops = {key: value for key, value in kwargs.items() if key not in datablock_ops_keys}
         
         # Initialize BioDataBlock with specified operations
         datablock = BioDataBlock(**datablock_ops)
-        
+        print(dataloader_ops)
         # Create and return the DataLoader from the initialized BioDataBlock
         dataloder = datablock.dataloaders(data_source, **dataloader_ops)
         
@@ -326,11 +327,12 @@ class BioDataLoaders(DataLoaders):
     @classmethod
     @delegates(from_source)
     def from_df(cls, df, path='.', valid_pct=0.2, seed=None, fn_col=0, folder=None, suff='', target_col=1, target_folder=None, target_suff='',
-                valid_col=None, item_tfms=None, batch_tfms=None, target_img_cls=BioImage, img_cls=BioImage, **kwargs):
+                valid_col=None, item_tfms=None, batch_tfms=None, img_cls=BioImage, target_img_cls=BioImage, **kwargs):
         "Create from `df` using `fn_col` and `target_col`"
         pref = f'{Path(path) if folder is None else Path(path)/folder}{os.path.sep}'
         target_pref = f'{pref if folder is None else Path(path)/target_folder}{os.path.sep}'
         splitter = RandomSplitter(valid_pct, seed=seed) if valid_col is None else ColSplitter(valid_col)        
+        target_img_cls = img_cls if target_img_cls is None else target_img_cls
         ops = { 
             'blocks':       (BioImageBlock(img_cls), BioImageBlock(target_img_cls)),
             'splitter':     splitter,
@@ -352,12 +354,13 @@ class BioDataLoaders(DataLoaders):
     @classmethod
     @delegates(from_source)
     def multi_from_df(cls, df, path='', path_col=0, folder=None, valid_pct=0.2, seed=None, input_col=1, input_pref='', input_suff='', target_col=2, target_pref='', target_suff='',
-                valid_col=None, item_tfms=None, batch_tfms=None, target_img_cls=BioImage, img_cls=BioImage, **kwargs):
+                valid_col=None, item_tfms=None, batch_tfms=None, img_cls=BioImage, target_img_cls=BioImage, **kwargs):
         "Create from `df` using `fn_col` and `target_col`"
         pref = f'{Path(path) if folder is None else Path(path)/folder}{os.path.sep}'
         splitter = RandomSplitter(valid_pct, seed=seed) if valid_col is None else ColSplitter(valid_col)      
         x_suff = ColReader(input_col, pref=input_pref, suff=input_suff)
         y_suff = ColReader(target_col, pref=target_pref, suff=target_suff)
+        target_img_cls = img_cls if target_img_cls is None else target_img_cls
         ops = { 
             'blocks':       (BioImageBlock(img_cls), BioImageBlock(target_img_cls)),
             'splitter':     splitter,
