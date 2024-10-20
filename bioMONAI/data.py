@@ -263,7 +263,7 @@ class BioDataLoaders(DataLoaders):
     "Basic wrapper around several `DataLoader`s with factory methods for biomedical imaging problems"
     @classmethod
     @delegates(DataLoaders.from_dblock)
-    def from_source(data_source, show_summary:bool=False, **kwargs):
+    def from_source(cls, data_source, show_summary:bool=False, **kwargs):
         """
         Create and return a DataLoader from a BioDataBlock using provided keyword arguments.
         
