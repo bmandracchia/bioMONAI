@@ -192,12 +192,20 @@ def aics_pipeline(n_images_to_download=40, image_save_dir=None):
 
 
 # %% ../nbs/08_datasets.ipynb 16
-def manifest2csv(paths, data_manifest, signal, target, train_fraction=0.8, data_save_path='./', train='train.csv', test='test.csv'):
-    df = pd.DataFrame(columns=["path_tiff", "channel_signal", "channel_target"])
-
-    df["path_tiff"] = paths
-    df["channel_signal"] = data_manifest[signal].values
-    df["channel_target"] = data_manifest[target].values 
+def manifest2csv(paths, data_manifest, signal, target, train_fraction=0.8, data_save_path='./', train='train.csv', test='test.csv', identifier=None):
+    
+    if identifier is None:
+        df = pd.DataFrame(columns=["path_tiff", "channel_signal", "channel_target"])
+        df["path_tiff"] = paths
+        df["channel_signal"] = data_manifest[signal].values
+        df["channel_target"] = data_manifest[target].values 
+    else:
+        df = pd.DataFrame(columns=["signal (path+identifier)", "target (path+identifier)"])
+        df["signal (path+identifier)"] = paths
+        df["signal (path+identifier)"] = df["signal (path+channel)"] + identifier + str(*data_manifest[signal].values)
+        df["target (path+identifier)"] = paths
+        df["target (path+identifier)"] = df["target (path+channel)"] + identifier + str(*data_manifest[target].values)       
+        
 
     n_train_images = int(len(paths) * train_fraction)
     df_train = df[:n_train_images]
