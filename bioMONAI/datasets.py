@@ -202,9 +202,9 @@ def manifest2csv(paths, data_manifest, signal, target, train_fraction=0.8, data_
     else:
         df = pd.DataFrame(columns=["signal (path+identifier)", "target (path+identifier)"])
         df["signal (path+identifier)"] = paths
-        df["signal (path+identifier)"] = df["signal (path+identifier)"] + identifier + str(*data_manifest[signal].values)
+        df["signal (path+identifier)"] = df["signal (path+identifier)"] + identifier + [*data_manifest[signal].values.astype(str)]
         df["target (path+identifier)"] = paths
-        df["target (path+identifier)"] = df["target (path+identifier)"] + identifier + str(*data_manifest[target].values)       
+        df["target (path+identifier)"] = df["target (path+identifier)"] + identifier + [*data_manifest[target].values.astype(str)]       
         
 
     n_train_images = int(len(paths) * train_fraction)
