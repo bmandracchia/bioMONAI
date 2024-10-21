@@ -6,6 +6,8 @@
 __all__ = ['tiff2torch', 'string2dict', 'split_path', 'aics_image_reader', 'split_hdf_path', 'hdf5_reader', 'image_reader']
 
 # %% ../nbs/02_io.ipynb 3
+from typing import Any
+
 from fastai.vision.all import *
 from fastai.data.all import *
 from torchio import ScalarImage, ToCanonical, Resample
@@ -63,48 +65,60 @@ def split_path(file_path, # The path to the file to split
     return path, ind_dict
 
 # %% ../nbs/02_io.ipynb 9
-def aics_image_reader(path, # The file path to the image             
-                 ):
+class aics_image_reader():
+    def __init__(self,
+                 ind_dict=None, # Dictionary indicating the channels to load
+                ):
+        store_attr()
 
-    """
-    Reads an image from the specified path using AICSImage library.
-
-    Parameters:
-        path (str): The file path to the image.
-
-    Returns:
-        tuple: A tuple containing the image data and its affine transformation matrix.
-               The image data is a NumPy array representing the image.
-               The affine transformation matrix is a 4x4 NumPy array.
-    """
-
-    # parse path string
-    path, ind_dict = split_path(str(path))
-    # Read image using AICSImage library
-    image_aics = AICSImage(path, reconstruct_mosaic=False)
-        
-    # Support for tiff files    
-    path = str(path)
-    if (path[-4:]=="tiff" or path[-3:]=="tif"):
-        # Reorder for tiff files
-        data = image_aics.get_image_data("CZYX", **ind_dict)  # returns 4D CZYX numpy array
-        affine = np.eye(4) 
-        return data, affine
+    def __call__(self, path) -> Any:
+        return self.reader(path)
     
-    if (path[-3:]=="png"):
-        # Reorder for png files
-        data = image_aics.get_image_data("SZYX", **ind_dict)  # returns 4D CZYX numpy array        
-        affine = np.eye(4)         
-        return data, affine
+    def reader(self, 
+               path, # The file path to the image             
+               ):
 
-    # Convert to numpy array    
-    data = image_aics.data
-    # Remove singleton dimensions
-    data = np.squeeze(data)
-    # Create an identity affine transformation matrix
-    affine = np.eye(4)
-    # Return the image data and the affine matrix
-    return data, affine
+        """
+        Reads an image from the specified path using AICSImage library.
+
+        Parameters:
+            path (str): The file path to the image.
+
+        Returns:
+            tuple: A tuple containing the image data and its affine transformation matrix.
+                The image data is a NumPy array representing the image.
+                The affine transformation matrix is a 4x4 NumPy array.
+        """
+
+        ind_dict = self.ind_dict
+        if ind_dict == None:
+            # parse path string
+            path, ind_dict = split_path(str(path))
+        # Read image using AICSImage library
+        image_aics = AICSImage(path, reconstruct_mosaic=False)
+            
+        # Support for tiff files    
+        path = str(path)
+        if (path[-4:]=="tiff" or path[-3:]=="tif"):
+            # Reorder for tiff files
+            data = image_aics.get_image_data("CZYX", **ind_dict)  # returns 4D CZYX numpy array
+            affine = np.eye(4) 
+            return data, affine
+        
+        if (path[-3:]=="png"):
+            # Reorder for png files
+            data = image_aics.get_image_data("SZYX", **ind_dict)  # returns 4D CZYX numpy array        
+            affine = np.eye(4)         
+            return data, affine
+
+        # Convert to numpy array    
+        data = image_aics.data
+        # Remove singleton dimensions
+        data = np.squeeze(data)
+        # Create an identity affine transformation matrix
+        affine = np.eye(4)
+        # Return the image data and the affine matrix
+        return data, affine
 
 
 # %% ../nbs/02_io.ipynb 12
@@ -120,9 +134,6 @@ def split_hdf_path(file_path, # The path to the HDF5 file to split
     return path, dataset, patch
 
 # %% ../nbs/02_io.ipynb 13
-from typing import Any
-
-
 class hdf5_reader():
     def __init__(self,
                  dataset=None, # The dataset to load
@@ -236,7 +247,8 @@ def _load_and_preprocess(file_path, # Image file path
             reader = hdf5_reader(dataset=dataset, patch=patch, hdf5_exts=hdf5_ext)
             file_path = path
         else:
-            reader = aics_image_reader
+            file_path, ind_dict = split_path(str(file_path))
+            reader = aics_image_reader(ind_dict)
     
     # Load the image using the specified reader
     org_img = ScalarImage(file_path, reader=reader)
