@@ -5,7 +5,8 @@
 # %% auto 0
 __all__ = ['MetaResolver', 'BioImageBase', 'BioImage', 'BioImageStack', 'BioImageProject', 'BioImageMulti', 'Tensor2BioImage',
            'BioImageBlock', 'BioDataBlock', 'BioDataLoaders', 'get_gt', 'get_target', 'get_noisy_pair', 'show_batch',
-           'show_results', 'extract_patches', 'save_patches_grid', 'extract_random_patches', 'save_patches_random']
+           'show_results', 'extract_patches', 'save_patches_grid', 'extract_random_patches', 'save_patches_random',
+           'dict2string', 'extract_substacks']
 
 # %% ../nbs/01_data.ipynb 4
 import os
@@ -865,4 +866,72 @@ def save_patches_random(data_folder, gt_folder, output_folder, patch_size, num_p
                 hf.create_dataset(f'X/{patch_idx}', data=data_patch)
                 hf.create_dataset(f'y/{patch_idx}', data=gt_patch)
         
+
+
+# %% ../nbs/01_data.ipynb 49
+def dict2string(d, item_sep="_", key_value_sep="", pad_zeroes=None):
+    """
+    Transforms a dictionary into a string with customizable separators and optional zero padding for integers.
+    
+    Parameters:
+        d (dict): The dictionary to convert.
+        item_sep (str): The separator between dictionary items (default is ", ").
+        key_value_sep (str): The separator between keys and values (default is ": ").
+        pad_zeroes (int, optional): The minimum width for integer values, padded with zeros. If None, no padding is applied.
+        
+    Returns:
+        str: The formatted dictionary as a string.
+    """
+    def format_value(value):
+        if isinstance(value, int) and pad_zeroes is not None:
+            return f"{value:0{pad_zeroes}d}"
+        return str(value)
+    
+    return item_sep.join(f"{k}{key_value_sep}{format_value(v)}" for k, v in d.items())
+
+
+# %% ../nbs/01_data.ipynb 51
+import os
+
+def extract_substacks(input_file, output_dir=None, indices=None, *kwargs):
+    """
+    Extract substacks from a multidimensional OME-TIFF stack using AICSImageIO.
+
+    Parameters:
+        input_file (str): Path to the input OME-TIFF file.
+        output_dir (str): Directory to save the extracted substacks.
+        indices (dict, optional): A dictionary specifying which indices to extract.
+                                   Keys can include 'C' for channel, 'Z' for z-slice,
+                                   'T' for time point, and 'S' for scene. If None, all indices are extracted.
+    """
+    # Load the OME-TIFF file
+    image = AICSImage(input_file)
+
+    # Get dimensions
+    order = image.dims.order
+    shape = image.shape
+
+    
+    # Update defaults with user-specified indices
+    if indices is None:
+        indices = dict()
+
+    # Extract the substack
+    substack = image.get_image_data(order, **indices)
+
+    # Save substacks
+    if output_dir is None:
+        return substack
+    
+    # Ensure output directory exists
+    os.makedirs(output_dir, exist_ok=True)
+    # Construct output filename
+    output_filename = f"substack_{dict2string(indices, *kwargs)}.tiff"
+    output_path = os.path.join(output_dir, output_filename)
+
+    # Save the substack
+    imageio.imwrite(output_path, substack)
+
+    print(f"Extracted substacks saved to: {output_dir}")
+
 
