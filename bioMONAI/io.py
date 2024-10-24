@@ -126,8 +126,12 @@ def split_hdf_path(file_path, # The path to the HDF5 file to split
                    hdf5_exts:(L, list)=['.h5','.hdf5'] # List of filename extensions 
                    ):
     hdf5_ext = [ext for ext in hdf5_exts if ext in file_path][0]
+    if hdf5_ext == []:
+        return file_path, None, None
     p = file_path.split(hdf5_ext)
-    if p[1] != '':
+    if len(p) == 1 or p[1] == '':
+        return file_path, None, None
+    else:
         path = p[0] + hdf5_ext
         dataset, patch = p[1].split('/')[1:]
         patch = int(patch)
