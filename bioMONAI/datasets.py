@@ -263,7 +263,7 @@ def aics_pipeline(n_images_to_download=40, image_save_dir=None):
 
 
 # %% ../nbs/08_datasets.ipynb 19
-def manifest2csv(paths, signal, target, train_fraction=0.8, data_save_path='./', train='train.csv', test='test.csv', identifier=None):
+def manifest2csv(signal, target, paths=None, train_fraction=0.8, data_save_path='./', train='train.csv', test='test.csv', identifier=None):
     
     if paths is None:
         df = pd.DataFrame(columns=["path_signal", "path_target"])
