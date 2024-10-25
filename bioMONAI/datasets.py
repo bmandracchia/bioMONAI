@@ -263,19 +263,23 @@ def aics_pipeline(n_images_to_download=40, image_save_dir=None):
 
 
 # %% ../nbs/08_datasets.ipynb 19
-def manifest2csv(paths, data_manifest, signal, target, train_fraction=0.8, data_save_path='./', train='train.csv', test='test.csv', identifier=None):
+def manifest2csv(paths, signal, target, train_fraction=0.8, data_save_path='./', train='train.csv', test='test.csv', identifier=None):
     
-    if identifier is None:
+    if paths is None:
+        df = pd.DataFrame(columns=["path_signal", "path_target"])
+        df["path_signal"] = signal.values
+        df["path_target"] = target.values 
+    elif identifier is None:
         df = pd.DataFrame(columns=["path_tiff", "channel_signal", "channel_target"])
         df["path_tiff"] = paths
-        df["channel_signal"] = data_manifest[signal].values
-        df["channel_target"] = data_manifest[target].values 
+        df["channel_signal"] = signal.values
+        df["channel_target"] = target.values 
     else:
         df = pd.DataFrame(columns=["signal (path+identifier)", "target (path+identifier)"])
         df["signal (path+identifier)"] = paths
-        df["signal (path+identifier)"] = df["signal (path+identifier)"] + identifier + [*data_manifest[signal].values.astype(str)]
+        df["signal (path+identifier)"] = df["signal (path+identifier)"] + identifier + [*signal.values.astype(str)]
         df["target (path+identifier)"] = paths
-        df["target (path+identifier)"] = df["target (path+identifier)"] + identifier + [*data_manifest[target].values.astype(str)]       
+        df["target (path+identifier)"] = df["target (path+identifier)"] + identifier + [*target.values.astype(str)]       
         
 
     n_train_images = int(len(paths) * train_fraction)
