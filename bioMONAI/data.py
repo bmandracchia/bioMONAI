@@ -17,6 +17,7 @@ from tqdm import tqdm
 import random
 from aicsimageio import AICSImage
 from aicsimageio.writers import OmeTiffWriter
+from sklearn.model_selection import train_test_split
 
 from .core import MetaTensor, torchTensor, BypassNewMeta, DisplayedTransform, torchsqueeze, Path, List, L, torchmax, randint, typedispatch
 from .io import image_reader
@@ -698,11 +699,12 @@ def extract_patches(data, patch_size, overlap):
     return patches
 
 # %% ../nbs/01_data.ipynb 42
-def save_patches_grid(data_folder, gt_folder, output_folder, patch_size, overlap, threshold=None, squeeze_input=True, squeeze_patches=False):
+def save_patches_grid(data_folder, gt_folder, output_folder, patch_size, overlap, threshold=None, squeeze_input=True, 
+                      squeeze_patches=False, csv_output=True, train_test_split_ratio=0.8):
     """
     Loads n-dimensional data from data_folder and gt_folder, generates patches, and saves them into individual HDF5 files.
     Each HDF5 file will have datasets with the structure X/patch_idx and y/patch_idx.
-    
+
     Parameters:
     - data_folder: Path to the folder containing data files (n-dimensional data).
     - gt_folder: Path to the folder containing ground truth (gt) files (n-dimensional data).
@@ -710,22 +712,24 @@ def save_patches_grid(data_folder, gt_folder, output_folder, patch_size, overlap
     - patch_size: tuple of integers defining the size of the patches.
     - overlap: float (between 0 and 1) defining the overlap between patches.
     - threshold: float, optional. If provided, patches with a mean value below this threshold will be discarded.
+    - csv_output: bool, optional. If True, a CSV file listing all patch paths is created.
+    - train_test_split_ratio: float, optional. Ratio of data to split into train and test CSV files (e.g., 0.8 for 80% train).
     """
     
     # Ensure output folder exists
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)
+    os.makedirs(output_folder, exist_ok=True)
     
     # Ensure the folders contain the same number of files
     data_files = sorted([f for f in os.listdir(data_folder) if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
     gt_files = sorted([f for f in os.listdir(gt_folder) if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
-    
-    print(data_files)
-    
+
     if len(data_files) != len(gt_files):
         raise ValueError("The number of files in data_folder and gt_folder must be the same.")
     
-    # Loop through the files in the folders with progress bar
+    # Prepare CSV records list
+    csv_records = []
+
+    # Loop through the files in the folders
     for data_file_name, gt_file_name in tqdm(zip(data_files, gt_files), total=len(data_files), desc="Processing files"):
         data_file_path = os.path.join(data_folder, data_file_name)
         gt_file_path = os.path.join(gt_folder, gt_file_name)
@@ -755,19 +759,46 @@ def save_patches_grid(data_folder, gt_folder, output_folder, patch_size, overlap
         with h5py.File(hdf5_filename, 'w') as hf:
             patch_counter = 0  # Counter to number the valid patches
             
-            # Store each patch in a separate dataset with a progress bar for each file
+            # Store each patch in a separate dataset
             for data_patch, gt_patch in tqdm(zip(data_patches_nd, gt_patches_nd), 
-                                                                    total=len(data_patches_nd), 
-                                                                    desc=f"Saving patches for {data_file_name}", 
-                                                                    leave=False):
+                                             total=len(data_patches_nd), 
+                                             desc=f"Saving patches for {data_file_name}", 
+                                             leave=False):
                 # Calculate the mean of the patch and discard if below threshold (if provided)
                 if threshold is not None and np.mean(data_patch) < threshold:
                     continue  # Skip this patch
                 
                 hf.create_dataset(f'X/{patch_counter}', data=data_patch)
                 hf.create_dataset(f'y/{patch_counter}', data=gt_patch)
+                
+                # Append patch paths to CSV records
+                csv_records.append({
+                    "path_signal": f"{hdf5_filename}/X/{patch_counter}",
+                    "path_target": f"{hdf5_filename}/y/{patch_counter}"
+                })
+                
                 patch_counter += 1  # Increment the patch counter only for valid patches
-
+    
+    # Save the paths to a CSV file if csv_output is True
+    if csv_output:
+        csv_df = pd.DataFrame(csv_records)
+        
+        if train_test_split_ratio is not None and 0 < train_test_split_ratio < 1:
+            # Split data into train and test sets
+            train_df, test_df = train_test_split(csv_df, train_size=train_test_split_ratio, random_state=42)
+            
+            # Save train and test CSVs
+            train_csv_path = os.path.join(output_folder, "train_patches.csv")
+            test_csv_path = os.path.join(output_folder, "test_patches.csv")
+            train_df.to_csv(train_csv_path, index=False)
+            test_df.to_csv(test_csv_path, index=False)
+            print(f"CSV files saved to: {train_csv_path} and {test_csv_path}")
+        
+        else:
+            # Save a single CSV file
+            csv_path = os.path.join(output_folder, "all_patches.csv")
+            csv_df.to_csv(csv_path, index=False)
+            print(f"CSV file saved to: {csv_path}")
 
 
 # %% ../nbs/01_data.ipynb 46
@@ -807,23 +838,25 @@ def extract_random_patches(data, patch_size, num_patches):
 
 
 # %% ../nbs/01_data.ipynb 47
-def save_patches_random(data_folder, gt_folder, output_folder, patch_size, num_patches, threshold=None, squeeze_input=True, squeeze_patches=False):
+def save_patches_random(data_folder,                # Path to the folder containing data files (n-dimensional data).
+                        gt_folder,                  # Path to the folder containing ground truth (gt) files (n-dimensional data).
+                        output_folder,              # Path to the folder where the HDF5 files will be saved.
+                        patch_size,                 # tuple of integers defining the size of the patches.
+                        num_patches,                # number of random patches to extract per file.
+                        threshold=None,             # If provided, patches with a mean value below this threshold will be discarded.
+                        squeeze_input=True,         # If True, squeezes singleton dimensions in the input data.
+                        squeeze_patches=False,      # If True, squeezes singleton dimensions in the patches.
+                        csv_output=True,            # If True, a CSV file listing all patch paths is created.
+                        train_test_split_ratio=0.8, # Ratio of data to split into train and test CSV files (e.g., 0.8 for 80% train).
+                        ):
     """
     Loads n-dimensional data from data_folder and gt_folder, generates random patches, and saves them into individual HDF5 files.
     Each HDF5 file will have datasets with the structure X/patch_idx and y/patch_idx.
     
-    Parameters:
-    - data_folder: Path to the folder containing data files (n-dimensional data).
-    - gt_folder: Path to the folder containing ground truth (gt) files (n-dimensional data).
-    - output_folder: Path to the folder where the HDF5 files will be saved.
-    - patch_size: tuple of integers defining the size of the patches.
-    - num_patches: number of random patches to extract per file.
-    - threshold: float, optional. If provided, patches with a mean value below this threshold will be discarded.
     """
     
     # Ensure output folder exists
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)
+    os.makedirs(output_folder, exist_ok=True)
     
     # Ensure the folders contain the same number of files
     data_files = sorted([f for f in os.listdir(data_folder) if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
@@ -831,6 +864,9 @@ def save_patches_random(data_folder, gt_folder, output_folder, patch_size, num_p
     
     if len(data_files) != len(gt_files):
         raise ValueError("The number of files in data_folder and gt_folder must be the same.")
+    
+    # Prepare CSV records list
+    csv_records = []
     
     # Loop through the files in the folders with progress bar
     for data_file_name, gt_file_name in tqdm(zip(data_files, gt_files), total=len(data_files), desc="Processing files"):
@@ -864,16 +900,45 @@ def save_patches_random(data_folder, gt_folder, output_folder, patch_size, num_p
             
             # Store each patch in a separate dataset with a progress bar for each file
             for data_patch, gt_patch in tqdm(zip(data_patches_nd, gt_patches_nd), 
-                                                                    total=num_patches, 
-                                                                    desc=f"Saving random patches for {data_file_name}", 
-                                                                    leave=False):
+                                             total=num_patches, 
+                                             desc=f"Saving random patches for {data_file_name}", 
+                                             leave=False):
                 # Calculate the mean of the patch and discard if below threshold (if provided)
                 if threshold is not None and np.mean(data_patch) < threshold:
                     continue  # Skip this patch
                 
                 hf.create_dataset(f'X/{patch_counter}', data=data_patch)
                 hf.create_dataset(f'y/{patch_counter}', data=gt_patch)
+                
+                # Append patch paths to CSV records
+                csv_records.append({
+                    "path_signal": f"{hdf5_filename}/X/{patch_counter}",
+                    "path_target": f"{hdf5_filename}/y/{patch_counter}"
+                })
+                
                 patch_counter += 1  # Increment the patch counter only for valid patches
+    
+    # Save the paths to a CSV file if csv_output is True
+    if csv_output:
+        csv_df = pd.DataFrame(csv_records)
+        
+        if train_test_split_ratio is not None and 0 < train_test_split_ratio < 1:
+            # Split data into train and test sets
+            train_df, test_df = train_test_split(csv_df, train_size=train_test_split_ratio, random_state=42)
+            
+            # Save train and test CSVs
+            train_csv_path = os.path.join(output_folder, "train_patches.csv")
+            test_csv_path = os.path.join(output_folder, "test_patches.csv")
+            train_df.to_csv(train_csv_path, index=False)
+            test_df.to_csv(test_csv_path, index=False)
+            print(f"CSV files saved to: {train_csv_path} and {test_csv_path}")
+        
+        else:
+            # Save a single CSV file
+            csv_path = os.path.join(output_folder, "all_patches.csv")
+            csv_df.to_csv(csv_path, index=False)
+            print(f"CSV file saved to: {csv_path}")
+
 
 # %% ../nbs/01_data.ipynb 50
 def dict2string(d, item_sep="_", key_value_sep="", pad_zeroes=None):
