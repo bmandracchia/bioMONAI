@@ -19,24 +19,6 @@ from monai.losses import SSIMLoss
 from .core import torch_from_numpy
 
 # %% ../nbs/06_metrics.ipynb 4
-# class SSIM:
-#     def __init__(self, spatial_dims=2):
-#         self.spatial_dims= spatial_dims
-#     def __call__(self, *args, **kwds):
-#         return self._SSIM
-#     def _SSIM(self,x, y):
-#         return 1 - SSIMLoss(self.spatial_dims)(x,y)
-    
-
-# def SSIMMetric(spatial_dims=2):
-#     ssim = SSIM(spatial_dims)
-#     return AvgMetric(ssim)
-
-# def SSIM(x, y, spatial_dims=3):
-#     return 1 - SSIMLoss(spatial_dims)(x,y)
-
-# SSIMMetric = AvgMetric(SSIM)
-
 def SSIMMetric(spatial_dims=3):
     def SSIM(x, y):
         return 1 - SSIMLoss(spatial_dims)(x,y)

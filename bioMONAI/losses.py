@@ -95,8 +95,9 @@ class MSSSIMLoss(torch.nn.Module):
 
             # Downsample images for the next scale, except at the last scale
             if i < self.levels - 1:
-                x = F.avg_pool2d(x, kernel_size=2, stride=2)
-                y = F.avg_pool2d(y, kernel_size=2, stride=2)
+                pool = F.avg_pool2d if self.spatial_dims == 2 else F.avg_pool3d
+                x = pool(x, kernel_size=2, stride=2)
+                y = pool(y, kernel_size=2, stride=2)
 
         # Stack and sum weighted SSIM values from all scales
         msssim = torch.stack(msssim_values, dim=0).sum(dim=0)/self.weights.sum()

@@ -353,18 +353,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>device <span class="op">=</span> get_device()</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(device)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>cpu</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>CUDA initialization: CUDA unknown error - this may be due to an incorrectly set up environment, e.g. changing env variable CUDA_VISIBLE_DEVICES after program start. Setting the available devices to be zero. (Triggered internally at /opt/conda/conda-bld/pytorch_1682343995622/work/c10/cuda/CUDAFunctions.cpp:109.)</code></pre>
+<pre><code>cuda</code></pre>
 </div>
 </div>
 <section id="download-data" class="level3">
 <h3 class="anchored" data-anchor-id="download-data">Download Data</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>image_path <span class="op">=</span> <span class="st">'../_data/medmnist_data/'</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>info <span class="op">=</span> download_medmnist(<span class="st">'bloodmnist'</span>, image_path, download_only<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>info</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>image_path <span class="op">=</span> <span class="st">'../_data/medmnist_data/'</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>info <span class="op">=</span> download_medmnist(<span class="st">'bloodmnist'</span>, image_path, download_only<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>info</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Downloading https://zenodo.org/records/10519652/files/bloodmnist.npz?download=1 to ../_data/medmnist_data/bloodmnist.npz
 Using downloaded and verified file: ../_data/medmnist_data/bloodmnist.npz
@@ -377,10 +374,10 @@ Datasets downloaded to ../_data/medmnist_data/
 Dataset info for 'bloodmnist': {'python_class': 'BloodMNIST', 'description': 'The BloodMNIST is based on a dataset of individual normal cells, captured from individuals without infection, hematologic or oncologic disease and free of any pharmacologic treatment at the moment of blood collection. It contains a total of 17,092 images and is organized into 8 classes. We split the source dataset with a ratio of 7:1:2 into training, validation and test set. The source images with resolution 3×360×363 pixels are center-cropped into 3×200×200, and then resized into 3×28×28.', 'url': 'https://zenodo.org/records/10519652/files/bloodmnist.npz?download=1', 'MD5': '7053d0359d879ad8a5505303e11de1dc', 'url_64': 'https://zenodo.org/records/10519652/files/bloodmnist_64.npz?download=1', 'MD5_64': '2b94928a2ae4916078ca51e05b6b800b', 'url_128': 'https://zenodo.org/records/10519652/files/bloodmnist_128.npz?download=1', 'MD5_128': 'adace1e0ed228fccda1f39692059dd4c', 'url_224': 'https://zenodo.org/records/10519652/files/bloodmnist_224.npz?download=1', 'MD5_224': 'b718ff6835fcbdb22ba9eacccd7b2601', 'task': 'multi-class', 'label': {'0': 'basophil', '1': 'eosinophil', '2': 'erythroblast', '3': 'immature granulocytes(myelocytes, metamyelocytes and promyelocytes)', '4': 'lymphocyte', '5': 'monocyte', '6': 'neutrophil', '7': 'platelet'}, 'n_channels': 3, 'n_samples': {'train': 11959, 'val': 1712, 'test': 3421}, 'license': 'CC BY 4.0'}</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>100%|██████████| 35461855/35461855 [00:11&lt;00:00, 3024955.63it/s]
-100%|██████████| 11959/11959 [00:02&lt;00:00, 5592.09it/s]
-100%|██████████| 1712/1712 [00:00&lt;00:00, 5460.00it/s]
-100%|██████████| 3421/3421 [00:00&lt;00:00, 5433.55it/s]</code></pre>
+<pre><code>100%|██████████| 35461855/35461855 [00:03&lt;00:00, 8904574.48it/s] 
+100%|██████████| 11959/11959 [00:02&lt;00:00, 5404.76it/s]
+100%|██████████| 1712/1712 [00:00&lt;00:00, 5650.72it/s]
+100%|██████████| 3421/3421 [00:00&lt;00:00, 5079.47it/s]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <pre><code>{'python_class': 'BloodMNIST',
@@ -411,120 +408,49 @@ Dataset info for 'bloodmnist': {'python_class': 'BloodMNIST', 'description': 'Th
 <section id="create-dataloader" class="level3">
 <h3 class="anchored" data-anchor-id="create-dataloader">Create Dataloader</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.vision.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.vision.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>bs, size <span class="op">=</span> <span class="dv">4</span>, <span class="dv">128</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> Path(image_path)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>path_train <span class="op">=</span> path<span class="op">/</span><span class="st">'train'</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>path_val <span class="op">=</span> path<span class="op">/</span><span class="st">'val'</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>data_ops <span class="op">=</span> {</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'blocks'</span>:       (BioImageBlock(cls<span class="op">=</span>BioImageMulti), CategoryBlock(vocab<span class="op">=</span>info[<span class="st">'label'</span>])),</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'get_items'</span>:    get_image_files,</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'get_y'</span>:        parent_label,</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'splitter'</span>:     GrandparentSplitter(),</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'item_tfms'</span>:    [ScaleIntensity(<span class="bu">min</span><span class="op">=</span><span class="fl">0.0</span>, <span class="bu">max</span><span class="op">=</span><span class="fl">1.0</span>),RandCrop2D(size), RandRot90(prob<span class="op">=</span><span class="fl">0.5</span>), RandFlip(prob<span class="op">=</span><span class="fl">0.75</span>)],</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'bs'</span>: bs,</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> get_dataloader(</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    path, </span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    show_summary<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">**</span>data_ops,</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="co"># print length of training and validation datasets</span></span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'train images:'</span>, <span class="bu">len</span>(data.train_ds.items), <span class="st">'</span><span class="ch">\n</span><span class="st">validation images:'</span>, <span class="bu">len</span>(data.valid_ds.items))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>bs, size <span class="op">=</span> <span class="dv">6</span>, <span class="dv">128</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> Path(image_path)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>path_train <span class="op">=</span> path<span class="op">/</span><span class="st">'train'</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>path_val <span class="op">=</span> path<span class="op">/</span><span class="st">'val'</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>data_ops <span class="op">=</span> {</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'blocks'</span>:       (BioImageBlock(cls<span class="op">=</span>BioImageMulti), CategoryBlock()),</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'get_items'</span>:    get_image_files,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'get_y'</span>:        parent_label,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'splitter'</span>:     GrandparentSplitter(),</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'item_tfms'</span>:    [ScaleIntensity(<span class="bu">min</span><span class="op">=</span><span class="fl">0.0</span>, <span class="bu">max</span><span class="op">=</span><span class="fl">1.0</span>), RandCrop2D(size), RandRot90(prob<span class="op">=</span><span class="fl">0.5</span>), RandFlip(prob<span class="op">=</span><span class="fl">0.75</span>)],</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'bs'</span>: bs,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> BioDataLoaders.from_source(</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    path, </span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    show_summary<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">**</span>data_ops,</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="co"># print length of training and validation datasets</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'train images:'</span>, <span class="bu">len</span>(data.train_ds.items), <span class="st">'</span><span class="ch">\n</span><span class="st">validation images:'</span>, <span class="bu">len</span>(data.valid_ds.items))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Setting-up type transforms pipelines
-Collecting items from ../_data/medmnist_data
-Found 17092 items
-2 datasets of sizes 13674,3418
-Setting up Pipeline: BioImageMulti.create -&gt; Tensor2BioImage -- {}
-Setting up Pipeline: parent_label -&gt; Categorize -- {'vocab': ['0', '1', '2', '3', '4', '5', '6', '7'], 'sort': True, 'add_na': False}
-
-Building one sample
-  Pipeline: BioImageMulti.create -&gt; Tensor2BioImage -- {}
-    starting from
-      ../_data/medmnist_data/train/5/train_2282.png
-    applying BioImageMulti.create gives
-      BioImageMulti of size 3x28x28
-    applying Tensor2BioImage -- {} gives
-      BioImageMulti of size 3x28x28
-  Pipeline: parent_label -&gt; Categorize -- {'vocab': ['0', '1', '2', '3', '4', '5', '6', '7'], 'sort': True, 'add_na': False}
-    starting from
-      ../_data/medmnist_data/train/5/train_2282.png
-    applying parent_label gives
-      5
-    applying Categorize -- {'vocab': ['0', '1', '2', '3', '4', '5', '6', '7'], 'sort': True, 'add_na': False} gives
-      TensorCategory(5)
-
-Final sample: (BioImageMulti([[[209., 222., 224.,  ..., 252., 253., 253.],
-         [219., 211., 210.,  ..., 252., 253., 253.],
-         [212., 211., 219.,  ..., 252., 253., 253.],
-         ...,
-         [255., 255., 255.,  ..., 199., 215., 231.],
-         [251., 255., 255.,  ..., 212., 232., 242.],
-         [250., 255., 255.,  ..., 223., 242., 250.]],
-
-        [[171., 187., 189.,  ..., 232., 231., 231.],
-         [184., 177., 176.,  ..., 232., 231., 231.],
-         [179., 178., 186.,  ..., 232., 231., 231.],
-         ...,
-         [230., 233., 232.,  ..., 176., 194., 210.],
-         [228., 233., 233.,  ..., 190., 210., 221.],
-         [228., 233., 235.,  ..., 200., 221., 228.]],
-
-        [[182., 194., 193.,  ..., 207., 208., 207.],
-         [188., 178., 175.,  ..., 207., 207., 207.],
-         [172., 171., 179.,  ..., 205., 207., 208.],
-         ...,
-         [190., 196., 197.,  ..., 184., 189., 193.],
-         [187., 195., 195.,  ..., 192., 199., 200.],
-         [187., 194., 196.,  ..., 194., 204., 204.]]]), TensorCategory(5))
-
-
-Collecting items from ../_data/medmnist_data
-Found 17092 items
-2 datasets of sizes 13674,3418
-Setting up Pipeline: BioImageMulti.create -&gt; Tensor2BioImage -- {}
-Setting up Pipeline: parent_label -&gt; Categorize -- {'vocab': ['0', '1', '2', '3', '4', '5', '6', '7'], 'sort': True, 'add_na': False}
-Setting up after_item: Pipeline: ScaleIntensity -&gt; RandCrop2D -- {'size': (128, 128), 'lazy': False, 'p': 1.0} -&gt; RandRot90 -- {'prob': 0.5, 'max_k': 3, 'spatial_axes': (0, 1), 'ndim': 2, 'lazy': False, 'p': 1.0} -&gt; RandFlip -- {'prob': 0.75, 'spatial_axis': None, 'ndim': 2, 'lazy': False, 'p': 1.0} -&gt; ToTensor
-Setting up before_batch: Pipeline: 
-Setting up after_batch: Pipeline: 
-
-Building one batch
-Applying item_tfms to the first sample:
-  Pipeline: ScaleIntensity -&gt; RandCrop2D -- {'size': (128, 128), 'lazy': False, 'p': 1.0} -&gt; RandRot90 -- {'prob': 0.5, 'max_k': 3, 'spatial_axes': (0, 1), 'ndim': 2, 'lazy': False, 'p': 1.0} -&gt; RandFlip -- {'prob': 0.75, 'spatial_axis': None, 'ndim': 2, 'lazy': False, 'p': 1.0} -&gt; ToTensor
-    starting from
-      (BioImageMulti of size 3x28x28, TensorCategory(5))
-    applying ScaleIntensity gives
-      (BioImageMulti of size 3x28x28, TensorCategory(5))
-    applying RandCrop2D -- {'size': (128, 128), 'lazy': False, 'p': 1.0} gives
-      (BioImageMulti of size 3x28x28, TensorCategory(5))
-    applying RandRot90 -- {'prob': 0.5, 'max_k': 3, 'spatial_axes': (0, 1), 'ndim': 2, 'lazy': False, 'p': 1.0} gives
-      (BioImageMulti of size 3x28x28, TensorCategory(5))
-    applying RandFlip -- {'prob': 0.75, 'spatial_axis': None, 'ndim': 2, 'lazy': False, 'p': 1.0} gives
-      (BioImageMulti of size 3x28x28, TensorCategory(5))
-    applying ToTensor gives
-      (BioImageMulti of size 3x28x28, TensorCategory(5))
-
-Adding the next 3 samples
-
-No before_batch transform to apply
-
-Collating items in a batch
-
-No batch_tfms to apply
-None
+<pre><code>{'blocks': (&lt;fastai.data.block.TransformBlock object&gt;, &lt;fastai.data.block.TransformBlock object&gt;), 'get_items': &lt;function get_image_files&gt;, 'get_y': &lt;function parent_label&gt;, 'item_tfms': [ScaleIntensity:
+encodes: (BioImageBase,object) -&gt; encodes
+decodes: , RandCrop2D -- {'size': (128, 128), 'lazy': False, 'p': 1.0}:
+encodes: (BioImageBase,object) -&gt; encodes
+decodes: , RandRot90 -- {'prob': 0.5, 'max_k': 3, 'spatial_axes': (0, 1), 'ndim': 2, 'lazy': False, 'p': 1.0}:
+encodes: (BioImageBase,object) -&gt; encodes
+decodes: , RandFlip -- {'prob': 0.75, 'spatial_axis': None, 'ndim': 2, 'lazy': False, 'p': 1.0}:
+encodes: (BioImageBase,object) -&gt; encodes
+decodes: ]}
+{'splitter': &lt;function GrandparentSplitter.&lt;locals&gt;._inner&gt;, 'bs': 6}
 train images: 13674 
 validation images: 3418</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>data.show_batch(max_n<span class="op">=</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data.show_batch(max_n<span class="op">=</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="902_tutorial_1_files/figure-html/cell-7-output-1.png" class="img-fluid"></p>
 </div>
@@ -533,16 +459,16 @@ validation images: 3418</code></pre>
 <section id="load-and-train-a-2d-model" class="level3">
 <h3 class="anchored" data-anchor-id="load-and-train-a-2d-model">Load and train a 2D model</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from monai.networks.nets import densenet121</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  model = densenet121(spatial_dims=2, in_channels=3, out_channels=8)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from monai.networks.nets import densenet121</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  model = densenet121(spatial_dims=2, in_channels=3, out_channels=8)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> resnet18</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> CrossEntropyLossFlat()</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>metrics <span class="op">=</span> accuracy</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>trainer <span class="op">=</span> visionTrainer(data, model, loss_fn<span class="op">=</span>loss, metrics<span class="op">=</span>metrics, show_summary<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> resnet18</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> CrossEntropyLossFlat()</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>metrics <span class="op">=</span> accuracy</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>trainer <span class="op">=</span> visionTrainer(data, model, loss_fn<span class="op">=</span>loss, metrics<span class="op">=</span>metrics, show_summary<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
 <style>
@@ -565,16 +491,16 @@ validation images: 3418</code></pre>
 
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Sequential (Input shape: 4 x 3 x 28 x 28)
+<pre><code>Sequential (Input shape: 6 x 3 x 28 x 28)
 ============================================================================
 Layer (type)         Output Shape         Param #    Trainable 
 ============================================================================
-                     4 x 64 x 14 x 14    
+                     6 x 64 x 14 x 14    
 Conv2d                                    9408       True      
 BatchNorm2d                               128        True      
 ReLU                                                           
 ____________________________________________________________________________
-                     4 x 64 x 7 x 7      
+                     6 x 64 x 7 x 7      
 MaxPool2d                                                      
 Conv2d                                    36864      True      
 BatchNorm2d                               128        True      
@@ -587,7 +513,7 @@ ReLU
 Conv2d                                    36864      True      
 BatchNorm2d                               128        True      
 ____________________________________________________________________________
-                     4 x 128 x 4 x 4     
+                     6 x 128 x 4 x 4     
 Conv2d                                    73728      True      
 BatchNorm2d                               256        True      
 ReLU                                                           
@@ -601,7 +527,7 @@ ReLU
 Conv2d                                    147456     True      
 BatchNorm2d                               256        True      
 ____________________________________________________________________________
-                     4 x 256 x 2 x 2     
+                     6 x 256 x 2 x 2     
 Conv2d                                    294912     True      
 BatchNorm2d                               512        True      
 ReLU                                                           
@@ -615,7 +541,7 @@ ReLU
 Conv2d                                    589824     True      
 BatchNorm2d                               512        True      
 ____________________________________________________________________________
-                     4 x 512 x 1 x 1     
+                     6 x 512 x 1 x 1     
 Conv2d                                    1179648    True      
 BatchNorm2d                               1024       True      
 ReLU                                                           
@@ -631,18 +557,18 @@ BatchNorm2d                               1024       True
 AdaptiveAvgPool2d                                              
 AdaptiveMaxPool2d                                              
 ____________________________________________________________________________
-                     4 x 1024            
+                     6 x 1024            
 Flatten                                                        
 BatchNorm1d                               2048       True      
 Dropout                                                        
 ____________________________________________________________________________
-                     4 x 512             
+                     6 x 512             
 Linear                                    524288     True      
 ReLU                                                           
 BatchNorm1d                               1024       True      
 Dropout                                                        
 ____________________________________________________________________________
-                     4 x 8               
+                     6 x 8               
 Linear                                    4096       True      
 ____________________________________________________________________________
 
@@ -662,7 +588,7 @@ Callbacks:
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>trainer.fit(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>trainer.fit(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
 <style>
@@ -695,10 +621,10 @@ Callbacks:
 <tbody>
 <tr class="odd">
 <td>0</td>
-<td>1.941148</td>
-<td>2.192013</td>
-<td>0.252487</td>
-<td>05:51</td>
+<td>1.110067</td>
+<td>1.083420</td>
+<td>0.630486</td>
+<td>00:25</td>
 </tr>
 </tbody>
 </table>
@@ -708,7 +634,7 @@ Callbacks:
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>trainer.show_results(cmap<span class="op">=</span><span class="st">'gray'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>trainer.show_results()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
 <style>
@@ -733,18 +659,9 @@ Callbacks:
 <div class="cell-output cell-output-display">
 <p><img src="902_tutorial_1_files/figure-html/cell-11-output-3.png" class="img-fluid"></p>
 </div>
-<div class="cell-output cell-output-display">
-<p><img src="902_tutorial_1_files/figure-html/cell-11-output-4.png" class="img-fluid"></p>
-</div>
-<div class="cell-output cell-output-display">
-<p><img src="902_tutorial_1_files/figure-html/cell-11-output-5.png" class="img-fluid"></p>
-</div>
-<div class="cell-output cell-output-display">
-<p><img src="902_tutorial_1_files/figure-html/cell-11-output-6.png" class="img-fluid"></p>
-</div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># trainer.save('tmp-model')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># trainer.save('tmp-model')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="test-data" class="level3">
