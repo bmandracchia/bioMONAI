@@ -77,6 +77,7 @@ class MSSSIMLoss(torch.nn.Module):
             self.weights = torch.FloatTensor(weights)
         self.weights = self.weights[:levels]
         self.reduction = reduction
+        self.spatial_dims = spatial_dims
 
     def forward(self, x, y):
         # Ensure input tensors are the same size
@@ -127,10 +128,7 @@ class MSSSIML1Loss(torch.nn.Module):
         """
         super(MSSSIML1Loss, self).__init__()
         self.msssim = MSSSIMLoss(spatial_dims=spatial_dims, window_size=window_size, sigma=sigma, reduction="none", levels=levels, weights=weights)
-        self.alpha = alpha
-        self.reduction = reduction
-        self.window_size = window_size
-        self.sigma = sigma
+        store_attr()
 
     def forward(self, x, y):
         # Compute MSSSIM loss
