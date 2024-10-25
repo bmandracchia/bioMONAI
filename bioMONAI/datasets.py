@@ -267,22 +267,25 @@ def manifest2csv(signal, target, paths=None, train_fraction=0.8, data_save_path=
     
     if paths is None:
         df = pd.DataFrame(columns=["path_signal", "path_target"])
-        df["path_signal"] = signal.values
-        df["path_target"] = target.values 
+        df["path_signal"] = signal
+        df["path_target"] = target 
+        length_dataset = len(signal)
     elif identifier is None:
         df = pd.DataFrame(columns=["path_tiff", "channel_signal", "channel_target"])
         df["path_tiff"] = paths
-        df["channel_signal"] = signal.values
-        df["channel_target"] = target.values 
+        df["channel_signal"] = signal
+        df["channel_target"] = target 
+        length_dataset = len(paths)
     else:
         df = pd.DataFrame(columns=["signal (path+identifier)", "target (path+identifier)"])
         df["signal (path+identifier)"] = paths
-        df["signal (path+identifier)"] = df["signal (path+identifier)"] + identifier + [*signal.values.astype(str)]
+        df["signal (path+identifier)"] = df["signal (path+identifier)"] + identifier + [*signal.astype(str)]
         df["target (path+identifier)"] = paths
-        df["target (path+identifier)"] = df["target (path+identifier)"] + identifier + [*target.values.astype(str)]       
+        df["target (path+identifier)"] = df["target (path+identifier)"] + identifier + [*target.astype(str)]       
+        length_dataset = len(paths)
         
 
-    n_train_images = int(len(paths) * train_fraction)
+    n_train_images = int(length_dataset * train_fraction)
     df_train = df[:n_train_images]
     df_test = df[n_train_images:]
 

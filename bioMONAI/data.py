@@ -288,7 +288,7 @@ class BioDataLoaders(DataLoaders):
             >>> dataloader = BioDataLoaders.from_source(data_path, show_summary=True, blocks='train', dl_type='ImageDataLoader')
         """
         # Define the keys for BioDataBlock operations
-        datablock_ops_keys = ['blocks','dl_type','get_items','get_y','get_x','getters','n_inp','item_tfms','batch_tfms']
+        datablock_ops_keys = ['blocks','dl_type','get_items','get_y','get_x','getters','n_inp','item_tfms','batch_tfms','splitter']
         
         # Filter and assign kwargs to datablock_ops dictionary for BioDataBlock initialization
         datablock_ops = {key: value for key, value in kwargs.items() if key in datablock_ops_keys}
@@ -304,7 +304,8 @@ class BioDataLoaders(DataLoaders):
         
         # Optionally print a summary of the BioDataBlock if show_summary is True
         if show_summary:
-            print(datablock.summary(data_source))
+            bs = dataloader_ops['bs'] if dataloader_ops['bs'] is not None else 1
+            print(datablock.summary(data_source, bs=bs))
         
         return dataloder
 
@@ -357,35 +358,7 @@ class BioDataLoaders(DataLoaders):
         "Create from `path/csv_fname` using `fn_col` and `target_col`"
         df = pd.read_csv(Path(path)/csv_fname, header=header, delimiter=delimiter, quoting=quoting)
         return cls.from_df(df, path=path, **kwargs)
-    
-    # @classmethod
-    # @delegates(from_source)
-    # def multi_from_df(cls, df, path='', path_col=0, folder=None, valid_pct=0.2, seed=None, input_col=1, input_pref='', input_suff='', target_col=2, target_pref='', target_suff='',
-    #             valid_col=None, item_tfms=None, batch_tfms=None, img_cls=BioImage, target_img_cls=BioImage, **kwargs):
-    #     "Create from `df` using `fn_col` and `target_col`"
-    #     pref = f'{Path(path) if folder is None else Path(path)/folder}{os.path.sep}'
-    #     splitter = RandomSplitter(valid_pct, seed=seed) if valid_col is None else ColSplitter(valid_col)      
-    #     x_suff = ColReader(input_col, pref=input_pref, suff=input_suff)
-    #     y_suff = ColReader(target_col, pref=target_pref, suff=target_suff)
-    #     target_img_cls = img_cls if target_img_cls is None else target_img_cls
-    #     ops = { 
-    #         'blocks':       (BioImageBlock(img_cls), BioImageBlock(target_img_cls)),
-    #         'splitter':     splitter,
-    #         'get_x':        ColReader(path_col, pref=pref, suff=x_suff),
-    #         'get_y':        ColReader(path_col, pref=pref, suff=y_suff),
-    #         'item_tfms':    item_tfms,
-    #         'batch_tfms':   batch_tfms,
-    #         'path':         path,
-    #         }
-    #     return cls.from_source(df, **ops, **kwargs)
-    
-    # @classmethod
-    # @delegates(multi_from_df)
-    # def multi_from_csv(cls, path, csv_fname='train.csv', header='path', delimiter=None, quoting=0, **kwargs):
-    #     "Create from `path/csv_fname` using `fn_col` and `target_col`"
-    #     df = pd.read_csv(Path(path)/csv_fname, header=header, delimiter=delimiter, quoting=quoting)
-    #     return cls.multi_from_df(df, path=path, **kwargs)
-    
+       
     @classmethod
     @delegates(from_source)
     def class_from_folder(cls, path, train='train', valid='valid', valid_pct=None, seed=None, vocab=None, item_tfms=None,
@@ -967,12 +940,20 @@ def extract_substacks(input_file, output_dir=None, indices=None, split_dimension
     # Load the OME-TIFF file
     image = AICSImage(input_file)
 
+    # Extract the base name of the input file (without path and extension)
+    base_filename = os.path.splitext(os.path.basename(input_file))[0]   
+    # Remove complex extensions like .ome.tiff or .ome.tif
+    base_filename = os.path.splitext(base_filename)[0]
+    
     # Get dimensions order
     order = image.dims.order
 
     # Update defaults with user-specified indices
     if indices is None:
         indices = dict()
+        
+    # Convert any numpy.int types in indices to Python int
+    indices = {k: int(v) if isinstance(v, (np.integer, np.int64)) else v for k, v in indices.items()}
 
     # If split_dimension is provided, create substacks for each index in that dimension
     if split_dimension is not None and split_dimension in indices:
@@ -995,7 +976,7 @@ def extract_substacks(input_file, output_dir=None, indices=None, split_dimension
         for i, idx in enumerate(split_indices):
             # Adjust the indices dictionary for the current index in split_dimension
             current_indices = indices.copy()
-            current_indices[split_dimension] = idx
+            current_indices[split_dimension] = int(idx) 
             
             # Extract the substack for the current index
             substack = image.get_image_data(order, **current_indices)
@@ -1014,7 +995,7 @@ def extract_substacks(input_file, output_dir=None, indices=None, split_dimension
             os.makedirs(output_dir_list[i], exist_ok=True)
             
             # Construct output filename
-            output_filename = f"substack_{dict2string(current_indices, *kwargs)}.ome.tiff"
+            output_filename = f"{base_filename}_substack_{dict2string(current_indices, *kwargs)}.ome.tiff"
             output_path = os.path.join(output_dir_list[i], output_filename)
 
             # Save the substack
@@ -1039,7 +1020,7 @@ def extract_substacks(input_file, output_dir=None, indices=None, split_dimension
         os.makedirs(output_dir, exist_ok=True)
         
         # Construct output filename
-        output_filename = f"substack_{dict2string(indices, *kwargs)}.ome.tiff"
+        output_filename = f"{base_filename}_substack_{dict2string(indices, *kwargs)}.ome.tiff"
         output_path = os.path.join(output_dir, output_filename)
 
         # Save the substack
