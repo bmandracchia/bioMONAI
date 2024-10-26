@@ -23,27 +23,27 @@ from .core import torch_from_numpy
 # %% ../nbs/06_metrics.ipynb 4
 def SSIMMetric(spatial_dims=3, **kwargs):
     def SSIM(x, y):
-        return _SSIM(spatial_dims, **kwargs)(x,y)
+        return _SSIM(spatial_dims, **kwargs)(x,y).mean()
     return AvgMetric(SSIM)
 
 def MSEMetric(**kwargs):
     def MSE(x, y):
-        return _MSE(**kwargs)(x,y)
+        return _MSE(**kwargs)(x,y).mean()
     return AvgMetric(MSE)
 
 def MAEMetric(**kwargs):
     def MAE(x, y):
-        return _MAE(**kwargs)(x,y)
+        return _MAE(**kwargs)(x,y).mean()
     return AvgMetric(MAE)
 
 def RMSEMetric(**kwargs):
     def RMSE(x, y):
-        return _RMSE(**kwargs)(x,y)
+        return _RMSE(**kwargs)(x,y).mean()
     return AvgMetric(RMSE)
 
 def PSNRMetric(max_val, **kwargs):
     def PSNR(x, y):
-        return _PSNR(max_val, **kwargs)(x,y)
+        return _PSNR(max_val, **kwargs)(x,y).mean()
     return AvgMetric(PSNR)
 
 
