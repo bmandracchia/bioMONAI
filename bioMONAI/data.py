@@ -1030,10 +1030,13 @@ def extract_substacks(input_file, output_dir=None, indices=None, split_dimension
         # Ensure output_dir is a list of directories or convert to list of subfolder names by index
         if output_dir is not None and isinstance(output_dir, list):
             if len(output_dir) != len(split_indices):
-                raise ValueError(f"The number of subdirectories in output_dir ({len(output_dir)}) does not match the number of substacks ({len(split_indices)}).")
+                if len(output_dir) == 1:
+                    output_dir_list = [os.path.join(output_dir, f"{split_dimension}_{i}") for i in split_indices]
+                else:
+                    raise ValueError(f"The number of subdirectories in output_dir ({len(output_dir)}) does not match the number of substacks ({len(split_indices)}).")
             output_dir_list = output_dir
         elif output_dir is not None:
-            output_dir_list = [os.path.join(output_dir, f"{split_dimension}_{i}") for i in split_indices]
+            output_dir_list = [output_dir] * len(split_indices)
         else:
             output_dir_list = [None] * len(split_indices)  # No output_dir provided, substack is returned.
 
