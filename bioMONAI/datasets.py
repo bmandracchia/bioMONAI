@@ -10,7 +10,7 @@ __all__ = ['download_medmnist', 'medmnist2df', 'download_file', 'download_datase
 import os
 from pathlib import Path
 
-from pooch import create as pooch_create, retrieve as pooch_retrieve, Decompress
+from pooch import create as pooch_create, retrieve as pooch_retrieve, Decompress, Unzip, Untar
 import quilt3
 import pandas as pd
 import numpy as np
@@ -156,7 +156,14 @@ def download_file(url, output_dir="data", extract=True):
     os.makedirs(output_dir, exist_ok=True)
     
     # Set processor to Decompress if extract=True
-    processor = Decompress() if extract else None
+    processor = None
+    if extract:
+        if url.endswith('.zip'):
+            processor = Unzip()
+        elif url.endswith(('.tar', '.tar.gz', '.tar.bz2', '.tar.xz')):
+            processor = Untar()
+        elif url.endswith(('.gz', '.bz2', '.xz')):
+            processor = Decompress()
 
     # Download the file, decompressing if extract=True and file is compressed
     downloaded_file = pooch_retrieve(
