@@ -99,10 +99,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="styles.css">
 <meta property="og:title" content="bioMONAI - I/O">
 <meta property="og:description" content="input/output management">
+<meta property="og:image" content="https://bmandracchia.github.io/bioMONAI/02_io_files/figure-html/cell-10-output-1.png">
 <meta property="og:site-name" content="bioMONAI">
+<meta property="og:image:height" content="389">
+<meta property="og:image:width" content="389">
 <meta name="twitter:title" content="bioMONAI - I/O">
 <meta name="twitter:description" content="input/output management">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bmandracchia.github.io/bioMONAI/02_io_files/figure-html/cell-10-output-1.png">
+<meta name="twitter:image-height" content="389">
+<meta name="twitter:image-width" content="389">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar floating nav-fixed">
@@ -282,6 +288,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Demo: 2D image RI2FL</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial Denoising</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial Denoising</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -296,6 +314,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#image-readers" id="toc-image-readers" class="nav-link" data-scroll-target="#image-readers">Image Readers</a>
   <ul>
   <li><a href="#tiff2torch" id="toc-tiff2torch" class="nav-link" data-scroll-target="#tiff2torch">tiff2torch</a></li>
+  <li><a href="#string2dict" id="toc-string2dict" class="nav-link" data-scroll-target="#string2dict">string2dict</a></li>
+  <li><a href="#split_path" id="toc-split_path" class="nav-link" data-scroll-target="#split_path">split_path</a></li>
   <li><a href="#aics_image_reader" id="toc-aics_image_reader" class="nav-link" data-scroll-target="#aics_image_reader">aics_image_reader</a></li>
   <li><a href="#hierarchical-data-format" id="toc-hierarchical-data-format" class="nav-link" data-scroll-target="#hierarchical-data-format">Hierarchical Data Format</a></li>
   <li><a href="#split_hdf_path" id="toc-split_hdf_path" class="nav-link" data-scroll-target="#split_hdf_path">split_hdf_path</a></li>
@@ -347,7 +367,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="image-readers" class="level2">
 <h2 class="anchored" data-anchor-id="image-readers">Image Readers</h2>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L18" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L20" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="tiff2torch" class="level3">
 <h3 class="anchored" data-anchor-id="tiff2torch">tiff2torch</h3>
 <blockquote class="blockquote">
@@ -355,40 +375,99 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </blockquote>
 <p><em>Load tiff into pytorch tensor</em></p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L28" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L30" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
-<section id="aics_image_reader" class="level3">
-<h3 class="anchored" data-anchor-id="aics_image_reader">aics_image_reader</h3>
+<section id="string2dict" class="level3">
+<h3 class="anchored" data-anchor-id="string2dict">string2dict</h3>
 <blockquote class="blockquote">
-<pre><code> aics_image_reader (path)</code></pre>
+<pre><code> string2dict (input_string:str)</code></pre>
 </blockquote>
-<p>*Reads an image from the specified path using AICSImage library.</p>
-<p>Parameters: path (str): The file path to the image.</p>
-<p>Returns: tuple: A tuple containing the image data and its affine transformation matrix. The image data is a NumPy array representing the image. The affine transformation matrix is a 4x4 NumPy array.*</p>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L53" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="split_path" class="level3">
+<h3 class="anchored" data-anchor-id="split_path">split_path</h3>
+<blockquote class="blockquote">
+<pre><code> split_path (file_path,
+             exts:(&lt;class'fastcore.foundation.L'&gt;,&lt;class'list'&gt;)=['.ome.ti
+             ff', '.tiff', '.tif', '.png'])</code></pre>
+</blockquote>
 <table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
 <thead>
 <tr class="header">
 <th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
 <th><strong>Details</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>path</td>
-<td>The file path to the image</td>
+<td>file_path</td>
+<td></td>
+<td></td>
+<td>The path to the file to split</td>
+</tr>
+<tr class="even">
+<td>exts</td>
+<td>(&lt;class ‘fastcore.foundation.L’&gt;, &lt;class ‘list’&gt;)</td>
+<td>[‘.ome.tiff’, ‘.tiff’, ‘.tif’, ‘.png’]</td>
+<td>List of filename extensions</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L68" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="aics_image_reader" class="level3">
+<h3 class="anchored" data-anchor-id="aics_image_reader">aics_image_reader</h3>
+<blockquote class="blockquote">
+<pre><code> aics_image_reader (ind_dict=None)</code></pre>
+</blockquote>
+<p><em>Initialize self. See help(type(self)) for accurate signature.</em></p>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ind_dict</td>
+<td>NoneType</td>
+<td>None</td>
+<td>Dictionary indicating the channels to load</td>
 </tr>
 </tbody>
 </table>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> <span class="st">'data_examples/example_tiff.tiff'</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>test_img, _ <span class="op">=</span> aics_image_reader(file_path)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>test_img.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> <span class="st">'data_examples/example_tiff.tiff'</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>test_img, _ <span class="op">=</span> aics_image_reader({<span class="st">'Z'</span>: <span class="dv">0</span>})(file_path)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>test_img.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>(1, 1, 512, 512)</code></pre>
+</div>
 </div>
 </section>
 <section id="hierarchical-data-format" class="level3">
 <h3 class="anchored" data-anchor-id="hierarchical-data-format">Hierarchical Data Format</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L71" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L125" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="split_hdf_path" class="level3">
 <h3 class="anchored" data-anchor-id="split_hdf_path">split_hdf_path</h3>
@@ -428,7 +507,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L86" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L141" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="hdf5_reader" class="level3">
 <h3 class="anchored" data-anchor-id="hdf5_reader">hdf5_reader</h3>
@@ -476,21 +555,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <p>Images can be loaded by explicitly writing dataset name and path number…</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.visualize <span class="im">import</span> plot_image</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioMONAI.visualize <span class="im">import</span> plot_image</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> <span class="st">'./data_examples/0450_1.hdf5'</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>dataset_name<span class="op">=</span><span class="st">'clean'</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>patch_num<span class="op">=</span><span class="dv">10</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>im , _ <span class="op">=</span> hdf5_reader(dataset<span class="op">=</span>dataset_name, patch<span class="op">=</span>patch_num)(file_path)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>plot_image(im[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> <span class="st">'./data_examples/0450_1.hdf5'</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>dataset_name<span class="op">=</span><span class="st">'clean'</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>patch_num<span class="op">=</span><span class="dv">10</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>im , _ <span class="op">=</span> hdf5_reader(dataset<span class="op">=</span>dataset_name, patch<span class="op">=</span>patch_num)(file_path)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>plot_image(im[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="02_io_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
+</div>
 </div>
 <p>… or enconding them in the path, where datasets are subfolders and patches the image files. The latter being compatible with <a href="https://bmandracchia.github.io/bioMONAI/io.html#image_reader"><code>image_reader</code></a> syntaxis.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> file_path <span class="op">+</span> <span class="st">'/'</span> <span class="op">+</span> dataset_name <span class="op">+</span> <span class="st">'/'</span> <span class="op">+</span> <span class="st">'</span><span class="sc">%d</span><span class="st">'</span><span class="op">%</span>(patch_num)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>im , _ <span class="op">=</span> hdf5_reader()(f)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>plot_image(im[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> file_path <span class="op">+</span> <span class="st">'/'</span> <span class="op">+</span> dataset_name <span class="op">+</span> <span class="st">'/'</span> <span class="op">+</span> <span class="st">'</span><span class="sc">%d</span><span class="st">'</span><span class="op">%</span>(patch_num)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>im , _ <span class="op">=</span> hdf5_reader()(f)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>plot_image(im[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="02_io_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
+</div>
 </div>
 </section>
 <section id="preprocessing" class="level3">
@@ -499,25 +584,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="load-and-preprocess" class="level3">
 <h3 class="anchored" data-anchor-id="load-and-preprocess">Load and preprocess</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>org_img, _, _ <span class="op">=</span> _load_and_preprocess(f)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>test_eq(org_img.data[<span class="dv">0</span>].shape, im.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>org_img, _, _ <span class="op">=</span> _load_and_preprocess(f)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>test_eq(org_img.data[<span class="dv">0</span>].shape, im.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="read-multichannel-data" class="level3">
 <h3 class="anchored" data-anchor-id="read-multichannel-data">Read multichannel data</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> _multi_channel([f], only_tensor<span class="op">=</span><span class="va">True</span>)<span class="op">;</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>test_eq(t[<span class="dv">0</span>].shape, im.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> _multi_sequence([f], only_tensor<span class="op">=</span><span class="va">True</span>)<span class="op">;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>test_eq(t[<span class="dv">0</span>].shape, im.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>t.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>t.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>torch.Size([1, 1, 96, 96])</code></pre>
+</div>
 </div>
 </section>
 <section id="image-reader" class="level3">
 <h3 class="anchored" data-anchor-id="image-reader">Image reader</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L244" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/io.py#L300" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="image_reader" class="level3">
 <h3 class="anchored" data-anchor-id="image_reader">image_reader</h3>
@@ -572,7 +660,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>test_eq(image_reader(f)[<span class="dv">0</span>].shape, im.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>test_eq(image_reader(f)[<span class="dv">0</span>].shape, im.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

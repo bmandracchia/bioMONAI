@@ -5,7 +5,8 @@
 # %% auto 0
 __all__ = ['MetaResolver', 'BioImageBase', 'BioImage', 'BioImageStack', 'BioImageProject', 'BioImageMulti', 'Tensor2BioImage',
            'BioImageBlock', 'BioDataBlock', 'BioDataLoaders', 'get_gt', 'get_target', 'get_noisy_pair', 'show_batch',
-           'show_results', 'extract_patches', 'save_patches_grid', 'extract_random_patches', 'save_patches_random']
+           'show_results', 'extract_patches', 'save_patches_grid', 'extract_random_patches', 'save_patches_random',
+           'dict2string', 'remove_singleton_dims', 'extract_substacks']
 
 # %% ../nbs/01_data.ipynb 4
 import os
@@ -14,6 +15,9 @@ import pandas as pd
 import h5py
 from tqdm import tqdm 
 import random
+from aicsimageio import AICSImage
+from aicsimageio.writers import OmeTiffWriter
+from sklearn.model_selection import train_test_split
 
 from .core import MetaTensor, torchTensor, BypassNewMeta, DisplayedTransform, torchsqueeze, Path, List, L, torchmax, randint, typedispatch
 from .io import image_reader
@@ -285,7 +289,7 @@ class BioDataLoaders(DataLoaders):
             >>> dataloader = BioDataLoaders.from_source(data_path, show_summary=True, blocks='train', dl_type='ImageDataLoader')
         """
         # Define the keys for BioDataBlock operations
-        datablock_ops_keys = ['blocks','dl_type','get_items','get_y','get_x','getters','n_inp','item_tfms','batch_tfms']
+        datablock_ops_keys = ['blocks','dl_type','get_items','get_y','get_x','getters','n_inp','item_tfms','batch_tfms','splitter']
         
         # Filter and assign kwargs to datablock_ops dictionary for BioDataBlock initialization
         datablock_ops = {key: value for key, value in kwargs.items() if key in datablock_ops_keys}
@@ -301,7 +305,8 @@ class BioDataLoaders(DataLoaders):
         
         # Optionally print a summary of the BioDataBlock if show_summary is True
         if show_summary:
-            print(datablock.summary(data_source))
+            bs = dataloader_ops['bs'] if dataloader_ops['bs'] is not None else 1
+            print(datablock.summary(data_source, bs=bs))
         
         return dataloder
 
@@ -354,35 +359,7 @@ class BioDataLoaders(DataLoaders):
         "Create from `path/csv_fname` using `fn_col` and `target_col`"
         df = pd.read_csv(Path(path)/csv_fname, header=header, delimiter=delimiter, quoting=quoting)
         return cls.from_df(df, path=path, **kwargs)
-    
-    # @classmethod
-    # @delegates(from_source)
-    # def multi_from_df(cls, df, path='', path_col=0, folder=None, valid_pct=0.2, seed=None, input_col=1, input_pref='', input_suff='', target_col=2, target_pref='', target_suff='',
-    #             valid_col=None, item_tfms=None, batch_tfms=None, img_cls=BioImage, target_img_cls=BioImage, **kwargs):
-    #     "Create from `df` using `fn_col` and `target_col`"
-    #     pref = f'{Path(path) if folder is None else Path(path)/folder}{os.path.sep}'
-    #     splitter = RandomSplitter(valid_pct, seed=seed) if valid_col is None else ColSplitter(valid_col)      
-    #     x_suff = ColReader(input_col, pref=input_pref, suff=input_suff)
-    #     y_suff = ColReader(target_col, pref=target_pref, suff=target_suff)
-    #     target_img_cls = img_cls if target_img_cls is None else target_img_cls
-    #     ops = { 
-    #         'blocks':       (BioImageBlock(img_cls), BioImageBlock(target_img_cls)),
-    #         'splitter':     splitter,
-    #         'get_x':        ColReader(path_col, pref=pref, suff=x_suff),
-    #         'get_y':        ColReader(path_col, pref=pref, suff=y_suff),
-    #         'item_tfms':    item_tfms,
-    #         'batch_tfms':   batch_tfms,
-    #         'path':         path,
-    #         }
-    #     return cls.from_source(df, **ops, **kwargs)
-    
-    # @classmethod
-    # @delegates(multi_from_df)
-    # def multi_from_csv(cls, path, csv_fname='train.csv', header='path', delimiter=None, quoting=0, **kwargs):
-    #     "Create from `path/csv_fname` using `fn_col` and `target_col`"
-    #     df = pd.read_csv(Path(path)/csv_fname, header=header, delimiter=delimiter, quoting=quoting)
-    #     return cls.multi_from_df(df, path=path, **kwargs)
-    
+       
     @classmethod
     @delegates(from_source)
     def class_from_folder(cls, path, train='train', valid='valid', valid_pct=None, seed=None, vocab=None, item_tfms=None,
@@ -721,41 +698,49 @@ def extract_patches(data, patch_size, overlap):
     
     return patches
 
-# %% ../nbs/01_data.ipynb 41
-def save_patches_grid(data_folder, gt_folder, output_folder, patch_size, overlap):
+# %% ../nbs/01_data.ipynb 42
+def save_patches_grid(data_folder, gt_folder, output_folder, patch_size, overlap, threshold=None, squeeze_input=True, 
+                      squeeze_patches=False, csv_output=True, train_test_split_ratio=0.8):
     """
     Loads n-dimensional data from data_folder and gt_folder, generates patches, and saves them into individual HDF5 files.
     Each HDF5 file will have datasets with the structure X/patch_idx and y/patch_idx.
-    
+
     Parameters:
     - data_folder: Path to the folder containing data files (n-dimensional data).
     - gt_folder: Path to the folder containing ground truth (gt) files (n-dimensional data).
     - output_folder: Path to the folder where the HDF5 files will be saved.
     - patch_size: tuple of integers defining the size of the patches.
     - overlap: float (between 0 and 1) defining the overlap between patches.
+    - threshold: float, optional. If provided, patches with a mean value below this threshold will be discarded.
+    - csv_output: bool, optional. If True, a CSV file listing all patch paths is created.
+    - train_test_split_ratio: float, optional. Ratio of data to split into train and test CSV files (e.g., 0.8 for 80% train).
     """
     
     # Ensure output folder exists
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)
+    os.makedirs(output_folder, exist_ok=True)
     
     # Ensure the folders contain the same number of files
     data_files = sorted([f for f in os.listdir(data_folder) if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
     gt_files = sorted([f for f in os.listdir(gt_folder) if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
-    
-    print(data_files)
-    
+
     if len(data_files) != len(gt_files):
         raise ValueError("The number of files in data_folder and gt_folder must be the same.")
     
-    # Loop through the files in the folders with progress bar
+    # Prepare CSV records list
+    csv_records = []
+
+    # Loop through the files in the folders
     for data_file_name, gt_file_name in tqdm(zip(data_files, gt_files), total=len(data_files), desc="Processing files"):
         data_file_path = os.path.join(data_folder, data_file_name)
         gt_file_path = os.path.join(gt_folder, gt_file_name)
         
-        # Load the images 
-        data = np.array(image_reader(data_file_path)[0])
-        gt = np.array(image_reader(gt_file_path)[0])
+        # Load the images
+        data = np.array(image_reader(data_file_path))
+        gt = np.array(image_reader(gt_file_path))
+        
+        if squeeze_input:
+            data = np.squeeze(data)
+            gt = np.squeeze(gt)
         
         if data.shape != gt.shape:
             raise ValueError(f"Shape mismatch between {data_file_name} and {gt_file_name}")
@@ -764,20 +749,59 @@ def save_patches_grid(data_folder, gt_folder, output_folder, patch_size, overlap
         data_patches_nd = extract_patches(data, patch_size, overlap)
         gt_patches_nd = extract_patches(gt, patch_size, overlap)
         
+        if squeeze_patches:
+            data_patches_nd = np.squeeze(data_patches_nd)
+            gt_patches_nd = np.squeeze(gt_patches_nd)
+        
         # Create a new HDF5 file for this pair of files
         hdf5_filename = os.path.join(output_folder, f"{os.path.splitext(data_file_name)[0]}.h5")
         
         with h5py.File(hdf5_filename, 'w') as hf:
-            # Store each patch in a separate dataset with a progress bar for each file
-            for patch_idx, (data_patch, gt_patch) in enumerate(tqdm(zip(data_patches_nd, gt_patches_nd), 
-                                                                    total=len(data_patches_nd), 
-                                                                    desc=f"Saving patches for {data_file_name}", 
-                                                                    leave=False)):
-                hf.create_dataset(f'X/{patch_idx}', data=data_patch)
-                hf.create_dataset(f'y/{patch_idx}', data=gt_patch)
+            patch_counter = 0  # Counter to number the valid patches
+            
+            # Store each patch in a separate dataset
+            for data_patch, gt_patch in tqdm(zip(data_patches_nd, gt_patches_nd), 
+                                             total=len(data_patches_nd), 
+                                             desc=f"Saving patches for {data_file_name}", 
+                                             leave=False):
+                # Calculate the mean of the patch and discard if below threshold (if provided)
+                if threshold is not None and np.mean(data_patch) < threshold:
+                    continue  # Skip this patch
+                
+                hf.create_dataset(f'X/{patch_counter}', data=data_patch)
+                hf.create_dataset(f'y/{patch_counter}', data=gt_patch)
+                
+                # Append patch paths to CSV records
+                csv_records.append({
+                    "path_signal": f"{hdf5_filename}/X/{patch_counter}",
+                    "path_target": f"{hdf5_filename}/y/{patch_counter}"
+                })
+                
+                patch_counter += 1  # Increment the patch counter only for valid patches
+    
+    # Save the paths to a CSV file if csv_output is True
+    if csv_output:
+        csv_df = pd.DataFrame(csv_records)
         
+        if train_test_split_ratio is not None and 0 < train_test_split_ratio < 1:
+            # Split data into train and test sets
+            train_df, test_df = train_test_split(csv_df, train_size=train_test_split_ratio, random_state=42)
+            
+            # Save train and test CSVs
+            train_csv_path = os.path.join(output_folder, "train_patches.csv")
+            test_csv_path = os.path.join(output_folder, "test_patches.csv")
+            train_df.to_csv(train_csv_path, index=False)
+            test_df.to_csv(test_csv_path, index=False)
+            print(f"CSV files saved to: {train_csv_path} and {test_csv_path}")
+        
+        else:
+            # Save a single CSV file
+            csv_path = os.path.join(output_folder, "all_patches.csv")
+            csv_df.to_csv(csv_path, index=False)
+            print(f"CSV file saved to: {csv_path}")
 
-# %% ../nbs/01_data.ipynb 45
+
+# %% ../nbs/01_data.ipynb 46
 def extract_random_patches(data, patch_size, num_patches):
     """
     Extracts a specified number of random n-dimensional patches from the input data.
@@ -813,23 +837,26 @@ def extract_random_patches(data, patch_size, num_patches):
     return patches
 
 
-# %% ../nbs/01_data.ipynb 46
-def save_patches_random(data_folder, gt_folder, output_folder, patch_size, num_patches):
+# %% ../nbs/01_data.ipynb 47
+def save_patches_random(data_folder,                # Path to the folder containing data files (n-dimensional data).
+                        gt_folder,                  # Path to the folder containing ground truth (gt) files (n-dimensional data).
+                        output_folder,              # Path to the folder where the HDF5 files will be saved.
+                        patch_size,                 # tuple of integers defining the size of the patches.
+                        num_patches,                # number of random patches to extract per file.
+                        threshold=None,             # If provided, patches with a mean value below this threshold will be discarded.
+                        squeeze_input=True,         # If True, squeezes singleton dimensions in the input data.
+                        squeeze_patches=False,      # If True, squeezes singleton dimensions in the patches.
+                        csv_output=True,            # If True, a CSV file listing all patch paths is created.
+                        train_test_split_ratio=0.8, # Ratio of data to split into train and test CSV files (e.g., 0.8 for 80% train).
+                        ):
     """
     Loads n-dimensional data from data_folder and gt_folder, generates random patches, and saves them into individual HDF5 files.
     Each HDF5 file will have datasets with the structure X/patch_idx and y/patch_idx.
     
-    Parameters:
-    - data_folder: Path to the folder containing data files (n-dimensional data).
-    - gt_folder: Path to the folder containing ground truth (gt) files (n-dimensional data).
-    - output_folder: Path to the folder where the HDF5 files will be saved.
-    - patch_size: tuple of integers defining the size of the patches.
-    - num_patches: number of random patches to extract per file.
     """
     
     # Ensure output folder exists
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)
+    os.makedirs(output_folder, exist_ok=True)
     
     # Ensure the folders contain the same number of files
     data_files = sorted([f for f in os.listdir(data_folder) if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
@@ -838,14 +865,22 @@ def save_patches_random(data_folder, gt_folder, output_folder, patch_size, num_p
     if len(data_files) != len(gt_files):
         raise ValueError("The number of files in data_folder and gt_folder must be the same.")
     
+    # Prepare CSV records list
+    csv_records = []
+    
     # Loop through the files in the folders with progress bar
     for data_file_name, gt_file_name in tqdm(zip(data_files, gt_files), total=len(data_files), desc="Processing files"):
         data_file_path = os.path.join(data_folder, data_file_name)
         gt_file_path = os.path.join(gt_folder, gt_file_name)
         
         # Load the images
-        data = np.array(image_reader(data_file_path)[0])
-        gt = np.array(image_reader(gt_file_path)[0])        
+        data = np.array(image_reader(data_file_path))
+        gt = np.array(image_reader(gt_file_path))  
+        
+        if squeeze_input:
+            data = np.squeeze(data)
+            gt = np.squeeze(gt)
+                  
         if data.shape != gt.shape:
             raise ValueError(f"Shape mismatch between {data_file_name} and {gt_file_name}")
         
@@ -853,16 +888,211 @@ def save_patches_random(data_folder, gt_folder, output_folder, patch_size, num_p
         data_patches_nd = extract_random_patches(data, patch_size, num_patches)
         gt_patches_nd = extract_random_patches(gt, patch_size, num_patches)
         
+        if squeeze_patches:
+            data_patches_nd = np.squeeze(data_patches_nd)
+            gt_patches_nd = np.squeeze(gt_patches_nd)
+            
         # Create a new HDF5 file for this pair of files
         hdf5_filename = os.path.join(output_folder, f"{os.path.splitext(data_file_name)[0]}_random_patches.h5")
         
         with h5py.File(hdf5_filename, 'w') as hf:
+            patch_counter = 0  # Counter to number the valid patches
+            
             # Store each patch in a separate dataset with a progress bar for each file
-            for patch_idx, (data_patch, gt_patch) in enumerate(tqdm(zip(data_patches_nd, gt_patches_nd), 
-                                                                    total=num_patches, 
-                                                                    desc=f"Saving random patches for {data_file_name}", 
-                                                                    leave=False)):
-                hf.create_dataset(f'X/{patch_idx}', data=data_patch)
-                hf.create_dataset(f'y/{patch_idx}', data=gt_patch)
+            for data_patch, gt_patch in tqdm(zip(data_patches_nd, gt_patches_nd), 
+                                             total=num_patches, 
+                                             desc=f"Saving random patches for {data_file_name}", 
+                                             leave=False):
+                # Calculate the mean of the patch and discard if below threshold (if provided)
+                if threshold is not None and np.mean(data_patch) < threshold:
+                    continue  # Skip this patch
+                
+                hf.create_dataset(f'X/{patch_counter}', data=data_patch)
+                hf.create_dataset(f'y/{patch_counter}', data=gt_patch)
+                
+                # Append patch paths to CSV records
+                csv_records.append({
+                    "path_signal": f"{hdf5_filename}/X/{patch_counter}",
+                    "path_target": f"{hdf5_filename}/y/{patch_counter}"
+                })
+                
+                patch_counter += 1  # Increment the patch counter only for valid patches
+    
+    # Save the paths to a CSV file if csv_output is True
+    if csv_output:
+        csv_df = pd.DataFrame(csv_records)
         
+        if train_test_split_ratio is not None and 0 < train_test_split_ratio < 1:
+            # Split data into train and test sets
+            train_df, test_df = train_test_split(csv_df, train_size=train_test_split_ratio, random_state=42)
+            
+            # Save train and test CSVs
+            train_csv_path = os.path.join(output_folder, "train_patches.csv")
+            test_csv_path = os.path.join(output_folder, "test_patches.csv")
+            train_df.to_csv(train_csv_path, index=False)
+            test_df.to_csv(test_csv_path, index=False)
+            print(f"CSV files saved to: {train_csv_path} and {test_csv_path}")
+        
+        else:
+            # Save a single CSV file
+            csv_path = os.path.join(output_folder, "all_patches.csv")
+            csv_df.to_csv(csv_path, index=False)
+            print(f"CSV file saved to: {csv_path}")
+
+
+# %% ../nbs/01_data.ipynb 50
+def dict2string(d, item_sep="_", key_value_sep="", pad_zeroes=None):
+    """
+    Transforms a dictionary into a string with customizable separators and optional zero padding for integers.
+    
+    Parameters:
+        d (dict): The dictionary to convert.
+        item_sep (str): The separator between dictionary items (default is ", ").
+        key_value_sep (str): The separator between keys and values (default is ": ").
+        pad_zeroes (int, optional): The minimum width for integer values, padded with zeros. If None, no padding is applied.
+        
+    Returns:
+        str: The formatted dictionary as a string.
+    """
+    def format_value(value):
+        if isinstance(value, int) and pad_zeroes is not None:
+            return f"{value:0{pad_zeroes}d}"
+        return str(value)
+    
+    return item_sep.join(f"{k}{key_value_sep}{format_value(v)}" for k, v in d.items())
+
+
+# %% ../nbs/01_data.ipynb 52
+def remove_singleton_dims(substack, order):
+    """
+    Remove dimensions with a size of 1 from both the substack and the order string.
+
+    Parameters:
+        substack (np.array): The extracted substack data.
+        order (str): The dimension order string (e.g., 'CZYX').
+    
+    Returns:
+        substack (np.array): The substack with singleton dimensions removed.
+        new_order (str): The updated dimension order string.
+    """
+    new_order = ""
+    new_shape = []
+    
+    for i, dim in enumerate(order):
+        if substack.shape[i] > 1:  # Keep only dimensions with more than 1 slice
+            new_order += dim
+            new_shape.append(substack.shape[i])
+    
+    substack = substack.reshape(new_shape)  # Remove singleton dimensions
+    return substack, new_order
+
+# %% ../nbs/01_data.ipynb 53
+def extract_substacks(input_file, output_dir=None, indices=None, split_dimension=None, squeeze_dims=True, *kwargs):
+    """
+    Extract substacks from a multidimensional OME-TIFF stack using AICSImageIO.
+
+    Parameters:
+        input_file (str): Path to the input OME-TIFF file.
+        output_dir (str or list): Directory to save the extracted substacks. If a list, the substacks
+                                  will be saved in the corresponding subdirectories from the list.
+        indices (dict, optional): A dictionary specifying which indices to extract.
+                                  Keys can include 'C' for channel, 'Z' for z-slice,
+                                  'T' for time point, and 'S' for scene. If None, all indices are extracted.
+        split_dimension (str, optional): Dimension to split substacks along. If provided, separate
+                                         substacks will be generated for each index in the split_dimension.
+                                         Must be one of the keys in indices.
+    """
+    # Load the OME-TIFF file
+    image = AICSImage(input_file)
+
+    # Extract the base name of the input file (without path and extension)
+    base_filename = os.path.splitext(os.path.basename(input_file))[0]   
+    # Remove complex extensions like .ome.tiff or .ome.tif
+    base_filename = os.path.splitext(base_filename)[0]
+    
+    # Get dimensions order
+    order = image.dims.order
+
+    # Update defaults with user-specified indices
+    if indices is None:
+        indices = dict()
+        
+    # Convert any numpy.int types in indices to Python int
+    indices = {k: int(v) if isinstance(v, (np.integer, np.int64)) else v for k, v in indices.items()}
+
+    # If split_dimension is provided, create substacks for each index in that dimension
+    if split_dimension is not None and split_dimension in indices:
+        # Extract the dimension indices from the input data
+        split_indices = indices[split_dimension]
+        if isinstance(split_indices, int):
+            split_indices = [split_indices]  # Ensure it's a list even if a single index is passed
+
+        # Ensure output_dir is a list of directories or convert to list of subfolder names by index
+        if output_dir is not None and isinstance(output_dir, list):
+            if len(output_dir) != len(split_indices):
+                if len(output_dir) == 1:
+                    output_dir_list = [os.path.join(output_dir, f"{split_dimension}_{i}") for i in split_indices]
+                else:
+                    raise ValueError(f"The number of subdirectories in output_dir ({len(output_dir)}) does not match the number of substacks ({len(split_indices)}).")
+            output_dir_list = output_dir
+        elif output_dir is not None:
+            output_dir_list = [output_dir] * len(split_indices)
+        else:
+            output_dir_list = [None] * len(split_indices)  # No output_dir provided, substack is returned.
+
+        # Loop through indices in the split dimension
+        for i, idx in enumerate(split_indices):
+            # Adjust the indices dictionary for the current index in split_dimension
+            current_indices = indices.copy()
+            current_indices[split_dimension] = int(idx) 
+            
+            # Extract the substack for the current index
+            substack = image.get_image_data(order, **current_indices)
+            
+            # Remove singleton dimensions
+            if squeeze_dims:
+                substack, new_order = remove_singleton_dims(substack, order)
+            else:
+                new_order = order
+
+            # Save the substack
+            if output_dir is None:
+                return substack  # Return the first substack if no output_dir is specified
+            
+            # Ensure the specific subfolder exists
+            os.makedirs(output_dir_list[i], exist_ok=True)
+            
+            # Construct output filename
+            output_filename = f"{base_filename}_substack_{dict2string(current_indices, *kwargs)}.ome.tiff"
+            output_path = os.path.join(output_dir_list[i], output_filename)
+
+            # Save the substack
+            OmeTiffWriter.save(substack, output_path, dim_order=new_order)
+
+            print(f"Extracted substack saved to: {output_path}")
+    
+    else:
+        # No split_dimension provided, extract the entire substack
+        substack = image.get_image_data(order, **indices)
+        
+        # Remove singleton dimensions
+        if squeeze_dims:
+            substack, new_order = remove_singleton_dims(substack, order)
+        else:
+            new_order = order
+
+        if output_dir is None:
+            return substack  # Return substack if no output_dir is provided
+
+        # Ensure output directory exists
+        os.makedirs(output_dir, exist_ok=True)
+        
+        # Construct output filename
+        output_filename = f"{base_filename}_substack_{dict2string(indices, *kwargs)}.ome.tiff"
+        output_path = os.path.join(output_dir, output_filename)
+
+        # Save the substack
+        OmeTiffWriter.save(substack, output_path, dim_order=new_order)
+
+        print(f"Extracted substack saved to: {output_path}")
 

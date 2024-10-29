@@ -282,6 +282,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Demo: 2D image RI2FL</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial Denoising</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial Denoising</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -317,7 +329,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#umamba" id="toc-umamba" class="nav-link" data-scroll-target="#umamba">UMamba</a>
   <ul>
+  <li><a href="#mambalayer" id="toc-mambalayer" class="nav-link" data-scroll-target="#mambalayer">MambaLayer</a></li>
+  <li><a href="#umamba-1" id="toc-umamba-1" class="nav-link" data-scroll-target="#umamba-1">UMamba</a>
+  <ul class="collapse">
   <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1">Example</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/bmandracchia/bioMONAI/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
@@ -354,7 +370,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="denoising-cnn" class="level2">
 <h2 class="anchored" data-anchor-id="denoising-cnn">Denoising CNN</h2>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/nets.py#L33" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/nets.py#L34" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="dncnn" class="level3">
 <h3 class="anchored" data-anchor-id="dncnn">DnCNN</h3>
 <blockquote class="blockquote">
@@ -376,7 +392,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="config" class="level3">
 <h3 class="anchored" data-anchor-id="config">Config</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/nets.py#L113" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/nets.py#L114" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="interpolate" class="level3">
 <h3 class="anchored" data-anchor-id="interpolate">interpolate</h3>
@@ -385,7 +401,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
               dims:int)</code></pre>
 </blockquote>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/nets.py#L110" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/nets.py#L111" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="get_padding" class="level3">
 <h3 class="anchored" data-anchor-id="get_padding">get_padding</h3>
@@ -393,7 +409,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> get_padding (kernel_size:int, dilation:int)</code></pre>
 </blockquote>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/nets.py#L98" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/nets.py#L99" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="deeplabconfig" class="level3">
 <h3 class="anchored" data-anchor-id="deeplabconfig">DeeplabConfig</h3>
@@ -409,7 +425,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="blocks" class="level3">
 <h3 class="anchored" data-anchor-id="blocks">Blocks</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/nets.py#L155" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/nets.py#L156" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="block" class="level3">
 <h3 class="anchored" data-anchor-id="block">Block</h3>
@@ -437,7 +453,7 @@ class Model(nn.Module):
 <p>.. note:: As per the example above, an <code>__init__()</code> call to the parent class must be made before assignment on the child.</p>
 <p>:ivar training: Boolean represents whether this module is in training or evaluation mode. :vartype training: bool*</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/nets.py#L122" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/nets.py#L123" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="separableconv" class="level3">
 <h3 class="anchored" data-anchor-id="separableconv">SeparableConv</h3>
@@ -468,7 +484,7 @@ class Model(nn.Module):
 <section id="aligned-xception" class="level3">
 <h3 class="anchored" data-anchor-id="aligned-xception">Aligned Xception</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/nets.py#L204" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/nets.py#L205" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="xception" class="level3">
 <h3 class="anchored" data-anchor-id="xception">Xception</h3>
@@ -497,7 +513,7 @@ class Model(nn.Module):
 <section id="aspp" class="level3">
 <h3 class="anchored" data-anchor-id="aspp">ASPP</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/nets.py#L262" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/nets.py#L263" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="aspp_module" class="level3">
 <h3 class="anchored" data-anchor-id="aspp_module">ASPP_module</h3>
@@ -527,7 +543,7 @@ class Model(nn.Module):
 <section id="deeplab-v3-1" class="level3">
 <h3 class="anchored" data-anchor-id="deeplab-v3-1">DeepLab V3</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/nets.py#L277" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/nets.py#L278" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="deeplab" class="level3">
 <h3 class="anchored" data-anchor-id="deeplab">Deeplab</h3>
@@ -681,139 +697,70 @@ All tests passed successfully!</code></pre>
 </section>
 <section id="umamba" class="level2">
 <h2 class="anchored" data-anchor-id="umamba">UMamba</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># #| export</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># class MambaLayer(nn.Module):</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     """</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     A custom neural network layer that incorporates the Mamba block from the Mamba model, </span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     along with layer normalization and optional mixed precision handling.</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     Args:</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co">#         dim (int): The dimension of the input tensor. This is typically the feature size.</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co">#         d_state (int, optional): Expansion factor for the state in the Mamba block. Default is 16.</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co">#         d_conv (int, optional): Width of the local convolution in the Mamba block. Default is 4.</span></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="co">#         expand (int, optional): Factor by which to expand the dimensions in the Mamba block. Default is 2.</span></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="co">#     Attributes:</span></span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="co">#         dim (int): The dimension of the input tensor.</span></span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="co">#         norm (nn.LayerNorm): Layer normalization applied to the input tensor before processing.</span></span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="co">#         mamba (Mamba): The core Mamba block which performs spatial-spectral transformations.</span></span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="co">#     Methods:</span></span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="co">#         forward(x): </span></span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a><span class="co">#             Defines the computation performed at every call.</span></span>
-<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a><span class="co">#             Args:</span></span>
-<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a><span class="co">#                 x (torch.Tensor): Input tensor of shape [batch_size, dim, height, width].</span></span>
-<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>                </span>
-<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a><span class="co">#             Returns:</span></span>
-<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a><span class="co">#                 torch.Tensor: Output tensor after applying Mamba block and normalization.</span></span>
-<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a><span class="co">#     """</span></span>
-<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a><span class="co">#     def __init__(self, dim, d_state=16, d_conv=4, expand=2):</span></span>
-<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a><span class="co">#         super().__init__()</span></span>
-<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a><span class="co">#         self.dim = dim</span></span>
-<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a><span class="co">#         self.norm = nn.LayerNorm(dim)</span></span>
-<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a><span class="co">#         self.mamba = Mamba(</span></span>
-<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a><span class="co">#             d_model=dim,  # Model dimension d_model</span></span>
-<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a><span class="co">#             d_state=d_state,  # SSM state expansion factor</span></span>
-<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a><span class="co">#             d_conv=d_conv,  # Local convolution width</span></span>
-<span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a><span class="co">#             expand=expand  # Block expansion factor</span></span>
-<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a><span class="co">#         )</span></span>
-<span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb24-40"><a href="#cb24-40" aria-hidden="true" tabindex="-1"></a><span class="co">#     @autocast(enabled=False)</span></span>
-<span id="cb24-41"><a href="#cb24-41" aria-hidden="true" tabindex="-1"></a><span class="co">#     def forward(self, x):</span></span>
-<span id="cb24-42"><a href="#cb24-42" aria-hidden="true" tabindex="-1"></a><span class="co">#         """</span></span>
-<span id="cb24-43"><a href="#cb24-43" aria-hidden="true" tabindex="-1"></a><span class="co">#         Forward pass of the MambaLayer. Applies layer normalization and optionally converts input precision.</span></span>
-<span id="cb24-44"><a href="#cb24-44" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb24-45"><a href="#cb24-45" aria-hidden="true" tabindex="-1"></a><span class="co">#         Args:</span></span>
-<span id="cb24-46"><a href="#cb24-46" aria-hidden="true" tabindex="-1"></a><span class="co">#             x (torch.Tensor): Input tensor of shape [batch_size, dim, height, width].</span></span>
-<span id="cb24-47"><a href="#cb24-47" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb24-48"><a href="#cb24-48" aria-hidden="true" tabindex="-1"></a><span class="co">#         Returns:</span></span>
-<span id="cb24-49"><a href="#cb24-49" aria-hidden="true" tabindex="-1"></a><span class="co">#             torch.Tensor: Output tensor after applying Mamba block and normalization.</span></span>
-<span id="cb24-50"><a href="#cb24-50" aria-hidden="true" tabindex="-1"></a><span class="co">#         """</span></span>
-<span id="cb24-51"><a href="#cb24-51" aria-hidden="true" tabindex="-1"></a><span class="co">#         if x.dtype == torch_float16:</span></span>
-<span id="cb24-52"><a href="#cb24-52" aria-hidden="true" tabindex="-1"></a><span class="co">#             x = x.type(torch_float32)  # Convert input to float32 for mixed precision handling</span></span>
-<span id="cb24-53"><a href="#cb24-53" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb24-54"><a href="#cb24-54" aria-hidden="true" tabindex="-1"></a><span class="co">#         B, C = x.shape[:2]</span></span>
-<span id="cb24-55"><a href="#cb24-55" aria-hidden="true" tabindex="-1"></a><span class="co">#         assert C == self.dim  # Ensure the feature size matches the dimension of the layer</span></span>
-<span id="cb24-56"><a href="#cb24-56" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb24-57"><a href="#cb24-57" aria-hidden="true" tabindex="-1"></a><span class="co">#         n_tokens = x.shape[2:].numel()</span></span>
-<span id="cb24-58"><a href="#cb24-58" aria-hidden="true" tabindex="-1"></a><span class="co">#         img_dims = x.shape[2:]</span></span>
-<span id="cb24-59"><a href="#cb24-59" aria-hidden="true" tabindex="-1"></a><span class="co">#         x_flat = x.reshape(B, C, n_tokens).transpose(-1, -2)  # Flatten and transpose for Mamba input</span></span>
-<span id="cb24-60"><a href="#cb24-60" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb24-61"><a href="#cb24-61" aria-hidden="true" tabindex="-1"></a><span class="co">#         x_norm = self.norm(x_flat)  # Apply layer normalization</span></span>
-<span id="cb24-62"><a href="#cb24-62" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb24-63"><a href="#cb24-63" aria-hidden="true" tabindex="-1"></a><span class="co">#         x_mamba = self.mamba(x_norm)  # Pass through the Mamba block</span></span>
-<span id="cb24-64"><a href="#cb24-64" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb24-65"><a href="#cb24-65" aria-hidden="true" tabindex="-1"></a><span class="co">#         out = x_mamba.transpose(-1, -2).reshape(B, C, *img_dims)  # Reshape and transpose back to original dimensions</span></span>
-<span id="cb24-66"><a href="#cb24-66" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb24-67"><a href="#cb24-67" aria-hidden="true" tabindex="-1"></a><span class="co">#         return out</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># #| export</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># class UMamba(DynUNet):</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     """</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     A custom subclass of DynUNet that integrates the Mamba layer into the model's bottleneck.</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     This class inherits from `DynUNet` and adds a specific bottleneck structure containing a convolution block followed by a MambaLayer.</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     Methods:</span></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co">#         get_bottleneck():</span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="co">#             Constructs and returns the bottleneck part of the network, which includes a convolution block followed by a MambaLayer.</span></span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="co">#             Returns:</span></span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="co">#                 nn.Sequential: A PyTorch sequential container holding the convolution block and the MambaLayer for the bottleneck.</span></span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="co">#     """</span></span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="co">#     def get_bottleneck(self):</span></span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="co">#         """</span></span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="co">#         Constructs the bottleneck part of the network.</span></span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="co">#         The bottleneck consists of a convolution block followed by a MambaLayer. Both components are added to a sequential container.</span></span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a><span class="co">#         Returns:</span></span>
-<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a><span class="co">#             nn.Sequential: A PyTorch sequential container with the convolution block and MambaLayer for the bottleneck.</span></span>
-<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a><span class="co">#         """</span></span>
-<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a><span class="co">#         mamba_bottleneck = []</span></span>
-<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a><span class="co">#         # Add a convolution block before the MambaLayer in the bottleneck</span></span>
-<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a><span class="co">#         mamba_bottleneck.append(</span></span>
-<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a><span class="co">#             self.conv_block(</span></span>
-<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a><span class="co">#                 self.spatial_dims,          # Spatial dimensions of the input data</span></span>
-<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a><span class="co">#                 self.filters[-2],           # Number of filters for the previous layer</span></span>
-<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a><span class="co">#                 self.filters[-1],           # Number of filters for this layer (output)</span></span>
-<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a><span class="co">#                 self.kernel_size[-1],       # Kernel size for the convolution</span></span>
-<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a><span class="co">#                 self.strides[-1],           # Stride for the convolution</span></span>
-<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a><span class="co">#                 self.norm_name,             # Normalization method name</span></span>
-<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a><span class="co">#                 self.act_name,              # Activation function name</span></span>
-<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a><span class="co">#                 dropout=self.dropout        # Dropout probability</span></span>
-<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a><span class="co">#             )</span></span>
-<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a><span class="co">#         )</span></span>
-<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a><span class="co">#         # Add the MambaLayer to the bottleneck</span></span>
-<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a><span class="co">#         mamba_bottleneck.append(</span></span>
-<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a><span class="co">#             MambaLayer(dim = self.filters[-1])  # Initialize the MambaLayer with the current filter size as dimension</span></span>
-<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a><span class="co">#         )</span></span>
-<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a><span class="co">#         return nn.Sequential(*mamba_bottleneck)  # Return the sequential container holding both components</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/nets.py#L363" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="mambalayer" class="level3">
+<h3 class="anchored" data-anchor-id="mambalayer">MambaLayer</h3>
+<blockquote class="blockquote">
+<pre><code> MambaLayer (dim, d_state=16, d_conv=4, expand=2)</code></pre>
+</blockquote>
+<p>*A custom neural network layer that incorporates the Mamba block from the Mamba model, along with layer normalization and optional mixed precision handling.</p>
+<p>Args: dim (int): The dimension of the input tensor. This is typically the feature size. d_state (int, optional): Expansion factor for the state in the Mamba block. Default is 16. d_conv (int, optional): Width of the local convolution in the Mamba block. Default is 4. expand (int, optional): Factor by which to expand the dimensions in the Mamba block. Default is 2.</p>
+<p>Attributes: dim (int): The dimension of the input tensor. norm (nn.LayerNorm): Layer normalization applied to the input tensor before processing. mamba (Mamba): The core Mamba block which performs spatial-spectral transformations.</p>
+<p>Methods: forward(x): Defines the computation performed at every call.</p>
+<pre><code>    Args:
+        x (torch.Tensor): Input tensor of shape [batch_size, dim, height, width].
+
+    Returns:
+        torch.Tensor: Output tensor after applying Mamba block and normalization.*</code></pre>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/nets.py#L432" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="umamba-1" class="level3">
+<h3 class="anchored" data-anchor-id="umamba-1">UMamba</h3>
+<blockquote class="blockquote">
+<pre><code> UMamba (spatial_dims:int, in_channels:int, out_channels:int,
+         kernel_size:Sequence[Union[Sequence[int],int]],
+         strides:Sequence[Union[Sequence[int],int]],
+         upsample_kernel_size:Sequence[Union[Sequence[int],int]],
+         filters:Optional[Sequence[int]]=None,
+         dropout:Union[Tuple,str,float,NoneType]=None,
+         norm_name:Union[Tuple,str]=('INSTANCE', {'affine': True}),
+         act_name:Union[Tuple,str]=('leakyrelu', {'inplace': True,
+         'negative_slope': 0.01}), deep_supervision:bool=False,
+         deep_supr_num:int=1, res_block:bool=False, trans_bias:bool=False)</code></pre>
+</blockquote>
+<p>*A custom subclass of DynUNet that integrates the Mamba layer into the model’s bottleneck.</p>
+<p>This class inherits from <code>DynUNet</code> and adds a specific bottleneck structure containing a convolution block followed by a MambaLayer.</p>
+<p>Methods: get_bottleneck(): Constructs and returns the bottleneck part of the network, which includes a convolution block followed by a MambaLayer.</p>
+<pre><code>    Returns:
+        nn.Sequential: A PyTorch sequential container holding the convolution block and the MambaLayer for the bottleneck.*</code></pre>
 <section id="example-1" class="level4">
 <h4 class="anchored" data-anchor-id="example-1">Example</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># x = torch_randn(16, 1, 32, 64)</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># tst = DynUNet(2,1,1,[3,3,3],[1,1,1],[1,1])</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># print(tst(x).shape)</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co"># test_eq(tst(x).shape, x.shape)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> torch_randn(<span class="dv">16</span>, <span class="dv">1</span>, <span class="dv">32</span>, <span class="dv">64</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>tst <span class="op">=</span> DynUNet(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>,[<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>],[<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>],[<span class="dv">1</span>,<span class="dv">1</span>])</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tst(x).shape)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>test_eq(tst(x).shape, x.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>torch.Size([16, 1, 32, 64])</code></pre>
+</div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># x = torch_randn(16, 1, 32, 64).cuda()</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># tst = UMamba(2,1,1,[3,3,3],[1,1,1],[1,1]).cuda()</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># print(tst(x).shape)</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># test_eq(tst(x).shape, x.shape)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> torch_randn(<span class="dv">16</span>, <span class="dv">1</span>, <span class="dv">32</span>, <span class="dv">64</span>).cuda()</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>tst <span class="op">=</span> UMamba(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>,[<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>],[<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>],[<span class="dv">1</span>,<span class="dv">1</span>]).cuda()</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tst(x).shape)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>test_eq(tst(x).shape, x.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>torch.Size([16, 1, 32, 64])</code></pre>
+</div>
 </div>
 <hr>
 
 
+</section>
 </section>
 </section>
 
