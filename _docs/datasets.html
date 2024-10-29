@@ -282,6 +282,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Demo: 2D image RI2FL</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial Denoising</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial Denoising</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -296,6 +308,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#download_medmnist" id="toc-download_medmnist" class="nav-link" data-scroll-target="#download_medmnist">download_medmnist</a></li>
   <li><a href="#medmnist2df" id="toc-medmnist2df" class="nav-link" data-scroll-target="#medmnist2df">medmnist2df</a></li>
   <li><a href="#download-data-via-pooch" id="toc-download-data-via-pooch" class="nav-link" data-scroll-target="#download-data-via-pooch">Download data via Pooch</a></li>
+  <li><a href="#download_file" id="toc-download_file" class="nav-link" data-scroll-target="#download_file">download_file</a></li>
   <li><a href="#download_dataset" id="toc-download_dataset" class="nav-link" data-scroll-target="#download_dataset">download_dataset</a></li>
   <li><a href="#download_dataset_from_csv" id="toc-download_dataset_from_csv" class="nav-link" data-scroll-target="#download_dataset_from_csv">download_dataset_from_csv</a></li>
   <li><a href="#download-data-via-quiltt4" id="toc-download-data-via-quiltt4" class="nav-link" data-scroll-target="#download-data-via-quiltt4">Download data via Quilt/T4</a></li>
@@ -334,7 +347,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="medmnist-datasets" class="level3">
 <h3 class="anchored" data-anchor-id="medmnist-datasets">MedMNIST Datasets</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L30" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L25" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="download_medmnist" class="level3">
 <h3 class="anchored" data-anchor-id="download_medmnist">download_medmnist</h3>
@@ -388,7 +401,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L123" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L118" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="medmnist2df" class="level3">
 <h3 class="anchored" data-anchor-id="medmnist2df">medmnist2df</h3>
@@ -450,7 +463,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="download-data-via-pooch" class="level3">
 <h3 class="anchored" data-anchor-id="download-data-via-pooch">Download data via Pooch</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L151" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L146" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="download_file" class="level3">
+<h3 class="anchored" data-anchor-id="download_file">download_file</h3>
+<blockquote class="blockquote">
+<pre><code> download_file (url, output_dir='data', extract=True)</code></pre>
+</blockquote>
+<p>*Download and optionally decompress a single file using Pooch.</p>
+<p>Parameters: url (str): Direct URL to the file to be downloaded. output_dir (str): The directory where the downloaded file will be saved. extract (bool): If True, decompresses the file if it’s in a compressed format.*</p>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L182" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="download_dataset" class="level3">
 <h3 class="anchored" data-anchor-id="download_dataset">download_dataset</h3>
@@ -461,7 +484,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>*Download a dataset using Pooch and save it to the specified output directory.</p>
 <p>Parameters: base_url (str): The base URL from which the files will be downloaded. expected_checksums (dict): A dictionary mapping file names to their expected checksums. file_names (dict): A dictionary mapping task identifiers to file names. output_dir (str): The directory where the downloaded files will be saved. processor (callable, optional): A function to process the downloaded data. Defaults to None.*</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L180" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L211" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="download_dataset_from_csv" class="level3">
 <h3 class="anchored" data-anchor-id="download_dataset_from_csv">download_dataset_from_csv</h3>
@@ -471,12 +494,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </blockquote>
 <p>*Download a dataset using Pooch and save it to the specified output directory, reading file names and checksums from a CSV file.</p>
 <p>Parameters: csv_file (str): Path to the CSV file containing file names and checksums. base_url (str): The base URL from which the files will be downloaded. output_dir (str): The directory where the downloaded files will be saved. processor (callable, optional): A function to process the downloaded data. Defaults to None. rows (list of int, optional): Specific row indices to download. If None, download all rows. Defaults to None.*</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Specify the directory where you want to save the downloaded files</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>output_directory <span class="op">=</span> <span class="st">"./_test_folder"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the base URL for the MSD dataset</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>base_url <span class="op">=</span> <span class="st">'https://s3.ap-northeast-1.wasabisys.com/gigadb-datasets/live/pub/10.5524/100001_101000/100888/'</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>download_dataset_from_csv(<span class="st">'./data_examples/FMD_dataset_info.csv'</span>, base_url, output_directory, rows<span class="op">=</span>[<span class="dv">6</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The dataset has been successfully downloaded and saved to: ./_test_folder</code></pre>
+</div>
+</div>
 </section>
 <section id="download-data-via-quiltt4" class="level3">
 <h3 class="anchored" data-anchor-id="download-data-via-quiltt4">Download data via Quilt/T4</h3>
 <p>Allen Institute Cell Science (AICS)</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L223" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L254" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="aics_pipeline" class="level3">
 <h3 class="anchored" data-anchor-id="aics_pipeline">aics_pipeline</h3>
@@ -484,14 +518,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> aics_pipeline (n_images_to_download=40, image_save_dir=None)</code></pre>
 </blockquote>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>image_target_paths, data_manifest <span class="op">=</span> aics_pipeline(<span class="dv">1</span>, <span class="st">"../_data/aics"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>image_target_paths, data_manifest <span class="op">=</span> aics_pipeline(<span class="dv">1</span>, <span class="st">"../_data/aics"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading manifest: 100%|██████████| 77165/77165 [00:01&lt;00:00, 44.8k/s]</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(image_target_paths)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>data_manifest.to_csv(<span class="st">'../_data/aics/aics_dataset.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(image_target_paths)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>data_manifest.to_csv(<span class="st">'../_data/aics/aics_dataset.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>['../_data/aics/6677e50c_3500001004_100X_20170623_5-Scene-1-P24-E06.ome.tiff']</code></pre>
 </div>
@@ -501,7 +535,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="dataset-manifest">Dataset Manifest</h3>
 <p>Make a manifest of all of the files in csv form</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L266" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L297" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="manifest2csv" class="level3">
 <h3 class="anchored" data-anchor-id="manifest2csv">manifest2csv</h3>
@@ -511,7 +545,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
                identifier=None)</code></pre>
 </blockquote>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>manifest2csv(data_manifest[<span class="st">"ChannelNumberBrightfield"</span>],data_manifest[<span class="st">"ChannelNumber405"</span>], image_target_paths, data_save_path<span class="op">=</span><span class="st">'./data_examples/'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>manifest2csv(data_manifest[<span class="st">"ChannelNumberBrightfield"</span>],data_manifest[<span class="st">"ChannelNumber405"</span>], image_target_paths, data_save_path<span class="op">=</span><span class="st">'./data_examples/'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
