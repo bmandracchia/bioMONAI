@@ -102,13 +102,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="styles.css">
 <meta property="og:title" content="bioMONAI - Demo: 2D image RI2FL">
 <meta property="og:description" content="2D RI2FL demo">
-<meta property="og:image" content="https://bmandracchia.github.io/bioMONAI/903_tutorial_2_files/figure-html/cell-11-output-2.png">
+<meta property="og:image" content="https://bmandracchia.github.io/bioMONAI/903_tutorial_2_files/figure-html/cell-12-output-1.png">
 <meta property="og:site-name" content="bioMONAI">
 <meta property="og:image:height" content="97">
 <meta property="og:image:width" content="97">
 <meta name="twitter:title" content="bioMONAI - Demo: 2D image RI2FL">
 <meta name="twitter:description" content="2D RI2FL demo">
-<meta name="twitter:image" content="https://bmandracchia.github.io/bioMONAI/903_tutorial_2_files/figure-html/cell-11-output-2.png">
+<meta name="twitter:image" content="https://bmandracchia.github.io/bioMONAI/903_tutorial_2_files/figure-html/cell-12-output-1.png">
 <meta name="twitter:image-height" content="97">
 <meta name="twitter:image-width" content="97">
 <meta name="twitter:card" content="summary_large_image">
@@ -291,6 +291,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Demo: 2D image RI2FL</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial Denoising</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial Denoising</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -352,7 +364,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>, category<span class="op">=</span><span class="pp">DeprecationWarning</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>device <span class="op">=</span> get_device()</span>
@@ -365,50 +377,53 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="download-data">Download Data</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>image_path <span class="op">=</span> <span class="st">"../_data/aics"</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>image_target_paths, data_manifest <span class="op">=</span> aics_pipeline(<span class="dv">6</span>, image_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading manifest: 100%|██████████| 77165/77165 [00:01&lt;00:00, 44.4k/s]</code></pre>
-</div>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># image_target_paths, data_manifest = aics_pipeline(6, image_path)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save data manifest as csv</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># data_manifest.to_csv(image_path + 'aics_dataset.csv')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save data manifest as csv</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># data_manifest.to_csv(image_path + 'aics_dataset.csv')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="sorting-preprocessing-data" class="level3">
 <h3 class="anchored" data-anchor-id="sorting-preprocessing-data">Sorting &amp; Preprocessing data</h3>
 <p>The downloaded images are very large, so we are going to extract only the channels we need for our model.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for each image, read channels to extract from data manifest and create the indices dict</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>indices_list <span class="op">=</span>  []</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> X, y <span class="kw">in</span> <span class="bu">zip</span>(data_manifest[<span class="st">"ChannelNumberBrightfield"</span>].values, data_manifest[<span class="st">"ChannelNumber405"</span>].values):</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    indices_list.append({<span class="st">'C'</span>: [X, y], <span class="st">'Z'</span>: <span class="bu">range</span>(<span class="dv">12</span>,<span class="dv">60</span>)})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for each image, read channels to extract from data manifest and create the indices dict</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>indices_list <span class="op">=</span>  []</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># for X, y in zip(data_manifest["ChannelNumberBrightfield"].values, data_manifest["ChannelNumber405"].values):</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     indices_list.append({'C': [X, y], 'Z': range(12,60)})</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract substacks and save them in X and y folders</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>subdirs <span class="op">=</span> [<span class="st">'../_data/aics/X'</span>, <span class="st">'../_data/aics/y'</span>]</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># for filename, ind in zip(image_target_paths, indices_list):</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     extract_substacks(filename, output_dir=subdirs, indices=ind, split_dimension="C")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract substacks and save them in X and y folders</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>subdirs <span class="op">=</span> [<span class="st">'../_data/aics/X'</span>, <span class="st">'../_data/aics/y'</span>]</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># for filename, ind in zip(image_target_paths, indices_list):</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     extract_substacks(filename, output_dir=subdirs, indices=ind, split_dimension="C")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>patch_size <span class="op">=</span> (<span class="dv">16</span>,<span class="dv">64</span>,<span class="dv">64</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>dir_patches <span class="op">=</span> <span class="st">'../_data/aics/patches'</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>overlap <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># save_patches_grid(subdirs[0], subdirs[1], dir_patches, patch_size, overlap, squeeze_input=True)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save csv files containing train and test datasets</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>X_paths <span class="op">=</span> get_image_files(subdirs[<span class="dv">0</span>])</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>y_paths <span class="op">=</span> get_image_files(subdirs[<span class="dv">1</span>])</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># X_paths = get_image_files(subdirs[0])</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># y_paths = get_image_files(subdirs[1])</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>manifest2csv(X_paths, y_paths, data_save_path<span class="op">=</span>image_path<span class="op">+</span><span class="st">'/'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># manifest2csv(X_paths, y_paths, data_save_path=image_path+'/')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="create-dataloader" class="level3">
 <h3 class="anchored" data-anchor-id="create-dataloader">Create Dataloader</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>bs, size <span class="op">=</span> <span class="dv">2</span>, <span class="dv">16</span></span>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>bs <span class="op">=</span> <span class="dv">8</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>itemTfms <span class="op">=</span> [RandCropND(size), RandRot90(prob<span class="op">=</span><span class="fl">0.5</span>), RandFlip(prob<span class="op">=</span><span class="fl">0.75</span>)]</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>itemTfms <span class="op">=</span> [RandRot90(prob<span class="op">=</span><span class="fl">.5</span>, spatial_axes<span class="op">=</span>(<span class="dv">1</span>,<span class="dv">2</span>)), RandFlip(prob<span class="op">=</span><span class="fl">0.75</span>)] <span class="co"># RandCropND(patch_size)</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>batchTfms <span class="op">=</span> [ScaleIntensity(<span class="bu">min</span><span class="op">=</span><span class="fl">0.0</span>, <span class="bu">max</span><span class="op">=</span><span class="fl">1.0</span>)]</span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> BioDataLoaders.from_csv(</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    image_path, </span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    csv_fname<span class="op">=</span><span class="st">'train.csv'</span>, </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    dir_patches,                        <span class="co"># image_path</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    csv_fname<span class="op">=</span><span class="st">'train_patches.csv'</span>,      <span class="co">#'train.csv', </span></span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    header<span class="op">=</span><span class="st">'infer'</span>,</span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    pref<span class="op">=</span><span class="st">'./'</span>,</span>
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    item_tfms<span class="op">=</span>itemTfms,</span>
@@ -422,64 +437,79 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="co"># print length of training and validation datasets</span></span>
 <span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'train images:'</span>, <span class="bu">len</span>(data.train_ds.items), <span class="st">'</span><span class="ch">\n</span><span class="st">validation images:'</span>, <span class="bu">len</span>(data.valid_ds.items))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`</code></pre>
-</div>
 <div class="cell-output cell-output-stdout">
-<pre><code>train images: 3 
-validation images: 1</code></pre>
+<pre><code>train images: 1361 
+validation images: 453</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data.show_batch(max_n<span class="op">=</span><span class="dv">2</span>, cmap<span class="op">=</span><span class="st">'hot'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`</code></pre>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data.show_batch(max_n<span class="op">=</span><span class="dv">2</span>, cmap<span class="op">=</span><span class="st">'hot'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="903_tutorial_2_files/figure-html/cell-12-output-1.png" class="img-fluid"></p>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="903_tutorial_2_files/figure-html/cell-11-output-2.png" class="img-fluid"></p>
-</div>
-<div class="cell-output cell-output-display">
-<p><img src="903_tutorial_2_files/figure-html/cell-11-output-3.png" class="img-fluid"></p>
+<p><img src="903_tutorial_2_files/figure-html/cell-12-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
 <section id="load-and-train-a-2d-model" class="level3">
 <h3 class="anchored" data-anchor-id="load-and-train-a-2d-model">Load and train a 2D model</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from bioMONAI.nets import Deeplab, DeeplabConfig</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> monai.networks.nets <span class="im">import</span> BasicUNet, AttentionUnet, DynUNet, UNet, BasicUNet</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from bioMONAI.nets import Deeplab, DeeplabConfig</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> monai.networks.nets <span class="im">import</span> BasicUNet, AttentionUnet, DynUNet, UNet, BasicUNet</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model = UNet(spatial_dims=2, in_channels=1, out_channels=1, channels=(16, 32, 64, 128, 256),strides=(2, 2, 2, 2), num_res_units=2).model</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># model = AttentionUnet(spatial_dims=2, in_channels=1, out_channels=1, channels=(16, 32, 64),strides=(1, 1))</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># model = DynUNet(spatial_dims=2, in_channels=1, out_channels=1, strides=(1, 2, 2),kernel_size=(3, 3, 3), upsample_kernel_size=(2, 2), res_block=True) # it tends to create hot pixels</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># model = BasicUNet(spatial_dims=3, in_channels=1, out_channels=1)</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># config_2d = DeeplabConfig(</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     dimensions=3,</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     in_channels=1,  </span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     out_channels=1,</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     backbone="resnet10",  </span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co">#     aspp_dilations=[1]</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co"># model = Deeplab(config_2d)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model = UNet(spatial_dims=2, in_channels=1, out_channels=1, channels=(16, 32, 64, 128, 256),strides=(2, 2, 2, 2), num_res_units=2).model</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># model = AttentionUnet(spatial_dims=2, in_channels=1, out_channels=1, channels=(16, 32, 64),strides=(1, 1))</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># model = DynUNet(spatial_dims=2, in_channels=1, out_channels=1, strides=(1, 2, 2),kernel_size=(3, 3, 3), upsample_kernel_size=(2, 2), res_block=True) # it tends to create hot pixels</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># model = BasicUNet(spatial_dims=3, in_channels=1, out_channels=1)</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># config_2d = DeeplabConfig(</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     dimensions=3,</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     in_channels=1,  </span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     out_channels=1,</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     backbone="resnet10",  </span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">#     aspp_dilations=[1]</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co"># model = Deeplab(config_2d)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> UNet(spatial_dims<span class="op">=</span><span class="dv">3</span>, in_channels<span class="op">=</span><span class="dv">1</span>, out_channels<span class="op">=</span><span class="dv">1</span>, channels<span class="op">=</span>(<span class="dv">32</span>, <span class="dv">64</span>, <span class="dv">128</span>),strides<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">2</span>), num_res_units<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> MSSSIMLoss(<span class="dv">3</span>, levels<span class="op">=</span><span class="dv">2</span>) </span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># loss = CombinedLoss(3, alpha=0, beta=0.5)</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>metrics <span class="op">=</span> [SSIMMetric(<span class="dv">3</span>), MSELoss]</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>trainer <span class="op">=</span> fastTrainer(data, model, loss_fn<span class="op">=</span>loss, metrics<span class="op">=</span>metrics, show_summary<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> UNet(spatial_dims<span class="op">=</span><span class="dv">3</span>, in_channels<span class="op">=</span><span class="dv">1</span>, out_channels<span class="op">=</span><span class="dv">1</span>, channels<span class="op">=</span>(<span class="dv">32</span>, <span class="dv">64</span>, <span class="dv">128</span>, <span class="dv">256</span>),strides<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>), num_res_units<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> MSSSIML1Loss(<span class="dv">3</span>, levels<span class="op">=</span><span class="dv">2</span>) </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>metrics <span class="op">=</span> [MSEMetric(), SSIMMetric(<span class="dv">3</span>), PSNRMetric(<span class="dv">1</span>)]</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>trainer <span class="op">=</span> fastTrainer(data, model, loss_fn<span class="op">=</span>loss, metrics<span class="op">=</span>metrics, show_summary<span class="op">=</span><span class="va">False</span>, find_lr<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Inferred learning rate:  0.001</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="903_tutorial_2_files/figure-html/cell-15-output-4.png" class="img-fluid"></p>
+</div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>trainer.fit_flat_cos(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>trainer.fit(<span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
 <style>
@@ -501,8 +531,8 @@ Series.__getitem__ treating keys as positions is deprecated. In a future version
 <div class="cell-output cell-output-display">
 
     <div>
-      <progress value="0" class="" max="1" style="width:300px; height:20px; vertical-align: middle;"></progress>
-      0.00% [0/1 00:00&lt;?]
+      <progress value="58" class="" max="100" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      58.00% [58/100 10:27&lt;07:34]
     </div>
     
 
@@ -512,40 +542,551 @@ Series.__getitem__ treating keys as positions is deprecated. In a future version
 <th data-quarto-table-cell-role="th">epoch</th>
 <th data-quarto-table-cell-role="th">train_loss</th>
 <th data-quarto-table-cell-role="th">valid_loss</th>
+<th data-quarto-table-cell-role="th">MSE</th>
 <th data-quarto-table-cell-role="th">SSIM</th>
-<th data-quarto-table-cell-role="th">MSELoss</th>
+<th data-quarto-table-cell-role="th">PSNR</th>
 <th data-quarto-table-cell-role="th">time</th>
 </tr>
 </thead>
 <tbody>
+<tr class="odd">
+<td>0</td>
+<td>0.031268</td>
+<td>0.031242</td>
+<td>176910.546875</td>
+<td>-0.000005</td>
+<td>-52.469769</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>0.031252</td>
+<td>0.031231</td>
+<td>176293.453125</td>
+<td>-0.000015</td>
+<td>-52.454567</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>0.031232</td>
+<td>0.031219</td>
+<td>175593.078125</td>
+<td>-0.000030</td>
+<td>-52.437244</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>0.031217</td>
+<td>0.031205</td>
+<td>174791.843750</td>
+<td>-0.000050</td>
+<td>-52.417343</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>0.031204</td>
+<td>0.031191</td>
+<td>173883.375000</td>
+<td>-0.000075</td>
+<td>-52.394669</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>0.031190</td>
+<td>0.031174</td>
+<td>172854.921875</td>
+<td>-0.000108</td>
+<td>-52.368843</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td>0.031173</td>
+<td>0.031156</td>
+<td>171664.921875</td>
+<td>-0.000158</td>
+<td>-52.338776</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>0.031146</td>
+<td>0.031115</td>
+<td>169638.375000</td>
+<td>-0.000293</td>
+<td>-52.287109</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>8</td>
+<td>0.031099</td>
+<td>0.031076</td>
+<td>167539.500000</td>
+<td>-0.000376</td>
+<td>-52.232944</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>9</td>
+<td>0.031061</td>
+<td>0.031033</td>
+<td>165255.500000</td>
+<td>-0.000476</td>
+<td>-52.173225</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>10</td>
+<td>0.031022</td>
+<td>0.030984</td>
+<td>162735.906250</td>
+<td>-0.000587</td>
+<td>-52.106373</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>11</td>
+<td>0.030965</td>
+<td>0.030932</td>
+<td>159963.093750</td>
+<td>-0.000720</td>
+<td>-52.031601</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>12</td>
+<td>0.030917</td>
+<td>0.030871</td>
+<td>156951.609375</td>
+<td>-0.000817</td>
+<td>-51.948891</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>13</td>
+<td>0.030837</td>
+<td>0.030804</td>
+<td>153666.218750</td>
+<td>-0.000939</td>
+<td>-51.856831</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>14</td>
+<td>0.030769</td>
+<td>0.030732</td>
+<td>150140.296875</td>
+<td>-0.001064</td>
+<td>-51.755806</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>15</td>
+<td>0.030696</td>
+<td>0.030659</td>
+<td>146568.828125</td>
+<td>-0.001163</td>
+<td>-51.651009</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>16</td>
+<td>0.030604</td>
+<td>0.030566</td>
+<td>142500.828125</td>
+<td>-0.001221</td>
+<td>-51.528568</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>17</td>
+<td>0.030519</td>
+<td>0.030471</td>
+<td>138409.531250</td>
+<td>-0.001272</td>
+<td>-51.401817</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>18</td>
+<td>0.030412</td>
+<td>0.030371</td>
+<td>134161.468750</td>
+<td>-0.001289</td>
+<td>-51.266178</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>19</td>
+<td>0.030301</td>
+<td>0.030263</td>
+<td>129873.078125</td>
+<td>-0.001353</td>
+<td>-51.124763</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>20</td>
+<td>0.030203</td>
+<td>0.030148</td>
+<td>125441.039062</td>
+<td>-0.001357</td>
+<td>-50.973660</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>21</td>
+<td>0.030088</td>
+<td>0.030028</td>
+<td>120934.562500</td>
+<td>-0.001364</td>
+<td>-50.814423</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>22</td>
+<td>0.029972</td>
+<td>0.029903</td>
+<td>116483.140625</td>
+<td>-0.001336</td>
+<td>-50.651211</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>23</td>
+<td>0.029854</td>
+<td>0.029777</td>
+<td>112304.687500</td>
+<td>-0.001319</td>
+<td>-50.492134</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>24</td>
+<td>0.029707</td>
+<td>0.029649</td>
+<td>108012.968750</td>
+<td>-0.001304</td>
+<td>-50.322430</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>25</td>
+<td>0.029585</td>
+<td>0.029519</td>
+<td>103466.375000</td>
+<td>-0.001266</td>
+<td>-50.135143</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>26</td>
+<td>0.029461</td>
+<td>0.029400</td>
+<td>99876.921875</td>
+<td>-0.001246</td>
+<td>-49.981121</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>27</td>
+<td>0.029335</td>
+<td>0.029273</td>
+<td>94457.625000</td>
+<td>-0.001343</td>
+<td>-49.738247</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>28</td>
+<td>0.029192</td>
+<td>0.029146</td>
+<td>91150.921875</td>
+<td>-0.001243</td>
+<td>-49.582493</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>29</td>
+<td>0.029096</td>
+<td>0.029012</td>
+<td>85388.148438</td>
+<td>-0.001504</td>
+<td>-49.298100</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>30</td>
+<td>0.028894</td>
+<td>0.028862</td>
+<td>70871.164062</td>
+<td>-0.017011</td>
+<td>-48.485123</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>31</td>
+<td>0.028667</td>
+<td>0.028660</td>
+<td>64864.191406</td>
+<td>-0.015346</td>
+<td>-48.098396</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>32</td>
+<td>0.028466</td>
+<td>0.028450</td>
+<td>59072.335938</td>
+<td>-0.012925</td>
+<td>-47.690029</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>33</td>
+<td>0.028257</td>
+<td>0.028304</td>
+<td>53262.515625</td>
+<td>-0.022101</td>
+<td>-47.238323</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>34</td>
+<td>0.028045</td>
+<td>0.028096</td>
+<td>47462.183594</td>
+<td>-0.023228</td>
+<td>-46.734333</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>35</td>
+<td>0.027854</td>
+<td>0.027875</td>
+<td>42297.187500</td>
+<td>-0.022588</td>
+<td>-46.230377</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>36</td>
+<td>0.027656</td>
+<td>0.027681</td>
+<td>37334.640625</td>
+<td>-0.022159</td>
+<td>-45.684052</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>37</td>
+<td>0.027394</td>
+<td>0.027433</td>
+<td>32229.150391</td>
+<td>-0.020176</td>
+<td>-45.039745</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>38</td>
+<td>0.027170</td>
+<td>0.027201</td>
+<td>27816.417969</td>
+<td>-0.022002</td>
+<td>-44.395489</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>39</td>
+<td>0.026936</td>
+<td>0.026970</td>
+<td>24056.304688</td>
+<td>-0.015878</td>
+<td>-43.754837</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>40</td>
+<td>0.026709</td>
+<td>0.026756</td>
+<td>20268.578125</td>
+<td>-0.023545</td>
+<td>-43.006744</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>41</td>
+<td>0.026440</td>
+<td>0.026495</td>
+<td>16654.212891</td>
+<td>-0.023332</td>
+<td>-42.140301</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>42</td>
+<td>0.026250</td>
+<td>0.026252</td>
+<td>13916.763672</td>
+<td>-0.024470</td>
+<td>-41.354378</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>43</td>
+<td>0.026016</td>
+<td>0.026019</td>
+<td>11649.303711</td>
+<td>-0.021074</td>
+<td>-40.568268</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>44</td>
+<td>0.025826</td>
+<td>0.025937</td>
+<td>10501.747070</td>
+<td>-0.024483</td>
+<td>-40.129303</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>45</td>
+<td>0.025737</td>
+<td>0.025799</td>
+<td>9366.617188</td>
+<td>-0.022504</td>
+<td>-39.628517</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>46</td>
+<td>0.025695</td>
+<td>0.025784</td>
+<td>9108.937500</td>
+<td>-0.022349</td>
+<td>-39.510757</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>47</td>
+<td>0.025693</td>
+<td>0.025786</td>
+<td>9075.808594</td>
+<td>-0.022757</td>
+<td>-39.496986</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>48</td>
+<td>0.025665</td>
+<td>0.025806</td>
+<td>9274.915039</td>
+<td>-0.023696</td>
+<td>-39.598488</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>49</td>
+<td>0.025656</td>
+<td>0.025806</td>
+<td>9343.794922</td>
+<td>-0.023698</td>
+<td>-39.629581</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>50</td>
+<td>0.025652</td>
+<td>0.025803</td>
+<td>9579.787109</td>
+<td>-0.021788</td>
+<td>-39.730675</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>51</td>
+<td>0.025660</td>
+<td>0.025802</td>
+<td>9391.625000</td>
+<td>-0.024217</td>
+<td>-39.657143</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>52</td>
+<td>0.025621</td>
+<td>0.025782</td>
+<td>9611.320312</td>
+<td>-0.021897</td>
+<td>-39.747711</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>53</td>
+<td>0.025649</td>
+<td>0.025748</td>
+<td>9432.041992</td>
+<td>-0.022124</td>
+<td>-39.668121</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>54</td>
+<td>0.025648</td>
+<td>0.025779</td>
+<td>9386.577148</td>
+<td>-0.024110</td>
+<td>-39.653721</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>55</td>
+<td>0.025623</td>
+<td>0.025744</td>
+<td>9623.333008</td>
+<td>-0.020903</td>
+<td>-39.753510</td>
+<td>00:10</td>
+</tr>
+<tr class="odd">
+<td>56</td>
+<td>0.025627</td>
+<td>0.025766</td>
+<td>9713.740234</td>
+<td>-0.021268</td>
+<td>-39.793358</td>
+<td>00:10</td>
+</tr>
+<tr class="even">
+<td>57</td>
+<td>0.025631</td>
+<td>0.025776</td>
+<td>9828.585938</td>
+<td>-0.020654</td>
+<td>-39.842957</td>
+<td>00:10</td>
+</tr>
 </tbody>
 </table>
 <p>
 
     </p><div>
-      <progress value="0" class="" max="1" style="width:300px; height:20px; vertical-align: middle;"></progress>
-      0.00% [0/1 00:00&lt;?]
+      <progress value="133" class="" max="170" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      78.24% [133/170 00:07&lt;00:01 0.0256]
     </div>
     
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`</code></pre>
-</div>
-<div class="cell-output cell-output-error">
-<pre><code>RuntimeError: Expected 3D or 4D (batch mode) tensor with optional 0 dim batch size for input, but got:[2, 1, 16, 16, 16]</code></pre>
+<div class="cell-output cell-output-display">
+<p><img src="903_tutorial_2_files/figure-html/cell-16-output-3.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>trainer.show_results(cmap<span class="op">=</span><span class="st">'gray'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>trainer.show_results(cmap<span class="op">=</span><span class="st">'gray'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
 <style>
@@ -568,11 +1109,11 @@ Series.__getitem__ treating keys as positions is deprecated. In a future version
 
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="903_tutorial_2_files/figure-html/cell-16-output-4.png" class="img-fluid"></p>
+<p><img src="903_tutorial_2_files/figure-html/cell-17-output-3.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># trainer.save('tmp-model')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># trainer.save('tmp-model')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="test-data" class="level3">
