@@ -18,6 +18,7 @@ import random
 from aicsimageio import AICSImage
 from aicsimageio.writers import OmeTiffWriter
 from sklearn.model_selection import train_test_split
+from torch import stack as torch_stack
 
 from .core import MetaTensor, torchTensor, BypassNewMeta, DisplayedTransform, torchsqueeze, Path, List, L, torchmax, randint, typedispatch
 from .io import image_reader
@@ -560,6 +561,36 @@ def get_noisy_pair(fn):
         fn2 = tmp[randint(0, len(tmp) - 1)]
     
     return fn2
+
+
+# %% ../nbs/01_data.ipynb 32
+@typedispatch
+def show_batch(x: BioImageBase,     # The input image data.
+               y: BioImageBase,     # The target image data.
+               samples,             # List of sample indices to display.
+               ctxs=None,           # List of contexts for displaying images. If None, create new ones using get_grid().
+               max_n: int=10,       # Maximum number of samples to display. Default is 10.
+               nrows: int=None,     # Number of rows in the grid if ctxs are not provided.
+               ncols: int=None,     # Number of columns in the grid if ctxs are not provided.
+               figsize: tuple=None, # Figure size for the image display.
+               **kwargs,            # Additional keyword arguments to pass to the show method of BioImageBase.
+               ):
+    """
+    Display a batch of images and their corresponding targets.
+    
+    Returns:
+        List[Context]: A list of contexts after displaying the images and targets.
+    """
+    # If ctxs are not provided, create new ones using get_grid()
+    if ctxs is None:
+        ctxs = get_grid(min(len(samples), max_n), nrows=nrows, ncols=ncols, figsize=figsize, double=True)
+    
+    # Loop through the images and targets in pairs (x and y)
+    for i in range(2):
+        # Display each image-target pair in a specific context
+        ctxs[i::2] = [b.show(ctx=c, **kwargs) for b, c, _ in zip(samples.itemgot(i), ctxs[i::2], range(max_n))]
+    
+    return ctxs
 
 
 # %% ../nbs/01_data.ipynb 33
