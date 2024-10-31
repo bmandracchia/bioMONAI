@@ -137,13 +137,16 @@ def _scale_intensity_range(x, mi, ma, eps=1e-20, dtype=np_float32):
 
 # %% ../nbs/05_transforms.ipynb 15
 class ScaleIntensity(Transform):
-    """Percentile-based image normalization."""
+    """Image normalization."""
     def __init__(x, min=0.0, max=1.0, axis=None, eps=1e-20, dtype=np_float32):
         store_attr()
 
     def encodes(self, x: BioImageBase):
         bioimagetype = type(x)
-        return bioimagetype(_scale_intensity_range(x, self.min, self.max, eps=self.eps, dtype=self.dtype))
+        y = _scale_intensity_range(x, x.min(), x.max(), eps=self.eps, dtype=self.dtype)
+        y *= self.max
+        y += self.min
+        return bioimagetype(y)
 
 # %% ../nbs/05_transforms.ipynb 16
 class ScaleIntensityPercentiles(Transform):
