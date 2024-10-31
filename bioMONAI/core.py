@@ -59,7 +59,7 @@ class fastTrainer(Learner):
                  wd: float | int | None = None, 
                  wd_bn_bias: bool = False, 
                  train_bn: bool = True, 
-                 moms: tuple = ..., # Tuple of tuples representing the momentum values for different layers in the model. Defaults to FastAI's default settings if not specified.
+                 moms: tuple = (0.95,0.85,0.95), # Tuple of tuples representing the momentum values for different layers in the model. Defaults to FastAI's default settings if not specified.
                  default_cbs: bool = True, # Automatically include default callbacks such as ShowGraphCallback and CSVLogger.
                  ):
         cbs = callbacks if callbacks is not None else []  # Ensure cbs is a list
