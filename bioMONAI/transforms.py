@@ -81,7 +81,7 @@ class RandCameraNoise(RandTransform):
         self.rs = np.random.RandomState(seed=seed)
         
     def encodes(self, 
-               input_image: BioImageBase, # The original image as a NumPy array.
+               input_image: BioImageBase, # The original image 
                ):
         rs = self.rs
         bioimagetype = type(input_image)

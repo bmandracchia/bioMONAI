@@ -44,14 +44,14 @@ def L1Loss(
 # %% ../nbs/03_losses.ipynb 9
 class CombinedLoss:
     "losses combined"
-    def __init__(self, spatial_dims=2, alpha=0.33, beta=0.33):
+    def __init__(self, spatial_dims=2, mse_weight=0.33, mae_weight=0.33):
         store_attr()
         self.SSIM_loss = SSIMLoss(spatial_dims=spatial_dims)
         self.MSE_loss =  nn.MSELoss()
         self.MAE_loss =  nn.L1Loss()
         
     def __call__(self, pred, targ):
-        return (1 - self.alpha - self.beta) * self.SSIM_loss(pred, targ) + self.alpha * self.MSE_loss(pred, targ) + self.beta * self.MAE_loss(pred, targ)
+        return (1 - self.mse_weight - self.mae_weight) * self.SSIM_loss(pred, targ) + self.mse_weight * self.MSE_loss(pred, targ) + self.mae_weight * self.MAE_loss(pred, targ)
         
 
 # %% ../nbs/03_losses.ipynb 10
