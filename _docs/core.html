@@ -256,7 +256,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./tutorial_4.html" class="sidebar-item-text sidebar-link">
+  <a href="./denoising_tutorial.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tutorial Denoising</span></a>
   </div>
 </li>
@@ -485,8 +485,8 @@ ul.task-list li input[type="checkbox"] {
               find_lr_fn=&lt;function valley&gt;,
               path:str|pathlib.Path|None=None,
               model_dir:str|pathlib.Path='models', wd:float|int|None=None,
-              wd_bn_bias:bool=False, train_bn:bool=True,
-              moms:tuple=Ellipsis, default_cbs:bool=True)</code></pre>
+              wd_bn_bias:bool=False, train_bn:bool=True, moms:tuple=(0.95,
+              0.85, 0.95), default_cbs:bool=True)</code></pre>
 </blockquote>
 <p><em>A custom implementation of the FastAI Learner class for training models in bioinformatics applications.</em></p>
 <table class="table">
@@ -616,7 +616,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td>moms</td>
 <td>tuple</td>
-<td>Ellipsis</td>
+<td>(0.95, 0.85, 0.95)</td>
 <td>Tuple of tuples representing the momentum values for different layers in the model. Defaults to FastAI’s default settings if not specified.</td>
 </tr>
 <tr class="even">
