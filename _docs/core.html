@@ -236,6 +236,30 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Demo: 2D image RI2FL</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial Classification</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Demo: 2D image RI2FL</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial Denoising</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./denoising_tutorial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial Denoising</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -258,6 +282,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#engine" id="toc-engine" class="nav-link" data-scroll-target="#engine">Engine</a>
   <ul>
   <li><a href="#fasttrainer" id="toc-fasttrainer" class="nav-link" data-scroll-target="#fasttrainer">fastTrainer</a></li>
+  <li><a href="#visiontrainer" id="toc-visiontrainer" class="nav-link" data-scroll-target="#visiontrainer">visionTrainer</a></li>
   </ul></li>
   <li><a href="#utils" id="toc-utils" class="nav-link" data-scroll-target="#utils">Utils</a>
   <ul>
@@ -429,7 +454,6 @@ ul.task-list li input[type="checkbox"] {
 <pre><code> CSVLogger (fname='history.csv', append=False)</code></pre>
 </blockquote>
 <p><em>Log the results displayed in <code>learn.path/fname</code></em></p>
-<pre><code>Unknown section Notes</code></pre>
 <hr>
 </section>
 <section id="cells3d" class="level3">
@@ -445,7 +469,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="engine">Engine</h2>
 <p>Core engine for model training. See tutorials for usage examples.</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L36" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L37" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="fasttrainer" class="level3">
 <h3 class="anchored" data-anchor-id="fasttrainer">fastTrainer</h3>
 <blockquote class="blockquote">
@@ -461,8 +485,8 @@ ul.task-list li input[type="checkbox"] {
               find_lr_fn=&lt;function valley&gt;,
               path:str|pathlib.Path|None=None,
               model_dir:str|pathlib.Path='models', wd:float|int|None=None,
-              wd_bn_bias:bool=False, train_bn:bool=True,
-              moms:tuple=Ellipsis, default_cbs:bool=True)</code></pre>
+              wd_bn_bias:bool=False, train_bn:bool=True, moms:tuple=(0.95,
+              0.85, 0.95), default_cbs:bool=True)</code></pre>
 </blockquote>
 <p><em>A custom implementation of the FastAI Learner class for training models in bioinformatics applications.</em></p>
 <table class="table">
@@ -592,7 +616,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td>moms</td>
 <td>tuple</td>
-<td>Ellipsis</td>
+<td>(0.95, 0.85, 0.95)</td>
 <td>Tuple of tuples representing the momentum values for different layers in the model. Defaults to FastAI’s default settings if not specified.</td>
 </tr>
 <tr class="even">
@@ -603,20 +627,283 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L100" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="visiontrainer" class="level3">
+<h3 class="anchored" data-anchor-id="visiontrainer">visionTrainer</h3>
+<blockquote class="blockquote">
+<pre><code> visionTrainer (dataloaders:fastai.data.core.DataLoaders, model:&lt;built-
+                infunctioncallable&gt;, normalize=True, n_out=None,
+                pretrained=True, weights=None,
+                loss_fn:typing.Any|None=None, optimizer:fastai.optimizer.O
+                ptimizer|fastai.optimizer.OptimWrapper=&lt;function Adam&gt;,
+                lr:float|slice=0.001, splitter:&lt;built-
+                infunctioncallable&gt;=&lt;function trainable_params&gt;, callbacks
+                :Union[fastai.callback.core.Callback,MutableSequence,NoneT
+                ype]=None,
+                metrics:Union[Any,MutableSequence,NoneType]=None,
+                csv_log:bool=False, show_graph:bool=True,
+                show_summary:bool=False, find_lr:bool=False,
+                find_lr_fn=&lt;function valley&gt;,
+                path:str|pathlib.Path|None=None,
+                model_dir:str|pathlib.Path='models',
+                wd:float|int|None=None, wd_bn_bias:bool=False,
+                train_bn:bool=True, moms:tuple=Ellipsis,
+                default_cbs:bool=True, cut=None, init=&lt;function
+                kaiming_normal_&gt;, custom_head=None, concat_pool=True,
+                pool=True, lin_ftrs=None, ps=0.5, first_bn=True,
+                bn_final=False, lin_first=False, y_range=None, n_in=3)</code></pre>
+</blockquote>
+<p><em>Build a vision trainer from <code>dataloaders</code> and <code>model</code></em></p>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>dataloaders</td>
+<td>DataLoaders</td>
+<td></td>
+<td>The DataLoader objects containing training and validation datasets.</td>
+</tr>
+<tr class="even">
+<td>model</td>
+<td>callable</td>
+<td></td>
+<td>A callable model that will be trained on the dataset.</td>
+</tr>
+<tr class="odd">
+<td>normalize</td>
+<td>bool</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>n_out</td>
+<td>NoneType</td>
+<td>None</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>pretrained</td>
+<td>bool</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>weights</td>
+<td>NoneType</td>
+<td>None</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>loss_fn</td>
+<td>typing.Any | None</td>
+<td>None</td>
+<td>The loss function to optimize during training. If None, defaults to a suitable default.</td>
+</tr>
+<tr class="even">
+<td>optimizer</td>
+<td>fastai.optimizer.Optimizer | fastai.optimizer.OptimWrapper</td>
+<td>Adam</td>
+<td>The optimizer function to use. Defaults to Adam if not specified.</td>
+</tr>
+<tr class="odd">
+<td>lr</td>
+<td>float | slice</td>
+<td>0.001</td>
+<td>Learning rate for the optimizer. Can be a float or a slice object for learning rate scheduling.</td>
+</tr>
+<tr class="even">
+<td>splitter</td>
+<td>callable</td>
+<td>trainable_params</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>callbacks</td>
+<td>Union</td>
+<td>None</td>
+<td>A callable that determines which parameters of the model should be updated during training.</td>
+</tr>
+<tr class="even">
+<td>metrics</td>
+<td>Union</td>
+<td>None</td>
+<td>Optional list of callback functions to customize training behavior.</td>
+</tr>
+<tr class="odd">
+<td>csv_log</td>
+<td>bool</td>
+<td>False</td>
+<td>Metrics to evaluate the performance of the model during training.</td>
+</tr>
+<tr class="even">
+<td>show_graph</td>
+<td>bool</td>
+<td>True</td>
+<td>Whether to log training history to a CSV file. If True, logs will be appended to ‘history.csv’.</td>
+</tr>
+<tr class="odd">
+<td>show_summary</td>
+<td>bool</td>
+<td>False</td>
+<td>The base directory where models are saved or loaded from. Defaults to None.</td>
+</tr>
+<tr class="even">
+<td>find_lr</td>
+<td>bool</td>
+<td>False</td>
+<td>Subdirectory within the base path where trained models are stored. Default is ‘models’.</td>
+</tr>
+<tr class="odd">
+<td>find_lr_fn</td>
+<td>function</td>
+<td>valley</td>
+<td>Weight decay factor for optimization. Defaults to None.</td>
+</tr>
+<tr class="even">
+<td>path</td>
+<td>str | pathlib.Path | None</td>
+<td>None</td>
+<td>Whether to apply weight decay to batch normalization and bias parameters.</td>
+</tr>
+<tr class="odd">
+<td>model_dir</td>
+<td>str | pathlib.Path</td>
+<td>models</td>
+<td>Whether to update the batch normalization statistics during training.</td>
+</tr>
+<tr class="even">
+<td>wd</td>
+<td>float | int | None</td>
+<td>None</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>wd_bn_bias</td>
+<td>bool</td>
+<td>False</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>train_bn</td>
+<td>bool</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>moms</td>
+<td>tuple</td>
+<td>Ellipsis</td>
+<td>Tuple of tuples representing the momentum values for different layers in the model. Defaults to FastAI’s default settings if not specified.</td>
+</tr>
+<tr class="even">
+<td>default_cbs</td>
+<td>bool</td>
+<td>True</td>
+<td>Automatically include default callbacks such as ShowGraphCallback and CSVLogger.</td>
+</tr>
+<tr class="odd">
+<td>cut</td>
+<td>NoneType</td>
+<td>None</td>
+<td>model &amp; head args</td>
+</tr>
+<tr class="even">
+<td>init</td>
+<td>function</td>
+<td>kaiming_normal_</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>custom_head</td>
+<td>NoneType</td>
+<td>None</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>concat_pool</td>
+<td>bool</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>pool</td>
+<td>bool</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>lin_ftrs</td>
+<td>NoneType</td>
+<td>None</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>ps</td>
+<td>float</td>
+<td>0.5</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>first_bn</td>
+<td>bool</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>bn_final</td>
+<td>bool</td>
+<td>False</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>lin_first</td>
+<td>bool</td>
+<td>False</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>y_range</td>
+<td>NoneType</td>
+<td>None</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>n_in</td>
+<td>int</td>
+<td>3</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 </section>
 </section>
 <section id="utils" class="level2">
 <h2 class="anchored" data-anchor-id="utils">Utils</h2>
 <p>Utility functions.</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L83" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L163" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="attributesfromdict" class="level3">
 <h3 class="anchored" data-anchor-id="attributesfromdict">attributesFromDict</h3>
 <blockquote class="blockquote">
 <pre><code> attributesFromDict (d)</code></pre>
 </blockquote>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L89" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L169" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="get_device" class="level3">
 <h3 class="anchored" data-anchor-id="get_device">get_device</h3>
@@ -624,7 +911,7 @@ ul.task-list li input[type="checkbox"] {
 <pre><code> get_device ()</code></pre>
 </blockquote>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L93" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L173" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="img2float" class="level3">
 <h3 class="anchored" data-anchor-id="img2float">img2float</h3>
@@ -632,7 +919,7 @@ ul.task-list li input[type="checkbox"] {
 <pre><code> img2float (image, force_copy=False)</code></pre>
 </blockquote>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L97" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L177" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="img2tensor" class="level3">
 <h3 class="anchored" data-anchor-id="img2tensor">img2Tensor</h3>

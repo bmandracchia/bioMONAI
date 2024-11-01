@@ -44,23 +44,17 @@ To install the bioMONAI environment, follow these steps:
     cd biomonai
     ```
 
-2.  **Create a new Conda environment (recommended):**
+2.  **Create a new Conda environment and install dependencies:**
 
     ``` bash
-    conda create -n biomonai python=3.7
-    conda activate biomonai
+    conda env create --file bioMONAI-env.yml
     ```
 
-3.  **Install dependencies:**
+3.  **Activate the environment and install MONAI:**
 
     ``` bash
-    pip install -r requirements.txt
-    ```
-
-4.  **Install MONAI and other necessary packages:**
-
-    ``` bash
-    pip install bioMONAI
+    conda activate bioMONAI-env
+    pip install -e .
     ```
 
 ## Getting Started
@@ -69,10 +63,10 @@ To get started with bioMONAI, the best way is to try out our tutorials,
 which will walk you through model training for various tasks like
 classification, regression, and segmentation.
 
-| Notebook                                                                                                                              | Open in Colab                                                                                                                                                                       |
-|:--------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Tutorial classification](http://localhost:3348/902_demo_2.html) <br>(to be updated.)                                                 | [![Google Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github.com/bmandracchia/bioMONAI/nightly/nbs/901_demo_RI2FL_2d.ipynb) |
-| [Tutorial regression](https://nbviewer.org/github.com/bmandracchia/bioMONAI/nightly/nbs/901_demo_RI2FL_2d.ipynb) <br>(to be updated.) | [![Google Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github.com/bmandracchia/bioMONAI/nightly/nbs/901_demo_RI2FL_2d.ipynb) |
+| Notebook                                                                                                                                       | Open in Colab                                                                                                                                                                            |
+|:-----------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Tutorial classification](https://nbviewer.org/github.com/bmandracchia/bioMONAI/nightly/nbs/904_denoising_tutorial.ipynb) <br>(to be updated.) | [![Google Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github.com/bmandracchia/bioMONAI/nightly/nbs/904_denoising_tutorial.ipynb) |
+| [Tutorial denoising 2D](https://nbviewer.org/github.com/bmandracchia/bioMONAI/nightly/nbs/904_denoising_tutorial.ipynb) <br>(to be updated.)   | [![Google Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github.com/bmandracchia/bioMONAI/nightly/nbs/904_denoising_tutorial.ipynb) |
 
 ## Usage
 

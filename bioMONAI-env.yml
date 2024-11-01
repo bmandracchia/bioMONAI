@@ -20,10 +20,10 @@ dependencies:
   - brotli-python=1.0.9=py311h6a678d5_7
   - bzip2=1.0.8=h7b6447c_0
   - c-ares=1.19.1=h5eee18b_0
-  - ca-certificates=2023.11.17=hbcca054_0
+  - ca-certificates=2024.8.30=hbcca054_0
   - cairo=1.16.0=hb05425b_5
   - catalogue=2.0.7=py311h06a4308_0
-  - certifi=2023.11.17=pyhd8ed1ab_0
+  - certifi=2024.7.4=pyhd8ed1ab_0
   - cffi=1.16.0=py311h5eee18b_0
   - charset-normalizer=2.0.4=pyhd3eb1b0_0
   - click=8.1.7=py311h06a4308_0
@@ -31,12 +31,43 @@ dependencies:
   - comm=0.1.2=py311h06a4308_0
   - contourpy=1.2.0=py311hdb19cb5_0
   - cryptography=41.0.7=py311hdda0065_0
+  - cuda=11.8.0=0
+  - cuda-cccl=12.6.37=0
+  - cuda-cccl_linux-64=12.6.37=0
+  - cuda-command-line-tools=11.8.0=0
+  - cuda-compiler=12.6.0=0
   - cuda-cudart=11.8.89=0
+  - cuda-cudart-dev=11.8.89=0
+  - cuda-cuobjdump=12.6.68=0
   - cuda-cupti=11.8.87=0
+  - cuda-cuxxfilt=12.6.68=0
+  - cuda-demo-suite=12.4.127=0
+  - cuda-documentation=12.4.127=0
+  - cuda-driver-dev=12.6.68=0
+  - cuda-driver-dev_linux-64=12.6.68=0
+  - cuda-gdb=12.6.68=0
   - cuda-libraries=11.8.0=0
+  - cuda-libraries-dev=12.6.0=0
+  - cuda-memcheck=11.8.86=0
+  - cuda-nsight=12.6.68=0
+  - cuda-nvcc=12.4.131=0
+  - cuda-nvdisasm=12.6.68=0
+  - cuda-nvml-dev=12.6.68=2
+  - cuda-nvprof=12.6.68=0
+  - cuda-nvprune=12.6.68=0
   - cuda-nvrtc=11.8.89=0
+  - cuda-nvrtc-dev=11.8.89=0
   - cuda-nvtx=11.8.86=0
+  - cuda-nvvp=12.6.68=0
+  - cuda-opencl=12.6.68=0
+  - cuda-opencl-dev=12.6.68=0
+  - cuda-profiler-api=12.6.68=0
   - cuda-runtime=11.8.0=0
+  - cuda-sanitizer-api=12.6.68=0
+  - cuda-toolkit=11.8.0=0
+  - cuda-tools=11.8.0=0
+  - cuda-version=12.6=3
+  - cuda-visual-tools=12.6.0=0
   - cycler=0.11.0=pyhd3eb1b0_0
   - cymem=2.0.6=py311h6a678d5_0
   - cyrus-sasl=2.1.28=h52b45da_1
@@ -47,7 +78,6 @@ dependencies:
   - execnb=0.1.5=py_0
   - executing=0.8.3=pyhd3eb1b0_0
   - expat=2.5.0=h6a678d5_0
-  - fastcore=1.5.29=py_0
   - fastdownload=0.0.7=py_0
   - fastprogress=1.0.3=py_0
   - ffmpeg=4.3=hf484d3e_0
@@ -63,6 +93,7 @@ dependencies:
   - freetype=2.12.1=h4a9f257_0
   - fribidi=1.0.10=h7b6447c_0
   - gdk-pixbuf=2.42.10=h5eee18b_0
+  - gds-tools=1.8.1.2=0
   - ghapi=1.0.3=py_0
   - giflib=5.2.1=h5eee18b_3
   - glib=2.69.1=he621ea3_2
@@ -104,13 +135,19 @@ dependencies:
   - libclang=14.0.6=default_hc6dbbc7_1
   - libclang13=14.0.6=default_he11475f_1
   - libcublas=11.11.3.6=0
+  - libcublas-dev=11.11.3.6=0
   - libcufft=10.9.0.58=0
+  - libcufft-dev=10.9.0.58=0
   - libcufile=1.8.1.2=0
+  - libcufile-dev=1.8.1.2=0
   - libcups=2.4.2=h2d74bed_1
   - libcurand=10.3.4.101=0
+  - libcurand-dev=10.3.4.101=0
   - libcurl=8.4.0=h251f7ec_1
   - libcusolver=11.4.1.48=0
+  - libcusolver-dev=11.4.1.48=0
   - libcusparse=11.7.5.86=0
+  - libcusparse-dev=11.7.5.86=0
   - libdeflate=1.17=h5eee18b_1
   - libedit=3.1.20221030=h5eee18b_0
   - libev=4.33=h7f8727e_1
@@ -126,7 +163,13 @@ dependencies:
   - libllvm14=14.0.6=hdb19cb5_3
   - libnghttp2=1.57.0=h2d74bed_0
   - libnpp=11.8.0.86=0
+  - libnpp-dev=11.8.0.86=0
+  - libnvfatbin=12.6.68=0
+  - libnvfatbin-dev=12.6.68=0
+  - libnvjitlink=12.6.68=0
+  - libnvjitlink-dev=12.6.68=0
   - libnvjpeg=11.9.0.86=0
+  - libnvjpeg-dev=11.9.0.86=0
   - libpng=1.6.39=h5eee18b_0
   - libpq=12.15=hdbd6064_1
   - librsvg=2.54.4=h36cc946_3
@@ -145,10 +188,12 @@ dependencies:
   - libxml2=2.10.4=hf1b16e4_1
   - llvm-openmp=14.0.6=h9e868ea_0
   - lz4-c=1.9.4=h6a678d5_0
+  - markdown-it-py=3.0.0=pyhd8ed1ab_0
   - markupsafe=2.1.1=py311h5eee18b_0
   - matplotlib=3.8.0=py311h06a4308_0
   - matplotlib-base=3.8.0=py311ha02d727_0
   - matplotlib-inline=0.1.6=py311h06a4308_0
+  - mdurl=0.1.2=pyhd8ed1ab_0
   - mkl=2023.1.0=h213fc3f_46344
   - mkl-service=2.4.0=py311h5eee18b_1
   - mkl_fft=1.3.8=py311h5eee18b_0
@@ -159,13 +204,12 @@ dependencies:
   - munkres=1.1.4=py_0
   - murmurhash=1.0.7=py311h6a678d5_0
   - mysql=5.7.24=h721c034_2
-  - nbdev=2.3.13=py_0
   - ncurses=6.4=h6a678d5_0
   - nest-asyncio=1.5.6=py311h06a4308_0
   - nettle=3.7.3=hbbd107a_1
   - networkx=3.1=py311h06a4308_0
-  - ninja=1.10.2=h06a4308_5
   - ninja-base=1.10.2=hd09550d_5
+  - nsight-compute=2024.1.1.4=0
   - nspr=4.35=h6a678d5_0
   - nss=3.89.1=h6a678d5_0
   - numexpr=2.8.7=py311h65dcdc2_0
@@ -238,7 +282,6 @@ dependencies:
   - tqdm=4.65.0=py311h92b7b1e_0
   - traitlets=5.7.1=py311h06a4308_0
   - typer=0.9.0=py311h06a4308_0
-  - typing_extensions=4.7.1=py311h06a4308_0
   - tzdata=2023c=h04d1e81_0
   - urllib3=1.26.18=py311h06a4308_0
   - wasabi=0.9.1=py311h06a4308_0
@@ -252,101 +295,148 @@ dependencies:
   - zlib=1.2.13=h5eee18b_0
   - zstd=1.5.5=hc292b87_0
   - pip:
-    - aiofiles==23.2.1
-    - altair==5.2.0
-    - annotated-types==0.6.0
-    - anyio==3.7.1
-    - attrs==23.1.0
-    - aws-requests-auth==0.4.3
-    - beautifulsoup4==4.12.2
-    - boto3==1.34.58
-    - botocore==1.34.58
-    - cloudpathlib==0.16.0
-    - cmake==3.28.0
-    - confection==0.1.4
-    - deprecated==1.2.14
-    - distro==1.8.0
-    - fastai==2.7.12
-    - fastapi==0.105.0
-    - ffmpy==0.3.1
-    - fsspec==2023.12.2
-    - gdown==4.7.1
-    - gradio==4.9.0
-    - gradio-client==0.7.2
-    - h11==0.14.0
-    - httpcore==1.0.2
-    - httpx==0.25.2
-    - huggingface-hub==0.19.4
-    - humanize==4.9.0
-    - imagedata==2.1.3
-    - imageio==2.33.1
-    - importlib-metadata==7.0.0
-    - importlib-resources==6.1.1
-    - isodate==0.6.1
-    - itk-core==5.3.0
-    - itk-io==5.3.0
-    - jmespath==1.0.1
-    - jsonlines==1.2.0
-    - jsonschema==4.20.0
-    - jsonschema-specifications==2023.11.2
-    - lit==17.0.6
-    - markdown-it-py==3.0.0
-    - mdurl==0.1.2
-    - monai==1.2.0
-    - multipagetiff==3.0.9
-    - nibabel==5.2.0
-    - nvidia-cublas-cu11==11.10.3.66
-    - nvidia-cuda-cupti-cu11==11.7.101
-    - nvidia-cuda-nvrtc-cu11==11.7.99
-    - nvidia-cuda-runtime-cu11==11.7.99
-    - nvidia-cudnn-cu11==8.5.0.96
-    - nvidia-cufft-cu11==10.9.0.58
-    - nvidia-curand-cu11==10.2.10.91
-    - nvidia-cusolver-cu11==11.4.0.1
-    - nvidia-cusparse-cu11==11.7.4.91
-    - nvidia-nccl-cu11==2.14.3
-    - nvidia-nvtx-cu11==11.7.91
-    - opencv-python==4.8.1.78
-    - orjson==3.9.10
-    - progressbar2==4.2.0
-    - pydantic==2.5.2
-    - pydantic-core==2.14.5
-    - pydicom==2.4.3
-    - pydub==0.25.1
-    - pynetdicom==1.5.7
-    - python-magic==0.4.27
-    - python-multipart==0.0.6
-    - python-utils==3.8.1
-    - pywavelets==1.5.0
-    - quilt3==5.4.0
-    - referencing==0.32.0
-    - requests-futures==1.0.0
-    - rich==13.7.0
-    - rpds-py==0.13.2
-    - s3transfer==0.10.0
-    - scikit-build==0.17.6
-    - scikit-image==0.19.3
-    - semantic-version==2.10.0
-    - simpleitk==2.3.1
-    - sniffio==1.3.0
-    - sortedcontainers==2.4.0
-    - soupsieve==2.5
-    - spacy==3.7.2
-    - starlette==0.27.0
-    - tenacity==8.2.3
-    - thinc==8.2.1
-    - tifffile==2023.12.9
-    - tomlkit==0.12.0
-    - toolz==0.12.0
-    - torch==2.0.1
-    - torchio==0.18.91
-    - triton==2.0.0
-    - typing-extensions==4.9.0
-    - uvicorn==0.24.0.post1
-    - weasel==0.3.4
-    - websockets==11.0.3
-    - wrapt==1.16.0
-    - xlrd==2.0.1
-    - xnat==0.5.3
-    - zipp==3.17.0
-prefix: /home/biagio/miniconda3/envs/deepCLEM-seg3D
+      - aicsimageio==4.14.0
+      - aicspylibczi==3.1.2
+      - aiobotocore
+      - aiofiles==23.2.1
+      - aiohttp==3.9.5
+      - aioitertools==0.11.0
+      - aiosignal==1.3.1
+      - altair==5.2.0
+      - annotated-types==0.6.0
+      - anyio==3.7.1
+      - asciitree==0.3.3
+      - attrs==23.1.0
+      - aws-requests-auth==0.4.3
+      - beautifulsoup4==4.12.2
+      - boto3
+      - botocore
+      - causal-conv1d==1.4.0
+      - cloudpathlib==0.16.0
+      - cloudpickle==3.0.0
+      - cmake==3.28.0
+      - confection==0.1.4
+      - dask==2024.5.0
+      - deprecated==1.2.14
+      - distributed==2024.5.0
+      - distro==1.8.0
+      - einops==0.8.0
+      - elementpath==4.4.0
+      - fastai==2.7.17
+      - fastapi==0.105.0
+      - fastcore==1.7.17
+      - fasteners==0.19
+      - fastjsonschema==2.20.0
+      - ffmpy==0.3.1
+      - fire==0.6.0
+      - frozenlist==1.4.1
+      - fsspec==2023.6.0
+      - gdown==4.7.1
+      - ghp-import==2.1.0
+      - gradio==4.9.0
+      - gradio-client==0.7.2
+      - h11==0.14.0
+      - h5py==3.11.0
+      - httpcore==1.0.2
+      - httpx==0.25.2
+      - huggingface-hub==0.24.6
+      - humanize==4.9.0
+      - imagecodecs==2024.1.1
+      - imagedata==2.1.3
+      - imageio==2.33.1
+      - importlib-metadata==7.0.0
+      - importlib-resources==6.1.1
+      - isodate==0.6.1
+      - itk-core==5.3.0
+      - itk-io==5.3.0
+      - jmespath==1.0.1
+      - jsonlines==1.2.0
+      - jsonschema==4.20.0
+      - jsonschema-specifications==2023.11.2
+      - lit==17.0.6
+      - locket==1.0.0
+      - lxml==4.9.4
+      - mamba-ssm==2.2.2
+      - medmnist==3.0.2
+      - monai==1.3.2
+      - msgpack==1.0.8
+      - multidict==6.0.5
+      - multipagetiff==3.0.9
+      - nbdev==2.3.31
+      - nbformat==5.10.4
+      - nibabel==5.2.0
+      - ninja==1.11.1.1
+      - numcodecs==0.12.1
+      - nvidia-cublas-cu11==11.10.3.66
+      - nvidia-cuda-cupti-cu11==11.7.101
+      - nvidia-cuda-nvrtc-cu11==11.7.99
+      - nvidia-cuda-runtime-cu11==11.7.99
+      - nvidia-cudnn-cu11==8.5.0.96
+      - nvidia-cufft-cu11==10.9.0.58
+      - nvidia-curand-cu11==10.2.10.91
+      - nvidia-cusolver-cu11==11.4.0.1
+      - nvidia-cusparse-cu11==11.7.4.91
+      - nvidia-nccl-cu11==2.14.3
+      - nvidia-nvtx-cu11==11.7.91
+      - ome-types==0.5.1.post1
+      - ome-zarr==0.8.3
+      - opencv-python==4.8.1.78
+      - orjson==3.9.10
+      - partd==1.4.2
+      - plotly==5.23.0
+      - pooch==1.8.2
+      - progressbar2==4.2.0
+      - pydantic==2.5.2
+      - pydantic-compat==0.1.2
+      - pydantic-core==2.14.5
+      - pydicom==2.4.3
+      - pydub==0.25.1
+      - pynetdicom==1.5.7
+      - python-magic==0.4.27
+      - python-multipart==0.0.6
+      - python-utils==3.8.1
+      - pywavelets==1.5.0
+      - quilt3==5.4.0
+      - referencing==0.32.0
+      - regex==2024.7.24
+      - requests-futures==1.0.0
+      - resource-backed-dask-array==0.1.0
+      - rich==13.7.0
+      - rpds-py==0.13.2
+      - s3fs==2023.6.0
+      - s3transfer
+      - safetensors==0.4.4
+      - scikit-build==0.17.6
+      - scikit-image==0.19.3
+      - semantic-version==2.10.0
+      - simpleitk==2.3.1
+      - sniffio==1.3.0
+      - sortedcontainers==2.4.0
+      - soupsieve==2.5
+      - spacy==3.7.2
+      - starlette==0.27.0
+      - tblib==3.0.0
+      - tenacity==8.2.3
+      - termcolor==2.4.0
+      - thinc==8.2.1
+      - tifffile==2023.2.28
+      - tokenizers==0.19.1
+      - tomlkit==0.12.0
+      - toolz==0.12.0
+      - torchio==0.18.91
+      - transformers==4.44.2
+      - typing-extensions==4.9.0
+      - uvicorn==0.24.0.post1
+      - weasel==0.3.4
+      - websockets==11.0.3
+      - wrapt==1.16.0
+      - xarray==2024.3.0
+      - xlrd==2.0.1
+      - xmlschema==3.3.1
+      - xnat==0.5.3
+      - xsdata==24.3.1
+      - yarl==1.9.4
+      - zarr==2.15.0
+      - zict==3.0.0
+      - zipp==3.17.0
+prefix: /home/biagio/miniconda3/envs/bioMONAI-env
