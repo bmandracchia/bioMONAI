@@ -56,7 +56,7 @@ class CombinedLoss:
 
 # %% ../nbs/03_losses.ipynb 10
 class MSSSIMLoss(torch.nn.Module):
-    def __init__(self, spatial_dims=2, window_size: int = 11, sigma: float = 1.5, reduction: str = "mean", levels: int = 3, weights=None):
+    def __init__(self, spatial_dims=2, window_size: int = 8, sigma: float = 1.5, reduction: str = "mean", levels: int = 3, weights=None):
         """
         Multi-Scale Structural Similarity (MSSSIM) Loss using MONAI's SSIMLoss as the base.
 
@@ -112,9 +112,9 @@ class MSSSIMLoss(torch.nn.Module):
             return msssim
 
 
-# %% ../nbs/03_losses.ipynb 13
+# %% ../nbs/03_losses.ipynb 12
 class MSSSIML1Loss(torch.nn.Module):
-    def __init__(self, spatial_dims=2, alpha: float = 0.025, window_size: int = 11, sigma: float = 1.5, 
+    def __init__(self, spatial_dims=2, alpha: float = 0.025, window_size: int = 8, sigma: float = 1.5, 
                  reduction: str = "mean", levels: int = 3, weights=None):
         """
         Multi-Scale Structural Similarity (MSSSIM) with Gaussian-weighted L1 Loss.
@@ -189,7 +189,7 @@ class MSSSIML1Loss(torch.nn.Module):
         return gaussian_weight
 
 
-# %% ../nbs/03_losses.ipynb 15
+# %% ../nbs/03_losses.ipynb 14
 class MSSSIML2Loss(torch.nn.Module):
     def __init__(self, spatial_dims=2, alpha: float = 0.1, window_size: int = 11, sigma: float = 1.5, reduction: str = "mean", levels: int = 3, weights=None):
         """
@@ -264,7 +264,7 @@ class MSSSIML2Loss(torch.nn.Module):
         gaussian_weight = gaussian_weight.expand(batch_size, channels, -1, -1)
         return gaussian_weight
 
-# %% ../nbs/03_losses.ipynb 18
+# %% ../nbs/03_losses.ipynb 17
 class DiceLoss(nn.Module):
 
     """
@@ -317,7 +317,7 @@ class DiceLoss(nn.Module):
         return loss
         
 
-# %% ../nbs/03_losses.ipynb 22
+# %% ../nbs/03_losses.ipynb 21
 def FRCLoss(image1, image2):
 
     """
@@ -334,7 +334,7 @@ def FRCLoss(image1, image2):
     return (1 - FRCMetric(image1, image2))
     
 
-# %% ../nbs/03_losses.ipynb 23
+# %% ../nbs/03_losses.ipynb 22
 def FCRCutoff(image1,image2):
 
 
