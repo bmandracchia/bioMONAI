@@ -63,18 +63,18 @@ def download_medmnist(dataset: str, # The name of the MedMNIST dataset (e.g., 'p
             return None
 
     # Create the output directory if it doesn't exist
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+    if not os.path.exists(dataset_path):
+        os.makedirs(dataset_path)
 
     # Download the datasets
-    train_dataset = dataset_class(split='train', download=True, root=output_dir)
-    val_dataset = dataset_class(split='val', download=True, root=output_dir)
-    test_dataset = dataset_class(split='test', download=True, root=output_dir)
+    train_dataset = dataset_class(split='train', download=True, root=dataset_path)
+    val_dataset = dataset_class(split='val', download=True, root=dataset_path)
+    test_dataset = dataset_class(split='test', download=True, root=dataset_path)
 
     # Save the images into directories by their label
     def save_images(dataset, split):
         """Helper function to save images and labels into directories."""
-        split_dir = os.path.join(output_dir, split)
+        split_dir = os.path.join(dataset_path, split)
         if not os.path.exists(split_dir):
             os.makedirs(split_dir)
 
@@ -99,24 +99,24 @@ def download_medmnist(dataset: str, # The name of the MedMNIST dataset (e.g., 'p
 
     # Save training, validation, and test data if save_images is True
     if save_images:
-        print(f"Saving training images to {output_dir}...")
+        print(f"Saving training images to {dataset_path}...")
         save_images(train_dataset, 'train')
 
-        print(f"Saving validation images to {output_dir}...")
+        print(f"Saving validation images to {dataset_path}...")
         save_images(val_dataset, 'val')
 
-        print(f"Saving test images to {output_dir}...")
+        print(f"Saving test images to {dataset_path}...")
         save_images(test_dataset, 'test')
         
         # Clean up: remove .npz files if present
-        for file in os.listdir(output_dir):
+        for file in os.listdir(dataset_path):
             if file.endswith('.npz'):
-                os.remove(os.path.join(output_dir, file))
+                os.remove(os.path.join(dataset_path, file))
                 print(f"Removed {file}")
 
     # If download_only is True, skip returning the dataset objects and just download the files
     if download_only:
-        print(f"Datasets downloaded to {output_dir}")
+        print(f"Datasets downloaded to {dataset_path}")
         print(f"Dataset info for '{dataset}': {info}")
         return info
 
