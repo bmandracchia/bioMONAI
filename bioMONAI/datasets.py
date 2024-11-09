@@ -51,6 +51,16 @@ def download_medmnist(dataset: str, # The name of the MedMNIST dataset (e.g., 'p
 
     # Get the appropriate dataset class from MedMNIST
     dataset_class = getattr(medmnist, info['python_class'])
+    
+    # Check if the dataset has already been downloaded and processed
+    dataset_path = os.path.join(output_dir, dataset)
+    if os.path.exists(dataset_path) and len(os.listdir(dataset_path)) > 0:
+        print(f"Dataset '{dataset}' is already downloaded and available in '{dataset_path}'.")
+        if download_only:
+            return info
+        elif save_images:
+            print("Skipping download and image saving, as data already exists.")
+            return None
 
     # Create the output directory if it doesn't exist
     if not os.path.exists(output_dir):
