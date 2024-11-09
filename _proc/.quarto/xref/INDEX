@@ -47,5 +47,11 @@
   },
   "901_demo_RI2FL_2d.ipynb": {
     "demo_ri2fl_2d.html": "57813215"
+  },
+  "902_classification_tutorial.ipynb": {
+    "classification_tutorial.html": "1ff8cdc8"
+  },
+  "904_denoising_tutorial_test.ipynb": {
+    "denoising_tutorial_test.html": "e1ed36a7"
   }
 }

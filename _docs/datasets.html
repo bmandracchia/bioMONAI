@@ -272,6 +272,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./classification_tutorial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial Classification</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./tutorial_1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tutorial Classification</span></a>
   </div>
@@ -291,6 +297,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./denoising_tutorial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial Denoising</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./denoising_tutorial_test.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tutorial Denoising</span></a>
   </div>
 </li>
@@ -401,7 +413,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L118" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L128" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="medmnist2df" class="level3">
 <h3 class="anchored" data-anchor-id="medmnist2df">medmnist2df</h3>
@@ -463,7 +475,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="download-data-via-pooch" class="level3">
 <h3 class="anchored" data-anchor-id="download-data-via-pooch">Download data via Pooch</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L146" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L156" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="download_file" class="level3">
 <h3 class="anchored" data-anchor-id="download_file">download_file</h3>
@@ -473,7 +485,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>*Download and optionally decompress a single file using Pooch.</p>
 <p>Parameters: url (str): Direct URL to the file to be downloaded. output_dir (str): The directory where the downloaded file will be saved. extract (bool): If True, decompresses the file if it’s in a compressed format.*</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L182" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L192" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="download_dataset" class="level3">
 <h3 class="anchored" data-anchor-id="download_dataset">download_dataset</h3>
@@ -484,7 +496,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>*Download a dataset using Pooch and save it to the specified output directory.</p>
 <p>Parameters: base_url (str): The base URL from which the files will be downloaded. expected_checksums (dict): A dictionary mapping file names to their expected checksums. file_names (dict): A dictionary mapping task identifiers to file names. output_dir (str): The directory where the downloaded files will be saved. processor (callable, optional): A function to process the downloaded data. Defaults to None.*</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L211" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L221" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="download_dataset_from_csv" class="level3">
 <h3 class="anchored" data-anchor-id="download_dataset_from_csv">download_dataset_from_csv</h3>
@@ -510,7 +522,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="download-data-via-quiltt4">Download data via Quilt/T4</h3>
 <p>Allen Institute Cell Science (AICS)</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L254" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L264" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="aics_pipeline" class="level3">
 <h3 class="anchored" data-anchor-id="aics_pipeline">aics_pipeline</h3>
@@ -535,7 +547,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="dataset-manifest">Dataset Manifest</h3>
 <p>Make a manifest of all of the files in csv form</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L297" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L307" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="manifest2csv" class="level3">
 <h3 class="anchored" data-anchor-id="manifest2csv">manifest2csv</h3>
