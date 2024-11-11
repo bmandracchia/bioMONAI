@@ -288,9 +288,6 @@ def evaluate_model(trainer,                                 # The model trainer 
     Calculate and optionally plot the distribution of loss values from predictions
     made by the trainer on test data, with an optional table of key statistics.
     """
-
-    if show_results:
-        trainer.show_results(dl=test_data, cmap=cmap)
         
     if loss is None:
         loss = trainer.loss_func
