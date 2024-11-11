@@ -238,6 +238,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./classification_tutorial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial Classification</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./tutorial_1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tutorial Classification</span></a>
   </div>
@@ -260,6 +266,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Tutorial Denoising</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./denoising_tutorial_test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial Denoising</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -272,6 +284,7 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#training-callbacks" id="toc-training-callbacks" class="nav-link active" data-scroll-target="#training-callbacks">Training Callbacks</a>
   <ul>
+  <li><a href="#meanlossgraphcallback" id="toc-meanlossgraphcallback" class="nav-link" data-scroll-target="#meanlossgraphcallback">MeanLossGraphCallback</a></li>
   <li><a href="#shortepochcallback" id="toc-shortepochcallback" class="nav-link" data-scroll-target="#shortepochcallback">ShortEpochCallback</a></li>
   <li><a href="#gradientaccumulation" id="toc-gradientaccumulation" class="nav-link" data-scroll-target="#gradientaccumulation">GradientAccumulation</a></li>
   <li><a href="#earlystoppingcallback" id="toc-earlystoppingcallback" class="nav-link" data-scroll-target="#earlystoppingcallback">EarlyStoppingCallback</a></li>
@@ -319,7 +332,16 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="training-callbacks">Training Callbacks</h2>
 <p>Callbacks that add functionlities during the training phase, including Callbacks that make decisions depending how a monitored metric/loss behaves</p>
 <hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/callbacks.py#L17" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="meanlossgraphcallback" class="level3">
+<h3 class="anchored" data-anchor-id="meanlossgraphcallback">MeanLossGraphCallback</h3>
+<blockquote class="blockquote">
+<pre><code> MeanLossGraphCallback ()</code></pre>
+</blockquote>
+<p><em>Basic class handling tweaks of the training loop by changing a <code>Learner</code> in various events</em></p>
+<hr>
 <p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/training.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
 <section id="shortepochcallback" class="level3">
 <h3 class="anchored" data-anchor-id="shortepochcallback">ShortEpochCallback</h3>
 <blockquote class="blockquote">
