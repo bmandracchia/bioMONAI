@@ -7,38 +7,33 @@ __all__ = ['MeanLossGraphCallback']
 from fastai.callback.training import ShortEpochCallback, GradientAccumulation
 from fastai.callback.tracker import  EarlyStoppingCallback, SaveModelCallback, ReduceLROnPlateau
 from fastai.callback.schedule import ParamScheduler, SchedCos, SchedExp, SchedLin, SchedNo
-from fastai.callback.core import Callback
+from fastai.callback.core import Callback, range_of, Tensor
 import matplotlib.pyplot as plt
 
 
 # %% ../nbs/07_callbacks.ipynb 5
 class MeanLossGraphCallback(Callback):
-    def __init__(self):
-        self.train_losses = []
-        self.valid_losses = []
-    
+    "Update a graph of training and validation loss"
+    order,run_valid=65,False
+
     def before_fit(self):
-        # Reset the losses at the beginning of the training
-        self.train_losses.clear()
-        self.valid_losses.clear()
-    
+        self.run = not hasattr(self.learn, 'lr_finder') and not hasattr(self, "gather_preds")
+        if not(self.run): return
+        self.nb_batches = []
+        self.train_losses = []
+        assert hasattr(self.learn, 'progress')
+
+    def after_train(self): 
+        self.nb_batches.append(self.train_iter)
+
     def after_epoch(self):
-        # Compute the mean loss of the current epoch for both training and validation
-        train_loss = sum(self.learn.recorder.losses) / len(self.learn.recorder.losses)
-        valid_loss = self.learn.recorder.values[-1][0]  # Validation loss after epoch
-        
-        # Append mean losses for plotting later
-        self.train_losses.append(train_loss)
-        self.valid_losses.append(valid_loss)
-    
-    def after_fit(self):
-        # Plot the mean loss after training is complete
-        plt.figure(figsize=(8, 5))
-        plt.plot(self.train_losses, label='Train Mean Loss')
-        plt.plot(self.valid_losses, label='Validation Mean Loss')
-        plt.xlabel('Epoch')
-        plt.ylabel('Mean Loss')
-        plt.title('Mean Loss per Epoch')
-        plt.legend()
-        plt.show()
+        "Plot validation loss in the pbar graph"
+        if not self.nb_batches: return
+        rec = self.learn.recorder
+        epochs = range(len(self.nb_batches)) + 1
+        self.train_losses.append(rec.log[1])
+        val_losses = [v[1] for v in rec.values]
+        x_bounds = (0, self.n_epoch)
+        y_bounds = (0, max((max(Tensor(rec.losses)), max(Tensor(val_losses)))))
+        self.progress.mbar.update_graph([(epochs, self.train_losses), (epochs, val_losses)], x_bounds, y_bounds)
 
