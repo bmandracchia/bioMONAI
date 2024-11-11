@@ -176,8 +176,12 @@ def compute_losses(predictions, targets, loss_fn):
 def compute_metric(predictions, targets, metric_fn):
     """
     Compute the metric for each prediction-target pair.
+    Handles cases where metric_fn has or does not have a 'func' attribute.
     """
-    return [metric_fn.func(p.unsqueeze(0), t.unsqueeze(0)).item() for p, t in zip(predictions, targets)]
+    # Get the actual function to call (either metric_fn.func or metric_fn itself)
+    metric_func = getattr(metric_fn, 'func', metric_fn)
+    
+    return [metric_func(p.unsqueeze(0), t.unsqueeze(0)).item() for p, t in zip(predictions, targets)]
 
 
 def calculate_statistics(data):
@@ -269,29 +273,38 @@ def display_statistics_table(stats, loss_name, as_dataframe=True):
         plt.show()
 
 # %% ../nbs/00_core.ipynb 27
-def evaluate_model(trainer, test_data, loss, metrics=None, bw_method=0.3, show_graph=True, show_table=True, show_results=True, as_dataframe=True, cmap='magma'):
+def evaluate_model(trainer,                                 # The model trainer object with a get_preds method.
+                   test_data:DataLoaders=None,              # DataLoader containing test data.
+                   loss=None,                               # Loss function to evaluate prediction-target pairs.
+                   metrics=None,                            # Single metric or a list of metrics to evaluate. 
+                   bw_method=0.3,                           # Bandwidth method for KDE. 
+                   show_graph=True,                         # Boolean flag to show the histogram and KDE plot.
+                   show_table=True,                         # Boolean flag to show the statistics table.
+                   show_results=True,                       # Boolean flag to show model results on test data. 
+                   as_dataframe=True,                       # Boolean flag to display table as a DataFrame. 
+                   cmap='magma',                            # Colormap for visualization.
+                   ):
     """
     Calculate and optionally plot the distribution of loss values from predictions
     made by the trainer on test data, with an optional table of key statistics.
-
-    Parameters:
-        - trainer: The model trainer object with a get_preds method.
-        - test_data: DataLoader containing test data.
-        - loss: Loss function to evaluate prediction-target pairs.
-        - metrics: Single metric or a list of metrics to evaluate. Default is None.
-        - bw_method: Bandwidth method for KDE. Default is 0.3.
-        - show_graph: Boolean flag to show the histogram and KDE plot. Default is True.
-        - show_table: Boolean flag to show the statistics table. Default is True.
-        - show_results: Boolean flag to show model results on test data. Default is True.
-        - as_dataframe: Boolean flag to display table as a DataFrame. Default is True.
-        - cmap: Colormap for visualization. Default is 'magma'.
     """
 
     if show_results:
         trainer.show_results(dl=test_data, cmap=cmap)
         
-    # Get predictions and targets from the trainer
-    p, t = trainer.get_preds(dl=test_data)
+    if loss is None:
+        loss = trainer.loss_func
+        
+    if test_data is None:
+        p, t = trainer.get_preds()
+        # Show results for test data
+        if show_results:
+            trainer.show_results(cmap=cmap)
+    else:
+        p, t = trainer.get_preds(dl=test_data)
+        # Show results for test data
+        if show_results:
+            trainer.show_results(dl=test_data, cmap=cmap)
 
     # Calculate loss for each prediction-target pair
     losses = compute_losses(p, t, loss)
@@ -321,43 +334,48 @@ def evaluate_model(trainer, test_data, loss, metrics=None, bw_method=0.3, show_g
 
 # %% ../nbs/00_core.ipynb 28
 def evaluate_classification_model(trainer:Learner,              # The trained model (learner) to evaluate.
-                                  test_data:DataLoaders=None,   # DataLoader with test/validation data for evaluation.
-                                  loss_fn=None,                 # Loss function used in the model for ClassificationInterpretation.
+                                  test_data:DataLoaders=None,   # DataLoader with test data for evaluation. If None, the validation dataset is used.
+                                  loss_fn=None,                 # Loss function used in the model for ClassificationInterpretation. If None, the loss function is loaded from trainer.
                                   most_confused_n:int=1,        # Number of most confused class pairs to display. 
                                   normalize:bool=True,          # Whether to normalize the confusion matrix.
-                                  metrics=None, 
-                                  bw_method=0.3, 
-                                  show_graph=True, 
-                                  show_table=True, 
-                                  show_results=True, 
-                                  as_dataframe=True, 
+                                  metrics=None,                 # Single metric or a list of metrics to evaluate. 
+                                  bw_method=0.3,                # Bandwidth method for KDE. 
+                                  show_graph=True,              # Boolean flag to show the histogram and KDE plot.
+                                  show_table=True,              # Boolean flag to show the statistics table.
+                                  show_results=True,            # Boolean flag to show model results on test data. 
+                                  as_dataframe=True,            # Boolean flag to display table as a DataFrame. 
                                   cmap:str='Blues',             # Color map for the confusion matrix plot. 
                                   ):
     """
     Evaluates a classification model by displaying results, confusion matrix, and most confused classes.
     """
     
-    # Show results for test data
-    if show_results:
-        trainer.show_results(dl=test_data)
+    if loss_fn is None:
+            loss_fn = trainer.loss_func
     
     # Interpret the results on test data
     if test_data is None:
         class_int = ClassificationInterpretation.from_learner(trainer)
+        p, t = trainer.get_preds()
+        # Show results for test data
+        if show_results:
+            trainer.show_results()
     else:
-        if loss_fn is None:
-            loss_fn = trainer.loss_func
         class_int = ClassificationInterpretation(trainer, test_data, loss_fn)
+        p, t = trainer.get_preds(dl=test_data)
+        # Show results for test data
+        if show_results:
+            trainer.show_results(dl=test_data)
     
     # Plot the confusion matrix
     class_int.plot_confusion_matrix(normalize=normalize, cmap=cmap)
     
+    # Print Classification report
+    class_int.print_classification_report()
+    
     # Show the most confused classes
     print("\nMost Confused Classes:")
     print(class_int.most_confused(most_confused_n))
-    
-    # Get predictions and targets from the trainer
-    p, t = trainer.get_preds(dl=test_data)
 
     # Calculate loss for each prediction-target pair
     losses = compute_losses(p, t, loss_fn)
