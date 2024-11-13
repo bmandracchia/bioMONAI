@@ -432,6 +432,7 @@ class BioDataLoaders(DataLoaders):
         return cls.from_source(df, **ops, **kwargs)
     
     @classmethod
+    @delegates(class_from_df)
     def class_from_csv(cls, path, csv_fname='labels.csv', header='infer', delimiter=None, quoting=0, **kwargs):
         "Create from `path/csv_fname` using `fn_col` and `label_col`"
         df = pd.read_csv(Path(path)/csv_fname, header=header, delimiter=delimiter, quoting=quoting)

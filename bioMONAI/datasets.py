@@ -2,21 +2,22 @@
 
 # %% auto 0
 __all__ = ['download_medmnist', 'medmnist2df', 'download_file', 'download_dataset', 'download_dataset_from_csv', 'aics_pipeline',
-           'manifest2csv']
+           'manifest2csv', 'split_dataframe']
 
 # %% ../nbs/08_datasets.ipynb 3
 import os
 from pathlib import Path
 
 from pooch import create as pooch_create, retrieve as pooch_retrieve, Decompress, Unzip, Untar
+from sklearn.model_selection import train_test_split
 import quilt3
 import pandas as pd
 import numpy as np
-import medmnist
-
 from PIL import Image
 import tifffile as tiff
 from tqdm import tqdm
+
+import medmnist
 
 
 # %% ../nbs/08_datasets.ipynb 5
@@ -151,7 +152,7 @@ def medmnist2df(train_dataset,     # MedMNIST training dataset with images and l
 
 
 # %% ../nbs/08_datasets.ipynb 8
-def download_file(url, output_dir="data", extract=True, hash=None):
+def download_file(url, output_dir="data", extract=True, hash=None, extract_dir=None):
     """
     Download and optionally decompress a single file using Pooch.
     
@@ -167,9 +168,9 @@ def download_file(url, output_dir="data", extract=True, hash=None):
     processor = None
     if extract:
         if url.endswith('.zip'):
-            processor = Unzip()
+            processor = Unzip(extract_dir=extract_dir)
         elif url.endswith(('.tar', '.tar.gz', '.tar.bz2', '.tar.xz')):
-            processor = Untar()
+            processor = Untar(extract_dir=extract_dir)
         elif url.endswith(('.gz', '.bz2', '.xz')):
             processor = Decompress()
 
@@ -183,7 +184,7 @@ def download_file(url, output_dir="data", extract=True, hash=None):
 
     print("The file has been downloaded and saved to:", output_dir)
     if extract:
-        print("Decompression (if needed) has been handled automatically.")
+        print("Extracted files have been saved to:", output_dir+extract_dir)
 
 
 # %% ../nbs/08_datasets.ipynb 9
@@ -330,3 +331,81 @@ def manifest2csv(signal, target, paths=None, train_fraction=0.8, data_save_path=
 
     df_test.to_csv(data_save_path+test, index=False)
     df_train.to_csv(data_save_path+train, index=False)
+
+# %% ../nbs/08_datasets.ipynb 22
+def split_dataframe(input_data, train_fraction=0.7, valid_fraction=0.1, split_column=None, stratify=False, add_is_valid=False, train_path="train.csv", test_path="test.csv", valid_path="valid.csv", data_save_path=None):
+    """
+    Splits a DataFrame or CSV file into train, test, and optional validation sets.
+
+    Parameters:
+    - input_data (str or pd.DataFrame): Path to CSV file or a DataFrame.
+    - train_fraction (float): Proportion of data to use for the training set (0 < train_fraction < 1).
+    - valid_fraction (float): Proportion of data to use for the validation set (0 <= valid_fraction < 1).
+    - split_column (str, optional): Column name that indicates pre-defined split ('train', 'test', 'validation' values expected).
+    - stratify (bool): If True, stratify by split_column during random split if no predefined split is present.
+    - add_is_valid (bool): If True, adds 'is_valid' column in the train set to mark validation samples.
+    - train_path (str): Path to save the training CSV file.
+    - test_path (str): Path to save the test CSV file.
+    - valid_path (str): Path to save the validation CSV file, if created separately.
+    """
+    # Load data
+    if isinstance(input_data, str):
+        df = pd.read_csv(input_data)
+    elif isinstance(input_data, pd.DataFrame):
+        df = input_data.copy()
+    else:
+        raise ValueError("input_data must be a path to a CSV file or a DataFrame")
+    
+    if data_save_path:
+        train_path = os.path.join(data_save_path, train_path)
+        test_path = os.path.join(data_save_path, test_path)
+        valid_path = os.path.join(data_save_path, valid_path)
+
+    # Check if split_column exists and has "train", "test", or "validation" values
+    if split_column and split_column in df.columns:
+        # Use pre-defined split values if available
+        train_df = df[df[split_column] == "train"].copy()
+        test_df = df[df[split_column] == "test"].copy()
+        valid_df = df[df[split_column] == "validation"].copy() if "validation" in df[split_column].unique() else None
+    else:
+        # Otherwise, calculate test and validation splits based on fractions
+        test_fraction = 1.0 - train_fraction - valid_fraction
+        if test_fraction <= 0:
+            raise ValueError("train_fraction and valid_fraction must sum to less than 1.")
+
+        # Randomly split data
+        train_df, temp_df = train_test_split(df, test_size=(1 - train_fraction), stratify=df[split_column] if stratify and split_column else None)
+        train_df = train_df.copy()
+        temp_df = temp_df.copy()
+
+        if valid_fraction > 0:
+            valid_size = valid_fraction / (valid_fraction + test_fraction)
+            valid_df, test_df = train_test_split(temp_df, test_size=(1 - valid_size), stratify=temp_df[split_column] if stratify and split_column else None)
+            valid_df = valid_df.copy()
+            test_df = test_df.copy()
+        else:
+            test_df = temp_df
+            valid_df = None
+
+    # Optionally add 'is_valid' column in train set if valid_fraction > 0
+    if add_is_valid and valid_fraction > 0:
+        train_df.loc[:, 'is_valid'] = 0  # Avoid SettingWithCopyError by using .loc
+        if valid_df is None:
+            # Sample validation rows from the training set if no pre-defined validation split
+            valid_indices = train_df.sample(frac=valid_fraction / train_fraction).index
+            train_df.loc[valid_indices, 'is_valid'] = 1
+        else:
+            print(f"'is_valid' column added to '{train_path}' for validation samples within the training set.")
+    elif valid_df is not None:
+        # Save validation set as a separate CSV if not adding 'is_valid' in training set
+        valid_df.to_csv(valid_path, index=False)
+        print(f"Validation file saved as '{valid_path}'.")
+
+    # Save train and test sets as CSV files
+    train_df.to_csv(train_path, index=False)
+    test_df.to_csv(test_path, index=False)
+    
+    print(f"Train and test files saved as '{train_path}' and '{test_path}' respectively.")
+    if add_is_valid and valid_fraction > 0:
+        print(f"'is_valid' column added to '{train_path}' for validation samples.")
+
