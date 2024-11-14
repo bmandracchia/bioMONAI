@@ -4,7 +4,7 @@
 
 # %% auto 0
 __all__ = ['download_medmnist', 'medmnist2df', 'download_file', 'download_dataset', 'download_dataset_from_csv', 'aics_pipeline',
-           'manifest2csv', 'split_dataframe', 'add_column_to_csv']
+           'manifest2csv', 'split_dataframe', 'add_columns_to_csv']
 
 # %% ../nbs/08_datasets.ipynb 3
 import os
@@ -413,32 +413,31 @@ def split_dataframe(input_data, train_fraction=0.7, valid_fraction=0.1, split_co
 
 
 # %% ../nbs/08_datasets.ipynb 23
-def add_column_to_csv(csv_path, column_name, column_values, output_path=None):
+def add_columns_to_csv(csv_path, column_data, output_path=None):
     """
-    Adds a new column to an existing CSV file.
+    Adds one or more new columns to an existing CSV file.
 
     Parameters:
     - csv_path (str): Path to the input CSV file.
-    - column_name (str): Name of the new column to add.
-    - column_values (list or scalar): Values for the new column. 
-      If a single value is given, it will be assigned to all rows.
-      If a list is provided, it should match the number of rows in the CSV.
+    - column_data (dict): Dictionary where keys are column names and values are column data.
+      Each value can be a scalar (single value for all rows) or a list matching the number of rows.
     - output_path (str, optional): Path to save the updated CSV file.
       If None, it overwrites the input CSV file.
     """
     # Load the CSV file into a DataFrame
     df = pd.read_csv(csv_path)
 
-    # Check if column_values is a list and matches DataFrame length
-    if isinstance(column_values, list) and len(column_values) != len(df):
-        raise ValueError("Length of column_values does not match the number of rows in the CSV.")
-
-    # Add the new column
-    df[column_name] = column_values
+    # Iterate over each column and add to the DataFrame
+    for column_name, column_values in column_data.items():
+        # Check if column_values is a list and matches DataFrame length
+        if isinstance(column_values, list) and len(column_values) != len(df):
+            raise ValueError(f"Length of values for column '{column_name}' does not match the number of rows in the CSV.")
+        
+        # Add the new column
+        df[column_name] = column_values
 
     # Save the updated DataFrame to a CSV file
     output_path = output_path or csv_path
     df.to_csv(output_path, index=False)
 
-    print(f"Column '{column_name}' added successfully. Updated file saved to '{output_path}'")
-
+    print(f"Columns {list(column_data.keys())} added successfully. Updated file saved to '{output_path}'")

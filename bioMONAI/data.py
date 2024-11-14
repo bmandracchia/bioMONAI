@@ -424,6 +424,7 @@ class BioDataLoaders(DataLoaders):
         splitter = RandomSplitter(valid_pct, seed=seed) if valid_col is None else ColSplitter(valid_col)        
         ops = { 
             'blocks':       (BioImageBlock(img_cls), y_block),
+            'get_items':    None,
             'splitter':     splitter,
             'get_x':        ColReader(fn_col, pref=pref, suff=suff),
             'get_y':        ColReader(label_col, label_delim=label_delim),
