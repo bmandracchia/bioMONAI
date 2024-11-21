@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -65,10 +99,16 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="styles.css">
 <meta property="og:title" content="bioMONAI - Core">
 <meta property="og:description" content="bioMONAI core functions">
+<meta property="og:image" content="https://bmandracchia.github.io/bioMONAI/00_core_files/figure-html/cell-16-output-1.png">
 <meta property="og:site-name" content="bioMONAI">
+<meta property="og:image:height" content="563">
+<meta property="og:image:width" content="702">
 <meta name="twitter:title" content="bioMONAI - Core">
 <meta name="twitter:description" content="bioMONAI core functions">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bmandracchia.github.io/bioMONAI/00_core_files/figure-html/cell-16-output-1.png">
+<meta name="twitter:image-height" content="563">
+<meta name="twitter:image-width" content="702">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar floating nav-fixed">
@@ -238,6 +278,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./classification_tutorial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial Classification</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./tutorial_1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tutorial Classification</span></a>
   </div>
@@ -256,7 +302,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./tutorial_4.html" class="sidebar-item-text sidebar-link">
+  <a href="./denoising_tutorial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial Denoising</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./denoising_tutorial2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tutorial Denoising</span></a>
   </div>
 </li>
@@ -283,6 +335,17 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#fasttrainer" id="toc-fasttrainer" class="nav-link" data-scroll-target="#fasttrainer">fastTrainer</a></li>
   <li><a href="#visiontrainer" id="toc-visiontrainer" class="nav-link" data-scroll-target="#visiontrainer">visionTrainer</a></li>
+  </ul></li>
+  <li><a href="#evaluation" id="toc-evaluation" class="nav-link" data-scroll-target="#evaluation">Evaluation</a>
+  <ul>
+  <li><a href="#display_statistics_table" id="toc-display_statistics_table" class="nav-link" data-scroll-target="#display_statistics_table">display_statistics_table</a></li>
+  <li><a href="#plot_histogram_and_kde" id="toc-plot_histogram_and_kde" class="nav-link" data-scroll-target="#plot_histogram_and_kde">plot_histogram_and_kde</a></li>
+  <li><a href="#format_sig" id="toc-format_sig" class="nav-link" data-scroll-target="#format_sig">format_sig</a></li>
+  <li><a href="#calculate_statistics" id="toc-calculate_statistics" class="nav-link" data-scroll-target="#calculate_statistics">calculate_statistics</a></li>
+  <li><a href="#compute_metric" id="toc-compute_metric" class="nav-link" data-scroll-target="#compute_metric">compute_metric</a></li>
+  <li><a href="#compute_losses" id="toc-compute_losses" class="nav-link" data-scroll-target="#compute_losses">compute_losses</a></li>
+  <li><a href="#evaluate_model" id="toc-evaluate_model" class="nav-link" data-scroll-target="#evaluate_model">evaluate_model</a></li>
+  <li><a href="#evaluate_classification_model" id="toc-evaluate_classification_model" class="nav-link" data-scroll-target="#evaluate_classification_model">evaluate_classification_model</a></li>
   </ul></li>
   <li><a href="#utils" id="toc-utils" class="nav-link" data-scroll-target="#utils">Utils</a>
   <ul>
@@ -322,7 +385,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
 <section id="imports" class="level2">
 <h2 class="anchored" data-anchor-id="imports">Imports</h2>
-<p>Main imports from other libraries.</p>
+<p>This section includes essential imports used throughout the core library, providing foundational tools for data handling, model training, and evaluation. Key imports cover areas such as data blocks, data loaders, custom loss functions, optimizers, callbacks, and logging.</p>
 <hr>
 <p><a href="https://github.com/fastai/fastai/blob/master/fastai/data/block.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="datablock" class="level3">
@@ -411,6 +474,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
+<p>The <code>DataBlock</code> class acts as a container for creating data processing pipelines, allowing easy customization of datasets and data loaders. It enables the definition of item transformations, batch transformations, and dataset split methods, streamlining data preprocessing and loading across various stages of model training.</p>
 <hr>
 <p><a href="https://github.com/fastai/fastai/blob/master/fastai/data/core.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
@@ -420,12 +484,14 @@ ul.task-list li input[type="checkbox"] {
 <pre><code> DataLoaders (*loaders, path:str|pathlib.Path='.', device=None)</code></pre>
 </blockquote>
 <p><em>Basic wrapper around several <code>DataLoader</code>s.</em></p>
+<p>The <code>DataLoaders</code> class is a container for managing training and validation datasets. This class wraps one or more <code>DataLoader</code> instances, ensuring seamless data management and transfer across devices (CPU or GPU) for efficient training and evaluation.</p>
 <hr>
 <p><a href="https://github.com/fastai/fastai/blob/master/fastai/learner.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="learner" class="level3">
 <h3 class="anchored" data-anchor-id="learner">Learner</h3>
 <p><em>Group together a <code>model</code>, some <code>dls</code> and a <code>loss_func</code> to handle training</em></p>
+<p>The <code>Learner</code> class is the main interface for training machine learning models, encapsulating the model, data, loss function, optimizer, and training metrics. It simplifies the training process by providing built-in functionality for model evaluation, hyperparameter tuning, and training loop customization, allowing you to focus on model optimization.</p>
 <hr>
 <p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/progress.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
@@ -445,6 +511,7 @@ ul.task-list li input[type="checkbox"] {
                     after_cancel_fit=None, after_fit=None)</code></pre>
 </blockquote>
 <p><em>Update a graph of training and validation loss</em></p>
+<p>The <code>ShowGraphCallback</code> is a convenient callback for visualizing training progress. By plotting the training and validation loss, it helps users monitor convergence and performance, making it easy to assess if the model requires adjustments in learning rate, architecture, or data handling.</p>
 <hr>
 <p><a href="https://github.com/fastai/fastai/blob/master/fastai/callback/progress.py#LNone" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
@@ -454,6 +521,7 @@ ul.task-list li input[type="checkbox"] {
 <pre><code> CSVLogger (fname='history.csv', append=False)</code></pre>
 </blockquote>
 <p><em>Log the results displayed in <code>learn.path/fname</code></em></p>
+<p>The <code>CSVLogger</code> is a tool for logging model training metrics to a CSV file, offering a permanent record of training history. This feature is especially useful for long-term experiments and fine-tuning, allowing you to track and analyze model performance over time.</p>
 <hr>
 </section>
 <section id="cells3d" class="level3">
@@ -463,13 +531,14 @@ ul.task-list li input[type="checkbox"] {
 </blockquote>
 <p>*3D fluorescence microscopy image of cells.</p>
 <p>The returned data is a 3D multichannel array with dimensions provided in <code>(z, c, y, x)</code> order. Each voxel has a size of <code>(0.29 0.26 0.26)</code> micrometer. Channel 0 contains cell membranes, channel 1 contains nuclei.*</p>
+<p>The <code>cells3d</code> function returns a sample 3D fluorescence microscopy image. This is a valuable test image for demonstration and analysis, consisting of both cell membrane and nucleus channels. It can serve as a default dataset for evaluating and benchmarking new models and transformations.</p>
 </section>
 </section>
 <section id="engine" class="level2">
 <h2 class="anchored" data-anchor-id="engine">Engine</h2>
-<p>Core engine for model training. See tutorials for usage examples.</p>
+<p>The engine module provides advanced functionalities for model training, including configurable training loops and evaluation functions tailored for bioinformatics applications.</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L37" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L45" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="fasttrainer" class="level3">
 <h3 class="anchored" data-anchor-id="fasttrainer">fastTrainer</h3>
 <blockquote class="blockquote">
@@ -485,8 +554,8 @@ ul.task-list li input[type="checkbox"] {
               find_lr_fn=&lt;function valley&gt;,
               path:str|pathlib.Path|None=None,
               model_dir:str|pathlib.Path='models', wd:float|int|None=None,
-              wd_bn_bias:bool=False, train_bn:bool=True,
-              moms:tuple=Ellipsis, default_cbs:bool=True)</code></pre>
+              wd_bn_bias:bool=False, train_bn:bool=True, moms:tuple=(0.95,
+              0.85, 0.95), default_cbs:bool=True)</code></pre>
 </blockquote>
 <p><em>A custom implementation of the FastAI Learner class for training models in bioinformatics applications.</em></p>
 <table class="table">
@@ -616,7 +685,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td>moms</td>
 <td>tuple</td>
-<td>Ellipsis</td>
+<td>(0.95, 0.85, 0.95)</td>
 <td>Tuple of tuples representing the momentum values for different layers in the model. Defaults to FastAI’s default settings if not specified.</td>
 </tr>
 <tr class="even">
@@ -628,7 +697,7 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L100" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L108" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="visiontrainer" class="level3">
 <h3 class="anchored" data-anchor-id="visiontrainer">visionTrainer</h3>
@@ -649,7 +718,7 @@ ul.task-list li input[type="checkbox"] {
                 path:str|pathlib.Path|None=None,
                 model_dir:str|pathlib.Path='models',
                 wd:float|int|None=None, wd_bn_bias:bool=False,
-                train_bn:bool=True, moms:tuple=Ellipsis,
+                train_bn:bool=True, moms:tuple=(0.95, 0.85, 0.95),
                 default_cbs:bool=True, cut=None, init=&lt;function
                 kaiming_normal_&gt;, custom_head=None, concat_pool=True,
                 pool=True, lin_ftrs=None, ps=0.5, first_bn=True,
@@ -807,7 +876,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td>moms</td>
 <td>tuple</td>
-<td>Ellipsis</td>
+<td>(0.95, 0.85, 0.95)</td>
 <td>Tuple of tuples representing the momentum values for different layers in the model. Defaults to FastAI’s default settings if not specified.</td>
 </tr>
 <tr class="even">
@@ -892,18 +961,286 @@ ul.task-list li input[type="checkbox"] {
 </table>
 </section>
 </section>
+<section id="evaluation" class="level2">
+<h2 class="anchored" data-anchor-id="evaluation">Evaluation</h2>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L249" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="display_statistics_table" class="level3">
+<h3 class="anchored" data-anchor-id="display_statistics_table">display_statistics_table</h3>
+<blockquote class="blockquote">
+<pre><code> display_statistics_table (stats, fn_name='', as_dataframe=True)</code></pre>
+</blockquote>
+<p><em>Display a table of the key statistics.</em></p>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L215" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="plot_histogram_and_kde" class="level3">
+<h3 class="anchored" data-anchor-id="plot_histogram_and_kde">plot_histogram_and_kde</h3>
+<blockquote class="blockquote">
+<pre><code> plot_histogram_and_kde (data, stats, bw_method=0.3, fn_name='')</code></pre>
+</blockquote>
+<p><em>Plot the histogram and KDE of the data with key statistics marked.</em></p>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L203" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="format_sig" class="level3">
+<h3 class="anchored" data-anchor-id="format_sig">format_sig</h3>
+<blockquote class="blockquote">
+<pre><code> format_sig (value)</code></pre>
+</blockquote>
+<p><em>Format numbers with two significant digits.</em></p>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L188" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="calculate_statistics" class="level3">
+<h3 class="anchored" data-anchor-id="calculate_statistics">calculate_statistics</h3>
+<blockquote class="blockquote">
+<pre><code> calculate_statistics (data)</code></pre>
+</blockquote>
+<p><em>Calculate key statistics for the data.</em></p>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L177" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="compute_metric" class="level3">
+<h3 class="anchored" data-anchor-id="compute_metric">compute_metric</h3>
+<blockquote class="blockquote">
+<pre><code> compute_metric (predictions, targets, metric_fn)</code></pre>
+</blockquote>
+<p><em>Compute the metric for each prediction-target pair. Handles cases where metric_fn has or does not have a ‘func’ attribute.</em></p>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L170" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="compute_losses" class="level3">
+<h3 class="anchored" data-anchor-id="compute_losses">compute_losses</h3>
+<blockquote class="blockquote">
+<pre><code> compute_losses (predictions, targets, loss_fn)</code></pre>
+</blockquote>
+<p><em>Compute the loss for each prediction-target pair.</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy.random <span class="im">import</span> standard_normal</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> standard_normal(<span class="dv">1000</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>stats <span class="op">=</span> calculate_statistics(a)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>stats</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>plot_histogram_and_kde(a, stats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="00_core_files/figure-html/cell-16-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L284" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="evaluate_model" class="level3">
+<h3 class="anchored" data-anchor-id="evaluate_model">evaluate_model</h3>
+<blockquote class="blockquote">
+<pre><code> evaluate_model (trainer, test_data:fastai.data.core.DataLoaders=None,
+                 loss=None, metrics=None, bw_method=0.3, show_graph=True,
+                 show_table=True, show_results=True, as_dataframe=True,
+                 cmap='magma')</code></pre>
+</blockquote>
+<p><em>Calculate and optionally plot the distribution of loss values from predictions made by the trainer on test data, with an optional table of key statistics.</em></p>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>trainer</td>
+<td></td>
+<td></td>
+<td>The model trainer object with a get_preds method.</td>
+</tr>
+<tr class="even">
+<td>test_data</td>
+<td>DataLoaders</td>
+<td>None</td>
+<td>DataLoader containing test data.</td>
+</tr>
+<tr class="odd">
+<td>loss</td>
+<td>NoneType</td>
+<td>None</td>
+<td>Loss function to evaluate prediction-target pairs.</td>
+</tr>
+<tr class="even">
+<td>metrics</td>
+<td>NoneType</td>
+<td>None</td>
+<td>Single metric or a list of metrics to evaluate.</td>
+</tr>
+<tr class="odd">
+<td>bw_method</td>
+<td>float</td>
+<td>0.3</td>
+<td>Bandwidth method for KDE.</td>
+</tr>
+<tr class="even">
+<td>show_graph</td>
+<td>bool</td>
+<td>True</td>
+<td>Boolean flag to show the histogram and KDE plot.</td>
+</tr>
+<tr class="odd">
+<td>show_table</td>
+<td>bool</td>
+<td>True</td>
+<td>Boolean flag to show the statistics table.</td>
+</tr>
+<tr class="even">
+<td>show_results</td>
+<td>bool</td>
+<td>True</td>
+<td>Boolean flag to show model results on test data.</td>
+</tr>
+<tr class="odd">
+<td>as_dataframe</td>
+<td>bool</td>
+<td>True</td>
+<td>Boolean flag to display table as a DataFrame.</td>
+</tr>
+<tr class="even">
+<td>cmap</td>
+<td>str</td>
+<td>magma</td>
+<td>Colormap for visualization.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L345" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="evaluate_classification_model" class="level3">
+<h3 class="anchored" data-anchor-id="evaluate_classification_model">evaluate_classification_model</h3>
+<blockquote class="blockquote">
+<pre><code> evaluate_classification_model (trainer:fastai.learner.Learner,
+                                test_data:fastai.data.core.DataLoaders=Non
+                                e, loss_fn=None, most_confused_n:int=1,
+                                normalize:bool=True, metrics=None,
+                                bw_method=0.3, show_graph=True,
+                                show_table=True, show_results=True,
+                                as_dataframe=True, cmap=&lt;matplotlib.colors
+                                .LinearSegmentedColormap object at
+                                0x7fa87e4ace50&gt;)</code></pre>
+</blockquote>
+<p><em>Evaluates a classification model by displaying results, confusion matrix, and most confused classes.</em></p>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Type</strong></th>
+<th><strong>Default</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>trainer</td>
+<td>Learner</td>
+<td></td>
+<td>The trained model (learner) to evaluate.</td>
+</tr>
+<tr class="even">
+<td>test_data</td>
+<td>DataLoaders</td>
+<td>None</td>
+<td>DataLoader with test data for evaluation. If None, the validation dataset is used.</td>
+</tr>
+<tr class="odd">
+<td>loss_fn</td>
+<td>NoneType</td>
+<td>None</td>
+<td>Loss function used in the model for ClassificationInterpretation. If None, the loss function is loaded from trainer.</td>
+</tr>
+<tr class="even">
+<td>most_confused_n</td>
+<td>int</td>
+<td>1</td>
+<td>Number of most confused class pairs to display.</td>
+</tr>
+<tr class="odd">
+<td>normalize</td>
+<td>bool</td>
+<td>True</td>
+<td>Whether to normalize the confusion matrix.</td>
+</tr>
+<tr class="even">
+<td>metrics</td>
+<td>NoneType</td>
+<td>None</td>
+<td>Single metric or a list of metrics to evaluate.</td>
+</tr>
+<tr class="odd">
+<td>bw_method</td>
+<td>float</td>
+<td>0.3</td>
+<td>Bandwidth method for KDE.</td>
+</tr>
+<tr class="even">
+<td>show_graph</td>
+<td>bool</td>
+<td>True</td>
+<td>Boolean flag to show the histogram and KDE plot.</td>
+</tr>
+<tr class="odd">
+<td>show_table</td>
+<td>bool</td>
+<td>True</td>
+<td>Boolean flag to show the statistics table.</td>
+</tr>
+<tr class="even">
+<td>show_results</td>
+<td>bool</td>
+<td>True</td>
+<td>Boolean flag to show model results on test data.</td>
+</tr>
+<tr class="odd">
+<td>as_dataframe</td>
+<td>bool</td>
+<td>True</td>
+<td>Boolean flag to display table as a DataFrame.</td>
+</tr>
+<tr class="even">
+<td>cmap</td>
+<td>LinearSegmentedColormap</td>
+<td>&lt;matplotlib.colors.LinearSegmentedColormap object at 0x7fa87e4ace50&gt;</td>
+<td>Color map for the confusion matrix plot.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
 <section id="utils" class="level2">
 <h2 class="anchored" data-anchor-id="utils">Utils</h2>
-<p>Utility functions.</p>
+<p>The utils module contains helper functions and classes to facilitate data manipulation, model setup, and training. These utilities add flexibility and convenience, supporting rapid experimentation and efficient data handling.</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L163" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L420" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="attributesfromdict" class="level3">
 <h3 class="anchored" data-anchor-id="attributesfromdict">attributesFromDict</h3>
 <blockquote class="blockquote">
 <pre><code> attributesFromDict (d)</code></pre>
 </blockquote>
+<p><em>The <a href="https://bmandracchia.github.io/bioMONAI/core.html#attributesfromdict"><code>attributesFromDict</code></a> function simplifies the conversion of dictionary keys and values into object attributes, allowing dynamic attribute creation for configuration objects. This utility is handy for initializing model or dataset configurations directly from dictionaries, improving code readability and maintainability.</em></p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L169" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L429" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="get_device" class="level3">
 <h3 class="anchored" data-anchor-id="get_device">get_device</h3>
@@ -911,7 +1248,7 @@ ul.task-list li input[type="checkbox"] {
 <pre><code> get_device ()</code></pre>
 </blockquote>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L173" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L433" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="img2float" class="level3">
 <h3 class="anchored" data-anchor-id="img2float">img2float</h3>
@@ -919,7 +1256,7 @@ ul.task-list li input[type="checkbox"] {
 <pre><code> img2float (image, force_copy=False)</code></pre>
 </blockquote>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L177" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/core.py#L437" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="img2tensor" class="level3">
 <h3 class="anchored" data-anchor-id="img2tensor">img2Tensor</h3>

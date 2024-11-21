@@ -1,51 +1,60 @@
 {
-  "03_losses.ipynb": {
-    "losses.html": "213a92d8"
-  },
-  "05_transforms.ipynb": {
-    "transforms.html": "a90ccd08"
-  },
-  "06_metrics.ipynb": {
-    "metrics.html": "e026c25a"
-  },
-  "01_data.ipynb": {
-    "data.html": "dc7f490b"
-  },
-  "09_visualize.ipynb": {
-    "visualize.html": "9485bcf4"
-  },
   "index.ipynb": {
-    "index.html": "1c8d069d",
-    "README.md": "6244273c"
+    "README.md": "2d85d6d6",
+    "index.html": "7ab6874d"
   },
-  "08_datasets.ipynb": {
-    "datasets.html": "a11fd21f"
-  },
-  "02_io.ipynb": {
-    "io.html": "d725f6a3"
-  },
-  "00_core.ipynb": {
-    "core.html": "9a0fbf3f"
-  },
-  "07_callbacks.ipynb": {
-    "callbacks.html": "8e97674f"
-  },
-  "04_nets.ipynb": {
-    "nets.html": "3f0b7cb0"
-  },
-  "901_demo_RI2FL_2d.ipynb": {
-    "demo_ri2fl_2d.html": "37a65117"
+  "03_losses.ipynb": {
+    "losses.html": "e24d1d55"
   },
   "902_tutorial_1.ipynb": {
-    "tutorial_1.html": "8c2f4e35"
+    "tutorial_1.html": "b8f26312"
+  },
+  "05_transforms.ipynb": {
+    "transforms.html": "acd4d6c8"
+  },
+  "06_metrics.ipynb": {
+    "metrics.html": "ba5d3b26"
+  },
+  "01_data.ipynb": {
+    "data.html": "361618a1"
   },
   "903_tutorial_2.ipynb": {
-    "tutorial_2.html": "24f41f47"
+    "tutorial_2.html": "6b11871c"
   },
-  "904_tutorial_4.ipynb": {
-    "tutorial_4.html": "2226151f"
+  "09_visualize.ipynb": {
+    "visualize.html": "0eecb505"
+  },
+  "08_datasets.ipynb": {
+    "datasets.html": "4b5946c1"
   },
   "903_tutorial_3.ipynb": {
-    "tutorial_3.html": "31c2fd7a"
+    "tutorial_3.html": "69a76322"
+  },
+  "02_io.ipynb": {
+    "io.html": "c915f456"
+  },
+  "00_core.ipynb": {
+    "core.html": "83973157"
+  },
+  "904_denoising_tutorial.ipynb": {
+    "denoising_tutorial.html": "d377ad31"
+  },
+  "07_callbacks.ipynb": {
+    "callbacks.html": "3e238860"
+  },
+  "04_nets.ipynb": {
+    "nets.html": "90c90c45"
+  },
+  "901_demo_RI2FL_2d.ipynb": {
+    "demo_ri2fl_2d.html": "57813215"
+  },
+  "902_classification_tutorial.ipynb": {
+    "classification_tutorial.html": "1ff8cdc8"
+  },
+  "904_denoising_tutorial_test.ipynb": {
+    "denoising_tutorial_test.html": "e1ed36a7"
+  },
+  "904_denoising_tutorial2.ipynb": {
+    "denoising_tutorial2.html": "35fc1db8"
   }
 }

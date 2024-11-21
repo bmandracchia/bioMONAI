@@ -8,7 +8,7 @@ __all__ = ['MetaResolver', 'BioImageBase', 'BioImage', 'BioImageStack', 'BioImag
            'show_results', 'extract_patches', 'save_patches_grid', 'extract_random_patches', 'save_patches_random',
            'dict2string', 'remove_singleton_dims', 'extract_substacks']
 
-# %% ../nbs/01_data.ipynb 4
+# %% ../nbs/01_data.ipynb 5
 import os
 import numpy as np
 import pandas as pd
@@ -18,6 +18,7 @@ import random
 from aicsimageio import AICSImage
 from aicsimageio.writers import OmeTiffWriter
 from sklearn.model_selection import train_test_split
+from torch import stack as torch_stack
 
 from .core import MetaTensor, torchTensor, BypassNewMeta, DisplayedTransform, torchsqueeze, Path, List, L, torchmax, randint, typedispatch
 from .io import image_reader
@@ -26,19 +27,19 @@ from .visualize import show_images_grid, show_multichannel
 from fastai.data.all import DataLoaders, delegates, RegexLabeller, is_listy, ColReader, ColSplitter
 from fastai.vision.all import DataBlock, CategoryBlock, MultiCategoryBlock, RegressionBlock, TfmdDL, get_image_files, TransformBlock, get_grid, merge, show_image, RandomSplitter, GrandparentSplitter, partial, parent_label
 
-# %% ../nbs/01_data.ipynb 5
+# %% ../nbs/01_data.ipynb 6
 class MetaResolver(type(torchTensor), metaclass=BypassNewMeta):
     """
-    A class to bypass metaclass conflict:
-    https://pytorch-geometric.readthedocs.io/en/latest/_modules/torch_geometric/data/batch.html
+    The `MetaResolver` class addresses metaclass conflicts, ensuring compatibility across different data structures. This is particularly useful when integrating with libraries that have specific metaclass requirements.
     """
     pass
     
 
-# %% ../nbs/01_data.ipynb 6
+# %% ../nbs/01_data.ipynb 7
 class BioImageBase(MetaTensor, metaclass=MetaResolver):
     """
-    A class that represents an image object.
+    Serving as the foundational class for bioimaging data, `BioImageBase` provides core functionalities for image handling. It ensures that instances of specified types are appropriately cast to this class, maintaining consistency in data representation.
+    
     Metaclass casts `x` to this class if it is of type `cls._bypass_type`.
     """
     
@@ -107,9 +108,11 @@ class BioImageBase(MetaTensor, metaclass=MetaResolver):
         """Returns the string representation of the ImageBase instance."""
         return f"BioImageBase{self.as_tensor().__repr__()[6:]}"
 
-# %% ../nbs/01_data.ipynb 7
+# %% ../nbs/01_data.ipynb 8
 class BioImage(BioImageBase):
-    """Subclass of BioImageBase that represents 2D and 3D image objects."""
+    """
+    A subclass of `BioImageBase`, the `BioImage` class is tailored for handling both 2D and 3D image objects. It offers methods to load images from various formats and provides access to image properties such as shape and dimensions.
+    """
     _show_args = {'cmap':'gray'}
     
     @classmethod
@@ -141,17 +144,22 @@ class BioImage(BioImageBase):
     #     return f'{self.__class__.__name__} shape={"x".join([str(d) for d in self.shape])}'
         return f"BioImage{self.as_tensor().__repr__()[6:]}"
 
-# %% ../nbs/01_data.ipynb 9
+# %% ../nbs/01_data.ipynb 10
 class BioImageStack(BioImageBase):
-    """Subclass of BioImageBase that represents a 3D image object."""
+    """
+    Designed for 3D image data, `BioImageStack` extends `BioImageBase` to manage volumetric images effectively. 
+    It includes functionalities for slicing, visualization, and manipulation of 3D data.
+    """
     
     def __repr__(self) -> str:
         """Returns the string representation of the ImageBase instance."""
         return f"BioImageStack{self.as_tensor().__repr__()[6:]}"
 
-# %% ../nbs/01_data.ipynb 11
+# %% ../nbs/01_data.ipynb 12
 class BioImageProject(BioImageBase):
-    """Subclass of BioImageBase that represents a 3D image stack as a 2D image object using maximum intensity projection."""
+    """
+    The `BioImageProject` class represents a 3D image stack as a 2D image using maximum intensity projection. This is particularly useful for visualizing volumetric data in a 2D format, aiding in quick assessments and presentations.
+    """
     _show_args = {'cmap':'gray'}
     
     @classmethod
@@ -181,11 +189,13 @@ class BioImageProject(BioImageBase):
     
     def __repr__(self) -> str:
         """Returns the string representation of the ImageBase instance."""
-        return f"BioImage{self.as_tensor().__repr__()[6:]}"
+        return f"BioImageProject{self.as_tensor().__repr__()[6:]}"
 
-# %% ../nbs/01_data.ipynb 13
+# %% ../nbs/01_data.ipynb 14
 class BioImageMulti(BioImageBase):
-    """Subclass of BioImageBase that represents a multi-channel 2D image object."""
+    """
+    For multi-channel 2D images, `BioImageMulti` extends `BioImageBase` to handle data with multiple channels, such as different fluorescence markers in microscopy images. 
+    """
     
     @classmethod
     def create(cls, fn: (Path, str, L, list, torchTensor), **kwargs) -> torchTensor: 
@@ -216,8 +226,12 @@ class BioImageMulti(BioImageBase):
         return f"BioImageMulti{self.as_tensor().__repr__()[6:]}"
         
 
-# %% ../nbs/01_data.ipynb 18
+# %% ../nbs/01_data.ipynb 20
 class Tensor2BioImage(DisplayedTransform):
+    """
+    The `Tensor2BioImage` transform converts tensors into `BioImageBase` instances, enabling the application of bioimaging-specific methods to tensor data. 
+    This is essential for integrating deep learning models with bioimaging workflows.
+    """
     def __init__(self, cls:BioImageBase=BioImageStack):
         self.cls = cls
 
@@ -229,23 +243,26 @@ class Tensor2BioImage(DisplayedTransform):
         if isinstance(o, torchTensor):
             return self.cls(o)
 
-# %% ../nbs/01_data.ipynb 20
+# %% ../nbs/01_data.ipynb 23
 def BioImageBlock(cls:BioImageBase=BioImage):
-    "A `TransformBlock` for images of `cls`"
+    "A `TransformBlock` tailored for bioimaging data, `BioImageBlock` facilitates the creation of data processing pipelines, including transformations and augmentations specific to bioimaging."
     return TransformBlock(type_tfms=[cls.create, Tensor2BioImage(cls)]) # IntToFloatTensor
 
-# %% ../nbs/01_data.ipynb 21
+# %% ../nbs/01_data.ipynb 24
 class BioDataBlock(DataBlock):
+    """ 
+    The `BioDataBlock` class serves as a generic container to build `Datasets` and `DataLoaders` efficiently. It integrates item and batch transformations, getters, and splitters, simplifying the setup of data pipelines for training and validation.
+    """
     def __init__(self, 
             blocks:list=(BioImageBlock(cls=BioImage), BioImageBlock(cls=BioImage)), # One or more `TransformBlock`s
-            dl_type:TfmdDL=None, # Task specific `TfmdDL`, defaults to `block`'s dl_type or`TfmdDL`
+            dl_type:TfmdDL=None,                                                    # Task specific `TfmdDL`, defaults to `block`'s dl_type or`TfmdDL`
             get_items=get_image_files,
             get_y=None,
             get_x=None,
-            getters:list=None, # Getter functions applied to results of `get_items`
-            n_inp:int=None, # Number of inputs
-            item_tfms:list=None, # `ItemTransform`s, applied on an item 
-            batch_tfms:list=None, # `Transform`s or `RandTransform`s, applied by batch
+            getters:list=None,                                                      # Getter functions applied to results of `get_items`
+            n_inp:int=None,                                                         # Number of inputs
+            item_tfms:list=None,                                                    # `ItemTransform`s, applied on an item 
+            batch_tfms:list=None,                                                   # `Transform`s or `RandTransform`s, applied by batch
             **kwargs, 
         ):
         super().__init__(
@@ -262,24 +279,21 @@ class BioDataBlock(DataBlock):
             )
         
 
-# %% ../nbs/01_data.ipynb 22
+# %% ../nbs/01_data.ipynb 25
 class BioDataLoaders(DataLoaders):
-    "Basic wrapper around several `DataLoader`s with factory methods for biomedical imaging problems"
+    """
+    Basic wrapper around several `DataLoader`s with factory methods for biomedical imaging problems.
+    Managing multiple `DataLoader` instances, `BioDataLoaders` handles data loading for different phases of model training, such as training, validation, and testing. It ensures efficient data handling and supports various batch processing strategies.
+    """
     @classmethod
     @delegates(DataLoaders.from_dblock)
-    def from_source(cls, data_source, show_summary:bool=False, **kwargs):
+    def from_source(cls, 
+                    data_source, # The source of the data to be loaded by the dataloader. This can be any type that is compatible with the dataloading method specified in kwargs (e.g., paths, datasets).
+                    show_summary:bool=False, # If True, print a summary of the BioDataBlock after creation.
+                    **kwargs, # Additional keyword arguments to configure the DataLoader and BioDataBlock. Supported keys include: 'blocks', 'dl_type', 'get_items', 'get_y', 'get_x', 'getters', 'n_inp', 'item_tfms', 'batch_tfms'.
+                    ):
         """
         Create and return a DataLoader from a BioDataBlock using provided keyword arguments.
-        
-        Args:
-            data_source (any): The source of the data to be loaded by the dataloader.
-                                This can be any type that is compatible with the dataloading method 
-                                specified in kwargs (e.g., paths, datasets).
-            show_summary (bool, optional): If True, print a summary of the BioDataBlock after creation.
-                                        Default is False.
-            **kwargs: Additional keyword arguments to configure the DataLoader and BioDataBlock.
-                    Supported keys include: 'blocks', 'dl_type', 'get_items', 'get_y', 
-                    'get_x', 'getters', 'n_inp', 'item_tfms', 'batch_tfms'.
         
         Returns:
             DataLoader: A PyTorch DataLoader object populated with the data from the BioDataBlock.
@@ -410,6 +424,7 @@ class BioDataLoaders(DataLoaders):
         splitter = RandomSplitter(valid_pct, seed=seed) if valid_col is None else ColSplitter(valid_col)        
         ops = { 
             'blocks':       (BioImageBlock(img_cls), y_block),
+            'get_items':    None,
             'splitter':     splitter,
             'get_x':        ColReader(fn_col, pref=pref, suff=suff),
             'get_y':        ColReader(label_col, label_delim=label_delim),
@@ -420,6 +435,7 @@ class BioDataLoaders(DataLoaders):
         return cls.from_source(df, **ops, **kwargs)
     
     @classmethod
+    @delegates(class_from_df)
     def class_from_csv(cls, path, csv_fname='labels.csv', header='infer', delimiter=None, quoting=0, **kwargs):
         "Create from `path/csv_fname` using `fn_col` and `label_col`"
         df = pd.read_csv(Path(path)/csv_fname, header=header, delimiter=delimiter, quoting=quoting)
@@ -446,32 +462,26 @@ BioDataLoaders.class_from_csv = delegates(to=BioDataLoaders.class_from_df)(BioDa
 BioDataLoaders.class_from_path_re = delegates(to=BioDataLoaders.class_from_path_func)(BioDataLoaders.class_from_path_re)
 
 
-# %% ../nbs/01_data.ipynb 24
+# %% ../nbs/01_data.ipynb 35
 from fastai.vision.all import get_image_files
 
-# %% ../nbs/01_data.ipynb 25
-def get_gt(path_gt, gt_file_name="avg50.png"):
+# %% ../nbs/01_data.ipynb 36
+def get_gt(path_gt, # The base directory where the ground truth files are stored, or a file path from which to derive the parent directory.
+           gt_file_name="avg50.png", # The name of the ground truth file.
+           ):
     """
-    Constructs a path to a ground truth file based on the given `path_gt` and `gt_file_name`.
+    The `get_gt` function retrieves ground truth data, essential for supervised learning tasks. 
+    It ensures that the correct labels or annotations are associated with each data sample.
     
-    This function uses a lambda function to create a new path by appending `gt_file_name` to 
+    This function constructs a path to a ground truth file based on the given `path_gt` and `gt_file_name`.    
+    It uses a lambda function to create a new path by appending `gt_file_name` to 
     the parent directory of the input file, as specified by `path_gt`.
-    
-    Parameters:
-        path_gt (str or Path): The base directory where the ground truth files are stored, 
-                               or a file path from which to derive the parent directory.
-        gt_file_name (str, optional): The name of the ground truth file. Defaults to "avg50.png".
     
     Returns:
         callable: A function that takes a single argument (a filename) and returns a Path object 
                    representing the full path to the ground truth file. When called with a filename, 
                    this function constructs the path by combining `path_gt` or the parent directory of 
-                   the filename with `gt_file_name`.
-    
-    Example:
-        If you have a file path like "./data/images/123/image.png" and you want to find the corresponding
-        ground truth file, you might call get_gt("./data/gt_images")(path). This would return a Path object 
-        pointing to "./data/gt_images/123/avg50.png".
+                   the filename with `gt_file_name`. 
     """
     
     # Convert path_gt to Path object if it's a string
@@ -483,8 +493,13 @@ def get_gt(path_gt, gt_file_name="avg50.png"):
     return _fn
 
 
-# %% ../nbs/01_data.ipynb 26
-def get_target(path, same_filename=True, target_file_prefix="target", signal_file_prefix="signal"):
+# %% ../nbs/01_data.ipynb 38
+def get_target(path:str, # The base directory where the files are located. This should be a string representing an absolute or relative path.
+               same_filename=True, #If True, the target file name will match the original file name; otherwise, it will use the specified prefix. 
+               target_file_prefix="target", # The prefix to insert into the target file name if `same_filename` is False. 
+               signal_file_prefix="signal", # The prefix used in the original file names that should be replaced by the target prefix. 
+               relative_path=False, # If True, it indicates that the path is relative to the parent folder in the path where the input files are located.
+               ):
     """
     Constructs and returns functions for generating file paths to "target" files based on given input parameters.
     
@@ -493,12 +508,6 @@ def get_target(path, same_filename=True, target_file_prefix="target", signal_fil
         - `generate_target_path(file_name)`: Generates a path to the target file based on whether `same_filename` is set to True or False.
     
     The main function returns the appropriate helper function based on the value of `same_filename`.
-    
-    Parameters: \n
-        path (str): The base directory where the files are located. This should be a string representing an absolute or relative path.
-        same_filename (bool, optional): If True, the target file name will match the original file name; otherwise, it will use the specified prefix. Defaults to True.
-        target_file_prefix (str, optional): The prefix to insert into the target file name if `same_filename` is False. Defaults to "target".
-        signal_file_prefix (str, optional): The prefix used in the original file names that should be replaced by the target prefix. Defaults to "signal".
     
     Returns: \n
         callable: A function that takes a file name as input and returns its corresponding target file path based on the specified parameters.
@@ -516,23 +525,29 @@ def get_target(path, same_filename=True, target_file_prefix="target", signal_fil
     
     # Define a function to generate the target file path based on the given file name
     def generate_target_path(file_name):
+        
+        base_path = ''
+        
+        if relative_path:
+            base_path = Path(file_name).parents[1]
+                            
         # Extract the base file name
         base_filename = os.path.basename(file_name)
         
         # If same_filename is True, simply return the path joined with the base file name
         if same_filename:
-            return Path(path) / base_filename
+            return base_path / Path(path) / base_filename
         
         # If same_filename is False, construct the target file name and return the path joined with it
         target_filename = construct_target_filename(base_filename)
-        return Path(path) / target_filename
+        return base_path / Path(path) / target_filename
     
     # Return the appropriate function based on the value of same_filename
     return generate_target_path
 
 
 
-# %% ../nbs/01_data.ipynb 30
+# %% ../nbs/01_data.ipynb 42
 def get_noisy_pair(fn):
     """
     Get another "noisy" version of the input file by selecting a file from the same directory.
@@ -562,10 +577,40 @@ def get_noisy_pair(fn):
     return fn2
 
 
-# %% ../nbs/01_data.ipynb 33
+# %% ../nbs/01_data.ipynb 45
+@typedispatch
+def show_batch(x: BioImageBase,     # The input image data.
+               y: BioImageBase,     # The target image data.
+               samples,             # List of sample indices to display.
+               ctxs=None,           # List of contexts for displaying images. If None, create new ones using get_grid().
+               max_n: int=10,       # Maximum number of samples to display. Default is 10.
+               nrows: int=None,     # Number of rows in the grid if ctxs are not provided.
+               ncols: int=None,     # Number of columns in the grid if ctxs are not provided.
+               figsize: tuple=None, # Figure size for the image display.
+               **kwargs,            # Additional keyword arguments to pass to the show method of BioImageBase.
+               ):
+    """
+    Display a batch of images and their corresponding targets.
+    
+    Returns:
+        List[Context]: A list of contexts after displaying the images and targets.
+    """
+    # If ctxs are not provided, create new ones using get_grid()
+    if ctxs is None:
+        ctxs = get_grid(min(len(samples), max_n), nrows=nrows, ncols=ncols, figsize=figsize, double=True)
+    
+    # Loop through the images and targets in pairs (x and y)
+    for i in range(2):
+        # Display each image-target pair in a specific context
+        ctxs[i::2] = [b.show(ctx=c, **kwargs) for b, c, _ in zip(samples.itemgot(i), ctxs[i::2], range(max_n))]
+    
+    return ctxs
+
+
+# %% ../nbs/01_data.ipynb 46
 from fastai.vision.all import TensorCategory
 
-# %% ../nbs/01_data.ipynb 34
+# %% ../nbs/01_data.ipynb 47
 @typedispatch
 def show_batch(x: BioImageBase,      # The input image data.
                y: TensorCategory,    # The target data (categorical labels).
@@ -605,7 +650,7 @@ def show_batch(x: BioImageBase,      # The input image data.
 
 
 
-# %% ../nbs/01_data.ipynb 36
+# %% ../nbs/01_data.ipynb 49
 @typedispatch
 def show_results(x: BioImageBase, # The input image data.
                  y: BioImageBase, # The target label data.
@@ -636,7 +681,7 @@ def show_results(x: BioImageBase, # The input image data.
     return ctxs
 
 
-# %% ../nbs/01_data.ipynb 37
+# %% ../nbs/01_data.ipynb 50
 @typedispatch
 def show_results(x: BioImageBase,       # The input image data.
                 y: TensorCategory,      # The target data (categorical labels).
@@ -670,16 +715,14 @@ def show_results(x: BioImageBase,       # The input image data.
     return ctxs
 
 
-# %% ../nbs/01_data.ipynb 40
-def extract_patches(data, patch_size, overlap):
+# %% ../nbs/01_data.ipynb 54
+def extract_patches(data, # numpy array of the input data (n-dimensional).
+                    patch_size, # tuple of integers defining the size of the patches in each dimension.
+                    overlap, # float (between 0 and 1) indicating overlap between patches.
+                    ):
     """
     Extracts n-dimensional patches from the input data.
-    
-    Parameters:
-    - data: numpy array of the input data (n-dimensional).
-    - patch_size: tuple of integers defining the size of the patches in each dimension.
-    - overlap: float (between 0 and 1) indicating overlap between patches.
-    
+
     Returns:
     - A list of patches as numpy arrays.
     """
@@ -698,22 +741,21 @@ def extract_patches(data, patch_size, overlap):
     
     return patches
 
-# %% ../nbs/01_data.ipynb 42
-def save_patches_grid(data_folder, gt_folder, output_folder, patch_size, overlap, threshold=None, squeeze_input=True, 
-                      squeeze_patches=False, csv_output=True, train_test_split_ratio=0.8):
+# %% ../nbs/01_data.ipynb 57
+def save_patches_grid(data_folder, # Path to the folder containing data files (n-dimensional data).
+                      gt_folder, # Path to the folder containing ground truth (gt) files (n-dimensional data).
+                      output_folder, # Path to the folder where the HDF5 files will be saved.
+                      patch_size, # tuple of integers defining the size of the patches.
+                      overlap, # float (between 0 and 1) defining the overlap between patches.
+                      threshold=None, # If provided, patches with a mean value below this threshold will be discarded.
+                      squeeze_input=True, #
+                      squeeze_patches=False, #
+                      csv_output=True, # If True, a CSV file listing all patch paths is created.
+                      train_test_split_ratio=0.8, # Ratio of data to split into train and test CSV files (e.g., 0.8 for 80% train).
+                      ):
     """
     Loads n-dimensional data from data_folder and gt_folder, generates patches, and saves them into individual HDF5 files.
     Each HDF5 file will have datasets with the structure X/patch_idx and y/patch_idx.
-
-    Parameters:
-    - data_folder: Path to the folder containing data files (n-dimensional data).
-    - gt_folder: Path to the folder containing ground truth (gt) files (n-dimensional data).
-    - output_folder: Path to the folder where the HDF5 files will be saved.
-    - patch_size: tuple of integers defining the size of the patches.
-    - overlap: float (between 0 and 1) defining the overlap between patches.
-    - threshold: float, optional. If provided, patches with a mean value below this threshold will be discarded.
-    - csv_output: bool, optional. If True, a CSV file listing all patch paths is created.
-    - train_test_split_ratio: float, optional. Ratio of data to split into train and test CSV files (e.g., 0.8 for 80% train).
     """
     
     # Ensure output folder exists
@@ -801,7 +843,7 @@ def save_patches_grid(data_folder, gt_folder, output_folder, patch_size, overlap
             print(f"CSV file saved to: {csv_path}")
 
 
-# %% ../nbs/01_data.ipynb 46
+# %% ../nbs/01_data.ipynb 62
 def extract_random_patches(data, patch_size, num_patches):
     """
     Extracts a specified number of random n-dimensional patches from the input data.
@@ -837,7 +879,7 @@ def extract_random_patches(data, patch_size, num_patches):
     return patches
 
 
-# %% ../nbs/01_data.ipynb 47
+# %% ../nbs/01_data.ipynb 63
 def save_patches_random(data_folder,                # Path to the folder containing data files (n-dimensional data).
                         gt_folder,                  # Path to the folder containing ground truth (gt) files (n-dimensional data).
                         output_folder,              # Path to the folder where the HDF5 files will be saved.
@@ -940,7 +982,7 @@ def save_patches_random(data_folder,                # Path to the folder contain
             print(f"CSV file saved to: {csv_path}")
 
 
-# %% ../nbs/01_data.ipynb 50
+# %% ../nbs/01_data.ipynb 66
 def dict2string(d, item_sep="_", key_value_sep="", pad_zeroes=None):
     """
     Transforms a dictionary into a string with customizable separators and optional zero padding for integers.
@@ -962,7 +1004,7 @@ def dict2string(d, item_sep="_", key_value_sep="", pad_zeroes=None):
     return item_sep.join(f"{k}{key_value_sep}{format_value(v)}" for k, v in d.items())
 
 
-# %% ../nbs/01_data.ipynb 52
+# %% ../nbs/01_data.ipynb 68
 def remove_singleton_dims(substack, order):
     """
     Remove dimensions with a size of 1 from both the substack and the order string.
@@ -986,7 +1028,7 @@ def remove_singleton_dims(substack, order):
     substack = substack.reshape(new_shape)  # Remove singleton dimensions
     return substack, new_order
 
-# %% ../nbs/01_data.ipynb 53
+# %% ../nbs/01_data.ipynb 69
 def extract_substacks(input_file, output_dir=None, indices=None, split_dimension=None, squeeze_dims=True, *kwargs):
     """
     Extract substacks from a multidimensional OME-TIFF stack using AICSImageIO.

@@ -81,7 +81,7 @@ class RandCameraNoise(RandTransform):
         self.rs = np.random.RandomState(seed=seed)
         
     def encodes(self, 
-               input_image: BioImageBase, # The original image as a NumPy array.
+               input_image: BioImageBase, # The original image 
                ):
         rs = self.rs
         bioimagetype = type(input_image)
@@ -137,24 +137,29 @@ def _scale_intensity_range(x, mi, ma, eps=1e-20, dtype=np_float32):
 
 # %% ../nbs/05_transforms.ipynb 15
 class ScaleIntensity(Transform):
-    """Percentile-based image normalization."""
+    """Image normalization."""
     def __init__(x, min=0.0, max=1.0, axis=None, eps=1e-20, dtype=np_float32):
         store_attr()
 
     def encodes(self, x: BioImageBase):
         bioimagetype = type(x)
-        return bioimagetype(_scale_intensity_range(x, self.min, self.max, eps=self.eps, dtype=self.dtype))
+        y = _scale_intensity_range(x, x.min(), x.max(), eps=self.eps, dtype=self.dtype)
+        y *= self.max
+        y += self.min
+        return bioimagetype(y)
 
 # %% ../nbs/05_transforms.ipynb 16
 class ScaleIntensityPercentiles(Transform):
     """Percentile-based image normalization."""
-    def __init__(x, pmin=3, pmax=99.8, axis=None, eps=1e-20, dtype=np_float32):
+    def __init__(x, pmin=3, pmax=99.8, axis=None, clip=True, b_min=0.0, b_max=1.0, eps=1e-20, dtype=np_float32):
         store_attr()
 
     def encodes(self, x: BioImageBase):
         bioimagetype = type(x)
         mi = percentile(x, self.pmin, axis=self.axis, keepdims=True)
         ma = percentile(x, self.pmax, axis=self.axis, keepdims=True)
+        if self.clip:
+            return bioimagetype(np.clip(_scale_intensity_range(x, mi, ma, eps=self.eps, dtype=self.dtype), self.b_min, self.b_max))
         return bioimagetype(_scale_intensity_range(x, mi, ma, eps=self.eps, dtype=self.dtype))
 
 

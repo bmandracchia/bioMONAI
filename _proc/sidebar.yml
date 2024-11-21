@@ -13,7 +13,9 @@ website:
       - 08_datasets.ipynb
       - 09_visualize.ipynb
       - 901_demo_RI2FL_2d.ipynb
+      - 902_classification_tutorial.ipynb
       - 902_tutorial_1.ipynb
       - 903_tutorial_2.ipynb
       - 903_tutorial_3.ipynb
-      - 904_tutorial_4.ipynb
+      - 904_denoising_tutorial.ipynb
+      - 904_denoising_tutorial2.ipynb

@@ -4,21 +4,22 @@
 
 # %% auto 0
 __all__ = ['download_medmnist', 'medmnist2df', 'download_file', 'download_dataset', 'download_dataset_from_csv', 'aics_pipeline',
-           'manifest2csv']
+           'manifest2csv', 'split_dataframe', 'add_columns_to_csv']
 
 # %% ../nbs/08_datasets.ipynb 3
 import os
 from pathlib import Path
 
 from pooch import create as pooch_create, retrieve as pooch_retrieve, Decompress, Unzip, Untar
+from sklearn.model_selection import train_test_split
 import quilt3
 import pandas as pd
 import numpy as np
-import medmnist
-
 from PIL import Image
 import tifffile as tiff
 from tqdm import tqdm
+
+import medmnist
 
 
 # %% ../nbs/08_datasets.ipynb 5
@@ -51,20 +52,30 @@ def download_medmnist(dataset: str, # The name of the MedMNIST dataset (e.g., 'p
 
     # Get the appropriate dataset class from MedMNIST
     dataset_class = getattr(medmnist, info['python_class'])
+    
+    # Check if the dataset has already been downloaded and processed
+    dataset_path = os.path.join(output_dir, dataset)
+    if os.path.exists(dataset_path) and len(os.listdir(dataset_path)) > 0:
+        print(f"Dataset '{dataset}' is already downloaded and available in '{dataset_path}'.")
+        if download_only:
+            return info
+        elif save_images:
+            print("Skipping download and image saving, as data already exists.")
+            return None
 
     # Create the output directory if it doesn't exist
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+    if not os.path.exists(dataset_path):
+        os.makedirs(dataset_path)
 
     # Download the datasets
-    train_dataset = dataset_class(split='train', download=True, root=output_dir)
-    val_dataset = dataset_class(split='val', download=True, root=output_dir)
-    test_dataset = dataset_class(split='test', download=True, root=output_dir)
+    train_dataset = dataset_class(split='train', download=True, root=dataset_path)
+    val_dataset = dataset_class(split='val', download=True, root=dataset_path)
+    test_dataset = dataset_class(split='test', download=True, root=dataset_path)
 
     # Save the images into directories by their label
     def save_images(dataset, split):
         """Helper function to save images and labels into directories."""
-        split_dir = os.path.join(output_dir, split)
+        split_dir = os.path.join(dataset_path, split)
         if not os.path.exists(split_dir):
             os.makedirs(split_dir)
 
@@ -89,24 +100,24 @@ def download_medmnist(dataset: str, # The name of the MedMNIST dataset (e.g., 'p
 
     # Save training, validation, and test data if save_images is True
     if save_images:
-        print(f"Saving training images to {output_dir}...")
+        print(f"Saving training images to {dataset_path}...")
         save_images(train_dataset, 'train')
 
-        print(f"Saving validation images to {output_dir}...")
+        print(f"Saving validation images to {dataset_path}...")
         save_images(val_dataset, 'val')
 
-        print(f"Saving test images to {output_dir}...")
+        print(f"Saving test images to {dataset_path}...")
         save_images(test_dataset, 'test')
         
         # Clean up: remove .npz files if present
-        for file in os.listdir(output_dir):
+        for file in os.listdir(dataset_path):
             if file.endswith('.npz'):
-                os.remove(os.path.join(output_dir, file))
+                os.remove(os.path.join(dataset_path, file))
                 print(f"Removed {file}")
 
     # If download_only is True, skip returning the dataset objects and just download the files
     if download_only:
-        print(f"Datasets downloaded to {output_dir}")
+        print(f"Datasets downloaded to {dataset_path}")
         print(f"Dataset info for '{dataset}': {info}")
         return info
 
@@ -143,7 +154,7 @@ def medmnist2df(train_dataset,     # MedMNIST training dataset with images and l
 
 
 # %% ../nbs/08_datasets.ipynb 8
-def download_file(url, output_dir="data", extract=True):
+def download_file(url, output_dir="data", extract=True, hash=None, extract_dir=None):
     """
     Download and optionally decompress a single file using Pooch.
     
@@ -159,9 +170,9 @@ def download_file(url, output_dir="data", extract=True):
     processor = None
     if extract:
         if url.endswith('.zip'):
-            processor = Unzip()
+            processor = Unzip(extract_dir=extract_dir)
         elif url.endswith(('.tar', '.tar.gz', '.tar.bz2', '.tar.xz')):
-            processor = Untar()
+            processor = Untar(extract_dir=extract_dir)
         elif url.endswith(('.gz', '.bz2', '.xz')):
             processor = Decompress()
 
@@ -170,12 +181,12 @@ def download_file(url, output_dir="data", extract=True):
         url=url,
         path=output_dir,
         processor=processor,
-        known_hash=None  # Optional: You can add a checksum for integrity verification
+        known_hash=hash,  # Optional: You can add a checksum for integrity verification
     )
 
     print("The file has been downloaded and saved to:", output_dir)
     if extract:
-        print("Decompression (if needed) has been handled automatically.")
+        print("Extracted files have been saved to:", output_dir+extract_dir)
 
 
 # %% ../nbs/08_datasets.ipynb 9
@@ -322,3 +333,111 @@ def manifest2csv(signal, target, paths=None, train_fraction=0.8, data_save_path=
 
     df_test.to_csv(data_save_path+test, index=False)
     df_train.to_csv(data_save_path+train, index=False)
+
+# %% ../nbs/08_datasets.ipynb 22
+def split_dataframe(input_data, train_fraction=0.7, valid_fraction=0.1, split_column=None, stratify=False, add_is_valid=False, train_path="train.csv", test_path="test.csv", valid_path="valid.csv", data_save_path=None):
+    """
+    Splits a DataFrame or CSV file into train, test, and optional validation sets.
+
+    Parameters:
+    - input_data (str or pd.DataFrame): Path to CSV file or a DataFrame.
+    - train_fraction (float): Proportion of data to use for the training set (0 < train_fraction < 1).
+    - valid_fraction (float): Proportion of data to use for the validation set (0 <= valid_fraction < 1).
+    - split_column (str, optional): Column name that indicates pre-defined split ('train', 'test', 'validation' values expected).
+    - stratify (bool): If True, stratify by split_column during random split if no predefined split is present.
+    - add_is_valid (bool): If True, adds 'is_valid' column in the train set to mark validation samples.
+    - train_path (str): Path to save the training CSV file.
+    - test_path (str): Path to save the test CSV file.
+    - valid_path (str): Path to save the validation CSV file, if created separately.
+    """
+    # Load data
+    if isinstance(input_data, str):
+        df = pd.read_csv(input_data)
+    elif isinstance(input_data, pd.DataFrame):
+        df = input_data.copy()
+    else:
+        raise ValueError("input_data must be a path to a CSV file or a DataFrame")
+    
+    if data_save_path:
+        train_path = os.path.join(data_save_path, train_path)
+        test_path = os.path.join(data_save_path, test_path)
+        valid_path = os.path.join(data_save_path, valid_path)
+
+    # Check if split_column exists and has "train", "test", or "validation" values
+    if split_column and split_column in df.columns:
+        # Use pre-defined split values if available
+        train_df = df[df[split_column] == "train"].copy()
+        test_df = df[df[split_column] == "test"].copy()
+        valid_df = df[df[split_column] == "validation"].copy() if "validation" in df[split_column].unique() else None
+    else:
+        # Otherwise, calculate test and validation splits based on fractions
+        test_fraction = 1.0 - train_fraction - valid_fraction
+        if test_fraction <= 0:
+            raise ValueError("train_fraction and valid_fraction must sum to less than 1.")
+
+        # Randomly split data
+        train_df, temp_df = train_test_split(df, test_size=(1 - train_fraction), stratify=df[split_column] if stratify and split_column else None)
+        train_df = train_df.copy()
+        temp_df = temp_df.copy()
+
+        if valid_fraction > 0:
+            valid_size = valid_fraction / (valid_fraction + test_fraction)
+            valid_df, test_df = train_test_split(temp_df, test_size=(1 - valid_size), stratify=temp_df[split_column] if stratify and split_column else None)
+            valid_df = valid_df.copy()
+            test_df = test_df.copy()
+        else:
+            test_df = temp_df
+            valid_df = None
+
+    # Optionally add 'is_valid' column in train set if valid_fraction > 0
+    if add_is_valid and valid_fraction > 0:
+        train_df.loc[:, 'is_valid'] = 0  # Avoid SettingWithCopyError by using .loc
+        if valid_df is None:
+            # Sample validation rows from the training set if no pre-defined validation split
+            valid_indices = train_df.sample(frac=valid_fraction / train_fraction).index
+            train_df.loc[valid_indices, 'is_valid'] = 1
+        else:
+            print(f"'is_valid' column added to '{train_path}' for validation samples within the training set.")
+    elif valid_df is not None:
+        # Save validation set as a separate CSV if not adding 'is_valid' in training set
+        valid_df.to_csv(valid_path, index=False)
+        print(f"Validation file saved as '{valid_path}'.")
+
+    # Save train and test sets as CSV files
+    train_df.to_csv(train_path, index=False)
+    test_df.to_csv(test_path, index=False)
+    
+    print(f"Train and test files saved as '{train_path}' and '{test_path}' respectively.")
+    if add_is_valid and valid_fraction > 0:
+        print(f"'is_valid' column added to '{train_path}' for validation samples.")
+
+
+# %% ../nbs/08_datasets.ipynb 23
+def add_columns_to_csv(csv_path, column_data, output_path=None):
+    """
+    Adds one or more new columns to an existing CSV file.
+
+    Parameters:
+    - csv_path (str): Path to the input CSV file.
+    - column_data (dict): Dictionary where keys are column names and values are column data.
+      Each value can be a scalar (single value for all rows) or a list matching the number of rows.
+    - output_path (str, optional): Path to save the updated CSV file.
+      If None, it overwrites the input CSV file.
+    """
+    # Load the CSV file into a DataFrame
+    df = pd.read_csv(csv_path)
+
+    # Iterate over each column and add to the DataFrame
+    for column_name, column_values in column_data.items():
+        # Check if column_values is a list and matches DataFrame length
+        if isinstance(column_values, list) and len(column_values) != len(df):
+            raise ValueError(f"Length of values for column '{column_name}' does not match the number of rows in the CSV.")
+        
+        # Add the new column
+        df[column_name] = column_values
+
+    # Save the updated DataFrame to a CSV file
+    output_path = output_path or csv_path
+    df.to_csv(output_path, index=False)
+
+    print(f"Columns {list(column_data.keys())} added successfully. Updated file saved to '{output_path}'")
