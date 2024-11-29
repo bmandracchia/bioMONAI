@@ -86,10 +86,14 @@ def download_medmnist(dataset: str, # The name of the MedMNIST dataset (e.g., 'p
                 os.makedirs(label_dir)
 
             # Save 2D images as .png
-            if info['n_channels'] == 1:  # Check if it's 2D (single-channel)
-                img_path = os.path.join(label_dir, f'{split}_{i}.png')
-                img = Image.fromarray(img.squeeze(), mode='L')  # 'L' mode for grayscale
-                img.save(img_path)
+            if info['n_channels'] == 1:  
+                if img.ndim == 3:   # Check if it's 2D (single-channel)
+                    img_path = os.path.join(label_dir, f'{split}_{i}.png')
+                    img = Image.fromarray(img.squeeze(), mode='L')  # 'L' mode for grayscale
+                    img.save(img_path)
+                elif img.ndim == 4:
+                    img_path = os.path.join(label_dir, f'{split}_{i}.tiff')
+                    tiff.imwrite(img_path, img)
             elif info['n_channels'] == 3:  # Check if it's RGB
                 img_path = os.path.join(label_dir, f'{split}_{i}.png')
                 img.save(img_path)
