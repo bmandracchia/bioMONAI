@@ -18,7 +18,7 @@ from torch import sigmoid
 from monai.losses import SSIMLoss
 
 from scipy.optimize import curve_fit
-from fastai.vision.all import mse, mae, Any
+from fastai.vision.all import mse, mae, CrossEntropyLossFlat, Any
 
 from .metrics import FRCMetric, get_fourier_ring_correlations
 from .core import torchTensor
@@ -264,7 +264,7 @@ class MSSSIML2Loss(torch.nn.Module):
         gaussian_weight = gaussian_weight.expand(batch_size, channels, -1, -1)
         return gaussian_weight
 
-# %% ../nbs/03_losses.ipynb 17
+# %% ../nbs/03_losses.ipynb 18
 class DiceLoss(nn.Module):
 
     """
@@ -317,7 +317,7 @@ class DiceLoss(nn.Module):
         return loss
         
 
-# %% ../nbs/03_losses.ipynb 21
+# %% ../nbs/03_losses.ipynb 22
 def FRCLoss(image1, image2):
 
     """
@@ -334,7 +334,7 @@ def FRCLoss(image1, image2):
     return (1 - FRCMetric(image1, image2))
     
 
-# %% ../nbs/03_losses.ipynb 22
+# %% ../nbs/03_losses.ipynb 23
 def FCRCutoff(image1,image2):
 
 
