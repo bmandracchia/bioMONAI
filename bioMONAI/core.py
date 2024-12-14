@@ -82,7 +82,7 @@ class fastTrainer(Learner):
         if show_summary:
                 print(self.summary())
         if find_lr:
-                self.lr_find(suggest_funcs=find_lr_fn)
+                lr = self.lr_find(suggest_funcs=find_lr_fn)
                 lr = float('%.1g'%(lr))
                 print('Inferred learning rate: ', lr)
 
