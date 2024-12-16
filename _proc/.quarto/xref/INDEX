@@ -56,5 +56,17 @@
   },
   "904_denoising_tutorial2.ipynb": {
     "denoising_tutorial2.html": "35fc1db8"
+  },
+  "903_tutorial_denoising.ipynb": {
+    "tutorial_denoising.html": "ce75516d"
+  },
+  "901_tutorial_classification.ipynb": {
+    "tutorial_classification.html": "75e84c03"
+  },
+  "902_tutorial_classification3D.ipynb": {
+    "tutorial_classification3d.html": "2756b8a9"
+  },
+  "904_tutorial_multispectral_classification.ipynb": {
+    "tutorial_multispectral_classification.html": "4d7d0ec3"
   }
 }
