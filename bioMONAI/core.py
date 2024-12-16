@@ -76,16 +76,15 @@ class fastTrainer(Learner):
                 cbs.append(ShowGraphCallback())
             if csv_log:
                 cbs.append(CSVLogger(fname='history.csv', append=False))
-        if find_lr:
-                lr = self.lr_find(suggest_funcs=find_lr_fn)
-                lr = float('%.1g'%(lr))
-                print('Inferred learning rate: ', lr)
-                
+        
         super().__init__(dataloaders, model, loss_fn, optimizer, lr, splitter, cbs, metrics, path, model_dir, wd, wd_bn_bias, train_bn, moms)
         
         if show_summary:
                 print(self.summary())
-
+        if find_lr:
+                lr = self.lr_find(suggest_funcs=find_lr_fn)
+                self.lr = float('%.1g'%(lr))
+                print('Inferred learning rate: ', self.lr)
 
 # %% ../nbs/00_core.ipynb 23
 def _add_norm(dls, meta, pretrained, n_in=3):
