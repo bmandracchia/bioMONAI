@@ -272,44 +272,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./demo_ri2fl_2d.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Demo: 2D image RI2FL</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./classification_tutorial.html" class="sidebar-item-text sidebar-link">
+  <a href="./tutorial_classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tutorial Classification</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./tutorial_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Tutorial Classification</span></a>
+  <a href="./tutorial_classification3d.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial: 3D Image Classification</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./tutorial_2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Demo: 2D image RI2FL</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./tutorial_3.html" class="sidebar-item-text sidebar-link">
+  <a href="./tutorial_denoising.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tutorial Denoising</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./denoising_tutorial.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Tutorial Denoising</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./denoising_tutorial2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Tutorial Denoising</span></a>
+  <a href="./tutorial_multispectral_classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial Multispectral Classification</span></a>
   </div>
 </li>
     </ul>
@@ -403,32 +385,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="data-types">Data types</h2>
 <p>The module introduces specialized classes to represent various bioimaging data structures, facilitating seamless integration with machine learning workflows.</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L29" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L31" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="metaresolver" class="level3">
 <h3 class="anchored" data-anchor-id="metaresolver">MetaResolver</h3>
 <blockquote class="blockquote">
 <pre><code> MetaResolver (*args, **kwargs)</code></pre>
 </blockquote>
-<p>The <a href="https://bmandracchia.github.io/bioMONAI/data.html#metaresolver"><code>MetaResolver</code></a> class addresses metaclass conflicts, ensuring compatibility across different data structures. This is particularly useful when integrating with libraries that have specific metaclass requirements.</p>
+<p><em>The <a href="https://bmandracchia.github.io/bioMONAI/data.html#metaresolver"><code>MetaResolver</code></a> class addresses metaclass conflicts, ensuring compatibility across different data structures. This is particularly useful when integrating with libraries that have specific metaclass requirements.</em></p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L37" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L39" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="bioimagebase" class="level3">
 <h3 class="anchored" data-anchor-id="bioimagebase">BioImageBase</h3>
 <blockquote class="blockquote">
 <pre><code> BioImageBase (*args, **kwargs)</code></pre>
 </blockquote>
-<p>Serving as the foundational class for bioimaging data, <a href="https://bmandracchia.github.io/bioMONAI/data.html#bioimagebase"><code>BioImageBase</code></a> provides core functionalities for image handling. It ensures that instances of specified types are appropriately cast to this class, maintaining consistency in data representation.</p>
-<p>Metaclass casts <code>x</code> to this class if it is of type <code>cls._bypass_type</code>.</p>
+<p>*Serving as the foundational class for bioimaging data, <a href="https://bmandracchia.github.io/bioMONAI/data.html#bioimagebase"><code>BioImageBase</code></a> provides core functionalities for image handling. It ensures that instances of specified types are appropriately cast to this class, maintaining consistency in data representation.</p>
+<p>Metaclass casts <code>x</code> to this class if it is of type <code>cls._bypass_type</code>.*</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L110" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L112" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="bioimage" class="level3">
 <h3 class="anchored" data-anchor-id="bioimage">BioImage</h3>
 <blockquote class="blockquote">
 <pre><code> BioImage (*args, **kwargs)</code></pre>
 </blockquote>
-<p>A subclass of <a href="https://bmandracchia.github.io/bioMONAI/data.html#bioimagebase"><code>BioImageBase</code></a>, the <a href="https://bmandracchia.github.io/bioMONAI/data.html#bioimage"><code>BioImage</code></a> class is tailored for handling both 2D and 3D image objects. It offers methods to load images from various formats and provides access to image properties such as shape and dimensions.</p>
+<p><em>A subclass of <a href="https://bmandracchia.github.io/bioMONAI/data.html#bioimagebase"><code>BioImageBase</code></a>, the <a href="https://bmandracchia.github.io/bioMONAI/data.html#bioimage"><code>BioImage</code></a> class is tailored for handling both 2D and 3D image objects. It offers methods to load images from various formats and provides access to image properties such as shape and dimensions.</em></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> BioImage.create(<span class="st">'data_examples/example_tiff.tiff'</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -437,14 +419,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L146" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L148" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="bioimagestack" class="level3">
 <h3 class="anchored" data-anchor-id="bioimagestack">BioImageStack</h3>
 <blockquote class="blockquote">
 <pre><code> BioImageStack (*args, **kwargs)</code></pre>
 </blockquote>
-<p>Designed for 3D image data, <a href="https://bmandracchia.github.io/bioMONAI/data.html#bioimagestack"><code>BioImageStack</code></a> extends <a href="https://bmandracchia.github.io/bioMONAI/data.html#bioimagebase"><code>BioImageBase</code></a> to manage volumetric images effectively. It includes functionalities for slicing, visualization, and manipulation of 3D data.</p>
+<p><em>Designed for 3D image data, <a href="https://bmandracchia.github.io/bioMONAI/data.html#bioimagestack"><code>BioImageStack</code></a> extends <a href="https://bmandracchia.github.io/bioMONAI/data.html#bioimagebase"><code>BioImageBase</code></a> to manage volumetric images effectively. It includes functionalities for slicing, visualization, and manipulation of 3D data.</em></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> BioImageStack.create(<span class="st">'data_examples/example_tiff.tiff'</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -453,14 +435,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L157" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L159" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="bioimageproject" class="level3">
 <h3 class="anchored" data-anchor-id="bioimageproject">BioImageProject</h3>
 <blockquote class="blockquote">
 <pre><code> BioImageProject (*args, **kwargs)</code></pre>
 </blockquote>
-<p>The <a href="https://bmandracchia.github.io/bioMONAI/data.html#bioimageproject"><code>BioImageProject</code></a> class represents a 3D image stack as a 2D image using maximum intensity projection. This is particularly useful for visualizing volumetric data in a 2D format, aiding in quick assessments and presentations.</p>
+<p><em>The <a href="https://bmandracchia.github.io/bioMONAI/data.html#bioimageproject"><code>BioImageProject</code></a> class represents a 3D image stack as a 2D image using maximum intensity projection. This is particularly useful for visualizing volumetric data in a 2D format, aiding in quick assessments and presentations.</em></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> BioImageProject.create(<span class="st">'data_examples/example_tiff.tiff'</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>a.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -469,14 +451,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L193" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L195" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="bioimagemulti" class="level3">
 <h3 class="anchored" data-anchor-id="bioimagemulti">BioImageMulti</h3>
 <blockquote class="blockquote">
 <pre><code> BioImageMulti (*args, **kwargs)</code></pre>
 </blockquote>
-<p>For multi-channel 2D images, <a href="https://bmandracchia.github.io/bioMONAI/data.html#bioimagemulti"><code>BioImageMulti</code></a> extends <a href="https://bmandracchia.github.io/bioMONAI/data.html#bioimagebase"><code>BioImageBase</code></a> to handle data with multiple channels, such as different fluorescence markers in microscopy images.</p>
+<p><em>For multi-channel 2D images, <a href="https://bmandracchia.github.io/bioMONAI/data.html#bioimagemulti"><code>BioImageMulti</code></a> extends <a href="https://bmandracchia.github.io/bioMONAI/data.html#bioimagebase"><code>BioImageBase</code></a> to handle data with multiple channels, such as different fluorescence markers in microscopy images.</em></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load a 3D image stack as a multichannel image</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> BioImageMulti.create(<span class="st">'data_examples/example_tiff.tiff'</span>)</span>
@@ -492,41 +474,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="data-conversion">Data conversion</h2>
 <p>To facilitate seamless integration between tensors and bioimaging data structures, the module provides conversion utilities.</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L228" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L230" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="tensor2bioimage" class="level3">
 <h3 class="anchored" data-anchor-id="tensor2bioimage">Tensor2BioImage</h3>
 <blockquote class="blockquote">
 <pre><code> Tensor2BioImage (cls:__main__.BioImageBase=&lt;class
                   '__main__.BioImageStack'&gt;)</code></pre>
 </blockquote>
-<p>The <a href="https://bmandracchia.github.io/bioMONAI/data.html#tensor2bioimage"><code>Tensor2BioImage</code></a> transform converts tensors into <a href="https://bmandracchia.github.io/bioMONAI/data.html#bioimagebase"><code>BioImageBase</code></a> instances, enabling the application of bioimaging-specific methods to tensor data. This is essential for integrating deep learning models with bioimaging workflows.</p>
+<p><em>The <a href="https://bmandracchia.github.io/bioMONAI/data.html#tensor2bioimage"><code>Tensor2BioImage</code></a> transform converts tensors into <a href="https://bmandracchia.github.io/bioMONAI/data.html#bioimagebase"><code>BioImageBase</code></a> instances, enabling the application of bioimaging-specific methods to tensor data. This is essential for integrating deep learning models with bioimaging workflows.</em></p>
 </section>
 </section>
 <section id="data-blocks-and-dataloader" class="level2">
 <h2 class="anchored" data-anchor-id="data-blocks-and-dataloader">Data Blocks and Dataloader</h2>
 <p>The module offers classes to construct data blocks and data loaders, streamlining the preparation of datasets for machine learning models.</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L245" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L247" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="bioimageblock" class="level3">
 <h3 class="anchored" data-anchor-id="bioimageblock">BioImageBlock</h3>
 <blockquote class="blockquote">
 <pre><code> BioImageBlock (cls:__main__.BioImageBase=&lt;class '__main__.BioImage'&gt;)</code></pre>
 </blockquote>
-<p>A <code>TransformBlock</code> tailored for bioimaging data, <a href="https://bmandracchia.github.io/bioMONAI/data.html#bioimageblock"><code>BioImageBlock</code></a> facilitates the creation of data processing pipelines, including transformations and augmentations specific to bioimaging.</p>
+<p><em>A <code>TransformBlock</code> tailored for bioimaging data, <a href="https://bmandracchia.github.io/bioMONAI/data.html#bioimageblock"><code>BioImageBlock</code></a> facilitates the creation of data processing pipelines, including transformations and augmentations specific to bioimaging.</em></p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L250" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L252" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="biodatablock" class="level3">
 <h3 class="anchored" data-anchor-id="biodatablock">BioDataBlock</h3>
 <blockquote class="blockquote">
 <pre><code> BioDataBlock (blocks:list=(&lt;fastai.data.block.TransformBlock object at
-               0x7f34ceca0290&gt;, &lt;fastai.data.block.TransformBlock object
-               at 0x7f33dd4ed690&gt;), dl_type:fastai.data.core.TfmdDL=None,
+               0x7f235ff34890&gt;, &lt;fastai.data.block.TransformBlock object
+               at 0x7f226e927790&gt;), dl_type:fastai.data.core.TfmdDL=None,
                get_items=&lt;function get_image_files&gt;, get_y=None,
                get_x=None, getters:list=None, n_inp:int=None,
                item_tfms:list=None, batch_tfms:list=None, **kwargs)</code></pre>
 </blockquote>
-<p>The <a href="https://bmandracchia.github.io/bioMONAI/data.html#biodatablock"><code>BioDataBlock</code></a> class serves as a generic container to build <code>Datasets</code> and <code>DataLoaders</code> efficiently. It integrates item and batch transformations, getters, and splitters, simplifying the setup of data pipelines for training and validation.</p>
+<p><em>The <a href="https://bmandracchia.github.io/bioMONAI/data.html#biodatablock"><code>BioDataBlock</code></a> class serves as a generic container to build <code>Datasets</code> and <code>DataLoaders</code> efficiently. It integrates item and batch transformations, getters, and splitters, simplifying the setup of data pipelines for training and validation.</em></p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -546,7 +528,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td>blocks</td>
 <td>list</td>
-<td>(&lt;fastai.data.block.TransformBlock object at 0x7f34ceca0290&gt;, &lt;fastai.data.block.TransformBlock object at 0x7f33dd4ed690&gt;)</td>
+<td>(&lt;fastai.data.block.TransformBlock object at 0x7f235ff34890&gt;, &lt;fastai.data.block.TransformBlock object at 0x7f226e927790&gt;)</td>
 <td>One or more <code>TransformBlock</code>s</td>
 </tr>
 <tr class="even">
@@ -606,16 +588,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L281" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L283" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="biodataloaders" class="level3">
 <h3 class="anchored" data-anchor-id="biodataloaders">BioDataLoaders</h3>
 <blockquote class="blockquote">
 <pre><code> BioDataLoaders (*loaders, path:str|pathlib.Path='.', device=None)</code></pre>
 </blockquote>
-<p>Basic wrapper around several <code>DataLoader</code>s with factory methods for biomedical imaging problems. Managing multiple <code>DataLoader</code> instances, <a href="https://bmandracchia.github.io/bioMONAI/data.html#biodataloaders"><code>BioDataLoaders</code></a> handles data loading for different phases of model training, such as training, validation, and testing. It ensures efficient data handling and supports various batch processing strategies.</p>
+<p><em>Basic wrapper around several <code>DataLoader</code>s with factory methods for biomedical imaging problems. Managing multiple <code>DataLoader</code> instances, <a href="https://bmandracchia.github.io/bioMONAI/data.html#biodataloaders"><code>BioDataLoaders</code></a> handles data loading for different phases of model training, such as training, validation, and testing. It ensures efficient data handling and supports various batch processing strategies.</em></p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L288" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L290" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="biodataloaders.from_source" class="level3">
 <h3 class="anchored" data-anchor-id="biodataloaders.from_source">BioDataLoaders.from_source</h3>
@@ -625,9 +607,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
                              val_bs:int=None, shuffle:bool=True,
                              device=None)</code></pre>
 </blockquote>
-<p>Create and return a DataLoader from a BioDataBlock using provided keyword arguments.</p>
+<p>*Create and return a DataLoader from a BioDataBlock using provided keyword arguments.</p>
 <p>Returns: DataLoader: A PyTorch DataLoader object populated with the data from the BioDataBlock. If show_summary is True, it also prints a summary of the datablock after creation.</p>
-<p>Example: &gt;&gt;&gt; dataloader = BioDataLoaders.from_source(data_path, show_summary=True, blocks=‘train’, dl_type=‘ImageDataLoader’)</p>
+<p>Example: &gt;&gt;&gt; dataloader = BioDataLoaders.from_source(data_path, show_summary=True, blocks=‘train’, dl_type=‘ImageDataLoader’)*</p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -689,7 +671,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L327" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L329" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="biodataloaders.from_folder" class="level3">
 <h3 class="anchored" data-anchor-id="biodataloaders.from_folder">BioDataLoaders.from_folder</h3>
@@ -703,7 +685,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
                              val_bs:int=None, shuffle:bool=True,
                              device=None)</code></pre>
 </blockquote>
-<p>Create from dataset in <code>path</code> with <code>train</code> and <code>valid</code> subfolders (or provide <code>valid_pct</code>)</p>
+<p><em>Create from dataset in <code>path</code> with <code>train</code> and <code>valid</code> subfolders (or provide <code>valid_pct</code>)</em></p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -813,7 +795,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L345" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L347" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="biodataloaders.from_df" class="level3">
 <h3 class="anchored" data-anchor-id="biodataloaders.from_df">BioDataLoaders.from_df</h3>
@@ -827,7 +809,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
                          show_summary:bool=False, bs:int=64,
                          val_bs:int=None, shuffle:bool=True, device=None)</code></pre>
 </blockquote>
-<p>Create from <code>df</code> using <code>fn_col</code> and <code>target_col</code></p>
+<p><em>Create from <code>df</code> using <code>fn_col</code> and <code>target_col</code></em></p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -973,7 +955,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L370" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L372" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="biodataloaders.from_csv" class="level3">
 <h3 class="anchored" data-anchor-id="biodataloaders.from_csv">BioDataLoaders.from_csv</h3>
@@ -989,7 +971,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
                           bs:int=64, val_bs:int=None, shuffle:bool=True,
                           device=None)</code></pre>
 </blockquote>
-<p>Create from <code>path/csv_fname</code> using <code>fn_col</code> and <code>target_col</code></p>
+<p><em>Create from <code>path/csv_fname</code> using <code>fn_col</code> and <code>target_col</code></em></p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -1153,7 +1135,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L377" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L379" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="biodataloaders.class_from_folder" class="level3">
 <h3 class="anchored" data-anchor-id="biodataloaders.class_from_folder">BioDataLoaders.class_from_folder</h3>
@@ -1166,7 +1148,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
                                    val_bs:int=None, shuffle:bool=True,
                                    device=None)</code></pre>
 </blockquote>
-<p>Create from dataset in <code>path</code> with <code>train</code> and <code>valid</code> subfolders (or provide <code>valid_pct</code>)</p>
+<p><em>Create from dataset in <code>path</code> with <code>train</code> and <code>valid</code> subfolders (or provide <code>valid_pct</code>)</em></p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -1270,7 +1252,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L415" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L417" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="biodataloaders.class_from_df" class="level3">
 <h3 class="anchored" data-anchor-id="biodataloaders.class_from_df">BioDataLoaders.class_from_df</h3>
@@ -1285,7 +1267,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
                                val_bs:int=None, shuffle:bool=True,
                                device=None)</code></pre>
 </blockquote>
-<p>Create from <code>df</code> using <code>fn_col</code> and <code>label_col</code></p>
+<p><em>Create from <code>df</code> using <code>fn_col</code> and <code>label_col</code></em></p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -1419,7 +1401,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L435" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L439" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="biodataloaders.class_from_csv" class="level3">
 <h3 class="anchored" data-anchor-id="biodataloaders.class_from_csv">BioDataLoaders.class_from_csv</h3>
@@ -1436,7 +1418,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
                                 val_bs:int=None, shuffle:bool=True,
                                 device=None)</code></pre>
 </blockquote>
-<p>Create from <code>path/csv_fname</code> using <code>fn_col</code> and <code>label_col</code></p>
+<p><em>Create from <code>path/csv_fname</code> using <code>fn_col</code> and <code>label_col</code></em></p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -1588,7 +1570,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L442" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L446" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="biodataloaders.class_from_lists" class="level3">
 <h3 class="anchored" data-anchor-id="biodataloaders.class_from_lists">BioDataLoaders.class_from_lists</h3>
@@ -1601,7 +1583,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
                                   val_bs:int=None, shuffle:bool=True,
                                   device=None)</code></pre>
 </blockquote>
-<p>Create from list of <code>fnames</code> and <code>labels</code> in <code>path</code></p>
+<p><em>Create from list of <code>fnames</code> and <code>labels</code> in <code>path</code></em></p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -1710,16 +1692,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="data-getters">Data getters</h2>
 <p>Functions to retrieve specific data components are provided, aiding in the organization and preprocessing of datasets.</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L465" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L469" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="get_gt" class="level3">
 <h3 class="anchored" data-anchor-id="get_gt">get_gt</h3>
 <blockquote class="blockquote">
 <pre><code> get_gt (path_gt, gt_file_name='avg50.png')</code></pre>
 </blockquote>
-<p>The <a href="https://bmandracchia.github.io/bioMONAI/data.html#get_gt"><code>get_gt</code></a> function retrieves ground truth data, essential for supervised learning tasks. It ensures that the correct labels or annotations are associated with each data sample.</p>
+<p>*The <a href="https://bmandracchia.github.io/bioMONAI/data.html#get_gt"><code>get_gt</code></a> function retrieves ground truth data, essential for supervised learning tasks. It ensures that the correct labels or annotations are associated with each data sample.</p>
 <p>This function constructs a path to a ground truth file based on the given <code>path_gt</code> and <code>gt_file_name</code>.<br>
 It uses a lambda function to create a new path by appending <code>gt_file_name</code> to the parent directory of the input file, as specified by <code>path_gt</code>.</p>
-<p>Returns: callable: A function that takes a single argument (a filename) and returns a Path object representing the full path to the ground truth file. When called with a filename, this function constructs the path by combining <code>path_gt</code> or the parent directory of the filename with <code>gt_file_name</code>.</p>
+<p>Returns: callable: A function that takes a single argument (a filename) and returns a Path object representing the full path to the ground truth file. When called with a filename, this function constructs the path by combining <code>path_gt</code> or the parent directory of the filename with <code>gt_file_name</code>.*</p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -1752,7 +1734,7 @@ It uses a lambda function to create a new path by appending <code>gt_file_name</
 </table>
 <p>Similar to <a href="https://bmandracchia.github.io/bioMONAI/data.html#get_gt"><code>get_gt</code></a>, the <a href="https://bmandracchia.github.io/bioMONAI/data.html#get_target"><code>get_target</code></a> function fetches target data for training, validation, or testing, facilitating the preparation of datasets for machine learning models.</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L493" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L497" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="get_target" class="level3">
 <h3 class="anchored" data-anchor-id="get_target">get_target</h3>
@@ -1760,13 +1742,13 @@ It uses a lambda function to create a new path by appending <code>gt_file_name</
 <pre><code> get_target (path:str, same_filename=True, target_file_prefix='target',
              signal_file_prefix='signal', relative_path=False)</code></pre>
 </blockquote>
-<p>Constructs and returns functions for generating file paths to “target” files based on given input parameters.</p>
+<p>*Constructs and returns functions for generating file paths to “target” files based on given input parameters.</p>
 <p>This function defines two nested helper functions within its scope:</p>
 <pre><code>- `construct_target_filename(file_name)`: Constructs a target file name by inserting the specified prefix into the original file name.
 - `generate_target_path(file_name)`: Generates a path to the target file based on whether `same_filename` is set to True or False.</code></pre>
 <p>The main function returns the appropriate helper function based on the value of <code>same_filename</code>.</p>
 <p>Returns:</p>
-<pre><code>callable: A function that takes a file name as input and returns its corresponding target file path based on the specified parameters.</code></pre>
+<pre><code>callable: A function that takes a file name as input and returns its corresponding target file path based on the specified parameters.*</code></pre>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -1831,19 +1813,19 @@ It uses a lambda function to create a new path by appending <code>gt_file_name</
 </div>
 <p>For tasks involving denoising or noise analysis, <a href="https://bmandracchia.github.io/bioMONAI/data.html#get_noisy_pair"><code>get_noisy_pair</code></a> retrieves pairs of clean and noisy data, enabling the training of models to learn noise reduction.</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L547" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L551" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="get_noisy_pair" class="level3">
 <h3 class="anchored" data-anchor-id="get_noisy_pair">get_noisy_pair</h3>
 <blockquote class="blockquote">
 <pre><code> get_noisy_pair (fn)</code></pre>
 </blockquote>
-<p>Get another “noisy” version of the input file by selecting a file from the same directory.</p>
+<p>*Get another “noisy” version of the input file by selecting a file from the same directory.</p>
 <p>This function first retrieves all image files in the directory of the input file <code>fn</code> (excluding subdirectories). It then selects one of these files at random, ensuring that it is not the original file itself to avoid creating a trivial “noisy” pair.</p>
 <p>Parameters:</p>
 <pre><code>fn (Path or str): The path to the original image file. This should be a Path object but accepts string inputs for convenience.</code></pre>
 <p>Returns:</p>
-<pre><code>Path: A Path object pointing to the selected noisy file.</code></pre>
+<pre><code>Path: A Path object pointing to the selected noisy file.*</code></pre>
 </section>
 </section>
 <section id="data-display" class="level2">
@@ -2012,14 +1994,14 @@ It uses a lambda function to create a new path by appending <code>gt_file_name</
 <h2 class="anchored" data-anchor-id="preprocessing">Preprocessing</h2>
 <p>The module provides functions for data preprocessing, including patch extraction and dimensionality reduction, essential for preparing data for machine learning models.</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L715" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L719" target="_blank" style="float:right; font-size:smaller">source</a></p>
 <section id="extract_patches" class="level3">
 <h3 class="anchored" data-anchor-id="extract_patches">extract_patches</h3>
 <blockquote class="blockquote">
 <pre><code> extract_patches (data, patch_size, overlap)</code></pre>
 </blockquote>
-<p>Extracts n-dimensional patches from the input data.</p>
-<p>Returns: - A list of patches as numpy arrays.</p>
+<p>*Extracts n-dimensional patches from the input data.</p>
+<p>Returns: - A list of patches as numpy arrays.*</p>
 <table class="table">
 <colgroup>
 <col style="width: 15%">
@@ -2062,7 +2044,7 @@ It uses a lambda function to create a new path by appending <code>gt_file_name</
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L741" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L745" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="save_patches_grid" class="level3">
 <h3 class="anchored" data-anchor-id="save_patches_grid">save_patches_grid</h3>
@@ -2072,7 +2054,7 @@ It uses a lambda function to create a new path by appending <code>gt_file_name</
                     squeeze_patches=False, csv_output=True,
                     train_test_split_ratio=0.8)</code></pre>
 </blockquote>
-<p>Loads n-dimensional data from data_folder and gt_folder, generates patches, and saves them into individual HDF5 files. Each HDF5 file will have datasets with the structure X/patch_idx and y/patch_idx.</p>
+<p><em>Loads n-dimensional data from data_folder and gt_folder, generates patches, and saves them into individual HDF5 files. Each HDF5 file will have datasets with the structure X/patch_idx and y/patch_idx.</em></p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -2180,18 +2162,18 @@ It uses a lambda function to create a new path by appending <code>gt_file_name</
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L843" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L847" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="extract_random_patches" class="level3">
 <h3 class="anchored" data-anchor-id="extract_random_patches">extract_random_patches</h3>
 <blockquote class="blockquote">
 <pre><code> extract_random_patches (data, patch_size, num_patches)</code></pre>
 </blockquote>
-<p>Extracts a specified number of random n-dimensional patches from the input data.</p>
+<p>*Extracts a specified number of random n-dimensional patches from the input data.</p>
 <p>Parameters: - data: numpy array of the input data (n-dimensional). - patch_size: tuple of integers defining the size of the patches in each dimension. - num_patches: number of random patches to extract.</p>
-<p>Returns: - A list of randomly cropped patches as numpy arrays.</p>
+<p>Returns: - A list of randomly cropped patches as numpy arrays.*</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L879" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L883" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="save_patches_random" class="level3">
 <h3 class="anchored" data-anchor-id="save_patches_random">save_patches_random</h3>
@@ -2201,7 +2183,7 @@ It uses a lambda function to create a new path by appending <code>gt_file_name</
                       squeeze_patches=False, csv_output=True,
                       train_test_split_ratio=0.8)</code></pre>
 </blockquote>
-<p>Loads n-dimensional data from data_folder and gt_folder, generates random patches, and saves them into individual HDF5 files. Each HDF5 file will have datasets with the structure X/patch_idx and y/patch_idx.</p>
+<p><em>Loads n-dimensional data from data_folder and gt_folder, generates random patches, and saves them into individual HDF5 files. Each HDF5 file will have datasets with the structure X/patch_idx and y/patch_idx.</em></p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -2301,16 +2283,16 @@ It uses a lambda function to create a new path by appending <code>gt_file_name</
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L982" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L986" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="dict2string" class="level3">
 <h3 class="anchored" data-anchor-id="dict2string">dict2string</h3>
 <blockquote class="blockquote">
 <pre><code> dict2string (d, item_sep='_', key_value_sep='', pad_zeroes=None)</code></pre>
 </blockquote>
-<p>Transforms a dictionary into a string with customizable separators and optional zero padding for integers.</p>
+<p>*Transforms a dictionary into a string with customizable separators and optional zero padding for integers.</p>
 <p>Parameters: d (dict): The dictionary to convert. item_sep (str): The separator between dictionary items (default is “,”). key_value_sep (str): The separator between keys and values (default is “:”). pad_zeroes (int, optional): The minimum width for integer values, padded with zeros. If None, no padding is applied.</p>
-<p>Returns: str: The formatted dictionary as a string.</p>
+<p>Returns: str: The formatted dictionary as a string.*</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>my_dict <span class="op">=</span> {<span class="st">'C'</span>: <span class="dv">2</span>, <span class="st">'Z'</span>: <span class="dv">30</span>, <span class="st">'S'</span>: <span class="dv">1</span>}</span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> dict2string(my_dict, pad_zeroes<span class="op">=</span><span class="dv">3</span>)</span>
@@ -2320,18 +2302,18 @@ It uses a lambda function to create a new path by appending <code>gt_file_name</
 </div>
 </div>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L1004" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L1008" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="remove_singleton_dims" class="level3">
 <h3 class="anchored" data-anchor-id="remove_singleton_dims">remove_singleton_dims</h3>
 <blockquote class="blockquote">
 <pre><code> remove_singleton_dims (substack, order)</code></pre>
 </blockquote>
-<p>Remove dimensions with a size of 1 from both the substack and the order string.</p>
+<p>*Remove dimensions with a size of 1 from both the substack and the order string.</p>
 <p>Parameters: substack (np.array): The extracted substack data. order (str): The dimension order string (e.g., ‘CZYX’).</p>
-<p>Returns: substack (np.array): The substack with singleton dimensions removed. new_order (str): The updated dimension order string.</p>
+<p>Returns: substack (np.array): The substack with singleton dimensions removed. new_order (str): The updated dimension order string.*</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L1028" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/data.py#L1032" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="extract_substacks" class="level3">
 <h3 class="anchored" data-anchor-id="extract_substacks">extract_substacks</h3>
@@ -2339,8 +2321,8 @@ It uses a lambda function to create a new path by appending <code>gt_file_name</
 <pre><code> extract_substacks (input_file, output_dir=None, indices=None,
                     split_dimension=None, squeeze_dims=True, *kwargs)</code></pre>
 </blockquote>
-<p>Extract substacks from a multidimensional OME-TIFF stack using AICSImageIO.</p>
-<p>Parameters: input_file (str): Path to the input OME-TIFF file. output_dir (str or list): Directory to save the extracted substacks. If a list, the substacks will be saved in the corresponding subdirectories from the list. indices (dict, optional): A dictionary specifying which indices to extract. Keys can include ‘C’ for channel, ‘Z’ for z-slice, ‘T’ for time point, and ‘S’ for scene. If None, all indices are extracted. split_dimension (str, optional): Dimension to split substacks along. If provided, separate substacks will be generated for each index in the split_dimension. Must be one of the keys in indices.</p>
+<p>*Extract substacks from a multidimensional OME-TIFF stack using AICSImageIO.</p>
+<p>Parameters: input_file (str): Path to the input OME-TIFF file. output_dir (str or list): Directory to save the extracted substacks. If a list, the substacks will be saved in the corresponding subdirectories from the list. indices (dict, optional): A dictionary specifying which indices to extract. Keys can include ‘C’ for channel, ‘Z’ for z-slice, ‘T’ for time point, and ‘S’ for scene. If None, all indices are extracted. split_dimension (str, optional): Dimension to split substacks along. If provided, separate substacks will be generated for each index in the split_dimension. Must be one of the keys in indices.*</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>output_dir <span class="op">=</span> <span class="st">"./_test_folder/"</span></span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>subdirs <span class="op">=</span> [output_dir <span class="op">+</span> folder <span class="cf">for</span> folder <span class="kw">in</span> [<span class="st">"channel_0"</span>, <span class="st">"channel_1"</span>, <span class="st">"channel_2"</span>]]</span>

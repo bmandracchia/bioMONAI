@@ -266,44 +266,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./demo_ri2fl_2d.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Demo: 2D image RI2FL</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./classification_tutorial.html" class="sidebar-item-text sidebar-link">
+  <a href="./tutorial_classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tutorial Classification</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./tutorial_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Tutorial Classification</span></a>
+  <a href="./tutorial_classification3d.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial: 3D Image Classification</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./tutorial_2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Demo: 2D image RI2FL</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./tutorial_3.html" class="sidebar-item-text sidebar-link">
+  <a href="./tutorial_denoising.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tutorial Denoising</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./denoising_tutorial.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Tutorial Denoising</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./denoising_tutorial2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Tutorial Denoising</span></a>
+  <a href="./tutorial_multispectral_classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial Multispectral Classification</span></a>
   </div>
 </li>
     </ul>
@@ -327,6 +309,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#aics_pipeline" id="toc-aics_pipeline" class="nav-link" data-scroll-target="#aics_pipeline">aics_pipeline</a></li>
   <li><a href="#dataset-manifest" id="toc-dataset-manifest" class="nav-link" data-scroll-target="#dataset-manifest">Dataset Manifest</a></li>
   <li><a href="#manifest2csv" id="toc-manifest2csv" class="nav-link" data-scroll-target="#manifest2csv">manifest2csv</a></li>
+  <li><a href="#split_dataframe" id="toc-split_dataframe" class="nav-link" data-scroll-target="#split_dataframe">split_dataframe</a></li>
+  <li><a href="#add_columns_to_csv" id="toc-add_columns_to_csv" class="nav-link" data-scroll-target="#add_columns_to_csv">add_columns_to_csv</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/bmandracchia/bioMONAI/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -359,7 +343,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="medmnist-datasets" class="level3">
 <h3 class="anchored" data-anchor-id="medmnist-datasets">MedMNIST Datasets</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L23" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L26" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="download_medmnist" class="level3">
 <h3 class="anchored" data-anchor-id="download_medmnist">download_medmnist</h3>
@@ -367,9 +351,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> download_medmnist (dataset:str, output_dir:str='.',
                     download_only:bool=False, save_images:bool=True)</code></pre>
 </blockquote>
-<p>Downloads the specified MedMNIST dataset and saves the training, validation, and test datasets into the specified output directory. Images are saved as .png for 2D data and multi-page .tiff for 3D data, organized into folders named after their labels.</p>
+<p>*Downloads the specified MedMNIST dataset and saves the training, validation, and test datasets into the specified output directory. Images are saved as .png for 2D data and multi-page .tiff for 3D data, organized into folders named after their labels.</p>
 <p>Args: - dataset: The MedMNIST dataset name (e.g., ‘pathmnist’, ‘bloodmnist’, etc.). - output_dir: Path where the images will be saved. - download_only: If True, only downloads the dataset, no processing or saving. - save_images: If True, save the images in the specified output directory.</p>
-<p>Returns: - None, saves images in the specified output directory if save_images is True.</p>
+<p>Returns: - None, saves images in the specified output directory if save_images is True.*</p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -413,7 +397,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L126" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L133" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="medmnist2df" class="level3">
 <h3 class="anchored" data-anchor-id="medmnist2df">medmnist2df</h3>
@@ -421,8 +405,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> medmnist2df (train_dataset, val_dataset=None, test_dataset=None,
               mode='RGB')</code></pre>
 </blockquote>
-<p>Convert MedMNIST datasets to DataFrames, with images as PIL Image objects and labels as DataFrame columns.</p>
-<p>Missing datasets (if None) are represented by None in the return tuple.</p>
+<p>*Convert MedMNIST datasets to DataFrames, with images as PIL Image objects and labels as DataFrame columns.</p>
+<p>Missing datasets (if None) are represented by None in the return tuple.*</p>
 <table class="table">
 <colgroup>
 <col style="width: 6%">
@@ -475,17 +459,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="download-data-via-pooch" class="level3">
 <h3 class="anchored" data-anchor-id="download-data-via-pooch">Download data via Pooch</h3>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L154" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L161" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="download_file" class="level3">
 <h3 class="anchored" data-anchor-id="download_file">download_file</h3>
 <blockquote class="blockquote">
-<pre><code> download_file (url, output_dir='data', extract=True)</code></pre>
+<pre><code> download_file (url, output_dir='data', extract=True, hash=None,
+                extract_dir=None)</code></pre>
 </blockquote>
-<p>Download and optionally decompress a single file using Pooch.</p>
-<p>Parameters: url (str): Direct URL to the file to be downloaded. output_dir (str): The directory where the downloaded file will be saved. extract (bool): If True, decompresses the file if it’s in a compressed format.</p>
+<p>*Download and optionally decompress a single file using Pooch.</p>
+<p>Parameters: url (str): Direct URL to the file to be downloaded. output_dir (str): The directory where the downloaded file will be saved. extract (bool): If True, decompresses the file if it’s in a compressed format.*</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L190" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L197" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="download_dataset" class="level3">
 <h3 class="anchored" data-anchor-id="download_dataset">download_dataset</h3>
@@ -493,10 +478,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> download_dataset (base_url, expected_checksums, file_names, output_dir,
                    processor=None)</code></pre>
 </blockquote>
-<p>Download a dataset using Pooch and save it to the specified output directory.</p>
-<p>Parameters: base_url (str): The base URL from which the files will be downloaded. expected_checksums (dict): A dictionary mapping file names to their expected checksums. file_names (dict): A dictionary mapping task identifiers to file names. output_dir (str): The directory where the downloaded files will be saved. processor (callable, optional): A function to process the downloaded data. Defaults to None.</p>
+<p>*Download a dataset using Pooch and save it to the specified output directory.</p>
+<p>Parameters: base_url (str): The base URL from which the files will be downloaded. expected_checksums (dict): A dictionary mapping file names to their expected checksums. file_names (dict): A dictionary mapping task identifiers to file names. output_dir (str): The directory where the downloaded files will be saved. processor (callable, optional): A function to process the downloaded data. Defaults to None.*</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L219" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L226" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="download_dataset_from_csv" class="level3">
 <h3 class="anchored" data-anchor-id="download_dataset_from_csv">download_dataset_from_csv</h3>
@@ -504,8 +489,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> download_dataset_from_csv (csv_file, base_url, output_dir,
                             processor=None, rows=None, prepend_mdf5=True)</code></pre>
 </blockquote>
-<p>Download a dataset using Pooch and save it to the specified output directory, reading file names and checksums from a CSV file.</p>
-<p>Parameters: csv_file (str): Path to the CSV file containing file names and checksums. base_url (str): The base URL from which the files will be downloaded. output_dir (str): The directory where the downloaded files will be saved. processor (callable, optional): A function to process the downloaded data. Defaults to None. rows (list of int, optional): Specific row indices to download. If None, download all rows. Defaults to None.</p>
+<p>*Download a dataset using Pooch and save it to the specified output directory, reading file names and checksums from a CSV file.</p>
+<p>Parameters: csv_file (str): Path to the CSV file containing file names and checksums. base_url (str): The base URL from which the files will be downloaded. output_dir (str): The directory where the downloaded files will be saved. processor (callable, optional): A function to process the downloaded data. Defaults to None. rows (list of int, optional): Specific row indices to download. If None, download all rows. Defaults to None.*</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Specify the directory where you want to save the downloaded files</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>output_directory <span class="op">=</span> <span class="st">"./_test_folder"</span></span>
@@ -522,7 +507,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="download-data-via-quiltt4">Download data via Quilt/T4</h3>
 <p>Allen Institute Cell Science (AICS)</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L262" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L269" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="aics_pipeline" class="level3">
 <h3 class="anchored" data-anchor-id="aics_pipeline">aics_pipeline</h3>
@@ -547,7 +532,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="dataset-manifest">Dataset Manifest</h3>
 <p>Make a manifest of all of the files in csv form</p>
 <hr>
-<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L305" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L312" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="manifest2csv" class="level3">
 <h3 class="anchored" data-anchor-id="manifest2csv">manifest2csv</h3>
@@ -559,6 +544,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>manifest2csv(data_manifest[<span class="st">"ChannelNumberBrightfield"</span>],data_manifest[<span class="st">"ChannelNumber405"</span>], image_target_paths, data_save_path<span class="op">=</span><span class="st">'./data_examples/'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L342" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="split_dataframe" class="level3">
+<h3 class="anchored" data-anchor-id="split_dataframe">split_dataframe</h3>
+<blockquote class="blockquote">
+<pre><code> split_dataframe (input_data, train_fraction=0.7, valid_fraction=0.1,
+                  split_column=None, stratify=False, add_is_valid=False,
+                  train_path='train.csv', test_path='test.csv',
+                  valid_path='valid.csv', data_save_path=None)</code></pre>
+</blockquote>
+<p>*Splits a DataFrame or CSV file into train, test, and optional validation sets.</p>
+<p>Parameters: - input_data (str or pd.DataFrame): Path to CSV file or a DataFrame. - train_fraction (float): Proportion of data to use for the training set (0 &lt; train_fraction &lt; 1). - valid_fraction (float): Proportion of data to use for the validation set (0 &lt;= valid_fraction &lt; 1). - split_column (str, optional): Column name that indicates pre-defined split (‘train’, ‘test’, ‘validation’ values expected). - stratify (bool): If True, stratify by split_column during random split if no predefined split is present. - add_is_valid (bool): If True, adds ‘is_valid’ column in the train set to mark validation samples. - train_path (str): Path to save the training CSV file. - test_path (str): Path to save the test CSV file. - valid_path (str): Path to save the validation CSV file, if created separately.*</p>
+<hr>
+<p><a href="https://github.com/bmandracchia/bioMONAI/blob/main/bioMONAI/datasets.py#L420" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="add_columns_to_csv" class="level3">
+<h3 class="anchored" data-anchor-id="add_columns_to_csv">add_columns_to_csv</h3>
+<blockquote class="blockquote">
+<pre><code> add_columns_to_csv (csv_path, column_data, output_path=None)</code></pre>
+</blockquote>
+<p>*Adds one or more new columns to an existing CSV file.</p>
+<p>Parameters: - csv_path (str): Path to the input CSV file. - column_data (dict): Dictionary where keys are column names and values are column data. Each value can be a scalar (single value for all rows) or a list matching the number of rows. - output_path (str, optional): Path to save the updated CSV file. If None, it overwrites the input CSV file.*</p>
 
 
 </section>
