@@ -32,10 +32,10 @@ from .core import get_device
 
 # %% ../nbs/04_nets.ipynb 8
 def create_custom_unet(resnet_version,      # Choose a ResNet model between: 'resnet18', 'resnet34', 'resnet50', 'resnet101', and 'resnet152'.
-                       output_channels,     # Number of output channels.
+                       n_in=1,              # Number of input channels, default is 1 (e.g., grayscale).
+                       n_out=1,               # Number of output channels.
                        img_size=(128, 128), # Tuple for the input image size, default is (128, 128).
                        pretrained=True,     # If True, use a pretrained ResNet backbone.
-                       n_in=1,              # Number of input channels, default is 1 (e.g., grayscale).
                        cut=4,               # The cut point for the ResNet model, default is 4.
                        ):
     """
@@ -61,7 +61,7 @@ def create_custom_unet(resnet_version,      # Choose a ResNet model between: 're
     resnet_fn = resnet_versions[resnet_version]
 
     # Create and return the U-Net model
-    return create_unet_model(resnet_fn, output_channels, img_size, pretrained, n_in=n_in, cut=cut)
+    return create_unet_model(resnet_fn, n_out, img_size, pretrained, n_in=n_in, cut=cut)
 
 
 # %% ../nbs/04_nets.ipynb 10

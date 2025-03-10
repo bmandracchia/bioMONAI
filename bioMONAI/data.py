@@ -50,7 +50,7 @@ class BioImageBase(MetaTensor, metaclass=MetaResolver):
     affine_matrix = None  # Default affine matrix for image transformation
 
     @classmethod
-    def create(cls, fn: (Path, str, List, torchTensor), **kwargs) -> torchTensor: 
+    def create(cls, fn: (Path, str, List, torchTensor), roi=None, **kwargs) -> torchTensor: 
         """
         Opens an image and casts it to BioImageBase object.
         If `fn` is a torchTensor, it's cast to BioImageBase object.
@@ -67,6 +67,9 @@ class BioImageBase(MetaTensor, metaclass=MetaResolver):
         if isinstance(fn, torchTensor):
             return cls(fn)
 
+        if roi is not None:
+            im = image_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder)
+            return im[:,roi[0]:roi[1]]
         return image_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder)
 
     @classmethod
@@ -164,7 +167,7 @@ class BioImageProject(BioImageBase):
     _show_args = {'cmap':'gray'}
     
     @classmethod
-    def create(cls, fn: (Path, str, L, list, torchTensor), **kwargs) -> torchTensor: 
+    def create(cls, fn: (Path, str, L, list, torchTensor), roi=None, **kwargs) -> torchTensor: 
         """
         Opens an image and casts it to BioImageBase object.
         If `fn` is a torchTensor, it's cast to BioImageBase object.
@@ -182,6 +185,9 @@ class BioImageProject(BioImageBase):
             return cls(fn)
 
         img = image_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder)
+        
+        if roi is not None:
+            return torchmax(img[:,roi[0]:roi[1]], dim=1)[0]  # Taking the maximum intensity projection along axis 1
         return torchmax(img, dim=1)[0]  # Taking the maximum intensity projection along axis 1
     
     def show(self, ctx=None, **kwargs):
@@ -199,7 +205,7 @@ class BioImageMulti(BioImageBase):
     """
     
     @classmethod
-    def create(cls, fn: (Path, str, L, list, torchTensor), **kwargs) -> torchTensor: 
+    def create(cls, fn: (Path, str, L, list, torchTensor), roi=None, **kwargs) -> torchTensor: 
         """
         Opens an image and casts it to BioImageBase object.
         If `fn` is a torchTensor, it's cast to BioImageBase object.
@@ -216,7 +222,10 @@ class BioImageMulti(BioImageBase):
         if isinstance(fn, torchTensor):
             return cls(fn)
 
-        return torchsqueeze(image_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder))
+        img = torchsqueeze(image_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder))
+        if roi is not None:
+            return img[roi[0]:roi[1]]
+        return img
     
     def show(self, ctx=None, **kwargs):
         "Show image using `merge(self._show_args, kwargs)`"
@@ -936,7 +945,7 @@ def save_patches_grid(data_folder,                   # Path to the folder contai
             print(f"CSV file saved to: {csv_path}")
 
 
-# %% ../nbs/01_data.ipynb 72
+# %% ../nbs/01_data.ipynb 77
 def extract_random_patches(data_tuple, # tuple of numpy arrays (input data, ground truth data).
                            patch_size, # tuple of integers defining the size of the patches in each dimension.
                            num_patches, # number of random patches to extract.
@@ -978,7 +987,7 @@ def extract_random_patches(data_tuple, # tuple of numpy arrays (input data, grou
     return input_patches, gt_patches
 
 
-# %% ../nbs/01_data.ipynb 73
+# %% ../nbs/01_data.ipynb 78
 def save_patches_random(data_folder,                # Path to the folder containing data files (n-dimensional data).
                         gt_folder,                  # Path to the folder containing ground truth (gt) files (n-dimensional data).
                         output_folder,              # Path to the folder where the HDF5 files will be saved.
@@ -1090,7 +1099,7 @@ def save_patches_random(data_folder,                # Path to the folder contain
             print(f"CSV file saved to: {csv_path}")
 
 
-# %% ../nbs/01_data.ipynb 77
+# %% ../nbs/01_data.ipynb 82
 def dict2string(d, # The dictionary to convert.
                 item_sep="_", # The separator between dictionary items (default is ", ").
                 key_value_sep="", # The separator between keys and values (default is ": ").
@@ -1109,7 +1118,7 @@ def dict2string(d, # The dictionary to convert.
     return item_sep.join(f"{k}{key_value_sep}{format_value(v)}" for k, v in d.items())
 
 
-# %% ../nbs/01_data.ipynb 79
+# %% ../nbs/01_data.ipynb 84
 def remove_singleton_dims(substack, # The extracted substack data.
                           order, # The dimension order string (e.g., 'CZYX').
                           ):
@@ -1131,7 +1140,7 @@ def remove_singleton_dims(substack, # The extracted substack data.
     substack = substack.reshape(new_shape)  # Remove singleton dimensions
     return substack, new_order
 
-# %% ../nbs/01_data.ipynb 80
+# %% ../nbs/01_data.ipynb 85
 def extract_substacks(input_file, # Path to the input OME-TIFF file.
                       output_dir=None, # Directory to save the extracted substacks. If a list, the substacks will be saved in the corresponding subdirectories from the list.
                       indices=None,# A dictionary specifying which indices to extract. Keys can include 'C' for channel, 'Z' for z-slice, 'T' for time point, and 'S' for scene. If None, all indices are extracted.
