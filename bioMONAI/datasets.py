@@ -183,13 +183,6 @@ def download_file(url, # The URL of the file to be downloaded
     )
     
     print("The file has been downloaded and saved to:", os.path.abspath(output_dir))
-    # Get the name of the extraction subdirectory if extract = True
-    if extract:
-        output_dir_len = len(Path(os.path.abspath(output_dir)).parts)
-        file0 = os.path.abspath(downloaded_file[0])
-        extract_dir_abs = os.path.join(*Path(file0).parts[0:output_dir_len+1])
-        print("Extracted files have been saved to:", extract_dir_abs)
-        return extract_dir_abs
 
 # %% ../nbs/08_datasets.ipynb 9
 def download_dataset(base_url, # The base URL from which the files will be downloaded.
@@ -404,7 +397,7 @@ def split_dataframe(input_data, # Path to CSV file or DataFrame
     # Optionally add 'is_valid' column in train set if valid_fraction > 0
     if add_is_valid and valid_fraction > 0:
         train_df.loc[:, 'is_valid'] = 0  # Avoid SettingWithCopyError by using .loc
-        if valid_df is None:
+        if valid_df is not None:
             # Sample validation rows from the training set if no pre-defined validation split
             valid_indices = train_df.sample(frac=valid_fraction / train_fraction).index
             train_df.loc[valid_indices, 'is_valid'] = 1
