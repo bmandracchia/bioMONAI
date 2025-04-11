@@ -381,19 +381,19 @@ def split_dataframe(input_data, # Path to CSV file or DataFrame
             raise ValueError("train_fraction and valid_fraction must sum to less than 1.")
 
         # Randomly split data
-        train_df, temp_df = train_test_split(df, test_size=(1 - train_fraction), stratify=df[split_column] if stratify and split_column else None)
-        train_df = train_df.copy()
+        temp_df, test_df = train_test_split(df, test_size=(test_fraction), stratify=df[split_column] if stratify and split_column else None)
+        test_df = test_df.copy()
         temp_df = temp_df.copy()
 
         if valid_fraction > 0:
-            valid_size = valid_fraction / (valid_fraction + test_fraction)
-            valid_df, test_df = train_test_split(temp_df, test_size=(1 - valid_size), stratify=temp_df[split_column] if stratify and split_column else None)
+            valid_size = valid_fraction / (valid_fraction + train_fraction)
+            train_df, valid_df = train_test_split(temp_df, test_size=(valid_size), stratify=temp_df[split_column] if stratify and split_column else None)
             valid_df = valid_df.copy()
-            test_df = test_df.copy()
+            train_df = train_df.copy()
         else:
-            test_df = temp_df
+            train_df = temp_df
             valid_df = None
-
+            
     # Optionally add 'is_valid' column in train set if valid_fraction > 0
     if add_is_valid and valid_fraction > 0:
         train_df.loc[:, 'is_valid'] = 0  # Avoid SettingWithCopyError by using .loc
