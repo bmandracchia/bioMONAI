@@ -381,26 +381,36 @@ def split_dataframe(input_data, # Path to CSV file or DataFrame
             raise ValueError("train_fraction and valid_fraction must sum to less than 1.")
 
         # Randomly split data
-        train_df, temp_df = train_test_split(df, test_size=(1 - train_fraction), stratify=df[split_column] if stratify and split_column else None)
-        train_df = train_df.copy()
+        temp_df, test_df = train_test_split(df, test_size=(test_fraction), stratify=df[split_column] if stratify and split_column else None)
+        test_df = test_df.copy()
         temp_df = temp_df.copy()
 
+        print('train_fraction:', train_fraction)
+        print('valid_fraction:', valid_fraction)
+        print('test_fraction:', test_fraction)
+        print('temp_df:', temp_df.shape)
+        print('test_df:', test_df.shape)
+        
         if valid_fraction > 0:
-            valid_size = valid_fraction / (valid_fraction + test_fraction)
-            valid_df, test_df = train_test_split(temp_df, test_size=(1 - valid_size), stratify=temp_df[split_column] if stratify and split_column else None)
+            valid_size = valid_fraction / (valid_fraction + train_fraction)
+            print('valid_size:', valid_size)
+            train_df, valid_df = train_test_split(temp_df, test_size=(valid_size), stratify=temp_df[split_column] if stratify and split_column else None)
+            print('train_df:', train_df.shape)
+            print('valid_df:', valid_df.shape)
             valid_df = valid_df.copy()
-            test_df = test_df.copy()
+            train_df = train_df.copy()
         else:
-            test_df = temp_df
+            train_df = temp_df
             valid_df = None
-
+            
     # Optionally add 'is_valid' column in train set if valid_fraction > 0
     if add_is_valid and valid_fraction > 0:
-        train_df.loc[:, 'is_valid'] = 0  # Avoid SettingWithCopyError by using .loc
-        if valid_df is None:
+        train_indices = train_df.index
+        temp_df.loc[train_indices, 'is_valid'] = 0  # Avoid SettingWithCopyError by using .loc
+        if valid_df is not None:
             # Sample validation rows from the training set if no pre-defined validation split
-            valid_indices = train_df.sample(frac=valid_fraction / train_fraction).index
-            train_df.loc[valid_indices, 'is_valid'] = 1
+            valid_indices = valid_df.index
+            temp_df.loc[valid_indices, 'is_valid'] = 1
         else:
             print(f"'is_valid' column added to '{train_path}' for validation samples within the training set.")
     elif valid_df is not None:
@@ -409,7 +419,7 @@ def split_dataframe(input_data, # Path to CSV file or DataFrame
         print(f"Validation file saved as '{valid_path}'.")
 
     # Save train and test sets as CSV files
-    train_df.to_csv(train_path, index=False)
+    temp_df.to_csv(train_path, index=False)
     test_df.to_csv(test_path, index=False)
     
     print(f"Train and test files saved as '{train_path}' and '{test_path}' respectively.")
