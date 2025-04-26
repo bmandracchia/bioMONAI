@@ -22,4 +22,5 @@ dependencies:
   - ipykernel
   - ipywidgets  
   - cudatoolkit=11.8
+  - aicsimageio=4.14.0
 prefix: /home/biagio/miniconda3/envs/bioMONAI-env

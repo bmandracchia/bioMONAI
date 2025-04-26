@@ -8,6 +8,7 @@ channels:
 dependencies:
   - _libgcc_mutex=0.1=main
   - _openmp_mutex=5.1=1_gnu
+  - aicsimageio==4.14.0
   - asttokens=2.0.5=pyhd3eb1b0_0
   - astunparse=1.6.3=py_0
   - atk-1.0=2.36.0=ha1a6a79_0
@@ -295,7 +296,6 @@ dependencies:
   - zlib=1.2.13=h5eee18b_0
   - zstd=1.5.5=hc292b87_0
   - pip:
-      - aicsimageio==4.14.0
       - aicspylibczi==3.1.2
       - aiobotocore
       - aiofiles==23.2.1
