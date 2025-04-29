@@ -385,18 +385,9 @@ def split_dataframe(input_data, # Path to CSV file or DataFrame
         test_df = test_df.copy()
         temp_df = temp_df.copy()
 
-        print('train_fraction:', train_fraction)
-        print('valid_fraction:', valid_fraction)
-        print('test_fraction:', test_fraction)
-        print('temp_df:', temp_df.shape)
-        print('test_df:', test_df.shape)
-        
         if valid_fraction > 0:
             valid_size = valid_fraction / (valid_fraction + train_fraction)
-            print('valid_size:', valid_size)
             train_df, valid_df = train_test_split(temp_df, test_size=(valid_size), stratify=temp_df[split_column] if stratify and split_column else None)
-            print('train_df:', train_df.shape)
-            print('valid_df:', valid_df.shape)
             valid_df = valid_df.copy()
             train_df = train_df.copy()
         else:
@@ -413,6 +404,8 @@ def split_dataframe(input_data, # Path to CSV file or DataFrame
             temp_df.loc[valid_indices, 'is_valid'] = 1
         else:
             print(f"'is_valid' column added to '{train_path}' for validation samples within the training set.")
+        # Make sure 'is_valid' is an integer column
+        temp_df['is_valid'] = temp_df['is_valid'].astype(int)
     elif valid_df is not None:
         # Save validation set as a separate CSV if not adding 'is_valid' in training set
         valid_df.to_csv(valid_path, index=False)
