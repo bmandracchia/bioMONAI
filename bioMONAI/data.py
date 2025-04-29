@@ -359,7 +359,7 @@ class BioDataLoaders(DataLoaders):
         if folder is None:
             target_pref = pref
         else:
-            f'{Path(path)/target_folder}{os.path.sep}'
+            target_pref = f'{Path(path)/target_folder}{os.path.sep}'
         splitter = RandomSplitter(valid_pct, seed=seed) if valid_col is None else ColSplitter(valid_col)        
         target_img_cls = img_cls if target_img_cls is None else target_img_cls
         ops = { 
