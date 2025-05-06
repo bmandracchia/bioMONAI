@@ -36,27 +36,48 @@ collaboration in biomedical research.
 
 ## Installation
 
-To install the bioMONAI environment, follow these steps:
+Before starting, ensure you have **Conda** installed ([Anaconda](https://www.anaconda.com/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html)) on your system.
 
-1.  **Clone the repository:**
+For **Windows** users, it is **highly recommended to install and run BioMONAI within [WSL2 (Windows Subsystem for Linux 2)](https://learn.microsoft.com/en-us/windows/wsl/install)** for optimal compatibility and performance. Additionally, ensure that the NVIDIA CUDA toolkit is properly installed inside WSL2 and that the `nvcc` compiler is available in your environment (`nvcc --version` should return the installed version).
 
-    ``` bash
-    git clone https://github.com/deepclem/biomonai.git
-    cd biomonai
-    ```
+---
 
-2.  **Create a new Conda environment and install dependencies:**
+### Installation Steps
 
-    ``` bash
-    conda env create --file bioMONAI-env.yml
-    ```
+1. **Clone the repository:**
 
-3.  **Activate the environment and install MONAI:**
+   ```bash
+   git clone https://github.com/deepclem/biomonai.git
+   cd biomonai
+   ```
 
-    ``` bash
-    conda activate bioMONAI-env
-    pip install -e .
-    ```
+2. **Create a new Conda environment and install dependencies:**
+
+   ```bash
+   conda env create -f bioMONAI-linux.yml
+   ```
+
+3. **Activate the environment and install BioMONAI in editable mode:**
+
+   ```bash
+   conda activate bioMONAI-env
+   pip install -e .
+   ```
+
+---
+
+### Notes:
+
+* If you are not using WSL2 on Windows, some functionalities may not work as expected.
+* Make sure your system’s CUDA installation is compatible with PyTorch and MONAI.
+* You can verify CUDA availability with:
+
+  ```bash
+  nvcc --version
+  ```
+* Replace `bioMONAI-linux.yml` with a different environment file if you’re using another OS or configuration.
+
+
 
 ## Getting Started
 
@@ -127,6 +148,27 @@ nbs, follow these steps:
 7.  **Push to your fork and create a pull request on GitHub.**
 
 8.  **Wait for the review, and merge if everything looks good!**
+
+## System Requirements
+BioMONAI is built on top of [MONAI](https://monai.io/) and [fastai](https://www.fast.ai/), leveraging their core functionalities while adding features to simplify and enhance the use of AI models in biomedical applications. Despite these additional features, BioMONAI does not introduce extra computational overhead beyond what is required by the underlying frameworks.
+
+As such, the system requirements are aligned with those recommended by MONAI:
+
+- RAM: Minimum 32 GB
+
+- Storage: Minimum 50 GB of available SSD space
+
+- GPU: Highly recommended for efficient training and inference
+
+    - Compatible with NVIDIA GPUs supporting CUDA
+
+    - At least 8 GB of GPU memory recommended
+
+- CPU: Supported, but significantly slower execution compared to GPU
+
+- Operating System: Linux (Ubuntu 20.04+ recommended), macOS, or Windows 10/11
+
+>⚠️ Note: While CPU-only execution is possible, users should expect substantial increases in training and inference time without a GPU.
 
 ## License
 
