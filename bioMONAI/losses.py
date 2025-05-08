@@ -44,30 +44,47 @@ def L1Loss(
 
 # %% ../nbs/03_losses.ipynb 9
 class CombinedLoss:
-    "losses combined"
-    def __init__(self, spatial_dims=2, mse_weight=0.33, mae_weight=0.33):
+    """
+    CombinedLoss computes a weighted combination of SSIM, MSE, and MAE losses.
+
+    This class allows for the combination of three different loss functions:
+    Structural Similarity Index (SSIM), Mean Squared Error (MSE), and Mean Absolute Error (MAE).
+    The weights for MSE and MAE can be adjusted, and the weight for SSIM is automatically 
+    calculated as the remaining weight.
+    
+    CombinedLoss reference paper:
+    Shah, Z. H., Müller, M., Hammer, B., Huser, T., & Schenck, W. (2022, July). 
+    Impact of different loss functions on denoising of microscopic images. 
+    In 2022 International Joint Conference on Neural Networks (IJCNN) (pp. 1-10). IEEE.
+    """
+    def __init__(self, spatial_dims=2,  # Number of spatial dimensions (2 for 2D images, 3 for 3D images)
+                 mse_weight=0.33,       # Weight for the MSE loss component
+                 mae_weight=0.33,       # Weight for the MAE loss component
+                 ):
         store_attr()
         self.SSIM_loss = SSIMLoss(spatial_dims=spatial_dims)
-        self.MSE_loss =  nn.MSELoss()
-        self.MAE_loss =  nn.L1Loss()
+        self.MSE_loss = nn.MSELoss()
+        self.MAE_loss = nn.L1Loss()
         
     def __call__(self, pred, targ):
+        """
+        Compute the combined loss.
+        """
         return (1 - self.mse_weight - self.mae_weight) * self.SSIM_loss(pred, targ) + self.mse_weight * self.MSE_loss(pred, targ) + self.mae_weight * self.MAE_loss(pred, targ)
         
 
 # %% ../nbs/03_losses.ipynb 10
 class MSSSIMLoss(torch.nn.Module):
-    def __init__(self, spatial_dims=2, # Number of spatial dimensions.
-                 window_size: int = 8, # Size of the Gaussian filter for SSIM.
-                 sigma: float = 1.5, # Standard deviation of the Gaussian filter.
-                 reduction: str = "mean", # Specifies the reduction to apply to the output ('mean', 'sum', or 'none').
-                 levels: int = 3, # Number of scales to use for MS-SSIM.
-                 weights=None, # Weights to apply to each scale. If None, default values are used.
+    """
+    Multi-Scale Structural Similarity (MSSSIM) Loss using MONAI's SSIMLoss as the base.
+    """
+    def __init__(self, spatial_dims=2,      # Number of spatial dimensions (2 for 2D images, 3 for 3D images).
+                 window_size: int = 8,      # Size of the Gaussian filter for SSIM.
+                 sigma: float = 1.5,        # Standard deviation of the Gaussian filter.
+                 reduction: str = "mean",   # Specifies the reduction to apply to the output ('mean', 'sum', or 'none').
+                 levels: int = 3,           # Number of scales to use for MS-SSIM.
+                 weights=None,              # Weights to apply to each scale. If None, default values are used.
                  ):
-        """
-        Multi-Scale Structural Similarity (MSSSIM) Loss using MONAI's SSIMLoss as the base.
-
-        """
         super(MSSSIMLoss, self).__init__()
         self.ssim = SSIMLoss(spatial_dims, win_size=window_size, kernel_sigma=sigma, reduction="none")
         self.levels = levels
@@ -115,6 +132,14 @@ class MSSSIMLoss(torch.nn.Module):
 
 # %% ../nbs/03_losses.ipynb 12
 class MSSSIML1Loss(torch.nn.Module):
+    """
+    Multi-Scale Structural Similarity (MSSSIM) with Gaussian-weighted L1 Loss.
+    
+    Reference paper:
+    Zhao, H., Gallo, O., Frosio, I., & Kautz, J. (2016). 
+    Loss functions for image restoration with neural networks. 
+    IEEE Transactions on computational imaging, 3(1), 47-57.
+    """
     def __init__(self, spatial_dims=2, # Number of spatial dimensions.
                  alpha: float = 0.025, #  Weighting factor between MS-SSIM and L1 loss.
                  window_size: int = 8, # Size of the Gaussian filter for SSIM.
@@ -123,10 +148,6 @@ class MSSSIML1Loss(torch.nn.Module):
                  levels: int = 3, # Number of scales to use for MS-SSIM.
                  weights=None, # Weights to apply to each scale. If None, default values are used.
                  ):
-        """
-        Multi-Scale Structural Similarity (MSSSIM) with Gaussian-weighted L1 Loss.
-
-        """
         super(MSSSIML1Loss, self).__init__()
         self.msssim = MSSSIMLoss(spatial_dims=spatial_dims, window_size=window_size, sigma=sigma, 
                                  reduction="none", levels=levels, weights=weights)
@@ -190,6 +211,14 @@ class MSSSIML1Loss(torch.nn.Module):
 
 # %% ../nbs/03_losses.ipynb 14
 class MSSSIML2Loss(torch.nn.Module):
+    """
+    Multi-Scale Structural Similarity (MSSSIM) with Gaussian-weighted L2 Loss.
+
+    Reference paper:
+    Zhao, H., Gallo, O., Frosio, I., & Kautz, J. (2016). 
+    Loss functions for image restoration with neural networks. 
+    IEEE Transactions on computational imaging, 3(1), 47-57.    
+    """
     def __init__(self, spatial_dims=2, # Number of spatial dimensions.
                  alpha: float = 0.1,# Weighting factor between MS-SSIM and L2 loss.
                  window_size: int = 11,# Size of the Gaussian window for SSIM.
@@ -198,10 +227,6 @@ class MSSSIML2Loss(torch.nn.Module):
                  levels: int = 3,# Number of scales to use for MS-SSIM.
                  weights=None,# Weights to apply to each scale. If None, default values are used.
                  ):
-        """
-        Multi-Scale Structural Similarity (MSSSIM) with Gaussian-weighted L2 Loss.
-
-        """
         super(MSSSIML2Loss, self).__init__()
         self.msssim = MSSSIMLoss(spatial_dims=spatial_dims, window_size=window_size, sigma=sigma, reduction="none", levels=levels, weights=weights)
         self.alpha = alpha
@@ -281,7 +306,6 @@ class CrossEntropyLossFlat3D(CrossEntropyLossFlat):
 
 # %% ../nbs/03_losses.ipynb 18
 class DiceLoss(nn.Module):
-
     """
     DiceLoss computes the Sørensen–Dice coefficient loss, which is often used 
     for evaluating the performance of image segmentation algorithms.
