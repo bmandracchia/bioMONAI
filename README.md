@@ -37,61 +37,49 @@ collaboration in biomedical research.
 
 ## Installation
 
-Before starting, ensure you have **Conda** installed
-([Anaconda](https://www.anaconda.com/) or
-[Miniconda](https://docs.conda.io/en/latest/miniconda.html)) on your
-system.
+Before starting, ensure you have **Conda** installed ([Anaconda](https://www.anaconda.com/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html)) on your system.
 
-For **Windows** users, it is **highly recommended to install and run
-BioMONAI within [WSL2 (Windows Subsystem for Linux
-2)](https://learn.microsoft.com/en-us/windows/wsl/install)** for optimal
-compatibility and performance. Additionally, ensure that the NVIDIA CUDA
-toolkit is properly installed inside WSL2 and that the `nvcc` compiler
-is available in your environment (`nvcc --version` should return the
-installed version).
+>For **Windows** users, it is **highly recommended to install and run BioMONAI within [WSL2 (Windows Subsystem for Linux 2)](https://learn.microsoft.com/en-us/windows/wsl/install)** for optimal compatibility and performance. Additionally, ensure that the NVIDIA CUDA toolkit is properly installed inside WSL2 and that the `nvcc` compiler is available in your environment (`nvcc --version` should return the installed version).
 
-------------------------------------------------------------------------
+---
 
 ### Installation Steps
 
-1.  **Clone the repository:**
+1. **Clone the repository:**
 
-    ``` bash
-    git clone https://github.com/deepclem/biomonai.git
-    cd biomonai
-    ```
+   ```bash
+   git clone https://github.com/deepclem/biomonai.git
+   cd biomonai
+   ```
 
-2.  **Create a new Conda environment and install dependencies:**
+2. **Create a new Conda environment and install dependencies:**
 
-    ``` bash
-    conda env create -f bioMONAI-linux.yml
-    ```
+   ```bash
+   conda env create -f bioMONAI-<os>.yml
+   ```
 
-3.  **Activate the environment and install BioMONAI in editable mode:**
+3. **Activate the environment and install BioMONAI in editable mode:**
 
-    ``` bash
-    conda activate bioMONAI-env
-    pip install -e .
-    ```
+   ```bash
+   conda activate biomonai
+   pip install -e .
+   ```
 
-------------------------------------------------------------------------
+---
 
 ### Notes:
 
-- If you are not using WSL2 on Windows, some functionalities may not
-  work as expected.
+* If you are not using WSL2 on Windows, some functionalities may not work as expected.
+* Make sure your system’s CUDA installation is compatible with PyTorch and MONAI.
+* You can verify CUDA availability with:
 
-- Make sure your system’s CUDA installation is compatible with PyTorch
-  and MONAI.
-
-- You can verify CUDA availability with:
-
-  ``` bash
+  ```bash
   nvcc --version
   ```
 
-- Replace `bioMONAI-linux.yml` with a different environment file if
-  you’re using another OS or configuration.
+
+------------------------------------------------------------------------
+
 
 ## Getting Started
 
@@ -165,15 +153,9 @@ nbs, follow these steps:
 
 ## System Requirements
 
-BioMONAI is built on top of [MONAI](https://monai.io/) and
-[fastai](https://www.fast.ai/), leveraging their core functionalities
-while adding features to simplify and enhance the use of AI models in
-biomedical applications. Despite these additional features, BioMONAI
-does not introduce extra computational overhead beyond what is required
-by the underlying frameworks.
+BioMONAI is built on top of [MONAI](https://monai.io/) and [fastai](https://www.fast.ai/), leveraging their core functionalities while adding features to simplify and enhance the use of AI models in biomedical applications. Despite these additional features, BioMONAI does not introduce extra computational overhead beyond what is required by the underlying frameworks.
 
-As such, the system requirements are aligned with those recommended by
-MONAI:
+As such, the system requirements are aligned with those recommended by MONAI:
 
 - RAM: Minimum 32 GB
 
@@ -181,17 +163,15 @@ MONAI:
 
 - GPU: Highly recommended for efficient training and inference
 
-  - Compatible with NVIDIA GPUs supporting CUDA
+    - Compatible with NVIDIA GPUs supporting CUDA
 
-  - At least 8 GB of GPU memory recommended
+    - At least 8 GB of GPU memory recommended
 
 - CPU: Supported, but significantly slower execution compared to GPU
 
-- Operating System: Linux (Ubuntu 20.04+ recommended), macOS, or Windows
-  10/11
+- Operating System: Linux (Ubuntu 20.04+ recommended), macOS, or Windows 10/11
 
-> ⚠️ Note: While CPU-only execution is possible, users should expect
-> substantial increases in training and inference time without a GPU.
+>⚠️ Note: While CPU-only execution is possible, users should expect substantial increases in training and inference time without a GPU.
 
 ## License
 
