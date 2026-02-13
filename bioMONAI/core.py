@@ -8,7 +8,7 @@ __all__ = ['coolwarm', 'warm_cmap', 'read_yaml', 'dictlist_to_funclist', 'fastTr
            'evaluate_model', 'evaluate_classification_model', 'attributesFromDict', 'get_device', 'img2float',
            'img2Tensor', 'apply_transforms']
 
-# %% ../nbs/00_core.ipynb #033f1ecb
+# %% ../nbs/00_core.ipynb #e46d9793
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -30,11 +30,11 @@ from skimage.data import cells3d
 
 import yaml
 
-# %% ../nbs/00_core.ipynb #d8c97ba0
+# %% ../nbs/00_core.ipynb #998b6398
 from torch import squeeze as torchsqueeze, max as torchmax, from_numpy as torch_from_numpy, device as torch_device
 from torch.cuda import is_available as is_cuda_available
 
-# %% ../nbs/00_core.ipynb #8386e2c8
+# %% ../nbs/00_core.ipynb #7ce13c4f
 from collections.abc import MutableSequence
 from typing import MutableSequence
     
@@ -53,14 +53,14 @@ import torch.optim as toptim
 from .datasets import download_medmnist
 
 
-# %% ../nbs/00_core.ipynb #1790012d
+# %% ../nbs/00_core.ipynb #792e9e80
 def read_yaml(yaml_path):
     "Reads a YAML file and returns its contents as a dictionary"
     with open(yaml_path, 'r') as file:
         config = yaml.safe_load(file)
     return config 
 
-# %% ../nbs/00_core.ipynb #98126ea3
+# %% ../nbs/00_core.ipynb #1b0c1421
 def dictlist_to_funclist(transform_dicts):
     transforms = []
     for trans in transform_dicts:
@@ -74,7 +74,7 @@ def dictlist_to_funclist(transform_dicts):
 
     return transforms
 
-# %% ../nbs/00_core.ipynb #57118ac3
+# %% ../nbs/00_core.ipynb #0e561fee
 class fastTrainer(Learner):
     """
     A custom implementation of the FastAI Learner class for training models in bioinformatics applications.
@@ -202,7 +202,7 @@ class fastTrainer(Learner):
             csv_log = csv_log, show_graph = show_graph, show_summary = show_summary          
         )        
 
-# %% ../nbs/00_core.ipynb #8cacdcd1
+# %% ../nbs/00_core.ipynb #8d0023f0
 def _add_norm(dls, meta, pretrained, n_in=3):
     if not pretrained: return
     stats = meta.get('stats')
@@ -218,7 +218,7 @@ def _timm_norm(dls, cfg, pretrained, n_in=3):
         tfm = Normalize.from_stats(cfg['mean'],cfg['std'])
         dls.add_tfms([tfm],'after_batch')
 
-# %% ../nbs/00_core.ipynb #579bf541
+# %% ../nbs/00_core.ipynb #84e632fd
 @delegates(create_vision_model)
 def visionTrainer(  dataloaders: DataLoaders, # The DataLoader objects containing training and validation datasets.
                     model: callable, # A callable model that will be trained on the dataset.
@@ -281,7 +281,7 @@ def visionTrainer(  dataloaders: DataLoaders, # The DataLoader objects containin
     store_attr('model,normalize,n_out,pretrained', self=trainer, **kwargs)
     return trainer
 
-# %% ../nbs/00_core.ipynb #fc4452b3
+# %% ../nbs/00_core.ipynb #cb409798
 def compute_losses(predictions, targets, loss_fn):
     """
     Compute the loss for each prediction-target pair.
@@ -389,13 +389,13 @@ def display_statistics_table(stats, fn_name='', as_dataframe=True):
         header.set_text_props(weight="bold")
         plt.show()
 
-# %% ../nbs/00_core.ipynb #d0c85505
+# %% ../nbs/00_core.ipynb #23aaa747
 # Retrieve the 'coolwarm' colormap
 coolwarm = plt.get_cmap('coolwarm')
 # Create a new colormap using only the warm colors
 warm_cmap = LinearSegmentedColormap.from_list('warm_coolwarm', coolwarm(np.linspace(0.5, 1, coolwarm.N // 2)))
 
-# %% ../nbs/00_core.ipynb #8612b543
+# %% ../nbs/00_core.ipynb #100f90f8
 def evaluate_model(trainer:Learner,                                 # The model trainer object with a get_preds method.
                    test_data:DataLoaders=None,              # DataLoader containing test data.
                    loss=None,                               # Loss function to evaluate prediction-target pairs.
@@ -456,7 +456,7 @@ def evaluate_model(trainer:Learner,                                 # The model 
     return out
 
 
-# %% ../nbs/00_core.ipynb #00b05e24
+# %% ../nbs/00_core.ipynb #e731d02b
 def evaluate_classification_model(trainer:Learner,              # The trained model (learner) to evaluate.
                                   test_data:DataLoaders=None,   # DataLoader with test data for evaluation. If None, the validation dataset is used.
                                   loss_fn=None,                 # Loss function used in the model for ClassificationInterpretation. If None, the loss function is loaded from trainer.
@@ -531,7 +531,7 @@ def evaluate_classification_model(trainer:Learner,              # The trained mo
     return out
 
 
-# %% ../nbs/00_core.ipynb #6bcd8e27
+# %% ../nbs/00_core.ipynb #1367cad5
 def attributesFromDict(d):
     """
     The `attributesFromDict` function simplifies the conversion of dictionary keys and values into object attributes, allowing dynamic attribute creation for configuration objects. This utility is handy for initializing model or dataset configurations directly from dictionaries, improving code readability and maintainability.
@@ -540,7 +540,7 @@ def attributesFromDict(d):
     for n, v in d.items():
         setattr(self, n, v)
 
-# %% ../nbs/00_core.ipynb #d6648d38
+# %% ../nbs/00_core.ipynb #79b0f2ff
 def get_device():
     """
     The `get_device` function is used to detect if the device the code is executed in has got a CUDA-enabled GPU available. 
@@ -548,21 +548,21 @@ def get_device():
     """ 
     return torch_device("cuda" if is_cuda_available() else "cpu")
 
-# %% ../nbs/00_core.ipynb #69ec8ba7
+# %% ../nbs/00_core.ipynb #b36bff99
 def img2float(image, force_copy=False):
     """
     The `img2float` function turns an image into float representation.
     """
     return util.img_as_float(image, force_copy=force_copy)
 
-# %% ../nbs/00_core.ipynb #9f614c96
+# %% ../nbs/00_core.ipynb #b4f70e22
 def img2Tensor(image):
     """
     The `img2Tensor` function turns an image into tensor representation after turning it first into float representation. 
     """
     return torchTensor(img2float(image))
 
-# %% ../nbs/00_core.ipynb #42ea1c75
+# %% ../nbs/00_core.ipynb #03b9905f
 def apply_transforms(image,         # The image to transform
                      transforms,    # A list of transformations to apply
                      ):

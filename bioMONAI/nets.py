@@ -6,7 +6,7 @@
 __all__ = ['create_custom_unet', 'DnCNN', 'DeeplabConfig', 'get_padding', 'interpolate', 'SeparableConv', 'Xception',
            'ASPP_module', 'Deeplab']
 
-# %% ../nbs/04_nets.ipynb #49da1ee5
+# %% ../nbs/04_nets.ipynb #775b485a
 from dataclasses import dataclass, field
 from typing import List, Tuple, Optional, Union
 
@@ -30,7 +30,7 @@ from monai.networks.nets import BasicUNet, AttentionUnet, DynUNet, UNet, BasicUN
 from .core import get_device
 
 
-# %% ../nbs/04_nets.ipynb #01e7453e
+# %% ../nbs/04_nets.ipynb #54bfd02d
 def create_custom_unet(resnet_version,      # Choose a ResNet model between: 'resnet18', 'resnet34', 'resnet50', 'resnet101', and 'resnet152'.
                        n_in=1,              # Number of input channels, default is 1 (e.g., grayscale).
                        n_out=1,               # Number of output channels.
@@ -64,7 +64,7 @@ def create_custom_unet(resnet_version,      # Choose a ResNet model between: 're
     return create_unet_model(resnet_fn, n_out, img_size, pretrained, n_in=n_in, cut=cut)
 
 
-# %% ../nbs/04_nets.ipynb #deddd719
+# %% ../nbs/04_nets.ipynb #654b3fd2
 import torch.nn as nn
 
 class DnCNN(nn.Module):
@@ -127,7 +127,7 @@ class DnCNN(nn.Module):
         return denoised
 
 
-# %% ../nbs/04_nets.ipynb #da0e0705
+# %% ../nbs/04_nets.ipynb #3d10ead9
 @dataclass
 class DeeplabConfig:
     dimensions: int # Number of spatial dimensions
@@ -157,7 +157,7 @@ def interpolate(x: torch_Tensor, # Input tensor
     else:
         raise ValueError(f"Unsupported number of dimensions: {dims}")
 
-# %% ../nbs/04_nets.ipynb #9cd069ab
+# %% ../nbs/04_nets.ipynb #a899d844
 class SeparableConv(nn.Module):
     def __init__(self, config: DeeplabConfig, # Configuration for the Deeplab model
                  inplanes: int, # Number of input channels
@@ -198,7 +198,7 @@ class SeparableConv(nn.Module):
         x = self.pointwise(x)
         return x
 
-# %% ../nbs/04_nets.ipynb #184c98e4
+# %% ../nbs/04_nets.ipynb #81346e35
 class Xception(nn.Module):
     def __init__(self, config: DeeplabConfig, # Configuration for the Deeplab model
                  ):
@@ -257,7 +257,7 @@ class Xception(nn.Module):
 
         return x, low_level_feat
 
-# %% ../nbs/04_nets.ipynb #607939a0
+# %% ../nbs/04_nets.ipynb #d3c463f3
 class ASPP_module(nn.Module):
     def __init__(self, config: DeeplabConfig, # Configuration for the Deeplab model
                  inplanes: int,               # Number of input channels
@@ -276,7 +276,7 @@ class ASPP_module(nn.Module):
         x = self.atrous_convolution(x)
         return self.relu(x)
 
-# %% ../nbs/04_nets.ipynb #5890e074
+# %% ../nbs/04_nets.ipynb #a7845265
 class Deeplab(nn.Module):
     def __init__(self, config: DeeplabConfig):
         super().__init__()
@@ -361,7 +361,7 @@ class Deeplab(nn.Module):
 
         return x
 
-# %% ../nbs/04_nets.ipynb #e3a5710a
+# %% ../nbs/04_nets.ipynb #87809a47
 # class UMamba(DynUNet):
 #     """
 #     A custom subclass of DynUNet that integrates the Mamba layer into the model's bottleneck.

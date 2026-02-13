@@ -6,10 +6,10 @@
 __all__ = ['MSELoss', 'L1Loss', 'CombinedLoss', 'MSSSIMLoss', 'MSSSIML1Loss', 'MSSSIML2Loss', 'CrossEntropyLossFlat3D',
            'DiceLoss', 'FRCLoss', 'FCRCutoff']
 
-# %% ../nbs/03_losses.ipynb #c3e09e36
+# %% ../nbs/03_losses.ipynb #690ce34c
 from .core import store_attr
 
-# %% ../nbs/03_losses.ipynb #d73f5a44
+# %% ../nbs/03_losses.ipynb #97c8e1f9
 import numpy as np
 import torch
 import torch.nn as nn
@@ -25,7 +25,7 @@ from .metrics import FRCMetric, get_fourier_ring_correlations
 from .core import torchTensor
 
 
-# %% ../nbs/03_losses.ipynb #bd256eb0
+# %% ../nbs/03_losses.ipynb #42a19e7f
 def MSELoss(
     inp: Any,
     targ: Any
@@ -34,7 +34,7 @@ def MSELoss(
     return mse(inp, targ)
 
 
-# %% ../nbs/03_losses.ipynb #3a20ed0e
+# %% ../nbs/03_losses.ipynb #c7c84385
 def L1Loss(
     inp: Any,
     targ: Any
@@ -42,7 +42,7 @@ def L1Loss(
     
     return mae(inp, targ)
 
-# %% ../nbs/03_losses.ipynb #ef2b33c6
+# %% ../nbs/03_losses.ipynb #1ce6ddcd
 class CombinedLoss:
     """
     CombinedLoss computes a weighted combination of SSIM, MSE, and MAE losses.
@@ -73,7 +73,7 @@ class CombinedLoss:
         return (1 - self.mse_weight - self.mae_weight) * self.SSIM_loss(pred, targ) + self.mse_weight * self.MSE_loss(pred, targ) + self.mae_weight * self.MAE_loss(pred, targ)
         
 
-# %% ../nbs/03_losses.ipynb #ce3e3567
+# %% ../nbs/03_losses.ipynb #586402fe
 class MSSSIMLoss(torch.nn.Module):
     """
     Multi-Scale Structural Similarity (MSSSIM) Loss using MONAI's SSIMLoss as the base.
@@ -130,7 +130,7 @@ class MSSSIMLoss(torch.nn.Module):
             return msssim
 
 
-# %% ../nbs/03_losses.ipynb #6ba2fd31
+# %% ../nbs/03_losses.ipynb #fabdf2bc
 class MSSSIML1Loss(torch.nn.Module):
     """
     Multi-Scale Structural Similarity (MSSSIM) with Gaussian-weighted L1 Loss.
@@ -209,7 +209,7 @@ class MSSSIML1Loss(torch.nn.Module):
         return gaussian_weight
 
 
-# %% ../nbs/03_losses.ipynb #22b0942b
+# %% ../nbs/03_losses.ipynb #4d74a74d
 class MSSSIML2Loss(torch.nn.Module):
     """
     Multi-Scale Structural Similarity (MSSSIM) with Gaussian-weighted L2 Loss.
@@ -288,7 +288,7 @@ class MSSSIML2Loss(torch.nn.Module):
         gaussian_weight = gaussian_weight.expand(batch_size, channels, -1, -1)
         return gaussian_weight
 
-# %% ../nbs/03_losses.ipynb #200ea798
+# %% ../nbs/03_losses.ipynb #e6e9dbda
 class CrossEntropyLossFlat3D(CrossEntropyLossFlat):
     "Same as `nn.CrossEntropyLoss`, but flattens input and target for 3D inputs."
     def __call__(self, 
@@ -304,7 +304,7 @@ class CrossEntropyLossFlat3D(CrossEntropyLossFlat):
             targ = targ.view(-1)
         return self.func(inp, targ, **kwargs)
 
-# %% ../nbs/03_losses.ipynb #cdfda367
+# %% ../nbs/03_losses.ipynb #53878856
 class DiceLoss(nn.Module):
     """
     DiceLoss computes the Sørensen–Dice coefficient loss, which is often used 
@@ -354,7 +354,7 @@ class DiceLoss(nn.Module):
         return loss
         
 
-# %% ../nbs/03_losses.ipynb #0756db13
+# %% ../nbs/03_losses.ipynb #119713a0
 def FRCLoss(image1,# The first input image.
             image2,# The second input image.
             ):
@@ -369,7 +369,7 @@ def FRCLoss(image1,# The first input image.
     return (1 - FRCMetric(image1, image2))
     
 
-# %% ../nbs/03_losses.ipynb #54868671
+# %% ../nbs/03_losses.ipynb #53b2a382
 def FCRCutoff(image1,# The first input image.
              image2,# The second input image.
              ):
