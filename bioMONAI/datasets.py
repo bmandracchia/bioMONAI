@@ -6,7 +6,7 @@
 __all__ = ['download_medmnist', 'medmnist2df', 'download_file', 'download_dataset', 'download_dataset_from_csv', 'aics_pipeline',
            'manifest2csv', 'split_dataframe', 'add_columns_to_csv']
 
-# %% ../nbs/08_datasets.ipynb #b68dacfc
+# %% ../nbs/08_datasets.ipynb #1e1fb961
 import os
 from pathlib import Path
 
@@ -22,7 +22,23 @@ from tqdm import tqdm
 import medmnist
 
 
-# %% ../nbs/08_datasets.ipynb #f8c6c793
+# %% ../nbs/08_datasets.ipynb #e3beda0d
+import os
+from pathlib import Path
+
+from pooch import create as pooch_create, retrieve as pooch_retrieve, Decompress, Unzip, Untar
+from sklearn.model_selection import train_test_split
+import quilt3
+import pandas as pd
+import numpy as np
+from PIL import Image
+import tifffile as tiff
+from tqdm import tqdm
+
+import medmnist
+
+
+# %% ../nbs/08_datasets.ipynb #f1ba1668
 def download_medmnist(dataset: str, # The name of the MedMNIST dataset (e.g., 'pathmnist', 'bloodmnist', etc.).
                       output_dir: str = '.', # The path to the directory where the datasets will be saved.
                       download_only: bool = False, # If True, only download the dataset into the output directory without processing.
@@ -122,7 +138,7 @@ def download_medmnist(dataset: str, # The name of the MedMNIST dataset (e.g., 'p
     return train_dataset, val_dataset, test_dataset if not save_images else None
 
 
-# %% ../nbs/08_datasets.ipynb #5ebb6b45
+# %% ../nbs/08_datasets.ipynb #7dabe579
 def medmnist2df(train_dataset,     # MedMNIST training dataset with images and labels
                 val_dataset=None,  # (Optional) MedMNIST validation dataset with images and labels
                 test_dataset=None, # (Optional) MedMNIST test dataset with images and labels
@@ -150,7 +166,7 @@ def medmnist2df(train_dataset,     # MedMNIST training dataset with images and l
     return df_train, df_val, df_test
 
 
-# %% ../nbs/08_datasets.ipynb #b02ae5ed
+# %% ../nbs/08_datasets.ipynb #01aef3c1
 def download_file(url, # The URL of the file to be downloaded
                   output_dir="data", # The directory where the downloaded file will be saved
                   extract=True, # If True, decompresses the file if it's in a compressed format
@@ -184,7 +200,7 @@ def download_file(url, # The URL of the file to be downloaded
     
     print("The file has been downloaded and saved to:", os.path.abspath(output_dir))
 
-# %% ../nbs/08_datasets.ipynb #f863c98f
+# %% ../nbs/08_datasets.ipynb #842fd73a
 def download_dataset(base_url, # The base URL from which the files will be downloaded.
                      expected_checksums, #  A dictionary mapping file names to their expected checksums.
                      file_names, # A dictionary mapping task identifiers to file names.
@@ -212,7 +228,7 @@ def download_dataset(base_url, # The base URL from which the files will be downl
     print("The dataset has been successfully downloaded and saved to:", output_dir)
 
 
-# %% ../nbs/08_datasets.ipynb #92af2fc1
+# %% ../nbs/08_datasets.ipynb #7adc019c
 def download_dataset_from_csv(csv_file, # Path to the CSV file containing file names and checksums.
                               base_url, # The base URL from which the files will be downloaded.
                               output_dir, # The directory where the downloaded files will be saved.
@@ -255,7 +271,7 @@ def download_dataset_from_csv(csv_file, # Path to the CSV file containing file n
 
 
 
-# %% ../nbs/08_datasets.ipynb #bc1dcce4
+# %% ../nbs/08_datasets.ipynb #4ffbc63d
 def aics_pipeline(n_images_to_download=40, # Number of images to download
                   image_save_dir=None, # Directory to save the images
                   col="SourceReadPath", # Column name for image paths in the data manifest
@@ -301,7 +317,7 @@ def aics_pipeline(n_images_to_download=40, # Number of images to download
     return downloaded_image_paths, data_manifest
 
 
-# %% ../nbs/08_datasets.ipynb #74a3a42f
+# %% ../nbs/08_datasets.ipynb #1e65c0a8
 def manifest2csv(signal,                # List of paths to signal images
                  target,                # List of paths to target images
                  paths=None,            # List of paths to images
@@ -339,7 +355,7 @@ def manifest2csv(signal,                # List of paths to signal images
     df_test.to_csv(data_save_path+test, index=False)
     df_train.to_csv(data_save_path+train, index=False)
 
-# %% ../nbs/08_datasets.ipynb #1ab23347
+# %% ../nbs/08_datasets.ipynb #ba4e43ae
 def split_dataframe(input_data, # Path to CSV file or DataFrame
                     train_fraction=0.7, # Proportion of data to use for the training set
                     valid_fraction=0.1, # Proportion of data to use for the validation set
@@ -430,7 +446,7 @@ def split_dataframe(input_data, # Path to CSV file or DataFrame
     if add_is_valid and valid_fraction > 0:
         print(f"'is_valid' column added to '{train_path}' for validation samples.")
 
-# %% ../nbs/08_datasets.ipynb #34495584
+# %% ../nbs/08_datasets.ipynb #ceb96ba1
 def add_columns_to_csv(csv_path, # Path to the input CSV file
                        column_data, # Dictionary of column names and values to add. Each value can be a scalar (single value for all rows) or a list matching the number of rows.
                        output_path=None, # Path to save the updated CSV file. If None, it overwrites the input CSV file.

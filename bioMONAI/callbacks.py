@@ -5,7 +5,7 @@
 # %% auto #0
 __all__ = ['MeanLossGraphCallback']
 
-# %% ../nbs/07_callbacks.ipynb #15f149b9
+# %% ../nbs/07_callbacks.ipynb #4bfa38f8
 from fastai.callback.training import ShortEpochCallback, GradientAccumulation
 from fastai.callback.tracker import  EarlyStoppingCallback, SaveModelCallback, ReduceLROnPlateau
 from fastai.callback.schedule import ParamScheduler, SchedCos, SchedExp, SchedLin, SchedNo
@@ -13,7 +13,7 @@ from fastai.callback.core import Callback, range_of, Tensor
 import matplotlib.pyplot as plt
 
 
-# %% ../nbs/07_callbacks.ipynb #96a770f1
+# %% ../nbs/07_callbacks.ipynb #ba157346
 class MeanLossGraphCallback(Callback):
     "Update a graph of training and validation loss"
     order,run_valid=65,False

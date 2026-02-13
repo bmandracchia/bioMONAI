@@ -6,7 +6,7 @@
 __all__ = ['Resample', 'Resize', 'CropND', 'RandCameraNoise', 'Blur', 'ScaleIntensity', 'ScaleIntensityPercentiles',
            'ScaleIntensityVariance', 'RandCrop2D', 'RandCropND', 'RandFlip', 'RandRot90']
 
-# %% ../nbs/05_transforms.ipynb #9df52318
+# %% ../nbs/05_transforms.ipynb #b4108234
 import numpy as np
 import cv2
 import random
@@ -18,7 +18,7 @@ from skimage.transform import resize
 
 from .data import BioImageBase, BioImageStack
 
-# %% ../nbs/05_transforms.ipynb #d6d75e8b
+# %% ../nbs/05_transforms.ipynb #036f623d
 class Resample(Transform):
     """
     A subclass of Spacing that handles image resampling based on specified sampling factors or voxel dimensions.
@@ -51,7 +51,7 @@ class Resample(Transform):
         return resize(img, self.spacing, **self.kwargs)
 
 
-# %% ../nbs/05_transforms.ipynb #8c7f78d8
+# %% ../nbs/05_transforms.ipynb #3c3bb68d
 class Resize(Transform):
     """
     A subclass of Reshape that handles image resizing based on specified target dimensions.
@@ -103,7 +103,7 @@ class Resize(Transform):
         return resize(img, expanded_size, **self.kwargs)
 
 
-# %% ../nbs/05_transforms.ipynb #259e7d74
+# %% ../nbs/05_transforms.ipynb #7c9da64f
 class CropND(Transform):
     """
     Crops an ND tensor along a specified dimension.
@@ -145,7 +145,7 @@ class CropND(Transform):
                     slices[dim] = s
         return x[tuple(slices)]
 
-# %% ../nbs/05_transforms.ipynb #f61925af
+# %% ../nbs/05_transforms.ipynb #0cc2be91
 class RandCameraNoise(RandTransform):
     """
     Simulates camera noise by adding Poisson shot noise, dark current noise, and optionally CMOS fixed pattern noise.
@@ -216,7 +216,7 @@ class RandCameraNoise(RandTransform):
         return bioimagetype(adu)
 
 
-# %% ../nbs/05_transforms.ipynb #ef974f3e
+# %% ../nbs/05_transforms.ipynb #01490e12
 class Blur(RandTransform):
     """Apply Gaussian blur to the image."""
     split_idx,order = None,1
@@ -231,7 +231,7 @@ class Blur(RandTransform):
     def encodes(self, x: np.ndarray):
         return cv2.GaussianBlur(x, (self.ksize, self.ksize), self.sigma)
 
-# %% ../nbs/05_transforms.ipynb #5cc6f7bd
+# %% ../nbs/05_transforms.ipynb #e7fa1514
 def _scale_intensity_range(x,   # The input image to scale.
                            mi,  # The minimum intensity value.
                            ma,  # The maximum intensity value.
@@ -246,7 +246,7 @@ def _scale_intensity_range(x,   # The input image to scale.
         x = (x - mi) / (ma - mi + eps)
     return x
 
-# %% ../nbs/05_transforms.ipynb #80147844
+# %% ../nbs/05_transforms.ipynb #5b439d5d
 class ScaleIntensity(Transform):
     """Image normalization."""
     def __init__(x,                 # The input image to scale.
@@ -275,7 +275,7 @@ class ScaleIntensity(Transform):
         return y.astype(self.dtype)
 
 
-# %% ../nbs/05_transforms.ipynb #a1e69d2c
+# %% ../nbs/05_transforms.ipynb #3375a5b7
 class ScaleIntensityPercentiles(Transform):
     """Percentile-based image normalization."""
     def __init__(x,                 # The input image to scale.
@@ -311,7 +311,7 @@ class ScaleIntensityPercentiles(Transform):
         return scaled
 
 
-# %% ../nbs/05_transforms.ipynb #50035d18
+# %% ../nbs/05_transforms.ipynb #d98ca0f7
 class ScaleIntensityVariance(Transform):
     """
     Scales the intensity variance of an ND image to a target value.
@@ -348,7 +348,7 @@ class ScaleIntensityVariance(Transform):
         return (x - mean) * scale_factor
 
 
-# %% ../nbs/05_transforms.ipynb #28fd2b0c
+# %% ../nbs/05_transforms.ipynb #2b54f615
 def _process_sz(size, ndim=3):
     if isinstance(size,int): 
         size=(size,)*ndim
@@ -359,7 +359,7 @@ def _get_sz(x):
     if not isinstance(x, Tensor): return fastuple(x.size)
     return fastuple(getattr(x, 'img_size', getattr(x, 'sz', (x.shape[1:])))) # maybe it should swap x and y axes 
 
-# %% ../nbs/05_transforms.ipynb #5c3f5b15
+# %% ../nbs/05_transforms.ipynb #d9a4a8d1
 class RandCrop2D(RandTransform):
     """
     Randomly crops a 2D image to a specified size.
@@ -407,7 +407,7 @@ class RandCrop2D(RandTransform):
 
         return x[x_start:x_end, y_start:y_end]
 
-# %% ../nbs/05_transforms.ipynb #36586058
+# %% ../nbs/05_transforms.ipynb #0232a1e4
 class RandCropND(RandTransform):
     """
     Randomly crops an ND image to a specified size.
@@ -460,7 +460,7 @@ class RandCropND(RandTransform):
         return x[slices]
     
 
-# %% ../nbs/05_transforms.ipynb #a19dbe1f
+# %% ../nbs/05_transforms.ipynb #5d0e3816
 class RandFlip(RandTransform):
     """
     Randomly flips an ND image over a specified axis.
@@ -502,7 +502,7 @@ class RandFlip(RandTransform):
         return x
         
 
-# %% ../nbs/05_transforms.ipynb #f7999ac8
+# %% ../nbs/05_transforms.ipynb #ba983dfd
 class RandRot90(RandTransform):
     """
     Randomly rotate an ND image by 90 degrees in the plane specified by axes.

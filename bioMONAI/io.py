@@ -6,20 +6,20 @@
 __all__ = ['write_image', 'tiff2torch', 'string2dict', 'split_path', 'aics_image_reader', 'split_hdf_path', 'hdf5_reader',
            'image_reader']
 
-# %% ../nbs/02_io.ipynb #8598f463
+# %% ../nbs/02_io.ipynb #8cbf37b5
 from typing import Any
 
 from fastai.vision.all import *
 from fastai.data.all import *
 from torchio import ScalarImage, ToCanonical, Resample
-from aicsimageio import AICSImage
-from aicsimageio.writers.writer import Writer as writer
+from bioio import BioImage as AICSImage
+from bioio import Writer as writer
 import h5py
 import numpy as np
 
 from .core import torchTensor, torch_from_numpy, L
 
-# %% ../nbs/02_io.ipynb #d36eb688
+# %% ../nbs/02_io.ipynb #72782b9f
 def write_image(data, file_path, dimension_order="TCZYX"):
     """
     Writes an image to a file.
@@ -44,7 +44,7 @@ def write_image(data, file_path, dimension_order="TCZYX"):
         print(f"An error occurred while saving the image: {e}")
 
 
-# %% ../nbs/02_io.ipynb #472a752f
+# %% ../nbs/02_io.ipynb #aca4bab3
 def tiff2torch(file_path: str):
     '''
     Load tiff into pytorch tensor
@@ -54,7 +54,7 @@ def tiff2torch(file_path: str):
     img = np.array(tiff.imread(file_path))
     return torch_from_numpy(img)
 
-# %% ../nbs/02_io.ipynb #2c1b863e
+# %% ../nbs/02_io.ipynb #b730fc90
 def string2dict(input_string:str):
     # Create an empty dictionary
     result_dict = {}
@@ -77,7 +77,7 @@ def string2dict(input_string:str):
                 
     return result_dict
 
-# %% ../nbs/02_io.ipynb #eb8ae0bf
+# %% ../nbs/02_io.ipynb #0df1e0e4
 def split_path(file_path, # The path to the file to split
                    exts:(L, list)=['.ome.tiff', '.tiff', '.tif', '.png'] # List of filename extensions 
                    ):
@@ -92,7 +92,7 @@ def split_path(file_path, # The path to the file to split
         ind_dict = string2dict(p[1])
     return path, ind_dict
 
-# %% ../nbs/02_io.ipynb #51227a08
+# %% ../nbs/02_io.ipynb #4751d3a3
 class aics_image_reader():
     def __init__(self,
                  ind_dict=None, # Dictionary indicating the channels to load
@@ -149,7 +149,7 @@ class aics_image_reader():
         return data, affine
 
 
-# %% ../nbs/02_io.ipynb #67f0c558
+# %% ../nbs/02_io.ipynb #e4531b6b
 def split_hdf_path(file_path, # The path to the HDF5 file to split
                    hdf5_exts:(L, list)=['.h5','.hdf5'] # List of filename extensions 
                    ):
@@ -165,7 +165,7 @@ def split_hdf_path(file_path, # The path to the HDF5 file to split
         patch = int(patch)
     return path, dataset, patch
 
-# %% ../nbs/02_io.ipynb #e3783d29
+# %% ../nbs/02_io.ipynb #7fe7adf5
 class hdf5_reader():
     def __init__(self,
                  dataset=None, # The dataset to load
@@ -210,7 +210,7 @@ class hdf5_reader():
         return data, affine
 
 
-# %% ../nbs/02_io.ipynb #26028a42
+# %% ../nbs/02_io.ipynb #c5ea9585
 def _preprocess(obj, # The object to preprocess
                 reorder, # Whether to reorder the object
                 resample # Whether to resample the object
@@ -239,7 +239,7 @@ def _preprocess(obj, # The object to preprocess
     return obj, original_size
 
 
-# %% ../nbs/02_io.ipynb #86439080
+# %% ../nbs/02_io.ipynb #39f1864d
 def _load_and_preprocess(file_path, # Image file path
                          reorder=False, # Whether to reorder data for canonical (RAS+) orientation
                          resample=False, # Whether to resample image to different voxel sizes and dimensions
@@ -289,7 +289,7 @@ def _load_and_preprocess(file_path, # Image file path
     return org_img, input_img, org_size
 
 
-# %% ../nbs/02_io.ipynb #9bb66a66
+# %% ../nbs/02_io.ipynb #433d4085
 def _multi_sequence(image_paths: (L, list), # List of image paths (e.g., T1, T2, T1CE, DWI)
                    dtype=torchTensor, # Desired datatype for output
                    only_tensor: bool = True, # Whether to return only image tensor
@@ -324,7 +324,7 @@ def _multi_sequence(image_paths: (L, list), # List of image paths (e.g., T1, T2,
     input_img.set_data(tensor)
     return org_img, input_img, org_size
 
-# %% ../nbs/02_io.ipynb #fc780d1b
+# %% ../nbs/02_io.ipynb #2fd71c53
 def image_reader(file_path: (str, Path, L, list), # Path to the image
                dtype=torchTensor, # Datatype for the return value. Defaults to torchTensor
                only_tensor: bool = True, # To return only an image tensor

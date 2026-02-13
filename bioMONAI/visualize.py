@@ -6,7 +6,7 @@
 __all__ = ['plot_image', 'show_multichannel', 'mosaic_image_3d', 'show_images_grid', 'show_plane', 'visualize_slices',
            'slice_explorer', 'plot_volume']
 
-# %% ../nbs/09_visualize.ipynb #2510dfbb
+# %% ../nbs/09_visualize.ipynb #5474d8d7
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
@@ -18,9 +18,9 @@ import torchvision
 from fastai.vision.all import plt, ifnone
 
 from .core import torchTensor, tensor, delegates, torch_from_numpy, hasattrs, img2float, cells3d
-from .io import tiff2torch
+# from bioMONAI.io import tiff2torch
 
-# %% ../nbs/09_visualize.ipynb #614fe7db
+# %% ../nbs/09_visualize.ipynb #799964bd
 def plot_image(values, # A 2D or 3D array of pixel values representing the image.
                ):
     """
@@ -50,7 +50,7 @@ def plot_image(values, # A 2D or 3D array of pixel values representing the image
     # Display the figure with all defined elements
     plt.show()
 
-# %% ../nbs/09_visualize.ipynb #dd0cf091
+# %% ../nbs/09_visualize.ipynb #c3080c09
 @delegates(plt.Axes.imshow, keep=True, but=['shape', 'imlim'])
 def show_multichannel(img,                  # A tensor or numpy array representing a multi-channel image.
                       ax=None,              # The Matplotlib axis to use for plotting.
@@ -142,13 +142,13 @@ def show_multichannel(img,                  # A tensor or numpy array representi
 
 
 
-# %% ../nbs/09_visualize.ipynb #ff592fbd
+# %% ../nbs/09_visualize.ipynb #da89c596
 # Utility function for determining figure bounds
 def _fig_bounds(x):
     r = x//8
     return min(15, max(1,r))
 
-# %% ../nbs/09_visualize.ipynb #c9286f7d
+# %% ../nbs/09_visualize.ipynb #e2176b2d
 def mosaic_image_3d(t: (np.ndarray, torchTensor),   # 3D image to plot
                   axis: int = 0,                    # axis to split 3D array to 2D images
                   figsize: tuple = (15,15),         # size of the figure
@@ -195,7 +195,7 @@ def mosaic_image_3d(t: (np.ndarray, torchTensor),   # 3D image to plot
     plt.imshow(grid[0,:,:], cmap=cmap, alpha=alpha)
     plt.axis('off')
 
-# %% ../nbs/09_visualize.ipynb #c1d9b9fb
+# %% ../nbs/09_visualize.ipynb #f2579be8
 @delegates(plt.Axes.imshow, keep=True, but=['shape', 'imlim'])
 def show_images_grid(images,            # A list of images to display.
                      ax=None,           # The Matplotlib axis to use for plotting.
@@ -267,7 +267,7 @@ def show_images_grid(images,            # A list of images to display.
 
     return ax
 
-# %% ../nbs/09_visualize.ipynb #6de81133
+# %% ../nbs/09_visualize.ipynb #ff76c8ac
 def show_plane(ax,                  # The axis object to display the slice on.
                plane,               # A 2D numpy array representing the slice of the image tensor.
                cmap="gray",         # Colormap to use for displaying the image.
@@ -291,7 +291,7 @@ def show_plane(ax,                  # The axis object to display the slice on.
         ax.axvline(lines[1], color=linecolor, linestyle=linestyle)
 
 
-# %% ../nbs/09_visualize.ipynb #63f6c0ce
+# %% ../nbs/09_visualize.ipynb #ca51c86c
 def visualize_slices(data,          # A 3D numpy array representing the image tensor.
                      planes=None,   # A tuple containing the indices of the planes to visualize.
                      showlines=True,# Whether to show dashed lines on the planes, rows, and columns.
@@ -325,7 +325,7 @@ def visualize_slices(data,          # A 3D numpy array representing the image te
     plt.show()
 
 
-# %% ../nbs/09_visualize.ipynb #312f44fd
+# %% ../nbs/09_visualize.ipynb #84425bf7
 def slice_explorer(data,            # A 3D numpy array representing the image tensor.
                    order='CZYX',    # The order of dimensions in the data.
                    **kwargs):
@@ -372,7 +372,7 @@ def slice_explorer(data,            # A 3D numpy array representing the image te
     # Display the plot using Plotly's show function
     pio.show(fig)
 
-# %% ../nbs/09_visualize.ipynb #384a7af8
+# %% ../nbs/09_visualize.ipynb #8b7b00d4
 def plot_volume(values,             # A 3D array of pixel values representing the volume.
                 opacity=0.1,        # Opacity level for the surfaces in the volume plot.
                 min=0.1,            # Minimum threshold multiplier for the visualization.
