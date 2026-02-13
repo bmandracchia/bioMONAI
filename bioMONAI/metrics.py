@@ -8,7 +8,7 @@ __all__ = ['SSIMMetric', 'MSEMetric', 'MAEMetric', 'RMSEMetric', 'PSNRMetric', '
 
 # %% ../nbs/06_metrics.ipynb #09106178
 import numpy as np
-from numpy import trapz
+from numpy import trapezoid as trapz
 
 from torch import abs, sqrt, div, complex64, where, isinf, zeros_like, real, isnan
 from torch.fft import fftshift
