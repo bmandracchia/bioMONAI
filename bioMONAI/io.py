@@ -14,6 +14,8 @@ from fastai.data.all import *
 from torchio import ScalarImage, ToCanonical, Resample
 from bioio import BioImage as AICSImage
 from bioio import Writer as writer
+from bioio_tifffile import Reader as TiffReader
+from bioio_ome_tiff import Reader as OmeTiffReader
 import h5py
 import numpy as np
 
@@ -123,21 +125,30 @@ class aics_image_reader():
             # parse path string
             path, ind_dict = split_path(str(path))
         # Read image using AICSImage library
-        image_aics = AICSImage(path, reconstruct_mosaic=False)
+        image_aics = AICSImage(path, reconstruct_mosaic=False, reader=[TiffReader, OmeTiffReader])
             
         # Support for tiff files    
         path = str(path)
-        if (path[-4:]=="tiff" or path[-3:]=="tif"):
+        if (path[-8:]=="ome.tiff"):
+            image_aics = AICSImage(path, reconstruct_mosaic=False, reader=[OmeTiffReader])
+            # Reorder for ome.tiff files
+            data = image_aics.get_image_data("CZYX", **ind_dict)  # returns 4D CZYX numpy array
+            affine = np.eye(4) 
+            return data, affine
+        elif (path[-4:]=="tiff" or path[-3:]=="tif"):
+            image_aics = AICSImage(path, reconstruct_mosaic=False, reader=[TiffReader])
             # Reorder for tiff files
             data = image_aics.get_image_data("CZYX", **ind_dict)  # returns 4D CZYX numpy array
             affine = np.eye(4) 
             return data, affine
-        
-        if (path[-3:]=="png"):
+        elif (path[-3:]=="png"):
+            image_aics = AICSImage(path, reconstruct_mosaic=False)
             # Reorder for png files
             data = image_aics.get_image_data("SZYX", **ind_dict)  # returns 4D CZYX numpy array        
             affine = np.eye(4)         
             return data, affine
+        else:
+            image_aics = AICSImage(path, reconstruct_mosaic=False)
 
         # Convert to numpy array    
         data = image_aics.data
