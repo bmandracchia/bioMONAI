@@ -124,8 +124,6 @@ class aics_image_reader():
         if ind_dict == None:
             # parse path string
             path, ind_dict = split_path(str(path))
-        # Read image using AICSImage library
-        image_aics = AICSImage(path, reconstruct_mosaic=False, reader=[TiffReader, OmeTiffReader])
             
         # Support for tiff files    
         path = str(path)
