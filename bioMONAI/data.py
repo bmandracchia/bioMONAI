@@ -735,7 +735,7 @@ def show_batch(x: BioImageBase,     # The input image data.
                samples,             # List of sample indices to display.
                ctxs=None,           # List of contexts for displaying images. If None, create new ones using get_grid().
                max_n: int=10,       # Maximum number of samples to display. Default is 10.
-               nrowsv: int|None=None,     # Number of rows in the grid if ctxs are not provided.
+               nrows: int|None=None,     # Number of rows in the grid if ctxs are not provided.
                ncols: int|None=None,     # Number of columns in the grid if ctxs are not provided.
                figsize: tuple|None=None, # Figure size for the image display.
                **kwargs,            # Additional keyword arguments to pass to the show method of BioImageBase.
