@@ -1,5 +1,5 @@
 _data/
-_proc
+_proc/
 nbs/_test*
 *._fuse_hidden*
 *.fuse_hidden*
