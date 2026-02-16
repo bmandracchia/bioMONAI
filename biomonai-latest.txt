@@ -1,0 +1,19 @@
+conda create -n biomonai_latest python=3.12 -y
+conda activate biomonai_latest
+
+pip install nbdev fastai fastcore fastdownload fastprogress==1.0.5  
+pip install beartype==0.16.4 plum-dispatch==2.2.2 
+pip install notebook ipykernel
+
+pip install scipy ipywidgets 
+pip install bioio bioio-ome-zarr bioio-ome-tiff bioio-imageio bioio-lif bioio-tifffile
+
+pip install h5py medmnist monai nvidia-cudnn-cu11==8.5.0.96 opencv-python Pillow plotly pooch quilt3==5.4.0 scikit_image scikit_learn tifffile torchio tqdm   
+pip install "zarr<3" "numcodecs==0.11"
+
+
+## these issues should be solved but I still have to check on a new env 
+
+### probably not necessary if quilt3==5.4.0
+pip install "botocore<1.31.18,>=1.31.17" "boto3"
+
