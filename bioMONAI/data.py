@@ -735,9 +735,9 @@ def show_batch(x: BioImageBase,     # The input image data.
                samples,             # List of sample indices to display.
                ctxs=None,           # List of contexts for displaying images. If None, create new ones using get_grid().
                max_n: int=10,       # Maximum number of samples to display. Default is 10.
-               nrows: int=None,     # Number of rows in the grid if ctxs are not provided.
-               ncols: int=None,     # Number of columns in the grid if ctxs are not provided.
-               figsize: tuple=None, # Figure size for the image display.
+               nrowsv: int|None=None,     # Number of rows in the grid if ctxs are not provided.
+               ncols: int|None=None,     # Number of columns in the grid if ctxs are not provided.
+               figsize: tuple|None=None, # Figure size for the image display.
                **kwargs,            # Additional keyword arguments to pass to the show method of BioImageBase.
                ):
     """
@@ -768,9 +768,9 @@ def show_batch(x: BioImageBase,      # The input image data.
                samples,              # List of sample indices to display.
                ctxs=None,            # List of contexts for displaying images. If None, create new ones using get_grid().
                max_n: int=10,        # Maximum number of samples to display. Default is 10.
-               nrows: int=None,      # Number of rows in the grid if ctxs are not provided.
-               ncols: int=None,      # Number of columns in the grid if ctxs are not provided.
-               figsize: tuple=None,  # Figure size for the image display.
+               nrows: int|None=None,      # Number of rows in the grid if ctxs are not provided.
+               ncols: int|None=None,      # Number of columns in the grid if ctxs are not provided.
+               figsize: tuple|None=None,  # Figure size for the image display.
                **kwargs,             # Additional keyword arguments to pass to the show method of BioImageBase.
                ):
     """
@@ -808,8 +808,8 @@ def show_results(x: BioImageBase, # The input image data.
                  samples, # List of sample indices to display.
                  outs, # List of output predictions corresponding to the samples.
                  ctxs=None, # List of contexts for displaying images. If None, create new ones using get_grid().
-                 max_n=10, # Maximum number of samples to display.
-                 figsize=None, # Figure size for the image display.
+                 max_n: int=10, # Maximum number of samples to display.
+                 figsize: tuple|None=None, # Figure size for the image display.
                  **kwargs, # Additional keyword arguments to pass to the show method of BioImageBase.
                  ):
     """
@@ -839,10 +839,10 @@ def show_results(x: BioImageBase,       # The input image data.
                 samples,                # List of sample indices to display.
                 outs,                   # List of output predictions corresponding to the samples.
                 ctxs=None,              # List of contexts for displaying images. If None, create new ones using get_grid().
-                max_n=10,               # Maximum number of samples to display.
-                nrows: int=None,        # Number of rows in the grid if ctxs are not provided.
-                ncols: int=None,        # Number of columns in the grid if ctxs are not provided.
-                figsize=None,           # Figure size for the image display.
+                max_n: int=10,               # Maximum number of samples to display.
+                nrows: int|None=None,        # Number of rows in the grid if ctxs are not provided.
+                ncols: int|None=None,        # Number of columns in the grid if ctxs are not provided.
+                figsize: tuple|None=None,           # Figure size for the image display.
                 **kwargs,               # Additional keyword arguments to pass to the show method of BioImageBase.
                 ):
     """
