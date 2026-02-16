@@ -28,6 +28,22 @@ from .visualize import show_images_grid, show_multichannel
 
 from fastai.data.all import DataLoaders, delegates, RegexLabeller, is_listy, ColReader, ColSplitter
 from fastai.vision.all import DataBlock, CategoryBlock, MultiCategoryBlock, RegressionBlock, TfmdDL, get_image_files, TransformBlock, get_grid, merge, show_image, RandomSplitter, GrandparentSplitter, partial, parent_label
+from fastai.torch_core import TensorImage
+
+# Patch fasttransform to handle missing 'methods' attribute during __repr__
+import fasttransform
+_original_repr = fasttransform.transform.Transform.__repr__
+
+def _safe_repr(self):
+    try:
+        return _original_repr(self)
+    except AttributeError as e:
+        if "'_BoundFunction' object has no attribute 'methods'" in str(e):
+            # Fallback for transforms with plum-dispatched methods
+            return f"{self.__class__.__name__}(...)"
+        raise
+
+fasttransform.transform.Transform.__repr__ = _safe_repr
 
 # %% ../nbs/01_data.ipynb #4faea311
 class MetaResolver(type(torchTensor), metaclass=BypassNewMeta):
@@ -38,7 +54,7 @@ class MetaResolver(type(torchTensor), metaclass=BypassNewMeta):
     
 
 # %% ../nbs/01_data.ipynb #105462af
-class BioImageBase(MetaTensor, metaclass=MetaResolver):
+class BioImageBase(MetaTensor, TensorImage, metaclass=MetaResolver):
     """
     Serving as the foundational class for bioimaging data, `BioImageBase` provides core functionalities for image handling. It ensures that instances of specified types are appropriately cast to this class, maintaining consistency in data representation.
     
@@ -237,6 +253,47 @@ class BioImageMulti(BioImageBase):
         return f"BioImageMulti{self.as_tensor().__repr__()[6:]}"
         
 
+# %% ../nbs/01_data.ipynb #a42a484e
+class Tensor2BioImage(DisplayedTransform):
+    """
+    The `Tensor2BioImage` transform converts tensors into `BioImageBase` instances, enabling the application of bioimaging-specific methods to tensor data. 
+    This is essential for integrating deep learning models with bioimaging workflows.
+    """
+    def __init__(self, cls:BioImageBase=BioImageStack):
+        self.cls = cls
+
+    def encodes(self, o: MetaTensor):
+        # return self.cls(o.clone(), affine=o.affine, meta=o.meta)
+        return self.cls(o.clone(), meta=o.meta)
+    
+    def encodes(self, o: BioImageBase):
+        # Already converted, pass through
+        return o
+    
+    def encodes(self, o: torchTensor):
+        return self.cls(o)
+    
+    def decodes(self, o: BioImageBase):
+        return o
+    
+    def __repr__(self):
+        """Override to handle plum's _BoundFunction from multiple dispatch."""
+        enc = 0
+        dec = 0
+        if hasattr(self, 'encodes'):
+            try:
+                # For plum dispatch functions, just count as 1 if callable
+                enc = 1 if callable(self.encodes) else len(self.encodes.methods)
+            except:
+                enc = 0
+        if hasattr(self, 'decodes'):
+            try:
+                # For plum dispatch functions, just count as 1 if callable
+                dec = 1 if callable(self.decodes) else len(self.decodes.methods)
+            except:
+                dec = 0
+        return f'{self.name}(enc:{enc},dec:{dec})'
+
 # %% ../nbs/01_data.ipynb #56557263
 class Tensor2BioImage(DisplayedTransform):
     """
@@ -253,6 +310,7 @@ class Tensor2BioImage(DisplayedTransform):
         
         if isinstance(o, torchTensor):
             return self.cls(o)
+        
 
 # %% ../nbs/01_data.ipynb #68b31c0c
 def BioImageBlock(cls:BioImageBase=BioImage):
