@@ -35,4 +35,4 @@ jobs:
         env:
           CI: true
         run: |
-          nbdev-test --skip_folder_re ^[Tutorials|_.] --do_print
+          nbdev-test --skip_folder_re ^[Tutorials|_.]
