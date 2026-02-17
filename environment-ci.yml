@@ -4,6 +4,7 @@ channels:
 dependencies:
   - python=3.11.5
   - pip
+  - quilt3=7.0.0
   - pip:
     - nbdev==3.0.10
     - fastai==2.8.6
@@ -30,7 +31,6 @@ dependencies:
     - pillow==12.1.1
     - plotly==6.5.2
     - pooch==1.9.0
-    - quilt3==5.4.0
     - scikit-image==0.26.0
     - scikit-learn==1.8.0
     - tifffile==2026.1.28
