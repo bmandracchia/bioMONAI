@@ -3,33 +3,36 @@ name: CI
 on:
   push:
     branches: [ main, v* ]
+  pull_request:
 
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash -l {0}
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Setup Miniconda and create CI environment
-        uses: conda-incubator/setup-miniconda@v3
+      - name: Setup Micromamba
+        uses: mamba-org/setup-micromamba@v1
         with:
-          auto-update-conda: true
-          python-version: 3.11.5
           environment-file: environment-ci.yml
-          activate-environment: biomonai_ci
+          environment-name: biomonai_ci
+          cache-environment: true
+          cache-downloads: true
+          create-args: >-
+            python=3.11
 
-      - name: Verify environment
+      - name: Install package
         run: |
-          conda info --envs
-          conda init
-          conda activate biomonai_ci
-          python -V
-          python -c "import nbdev; print('nbdev', getattr(nbdev,'__version__', 'n/a'))"
+          pip install -e ".[dev]"
 
-      - name: Install package and run nbdev tests
+      - name: Run nbdev tests
         env:
           CI: true
         run: |
-          pip install -e ".[dev]"
           nbdev-test
