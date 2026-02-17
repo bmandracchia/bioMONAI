@@ -11,13 +11,13 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Setup Miniconda and create environment
+      - name: Setup Miniconda and create CI environment
         uses: conda-incubator/setup-miniconda@v3
         with:
           auto-update-conda: true
           python-version: 3.11.5
-          environment-file: environment.yaml
-          activate-environment: biomonai_latest
+          environment-file: environment-ci.yml
+          activate-environment: biomonai_ci
 
       - name: Verify environment
         run: |

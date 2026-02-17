@@ -308,4 +308,3 @@ dependencies:
       - zarr==3.1.5
       - zict==3.0.0
       - zipp==3.23.0
-prefix: /home/biagio/miniforge3/envs/biomonai_latest

@@ -1,0 +1,25 @@
+name: biomonai_ci
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11.5
+  - pip
+  - numpy
+  - scipy
+  - h5py
+  - pillow
+  - matplotlib
+  - ipykernel
+  - ipywidgets
+  - pip:
+    - nbdev==3.0.10
+    - fastcore==1.12.12
+    - fastprogress==1.0.5
+    - ipywidgets==8.1.8
+    - notebook==7.5.3
+
+# CI-optimized environment:
+# - Removes GPU-specific `nvidia-*` packages and other very large runtime deps
+# - Keeps `nbdev` and a small set of typical scientific packages so `nbdev-test`
+#   can run reasonably quickly in CI. If tests require GPU or `torch`, adjust
+#   this file or use the full `environment.yaml` on GPU runners.
