@@ -22,6 +22,7 @@ jobs:
       - name: Verify environment
         run: |
           conda info --envs
+          conda init
           conda activate biomonai_ci
           python -V
           python -c "import nbdev; print('nbdev', getattr(nbdev,'__version__', 'n/a'))"

@@ -1,4 +1,4 @@
-name: biomonai_latest
+name: biomonai_ci
 channels:
   - conda-forge
 dependencies:
