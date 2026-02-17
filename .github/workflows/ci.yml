@@ -3,40 +3,31 @@ name: CI
 on:
   push:
     branches: [ main, v* ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   test:
-    name: nbdev test
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.11.5]
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - name: Setup Miniconda and create environment
+        uses: conda-incubator/setup-miniconda@v3
         with:
-          python-version: ${{ matrix.python-version }}
+          auto-update-conda: true
+          python-version: 3.11.5
+          environment-file: environment.yaml
+          activate-environment: biomonai_latest
 
-      - name: Cache pip
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/pyproject.toml','**/requirements.txt') }}-${{ matrix.python-version }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
-      - name: Install dependencies
+      - name: Verify environment
         run: |
-          python -m pip install --upgrade pip
-          pip install .[dev]
+          conda info --envs
+          python -V
+          python -c "import nbdev; print('nbdev', getattr(nbdev,'__version__', 'n/a'))"
 
-      - name: Run nbdev tests
+      - name: Install package and run nbdev tests
         env:
           CI: true
         run: |
+          pip install -e ".[dev]"
           nbdev-test
