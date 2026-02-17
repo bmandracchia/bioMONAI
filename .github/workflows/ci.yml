@@ -39,4 +39,4 @@ jobs:
         env:
           CI: true
         run: |
-          nbdev_test
+          nbdev-test
