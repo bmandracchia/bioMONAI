@@ -22,22 +22,6 @@ from tqdm import tqdm
 import medmnist
 
 
-# %% ../nbs/08_datasets.ipynb #c6319122
-import os
-from pathlib import Path
-
-from pooch import create as pooch_create, retrieve as pooch_retrieve, Decompress, Unzip, Untar
-from sklearn.model_selection import train_test_split
-import quilt3
-import pandas as pd
-import numpy as np
-from PIL import Image
-import tifffile as tiff
-from tqdm import tqdm
-
-import medmnist
-
-
 # %% ../nbs/08_datasets.ipynb #7162dc3f
 def download_medmnist(dataset: str, # The name of the MedMNIST dataset (e.g., 'pathmnist', 'bloodmnist', etc.).
                       output_dir: str = '.', # The path to the directory where the datasets will be saved.

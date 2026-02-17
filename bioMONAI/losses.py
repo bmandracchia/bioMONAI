@@ -19,7 +19,7 @@ from torch import sigmoid
 from monai.losses import SSIMLoss
 
 from scipy.optimize import curve_fit
-from fastai.vision.all import mse, mae, CrossEntropyLossFlat, Any
+from fastai.vision.all import mse, mae, CrossEntropyLossFlat, Any, test_eq, test_is
 
 from .metrics import FRCMetric, get_fourier_ring_correlations
 from .core import torchTensor
@@ -158,7 +158,7 @@ class MSSSIML1Loss(torch.nn.Module):
         msssim_loss = self.msssim(x, y)
 
         # Compute L1 loss with Gaussian weighting
-        gaussian = self.get_gaussian_weight(x.size()).to(x.device)
+        gaussian = self.get_gaussian_weight(x.size(), device=x.device).to(x.device)
         l1_loss = F.l1_loss(x, y, reduction='none') * gaussian
 
         # Adjust reduction to accommodate 3D
@@ -179,15 +179,26 @@ class MSSSIML1Loss(torch.nn.Module):
         else:
             return combined_loss
 
-    def get_gaussian_weight(self, size):
-        """Generate a Gaussian weight tensor based on input size."""
+    def get_gaussian_weight(self, size, device=None):
+        """Generate a Gaussian weight tensor based on input size.
+        
+        Parameters
+        - size: tensor size tuple (batch, channels, ...spatial...)
+        - device: optional device (torch.device or string). If None, uses CUDA if available else CPU.
+        """
+        if device is None:
+            device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        else:
+            device = torch.device(device)
+
         batch_size, channels, *spatial_shape = size
         spatial_dims = len(spatial_shape)
         
         if spatial_dims == 2:
             width, height = spatial_shape
             sigma = width / 6.0
-            x, y = torch.arange(width, dtype=torch.float32, device='cuda'), torch.arange(height, dtype=torch.float32, device='cuda')
+            x = torch.arange(width, dtype=torch.float32, device=device)
+            y = torch.arange(height, dtype=torch.float32, device=device)
             center_x, center_y = (width - 1) / 2.0, (height - 1) / 2.0
             x_grid, y_grid = torch.meshgrid(x, y, indexing='ij')
             gaussian = torch.exp(-((x_grid - center_x)**2 + (y_grid - center_y)**2) / (2 * sigma**2))
@@ -197,9 +208,9 @@ class MSSSIML1Loss(torch.nn.Module):
         elif spatial_dims == 3:
             depth, width, height = spatial_shape
             sigma = width / 6.0
-            z = torch.arange(depth, dtype=torch.float32, device='cuda')
-            x = torch.arange(width, dtype=torch.float32, device='cuda')
-            y = torch.arange(height, dtype=torch.float32, device='cuda')
+            z = torch.arange(depth, dtype=torch.float32, device=device)
+            x = torch.arange(width, dtype=torch.float32, device=device)
+            y = torch.arange(height, dtype=torch.float32, device=device)
             center_z, center_x, center_y = (depth - 1) / 2.0, (width - 1) / 2.0, (height - 1) / 2.0
             z_grid, x_grid, y_grid = torch.meshgrid(z, x, y, indexing='ij')
             gaussian = torch.exp(-((z_grid - center_z)**2 + (x_grid - center_x)**2 + (y_grid - center_y)**2) / (2 * sigma**2))
@@ -241,7 +252,7 @@ class MSSSIML2Loss(torch.nn.Module):
         # Compute L1 loss with Gaussian weighting
         # Generate Gaussian kernel based on the input size
         batch_size, _, height, width = x.size()
-        gaussian = self.get_gaussian_weight(x.size()).to(x.device)
+        gaussian = self.get_gaussian_weight(x.size(), device=x.device).to(x.device)
 
         # Apply the Gaussian kernel as a weight to the L1 loss
         l2_loss = F.mse_loss(x, y, reduction='none')
@@ -266,13 +277,23 @@ class MSSSIML2Loss(torch.nn.Module):
         else:
             return combined_loss
         
-    def get_gaussian_weight(self, size):
-        """Generate a Gaussian weight tensor based on input size."""
+    def get_gaussian_weight(self, size, device=None):
+        """Generate a Gaussian weight tensor based on input size.
+        
+        Parameters
+        - size: tensor size tuple (batch, channels, width, height)
+        - device: optional device (torch.device or string). If None, uses CUDA if available else CPU.
+        """
+        if device is None:
+            device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        else:
+            device = torch.device(device)
+
         batch_size, channels, width, height = size
         sigma = width / 6.0  # Using width/6 as an approximate scale for sigma
 
-        x = torch.arange(width, dtype=torch.float32, device='cuda')
-        y = torch.arange(height, dtype=torch.float32, device='cuda')
+        x = torch.arange(width, dtype=torch.float32, device=device)
+        y = torch.arange(height, dtype=torch.float32, device=device)
 
         # Handle even-sized patches by adjusting the center position calculation
         center_x = (width - 1) / 2.0 if width % 2 == 1 else width / 2.0
