@@ -19,7 +19,7 @@ from torch import sigmoid
 from monai.losses import SSIMLoss
 
 from scipy.optimize import curve_fit
-from fastai.vision.all import mse, mae, CrossEntropyLossFlat, Any
+from fastai.vision.all import mse, mae, CrossEntropyLossFlat, Any, test_eq, test_is
 
 from .metrics import FRCMetric, get_fourier_ring_correlations
 from .core import torchTensor
