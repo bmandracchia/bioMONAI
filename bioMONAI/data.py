@@ -393,10 +393,11 @@ class BioDataLoaders(DataLoaders):
     @classmethod
     @delegates(from_source)
     def from_folder(cls, path, get_target_fn, train='train', valid='valid', valid_pct=None, seed=None, item_tfms=None,
-                    batch_tfms=None, img_cls=BioImage, target_img_cls=BioImage, **kwargs):
+                    batch_tfms=None, img_cls=BioImage, target_img_cls=BioImage, get_items=None, **kwargs):
         "Create from dataset in `path` with `train` and `valid` subfolders (or provide `valid_pct`)"
         splitter = GrandparentSplitter(train_name=train, valid_name=valid) if valid_pct is None else RandomSplitter(valid_pct, seed=seed)
-        get_items = get_image_files if valid_pct else partial(get_image_files, folders=[train, valid])
+        if get_items is None:
+            get_items = get_image_files if valid_pct else partial(get_image_files, folders=[train, valid])
         ops = { 
             'blocks':       (BioImageBlock(img_cls), BioImageBlock(target_img_cls)),
             'get_items':    get_items,
