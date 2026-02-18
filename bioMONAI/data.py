@@ -658,7 +658,10 @@ def get_gt(path_gt, # The base directory where the ground truth files are stored
 def get_target(path:str, # The base directory where the files are located. This should be a string representing an absolute or relative path.
                same_filename=True, #If True, the target file name will match the original file name; otherwise, it will use the specified prefix. 
                target_file_prefix="target", # The prefix to insert into the target file name if `same_filename` is False. 
-               signal_file_prefix="signal", # The prefix used in the original file names that should be replaced by the target prefix. 
+               signal_file_prefix="signal", # The prefix used in the original file names that should be replaced by the target prefix.
+               map_foldername=False, #If True, the target folder name will match the original folder name; otherwise, it will use the specified prefix. 
+               target_folder_prefix="target", # The prefix to insert into the target folder name if `same_foldername` is False. 
+               signal_folder_prefix="signal", # The prefix used in the original folder names that should be replaced by the target prefix. 
                relative_path=False, # If True, it indicates that the path is relative to the parent folder in the path where the input files are located.
                ):
     """
@@ -676,31 +679,43 @@ def get_target(path:str, # The base directory where the files are located. This 
     # Define a function to construct the target file name based on input parameters
     def construct_target_filename(file_name):
         # Split the file name based on the signal file prefix
-        parts = file_name.split(signal_file_prefix)
-        
+        parts = file_name.split(signal_file_prefix)   
         # Construct the target file name by inserting the target file prefix
         target_file_name = parts[0] + target_file_prefix + parts[1]
         
         return target_file_name
     
+    def construct_target_foldername(folder_name):
+        # Split the folder name based on the signal folder prefix
+        parts = folder_name.split(signal_folder_prefix)
+        # Construct the target folder name by inserting the target folder prefix
+        target_folder_name = parts[0] + target_folder_prefix + parts[1]
+        
+        return target_folder_name
+    
     # Define a function to generate the target file path based on the given file name
     def generate_target_path(file_name):
         
-        base_path = ''
-        
-        if relative_path:
-            base_path = Path(file_name).parents[1]
+        if map_foldername:
+            # Extract the folder name and replace the signal folder prefix with the target folder prefix
+            folder_name = os.path.dirname(file_name)
+            target_folder_name = Path(construct_target_foldername(folder_name))
+        else:
+            base_path = ''
+            if relative_path:
+                base_path = Path(file_name).parents[1]
+            target_folder_name = base_path / Path(path)
                             
         # Extract the base file name
         base_filename = os.path.basename(file_name)
         
         # If same_filename is True, simply return the path joined with the base file name
         if same_filename:
-            return base_path / Path(path) / base_filename
+            return target_folder_name / base_filename
         
         # If same_filename is False, construct the target file name and return the path joined with it
         target_filename = construct_target_filename(base_filename)
-        return base_path / Path(path) / target_filename
+        return target_folder_name / target_filename
     
     # Return the appropriate function based on the value of same_filename
     return generate_target_path
