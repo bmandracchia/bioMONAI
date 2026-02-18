@@ -4,9 +4,9 @@
 
 # %% auto #0
 __all__ = ['MetaResolver', 'BioImageBase', 'BioImage', 'BioImageStack', 'BioImageProject', 'BioImageMulti', 'Tensor2BioImage',
-           'BioImageBlock', 'BioDataBlock', 'BioDataLoaders', 'get_gt', 'get_target', 'get_noisy_pair', 'show_batch',
-           'show_results', 'extract_patches', 'save_patches_grid', 'extract_random_patches', 'save_patches_random',
-           'dict2string', 'remove_singleton_dims', 'extract_substacks']
+           'BioImageBlock', 'BioDataBlock', 'BioDataLoaders', 'get_images', 'get_gt', 'get_target', 'get_noisy_pair',
+           'show_batch', 'show_results', 'extract_patches', 'save_patches_grid', 'extract_random_patches',
+           'save_patches_random', 'dict2string', 'remove_singleton_dims', 'extract_substacks']
 
 # %% ../nbs/01_data.ipynb #7a8886ba
 import os
@@ -617,6 +617,15 @@ BioDataLoaders.class_from_path_re = delegates(to=BioDataLoaders.class_from_path_
 
 # %% ../nbs/01_data.ipynb #12e03f1b
 from fastai.vision.all import get_image_files
+
+# %% ../nbs/01_data.ipynb #472da9cc
+class get_images():
+    def __init__(self, folders, recurse=True):
+        self.folders = folders
+        self.recurse = recurse
+
+    def __call__(self, path):
+        return get_image_files(path, folders=self.folders, recurse=self.recurse)
 
 # %% ../nbs/01_data.ipynb #cc868a5b
 def get_gt(path_gt, # The base directory where the ground truth files are stored, or a file path from which to derive the parent directory.
