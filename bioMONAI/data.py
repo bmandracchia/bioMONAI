@@ -620,13 +620,40 @@ BioDataLoaders.class_from_path_re = delegates(to=BioDataLoaders.class_from_path_
 from fastai.vision.all import get_image_files
 
 # %% ../nbs/01_data.ipynb #472da9cc
-class get_images():
-    def __init__(self, folders, recurse=True):
-        self.folders = folders
-        self.recurse = recurse
+def get_images(path, folders=None, recurse=True):
+    """
+    Get image files from a list of folders or a glob expression.
+    
+    Parameters:
+        - path: The base path to the folder containing the subfolders in `folders`.
+        - folders: Can be a single folder path (string), a list of folder paths, or a glob expression like 'data_*'
+        - basepath: The base path to the folder containing the subfolders in `folders`. Only needed if `folders` contains glob expressions that don't include the base path.
+        - recurse: Whether to recursively search for images in subdirectories
+        """
+    # Handle different input types for folders
+    if folders is None:
+        return get_image_files(path, recurse=recurse)
+    if isinstance(folders, list):
+        return get_image_files(path, folders=folders, recurse=recurse)
+    if isinstance(folders, str):
+        # Check if it contains glob wildcards
+        if '*' in folders or '?' in folders or '[' in folders:
+            # It's a glob expression - expand it
+            from glob import glob as glob_expand
+            expanded = sorted(glob_expand(os.path.join(path, folders)))
+            if expanded:
+                img_folders = [os.path.basename(expanded[i]) for i in range(len(expanded))]
+            else:
+                # If glob returns empty, treat it as a single folder name
+                img_folders = [folders]
+        else:
+            # It's a single folder path
+            img_folders = [folders]
+    else:
+        # Convert to list if it's another iterable
+        img_folders = list(folders)
 
-    def __call__(self, path):
-        return get_image_files(path, folders=self.folders, recurse=self.recurse)
+    return get_image_files(path, folders=img_folders, recurse=recurse)
 
 # %% ../nbs/01_data.ipynb #cc868a5b
 def get_gt(path_gt, # The base directory where the ground truth files are stored, or a file path from which to derive the parent directory.
@@ -918,10 +945,10 @@ def extract_patches(data, # numpy array of the input data (n-dimensional).
     return patches
 
 # %% ../nbs/01_data.ipynb #337a703a
-def save_patches_grid(data_folder,                   # Path to the folder containing data files (n-dimensional data).
-                      gt_folder,                     # Path to the folder containing ground truth (gt) files (n-dimensional data).
-                      output_folder,                 # Path to the folder where the HDF5 files will be saved.
-                      patch_size,                    # tuple of integers defining the size of the patches.
+def save_patches_grid(data_paths,                   # Path to folder or list of paths to data files (n-dimensional data).
+                      gt_paths,                     # Path to folder or list of paths to ground truth (gt) files (n-dimensional data).
+                      output_folder,                # Path to the folder where the HDF5 files will be saved.
+                      patch_size,                   # tuple of integers defining the size of the patches.
                       overlap,                       # float (between 0 and 1) defining the overlap between patches.
                       threshold=None,                # If provided, patches with a mean value below this threshold will be discarded.
                       squeeze_input=True,            # If True, squeeze the input data to remove single-dimensional entries. 
@@ -932,27 +959,44 @@ def save_patches_grid(data_folder,                   # Path to the folder contai
                       tfms_after: List = None,       # List of transforms to apply after extracting patches.
                       ):
     """
-    Loads n-dimensional data from data_folder and gt_folder, generates patches, and saves them into individual HDF5 files.
+    Loads n-dimensional data from data_paths and gt_paths, generates patches, and saves them into individual HDF5 files.
     Each HDF5 file will have datasets with the structure X/patch_idx and y/patch_idx.
+    
+    Parameters:
+    - data_paths: Can be a folder path (string) or a list of file paths to data files
+    - gt_paths: Can be a folder path (string) or a list of file paths to ground truth files
     """
     
     # Ensure output folder exists
     os.makedirs(output_folder, exist_ok=True)
     
-    # Ensure the folders contain the same number of files
-    data_files = sorted([f for f in os.listdir(data_folder) if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
-    gt_files = sorted([f for f in os.listdir(gt_folder) if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
+    # Convert folder paths to lists of file paths if necessary
+    if isinstance(data_paths, str):         # It's a folder path
+        data_files = sorted([os.path.join(data_paths, f) 
+                           for f in os.listdir(data_paths) 
+                           if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
+    else:        # It's already a list of paths
+        data_files = sorted(data_paths)
+    
+    if isinstance(gt_paths, str):        # It's a folder path
+        gt_files = sorted([os.path.join(gt_paths, f) 
+                         for f in os.listdir(gt_paths) 
+                         if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
+    else:        # It's already a list of paths
+        gt_files = sorted(gt_paths)
 
+    # Ensure the folders contain the same number of files
     if len(data_files) != len(gt_files):
-        raise ValueError("The number of files in data_folder and gt_folder must be the same.")
+        raise ValueError("The number of files in data_paths and gt_paths must be the same.")
     
     # Prepare CSV records list
     csv_records = []
 
-    # Loop through the files in the folders
-    for data_file_name, gt_file_name in tqdm(zip(data_files, gt_files), total=len(data_files), desc="Processing files"):
-        data_file_path = os.path.join(data_folder, data_file_name)
-        gt_file_path = os.path.join(gt_folder, gt_file_name)
+    # Loop through the files
+    for data_file_path, gt_file_path in tqdm(zip(data_files, gt_files), total=len(data_files), desc="Processing files"):
+        # Extract filename for HDF5 output
+        data_file_name = os.path.basename(data_file_path)
+        gt_file_name = os.path.basename(gt_file_path)
         
         # Load the images
         data = np.array(image_reader(data_file_path))
@@ -962,16 +1006,21 @@ def save_patches_grid(data_folder,                   # Path to the folder contai
             data = np.squeeze(data)
             gt = np.squeeze(gt)
         
+        gt_patch_size = patch_size  # Assuming the same patch size for gt, can be modified to accept a different one
+
         if data.shape != gt.shape:
-            raise ValueError(f"Shape mismatch between {data_file_name} and {gt_file_name}")
-        
+            if data.shape[-2:] != gt.shape[-2:]:
+                raise ValueError(f"Spatial dimension mismatch between {data_file_name} and {gt_file_name}: {data.shape} vs {gt.shape}")
+            gt_patch_size = patch_size[-2:]  # Use only spatial dimensions for gt patches
+
+
         # Apply transforms before extracting patches
         if tfms_before is not None:
             data, gt = apply_transforms((data, gt), tfms_before)
         
         # Extract patches from both datasets
         data_patches_nd = extract_patches(data, patch_size, overlap)
-        gt_patches_nd = extract_patches(gt, patch_size, overlap)
+        gt_patches_nd = extract_patches(gt, gt_patch_size, overlap)
         
         if squeeze_patches:
             data_patches_nd = np.squeeze(data_patches_nd)
@@ -1072,8 +1121,8 @@ def extract_random_patches(data_tuple, # tuple of numpy arrays (input data, grou
 
 
 # %% ../nbs/01_data.ipynb #797f884e
-def save_patches_random(data_folder,                # Path to the folder containing data files (n-dimensional data).
-                        gt_folder,                  # Path to the folder containing ground truth (gt) files (n-dimensional data).
+def save_patches_random(data_paths,                # Path to folder or list of paths to data files (n-dimensional data).
+                        gt_paths,                  # Path to folder or list of paths to ground truth (gt) files (n-dimensional data).
                         output_folder,              # Path to the folder where the HDF5 files will be saved.
                         patch_size,                 # tuple of integers defining the size of the patches.
                         num_patches,                # number of random patches to extract per file.
@@ -1094,20 +1143,32 @@ def save_patches_random(data_folder,                # Path to the folder contain
     # Ensure output folder exists
     os.makedirs(output_folder, exist_ok=True)
     
-    # Ensure the folders contain the same number of files
-    data_files = sorted([f for f in os.listdir(data_folder) if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
-    gt_files = sorted([f for f in os.listdir(gt_folder) if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
+    # Convert folder paths to lists of file paths if necessary
+    if isinstance(data_paths, str):         # It's a folder path
+        data_files = sorted([os.path.join(data_paths, f) 
+                           for f in os.listdir(data_paths) 
+                           if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
+    else:        # It's already a list of paths
+        data_files = sorted(data_paths)
     
+    if isinstance(gt_paths, str):        # It's a folder path
+        gt_files = sorted([os.path.join(gt_paths, f) 
+                         for f in os.listdir(gt_paths) 
+                         if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
+    else:        # It's already a list of paths
+        gt_files = sorted(gt_paths)
+
+    # Ensure the folders contain the same number of files
     if len(data_files) != len(gt_files):
-        raise ValueError("The number of files in data_folder and gt_folder must be the same.")
+        raise ValueError("The number of files in data_paths and gt_paths must be the same.")
     
     # Prepare CSV records list
     csv_records = []
     
     # Loop through the files in the folders with progress bar
-    for data_file_name, gt_file_name in tqdm(zip(data_files, gt_files), total=len(data_files), desc="Processing files"):
-        data_file_path = os.path.join(data_folder, data_file_name)
-        gt_file_path = os.path.join(gt_folder, gt_file_name)
+    for data_file_path, gt_file_path in tqdm(zip(data_files, gt_files), total=len(data_files), desc="Processing files"):
+        data_file_name = os.path.basename(data_file_path)
+        gt_file_name = os.path.basename(gt_file_path)
         
         # Load the images
         data = np.array(image_reader(data_file_path))
