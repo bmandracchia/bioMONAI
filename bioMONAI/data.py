@@ -20,7 +20,7 @@ from bioio.writers import OmeTiffWriter
 from sklearn.model_selection import train_test_split
 from torch import stack as torch_stack
 
-from .datasets import download_medmnist
+from .datasets import split_dataframe
 from .core import MetaTensor, torchTensor, BypassNewMeta, DisplayedTransform, fastTrainer, torchsqueeze, Path, List, L, torchmax, randint, dictlist_to_funclist, read_yaml,  apply_transforms
 from plum import dispatch as typedispatch
 from .io import image_reader
@@ -954,9 +954,10 @@ def save_patches_grid(data_paths,                   # Path to folder or list of 
                       squeeze_input=True,            # If True, squeeze the input data to remove single-dimensional entries. 
                       squeeze_patches=False,         # If True, squeeze the patches to remove single-dimensional entries.
                       csv_output=True,               # If True, a CSV file listing all patch paths is created.
-                      train_test_split_ratio=0.8,    # Ratio of data to split into train and test CSV files (e.g., 0.8 for 80% train).
-                      tfms_before: List = None,      # List of transforms to apply before extracting patches.
-                      tfms_after: List = None,       # List of transforms to apply after extracting patches.
+                      split_dataset=True,            # Split dataset into train and test CSV files (e.g., 0.8 for 80% train).
+                      tfms_before: List|None = None,      # List of transforms to apply before extracting patches.
+                      tfms_after: List|None = None,       # List of transforms to apply after extracting patches.
+                      **kwargs,                      # Additional keyword arguments for splitting the dataset (see split_dataframe function)
                       ):
     """
     Loads n-dimensional data from data_paths and gt_paths, generates patches, and saves them into individual HDF5 files.
@@ -1060,16 +1061,22 @@ def save_patches_grid(data_paths,                   # Path to folder or list of 
     if csv_output:
         csv_df = pd.DataFrame(csv_records)
         
-        if train_test_split_ratio is not None and 0 < train_test_split_ratio < 1:
+        if split_dataset:
             # Split data into train and test sets
-            train_df, test_df = train_test_split(csv_df, train_size=train_test_split_ratio, random_state=42)
+                        
+            ops = {
+                'train_fraction': kwargs.get('train_fraction', 0.7),
+                'valid_fraction': kwargs.get('valid_fraction', 0.1),
+                'split_column': kwargs.get('split_column', None),
+                'stratify': kwargs.get('stratify', False),  
+                'add_is_valid': kwargs.get('add_is_valid', True),
+                'train_path': kwargs.get('train_path', "patches_train.csv"),
+                'test_path': kwargs.get('test_path', "patches_test.csv"),
+                'valid_path': kwargs.get('valid_path', "patches_valid.csv"),
+                'data_save_path': kwargs.get('data_save_path', output_folder)
+            }
             
-            # Save train and test CSVs
-            train_csv_path = os.path.join(output_folder, "train_patches.csv")
-            test_csv_path = os.path.join(output_folder, "test_patches.csv")
-            train_df.to_csv(train_csv_path, index=False)
-            test_df.to_csv(test_csv_path, index=False)
-            print(f"CSV files saved to: {train_csv_path} and {test_csv_path}")
+            split_dataframe(csv_df, **ops)
         
         else:
             # Save a single CSV file
