@@ -154,7 +154,9 @@ class BioImage(BioImageBase):
         if isinstance(fn, torchTensor):
             return cls(fn)
 
-        return torchsqueeze(image_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder), 1)
+        img = image_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder)
+        dimlist = [i for i in range(1, len(img.shape))]
+        return torchsqueeze(img, dimlist)
     
     def show(self, ctx=None, **kwargs):
         "Show image using `merge(self._show_args, kwargs)`"
