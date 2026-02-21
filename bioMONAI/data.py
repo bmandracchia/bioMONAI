@@ -4,9 +4,9 @@
 
 # %% auto #0
 __all__ = ['MetaResolver', 'BioImageBase', 'BioImage', 'BioImageStack', 'BioImageProject', 'BioImageMulti', 'Tensor2BioImage',
-           'BioImageBlock', 'BioDataBlock', 'BioDataLoaders', 'get_images', 'get_gt', 'get_target', 'get_noisy_pair',
-           'show_batch', 'show_results', 'extract_patches', 'save_patches_grid', 'extract_random_patches',
-           'save_patches_random', 'dict2string', 'remove_singleton_dims', 'extract_substacks']
+           'BioImageBlock', 'BioDataBlock', 'BioDataLoaders', 'test_biodataloader', 'get_images', 'get_gt',
+           'get_target', 'get_noisy_pair', 'show_batch', 'show_results', 'extract_patches', 'save_patches_grid',
+           'extract_random_patches', 'save_patches_random', 'dict2string', 'remove_singleton_dims', 'extract_substacks']
 
 # %% ../nbs/01_data.ipynb #7a8886ba
 import os
@@ -617,6 +617,25 @@ class BioDataLoaders(DataLoaders):
 BioDataLoaders.class_from_csv = delegates(to=BioDataLoaders.class_from_df)(BioDataLoaders.class_from_csv)
 BioDataLoaders.class_from_path_re = delegates(to=BioDataLoaders.class_from_path_func)(BioDataLoaders.class_from_path_re)
 
+
+# %% ../nbs/01_data.ipynb #5033a580
+def test_biodataloader(dls:DataLoaders, test_path:str|Path|pd.DataFrame, with_labels=True, csv_header='infer', csv_delimiter=None, csv_quoting=0):
+    "Test a `DataLoader` on a set of `test_files` and return the results as a list of tuples containing the file name and the corresponding input and target tensors."
+    if isinstance(test_path, pd.DataFrame):
+        # Handle DataFrame case directly
+        test_data = dls.test_dl(test_path, with_labels=with_labels)
+    elif isinstance(test_path, (str, Path)):
+        test_path = Path(test_path)
+        # Check if it's a CSV file
+        if test_path.suffix.lower() == '.csv':
+            # Handle CSV file case
+            df = pd.read_csv(test_path, header=csv_header, delimiter=csv_delimiter, quoting=csv_quoting)
+            test_data = dls.test_dl(df, with_labels=with_labels)
+        else:
+            # Handle non-CSV file case - get image files from directory
+            test_data = dls.test_dl(get_image_files(test_path), with_labels=with_labels)
+    
+    return test_data
 
 # %% ../nbs/01_data.ipynb #12e03f1b
 from fastai.vision.all import get_image_files
