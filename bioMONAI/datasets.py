@@ -186,7 +186,7 @@ def download_file(url, # The URL of the file to be downloaded
 
 # %% ../nbs/08_datasets.ipynb #21b46a92
 def download_files(urls, # A list of URLs to download
-                   output_dir="data", # The directory where the downloaded files will be saved
+                   output_dir="data", # The directory or list of directories where the downloaded files will be saved
                    extract=True, # If True, decompresses the files if they are in a compressed format
                    hash_list=None, # Optional: A list of checksums for integrity verification corresponding to each URL
                    extract_dir=None, # Directory to extract the files to
@@ -195,10 +195,12 @@ def download_files(urls, # A list of URLs to download
     Download and optionally decompress multiple files using Pooch.
 
     """
+    if isinstance(output_dir, str):
+        output_dir = [output_dir] * len(urls)  # If a single directory is provided, use it for all URLs
     for i, url in enumerate(urls):
         print(f"Downloading file {i+1}/{len(urls)}: {url}")
         file_hash = hash_list[i] if hash_list is not None else None
-        download_file(url, output_dir=output_dir, extract=extract, hash=file_hash, extract_dir=extract_dir)
+        download_file(url, output_dir=output_dir[i], extract=extract, hash=file_hash, extract_dir=extract_dir)
         
 
 # %% ../nbs/08_datasets.ipynb #9f23a64c
