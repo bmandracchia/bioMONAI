@@ -56,10 +56,11 @@ def PSNRMetric(max_val, **kwargs):
 
 
 # %% ../nbs/06_metrics.ipynb #a63e7732
-class DiceMetric:
-    def __init__(self, **kwargs):
-        """
-        Accepts all keyword arguments supported by monai.metrics.DiceMetric
+def DiceMetric(**kwargs):
+    """
+    Wrapper around monai.metrics.DiceMetric
+    Works for binary segmentation with 1-channel logits.
+    Accepts all keyword arguments supported by monai.metrics.DiceMetric
         Example:
             DiceMetric(
                 include_background=False,
@@ -67,40 +68,25 @@ class DiceMetric:
                 get_not_nans=False,
                 ignore_empty=True
             )
-        """
-        self.metric = _DiceMetric(**kwargs)
+    """
+    dice_metric = _DiceMetric(**kwargs)
 
-    def reset(self):
-        self.metric.reset()
+    def Dice(pred, target):
+        # logits -> probabilities
+        pred = sigmoid(pred)
 
-    def accumulate(self, learn):
-        pred = learn.pred
-        target = learn.y
+        # Binarize
+        pred = (pred > 0.5).float()
 
-        # If model outputs logits for multi-class segmentation
-        if pred.shape[1] > 1:
-            pred = softmax(pred, dim=1)
-            pred = argmax(pred, dim=1, keepdim=True)
-        else:  # binary segmentation
-            pred = sigmoid(pred)
-            pred = (pred > 0.5).float()
-
-        # Ensure target has channel dim
-        if target.ndim == pred.ndim - 1:
+        # Check shapes 
+        if target.ndim == 3:
             target = target.unsqueeze(1)
 
-        self.metric(pred, target)
+        dice_metric.reset()
+        dice_metric(pred, target)
+        return dice_metric.aggregate().item()
 
-    @property
-    def value(self):
-        result = self.metric.aggregate()
-        if is_tensor(result):
-            return result.mean().item()
-        return result
-
-    @property
-    def name(self):
-        return "dice"
+    return AvgMetric(Dice)
 
 
 # %% ../nbs/06_metrics.ipynb #324dc6f4
