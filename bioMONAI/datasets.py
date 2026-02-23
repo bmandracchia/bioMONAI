@@ -4,7 +4,7 @@
 
 # %% auto #0
 __all__ = ['download_medmnist', 'medmnist2df', 'download_file', 'download_files', 'download_dataset', 'download_dataset_from_csv',
-           'aics_pipeline', 'manifest2csv', 'split_dataframe', 'add_columns_to_csv']
+           'aics_pipeline', 'manifest2csv', 'split_dataframe', 'add_columns_to_csv', 'build_csv']
 
 # %% ../nbs/08_datasets.ipynb #35d1219f
 import os
@@ -369,6 +369,7 @@ def split_dataframe(input_data, # Path to CSV file or DataFrame
                     test_path="test.csv", # Path to save the test CSV file
                     valid_path="valid.csv", # Path to save the validation CSV file
                     data_save_path=None, # Path to save the data files
+                    random_seed=None, # Random state for reproducibility
                     ):
     """
     Splits a DataFrame or CSV file into train, test, and optional validation sets.
@@ -404,7 +405,8 @@ def split_dataframe(input_data, # Path to CSV file or DataFrame
         temp_df, test_df = train_test_split(
             df, 
             test_size=test_fraction,
-            stratify=df[split_column] if stratify and split_column else None
+            stratify=df[split_column] if stratify and split_column else None,
+            random_state=random_seed
         )
         #train_df = train_df.copy()
         #temp_df = temp_df.copy()
@@ -475,3 +477,51 @@ def add_columns_to_csv(csv_path, # Path to the input CSV file
     df.to_csv(output_path, index=False)
 
     print(f"Columns {list(column_data.keys())} added successfully. Updated file saved to '{output_path}'")
+
+# %% ../nbs/08_datasets.ipynb #8f0ea54a
+from typing import Callable, List, Optional, Union
+from fastai.data.all import L
+
+def build_csv(
+    filenames: Union[list[str|Path], L],                 # List of file names to process
+    *functions: Callable[[str], str],               # One or more functions that take a filename and return a string (e.g., for generating target paths).
+    function_names: Optional[Union[List[str], L]] = None,     # Optional column names for the function outputs. If None, function.__name__ is used.
+    output_csv: Optional[str|Path] = None,               # If provided, saves the full dataframe to this CSV path.
+    split: bool = False,                            # If True, applies split_dataframe to the generated dataframe.
+    split_kwargs: Optional[dict] = None,            # Keyword arguments passed to split_dataframe.
+) -> Union[pd.DataFrame, None]:                     # Returns the dataframe if split=False. If split=True, returns None (files are saved by split_dataframe).
+    """
+    Create a DataFrame from filenames and one or more transformation functions.
+    """
+
+    if function_names and len(function_names) != len(functions):
+        raise ValueError("Length of function_names must match number of functions.")
+
+    # Determine column names
+    if function_names is None:
+        column_names = [
+            f.__name__ if hasattr(f, "__name__") else f"func_{i}"
+            for i, f in enumerate(functions)
+        ]
+    else:
+        column_names = function_names
+
+    # Build dataframe
+    data = {"filename": filenames}
+
+    for col_name, func in zip(column_names, functions):
+        data[col_name] = [func(fname) for fname in filenames]
+
+    df = pd.DataFrame(data)
+
+    # Save full dataset if requested
+    if output_csv:
+        df.to_csv(output_csv, index=False)
+
+    # Apply splitting if requested
+    if split:
+        split_kwargs = split_kwargs or {}
+        split_dataframe(df, **split_kwargs)
+        return None
+
+    return df

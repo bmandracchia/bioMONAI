@@ -639,42 +639,85 @@ def test_biodataloader(dls:DataLoaders, test_path:str|Path|pd.DataFrame, with_la
 
 # %% ../nbs/01_data.ipynb #12e03f1b
 from fastai.vision.all import get_image_files
+from typing import Callable
+import re
+from glob import glob as glob_expand
 
 # %% ../nbs/01_data.ipynb #472da9cc
-def get_images(path, folders=None, recurse=True):
+def _glob_to_regex(pattern: str) -> str:
+    pattern = re.escape(pattern)
+    pattern = pattern.replace(r"\*", ".*")
+    pattern = pattern.replace(r"\?", ".")
+    pattern = pattern.replace(r"\[", "[")
+    pattern = pattern.replace(r"\]", "]")
+    return f"^{pattern}$"
+
+
+def _build_filename_predicate(
+    filename_filter: str|re.Pattern|Callable[[str], bool]
+) -> Callable[[str], bool]:
+    """
+    Build a filename predicate function from the provided filter.
+    """
+
+    if isinstance(filename_filter, str):
+        if any(c in filename_filter for c in "*?["):
+            regex = re.compile(_glob_to_regex(filename_filter))
+            return lambda name: regex.search(name) is not None
+        return lambda name: filename_filter in name
+
+    if isinstance(filename_filter, re.Pattern):
+        return lambda name: filename_filter.search(name) is not None
+
+    if callable(filename_filter):
+        return filename_filter
+
+    raise ValueError("Unsupported filename_filter type")
+
+
+def get_images(
+    path: str,
+    folders: str|list[str]|None = None,
+    recurse: bool = True,
+    filename_filter: str|re.Pattern|Callable[[str], bool]|None = None,
+) -> L:
     """
     Get image files from a list of folders or a glob expression.
-    
-    Parameters:
-        - path: The base path to the folder containing the subfolders in `folders`.
-        - folders: Can be a single folder path (string), a list of folder paths, or a glob expression like 'data_*'
-        - basepath: The base path to the folder containing the subfolders in `folders`. Only needed if `folders` contains glob expressions that don't include the base path.
-        - recurse: Whether to recursively search for images in subdirectories
-        """
-    # Handle different input types for folders
+    """
+
+    # Resolve folders
     if folders is None:
-        return get_image_files(path, recurse=recurse)
-    if isinstance(folders, list):
-        return get_image_files(path, folders=folders, recurse=recurse)
-    if isinstance(folders, str):
-        # Check if it contains glob wildcards
-        if '*' in folders or '?' in folders or '[' in folders:
-            # It's a glob expression - expand it
-            from glob import glob as glob_expand
-            expanded = sorted(glob_expand(os.path.join(path, folders)))
-            if expanded:
-                img_folders = [os.path.basename(expanded[i]) for i in range(len(expanded))]
+        files = get_image_files(path, recurse=recurse)
+    else:
+        if isinstance(folders, str):
+            if any(c in folders for c in "*?["):
+                expanded = sorted(glob_expand(os.path.join(path, folders)))
+                img_folders = (
+                    [os.path.basename(p) for p in expanded]
+                    if expanded else [folders]
+                )
             else:
-                # If glob returns empty, treat it as a single folder name
                 img_folders = [folders]
         else:
-            # It's a single folder path
-            img_folders = [folders]
-    else:
-        # Convert to list if it's another iterable
-        img_folders = list(folders)
+            img_folders = list(folders)
 
-    return get_image_files(path, folders=img_folders, recurse=recurse)
+        files = get_image_files(path, folders=img_folders, recurse=recurse)
+
+    # No filtering requested
+    if filename_filter is None:
+        return files
+
+    # Build filtering function
+    predicate = _build_filename_predicate(filename_filter)
+
+    # Apply filtering
+    filtered = L()
+    for f in files:
+        name = os.path.basename(f)
+        if predicate(name):
+            filtered.append(f)
+
+    return filtered
 
 # %% ../nbs/01_data.ipynb #cc868a5b
 def get_gt(path_gt, # The base directory where the ground truth files are stored, or a file path from which to derive the parent directory.
@@ -706,6 +749,7 @@ def get_gt(path_gt, # The base directory where the ground truth files are stored
 # %% ../nbs/01_data.ipynb #88481387
 def get_target(path:str, # The base directory where the files are located. This should be a string representing an absolute or relative path.
                same_filename=True, #If True, the target file name will match the original file name; otherwise, it will use the specified prefix. 
+               same_foldername=False, #If True, the target folder name will match the original folder name; otherwise, it will use the specified prefix.
                target_file_prefix="target", # The prefix to insert into the target file name if `same_filename` is False. 
                signal_file_prefix="signal", # The prefix used in the original file names that should be replaced by the target prefix.
                map_foldername=False, #If True, the target folder name will match the original folder name; otherwise, it will use the specified prefix. 
@@ -749,6 +793,8 @@ def get_target(path:str, # The base directory where the files are located. This 
             # Extract the folder name and replace the signal folder prefix with the target folder prefix
             folder_name = os.path.dirname(file_name)
             target_folder_name = Path(construct_target_foldername(folder_name))
+        elif same_foldername:
+            target_folder_name = Path(os.path.dirname(file_name))
         else:
             base_path = ''
             if relative_path:
