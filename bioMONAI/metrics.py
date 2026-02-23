@@ -10,13 +10,14 @@ __all__ = ['SSIMMetric', 'MSEMetric', 'MAEMetric', 'RMSEMetric', 'PSNRMetric', '
 import numpy as np
 from numpy import trapezoid as trapz
 
-from torch import abs, sqrt, div, complex64, where, isinf, zeros_like, real, isnan
+from torch import abs, sqrt, div, complex64, where, isinf, zeros_like, real, isnan, argmax, sigmoid, is_tensor
 from torch.fft import fftshift
 from torch.fft import fft2
+from torch.nn.functional import softmax
 
 from fastai.vision.all import AvgMetric
 from monai.losses import SSIMLoss
-from monai.metrics import PSNRMetric as _PSNR, RMSEMetric as _RMSE, MSEMetric as _MSE, MAEMetric as _MAE, SSIMMetric as _SSIM
+from monai.metrics import PSNRMetric as _PSNR, RMSEMetric as _RMSE, MSEMetric as _MSE, MAEMetric as _MAE, SSIMMetric as _SSIM, DiceMetric as _DiceMetric
 
 from sklearn.datasets import load_iris
 import matplotlib.pyplot as plt
