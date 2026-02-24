@@ -1017,6 +1017,7 @@ def save_patches_grid(data_paths,                   # Path to folder or list of 
                       output_folder,                # Path to the folder where the HDF5 files will be saved.
                       patch_size,                   # tuple of integers defining the size of the patches.
                       overlap,                       # float (between 0 and 1) defining the overlap between patches.
+                      use_parent_folder = False,     # If True, use the parent folder name of the input files for naming the output HDF5 files.
                       threshold=None,                # If provided, patches with a mean value below this threshold will be discarded.
                       squeeze_input=True,            # If True, squeeze the input data to remove single-dimensional entries. 
                       squeeze_patches=False,         # If True, squeeze the patches to remove single-dimensional entries.
@@ -1036,7 +1037,11 @@ def save_patches_grid(data_paths,                   # Path to folder or list of 
     """
     
     # Ensure output folder exists
-    os.makedirs(output_folder, exist_ok=True)
+    if output_folder is not None or output_folder != '':
+        os.makedirs(output_folder, exist_ok=True)
+        use_full_path = False
+    else:
+        use_full_path = True
     
     # Convert folder paths to lists of file paths if necessary
     if isinstance(data_paths, str):         # It's a folder path
@@ -1063,8 +1068,12 @@ def save_patches_grid(data_paths,                   # Path to folder or list of 
     # Loop through the files
     for data_file_path, gt_file_path in tqdm(zip(data_files, gt_files), total=len(data_files), desc="Processing files"):
         # Extract filename for HDF5 output
-        data_file_name = os.path.basename(data_file_path)
-        gt_file_name = os.path.basename(gt_file_path)
+        if use_full_path:
+            data_file_name = os.path.splitext(data_file_path)[0]
+        elif use_parent_folder: 
+            data_file_name = os.path.splitext(os.path.join(os.path.basename(os.path.dirname(data_file_path)), os.path.basename(data_file_path)))[0]
+        else:   
+            data_file_name = os.path.splitext(os.path.basename(data_file_path))[0]
         
         # Load the images
         data = np.array(image_reader(data_file_path))
@@ -1078,7 +1087,7 @@ def save_patches_grid(data_paths,                   # Path to folder or list of 
 
         if data.shape != gt.shape:
             if data.shape[-2:] != gt.shape[-2:]:
-                raise ValueError(f"Spatial dimension mismatch between {data_file_name} and {gt_file_name}: {data.shape} vs {gt.shape}")
+                raise ValueError(f"Spatial dimension mismatch between {os.path.basename(data_file_path)} and {os.path.basename(gt_file_path)}: {data.shape} vs {gt.shape}")
             gt_patch_size = patch_size[-2:]  # Use only spatial dimensions for gt patches
 
 
