@@ -571,7 +571,7 @@ def apply_transforms(image,         # The image to transform
         return image  # Return the original image if no transforms are provided
     
     # Randomly select transformations to apply
-    applied_transforms = [t for t in transforms if rand() < t.p]
+    applied_transforms = [t for t in transforms if (hasattr(t, 'p') and rand() < t.p)]
     # Ensure at least one transformation is applied
     if not applied_transforms:
         applied_transforms.append(choice(transforms))

@@ -37,8 +37,11 @@ class Resample(Transform):
         
         The Spacing class from which Resample inherits is initialized with either the provided pixdim or calculated based on the sampling factor and original image properties.
         """
+        self.sampling = sampling
+        self.kwargs = kwargs
         if 'pixdim' in kwargs:
             self.spacing = Spacing(**kwargs)
+            self.sampling = kwargs['pixdim']  # Update sampling to match the provided pixdim
         else:
             self.spacing = Spacing(sampling, **kwargs)
                     
@@ -48,7 +51,8 @@ class Resample(Transform):
     
     def encodes(self, img: np.ndarray):
         """Resamples a NumPy array."""
-        return resize(img, self.spacing, **self.kwargs)
+        new_shape = tuple(int(s / self.sampling) for s in img.shape) if np.isscalar(self.sampling) else tuple(self.sampling)
+        return resize(img, new_shape, **self.kwargs)
 
 
 # %% ../nbs/05_transforms.ipynb #9110a2b2
