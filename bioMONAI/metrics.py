@@ -72,7 +72,7 @@ def PSNRMetric(max_val, **kwargs):
 
 
 # %% ../nbs/06_metrics.ipynb #a63e7732
-def DiceMetric(**kwargs):
+def DiceMetric(threshold=0.5, **kwargs):
     """
     Wrapper around monai.metrics.DiceMetric
     Works for binary segmentation with 1-channel logits.
@@ -92,7 +92,7 @@ def DiceMetric(**kwargs):
         pred = sigmoid(pred)
 
         # Binarize
-        pred = (pred > 0.5).float()
+        pred = (pred > threshold).float()
 
         # Check shapes 
         if target.ndim == 3:
@@ -122,7 +122,7 @@ def PanopticQualityMetric(**kwargs):
 
     def PQ(pred, target):
         # Convert logits to discrete labels
-        pred = pred.argmax(dim=1)  # (B, H, W)
+        # pred = pred.argmax(dim=1)  # (B, H, W)
 
         if target.ndim == 4 and target.shape[1] == 1:
             target = target.squeeze(1)
