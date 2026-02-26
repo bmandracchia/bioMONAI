@@ -98,6 +98,11 @@ def DiceMetric(threshold=0.5, **kwargs):
         if target.ndim == 3:
             target = target.unsqueeze(1)
 
+        # if target is not binary assume it's an instance mask and
+        # convert to a binary foreground/background mask
+        if target.max() > 1:
+            target = (target > 0).float()
+
         dice_metric.reset()
         dice_metric(pred, target)
         return dice_metric.aggregate().item()
