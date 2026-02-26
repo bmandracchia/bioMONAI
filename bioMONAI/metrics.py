@@ -4,8 +4,8 @@
 
 # %% auto #0
 __all__ = ['SSIMMetric', 'MSSIMMetric', 'MSEMetric', 'MAEMetric', 'RMSEMetric', 'PSNRMetric', 'DiceMetric',
-           'PanopticQualityMetric', 'ROCAUCMetric', 'radial_mask', 'get_radial_masks', 'get_fourier_ring_correlations',
-           'FRCMetric']
+           'PanopticQualityMetric', 'ROCAUCMetric', 'MetricsReloadedBinary', 'MetricsReloadedCategorical',
+           'radial_mask', 'get_radial_masks', 'get_fourier_ring_correlations', 'FRCMetric']
 
 # %% ../nbs/06_metrics.ipynb #09106178
 import numpy as np
@@ -28,6 +28,8 @@ from monai.metrics import (
     DiceMetric as _DiceMetric,
     ROCAUCMetric as _ROCAUCMetric,
     PanopticQualityMetric as _PanopticQualityMetric,
+    MetricsReloadedCategorical as _MetricsReloadedCategorical,
+    MetricsReloadedBinary as _MetricsReloadedBinary,
 )
 
 from sklearn.datasets import load_iris
@@ -158,6 +160,19 @@ def ROCAUCMetric(**kwargs):
         rocaucmetric(pred, target)
         return rocaucmetric.aggregate().item()
     return AvgMetric(ROCAUC)
+
+# %% ../nbs/06_metrics.ipynb #8481bc99
+def MetricsReloadedBinary(metric_name, **kwargs):
+    "Binary pairwise metrics of MetricsReloaded library"
+    def MRB(x, y):
+        return _MetricsReloadedBinary(metric_name, **kwargs)(x,y).mean()
+    return AvgMetric(MRB)
+
+def MetricsReloadedCategorical(metric_name, **kwargs):
+    "Categorical pairwise metrics of MetricsReloaded library"
+    def MRC(x, y):
+        return _MetricsReloadedCategorical(metric_name, **kwargs)(x,y).mean()
+    return AvgMetric(MRC)
 
 # %% ../nbs/06_metrics.ipynb #324dc6f4
 def radial_mask(r,      # Radius of the radial mask
