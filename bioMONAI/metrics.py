@@ -72,7 +72,7 @@ def PSNRMetric(max_val, **kwargs):
 
 
 # %% ../nbs/06_metrics.ipynb #a63e7732
-def DiceMetric(threshold=0.5, **kwargs):
+def DiceMetric(threshold=0.5, instance=False, **kwargs):
     """
     Wrapper around monai.metrics.DiceMetric
     Works for binary segmentation with 1-channel logits.
@@ -100,7 +100,7 @@ def DiceMetric(threshold=0.5, **kwargs):
 
         # if target is not binary assume it's an instance mask and
         # convert to a binary foreground/background mask
-        if target.max() > 1:
+        if instance:
             target = (target > 0).float()
 
         dice_metric.reset()
