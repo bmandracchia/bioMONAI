@@ -4,11 +4,12 @@
 
 # %% auto #0
 __all__ = ['plot_image', 'show_multichannel', 'mosaic_image_3d', 'show_images_grid', 'show_plane', 'visualize_slices',
-           'slice_explorer', 'plot_volume']
+           'slice_explorer', 'plot_volume', 'plot_intensity_histogram']
 
 # %% ../nbs/09_visualize.ipynb #b19af8ae
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 import plotly.io as pio
 import plotly.express as px
@@ -404,3 +405,75 @@ def plot_volume(values,             # A 3D array of pixel values representing th
     
     # Display the figure in a new window
     fig.show()
+
+# %% ../nbs/09_visualize.ipynb #74d544d6
+def plot_intensity_histogram(
+    image,
+    threshold=None,
+    mode=None,          # None, "greater", "lower"
+    bins=256,
+    per_channel=False,
+    density=False,
+    int_ticks=True,    
+    int_y_ticks=False   
+):
+    """
+    Plot intensity histogram of an image.
+    """
+
+    image = np.asarray(image)
+
+    def filter_values(values):
+        if threshold is None or mode is None:
+            return values
+        if mode == "greater":
+            return values[values > threshold]
+        elif mode == "lower":
+            return values[values < threshold]
+        else:
+            raise ValueError("mode must be None, 'greater', or 'lower'")
+
+    fig, ax = plt.subplots(figsize=(6, 4))
+
+    # ---- Grayscale ----
+    if image.ndim == 2:
+        values = filter_values(image.ravel())
+        ax.hist(values, bins=bins, color="#AA3111", alpha=0.9, density=density)
+        ax.set_title("Grayscale Intensity Histogram")
+
+    # ---- RGB ----
+    elif image.ndim == 3 and image.shape[2] == 3:
+        if per_channel:
+            colors = ["red", "green", "blue"]
+            for i, color in enumerate(colors):
+                values = filter_values(image[..., i].ravel())
+                ax.hist(
+                    values,
+                    bins=bins,
+                    color=color,
+                    alpha=0.5,
+                    density=density,
+                    label=f"{color.upper()} channel"
+                )
+            ax.legend()
+            ax.set_title("RGB Intensity Histogram (Per Channel)")
+        else:
+            values = filter_values(image.ravel())
+            ax.hist(values, bins=bins, color="gray", alpha=0.7, density=density)
+            ax.set_title("RGB Combined Intensity Histogram")
+
+    else:
+        raise ValueError("Unsupported image shape")
+
+    ax.set_xlabel("Intensity")
+    ax.set_ylabel("Frequency")
+
+    # ---- Force integer ticks if requested ----
+    if int_ticks:
+        ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+
+    if int_y_ticks:
+        ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+
+    plt.tight_layout()
+    plt.show()
