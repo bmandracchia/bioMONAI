@@ -6,7 +6,7 @@
 __all__ = ['coolwarm', 'warm_cmap', 'read_yaml', 'dictlist_to_funclist', 'fastTrainer', 'visionTrainer', 'compute_losses',
            'compute_metric', 'calculate_statistics', 'format_sig', 'plot_histogram_and_kde', 'display_statistics_table',
            'evaluate_model', 'evaluate_classification_model', 'attributesFromDict', 'get_device', 'img2float',
-           'img2Tensor', 'apply_transforms']
+           'img2Tensor', 'TargetedTransform', 'apply_transforms']
 
 # %% ../nbs/00_core.ipynb #e46d9793
 import numpy as np
@@ -562,31 +562,65 @@ def img2Tensor(image):
     """
     return torchTensor(img2float(image))
 
+# %% ../nbs/00_core.ipynb #62a89a7d
+from attr import dataclass
+
+@dataclass
+class TargetedTransform:
+    transform: callable
+    targets: tuple = ("both",)   # ("X",), ("y",), ("both",)
+
+
 # %% ../nbs/00_core.ipynb #03b9905f
-def apply_transforms(image,         # The image to transform
-                     transforms,    # A list of transformations to apply
-                     ):
-    """Apply a list of transformations, ensuring at least one is applied."""
+def apply_transforms(image, transforms):
+    """Apply a list of transformations, ensuring at least one is applied.
+    
+    Supports:
+        - plain transforms (applied to both images if tuple)
+        - TargetedTransform(transform, targets=...)
+    """
     if not transforms:
-        return image  # Return the original image if no transforms are provided
-    
-    # Randomly select transformations to apply
-    applied_transforms = [t for t in transforms if (hasattr(t, 'p') and rand() < t.p)]
-    # Ensure at least one transformation is applied
-    if not applied_transforms:
-        applied_transforms.append(choice(transforms))
-    
-    def apply_transform_to_image(img, transform):
-        return transform.encodes(img) # Explicitly call encodes() to ensure that the transform is applied
-    
-    # Apply transformations
-    if isinstance(image, tuple):
-        image1, image2 = image
-        for transform in applied_transforms:
-            image1 = apply_transform_to_image(image1, transform)
-            image2 = apply_transform_to_image(image2, transform)
-        return image1, image2
-    else:
-        for transform in applied_transforms:
-            image = apply_transform_to_image(image, transform)
         return image
+
+    # Normalize transforms into TargetedTransform objects
+    normalized = []
+    for t in transforms:
+        if isinstance(t, TargetedTransform):
+            normalized.append(t)
+        else:
+            # Treat normal transforms as applied to both
+            normalized.append(TargetedTransform(transform=t, targets=("both",)))
+
+    # Randomly select transforms based on probability p if present
+    applied = [
+        spec for spec in normalized
+        if not hasattr(spec.transform, "p") or rand() < spec.transform.p
+    ]
+
+    # Ensure at least one transform is applied
+    if not applied:
+        applied.append(choice(normalized))
+
+    def apply_transform_to_image(img, transform):
+        return transform.encodes(img)
+
+    # ---- Single image case ----
+    if not isinstance(image, tuple):
+        for spec in applied:
+            image = apply_transform_to_image(image, spec.transform)
+        return image
+
+    # ---- Tuple case ----
+    image1, image2 = image
+
+    for spec in applied:
+        t = spec.transform
+        targets = spec.targets
+
+        if "both" in targets or "X" in targets:
+            image1 = apply_transform_to_image(image1, t)
+
+        if "both" in targets or "y" in targets:
+            image2 = apply_transform_to_image(image2, t)
+
+    return image1, image2
