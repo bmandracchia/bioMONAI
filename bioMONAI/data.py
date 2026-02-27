@@ -4,9 +4,9 @@
 
 # %% auto #0
 __all__ = ['MetaResolver', 'BioImageBase', 'BioImage', 'BioImageStack', 'BioImageProject', 'BioImageMulti', 'Tensor2BioImage',
-           'BioImageBlock', 'BioDataBlock', 'BioDataLoaders', 'get_gt', 'get_target', 'get_noisy_pair', 'show_batch',
-           'show_results', 'extract_patches', 'save_patches_grid', 'extract_random_patches', 'save_patches_random',
-           'dict2string', 'remove_singleton_dims', 'extract_substacks']
+           'BioImageBlock', 'BioDataBlock', 'BioDataLoaders', 'test_biodataloader', 'get_images', 'get_gt',
+           'get_target', 'get_noisy_pair', 'show_batch', 'show_results', 'extract_patches', 'save_patches_grid',
+           'extract_random_patches', 'save_patches_random', 'dict2string', 'remove_singleton_dims', 'extract_substacks']
 
 # %% ../nbs/01_data.ipynb #7a8886ba
 import os
@@ -20,7 +20,7 @@ from bioio.writers import OmeTiffWriter
 from sklearn.model_selection import train_test_split
 from torch import stack as torch_stack
 
-from .datasets import download_medmnist
+from .datasets import split_dataframe
 from .core import MetaTensor, torchTensor, BypassNewMeta, DisplayedTransform, fastTrainer, torchsqueeze, Path, List, L, torchmax, randint, dictlist_to_funclist, read_yaml,  apply_transforms
 from plum import dispatch as typedispatch
 from .io import image_reader
@@ -154,7 +154,9 @@ class BioImage(BioImageBase):
         if isinstance(fn, torchTensor):
             return cls(fn)
 
-        return torchsqueeze(image_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder), 1)
+        img = image_reader(fn, dtype=cls, resample=cls.resample, reorder=cls.reorder)
+        dimlist = [i for i in range(1, len(img.shape))]
+        return torchsqueeze(img, dimlist)
     
     def show(self, ctx=None, **kwargs):
         "Show image using `merge(self._show_args, kwargs)`"
@@ -393,10 +395,11 @@ class BioDataLoaders(DataLoaders):
     @classmethod
     @delegates(from_source)
     def from_folder(cls, path, get_target_fn, train='train', valid='valid', valid_pct=None, seed=None, item_tfms=None,
-                    batch_tfms=None, img_cls=BioImage, target_img_cls=BioImage, **kwargs):
+                    batch_tfms=None, img_cls=BioImage, target_img_cls=BioImage, get_items=None, **kwargs):
         "Create from dataset in `path` with `train` and `valid` subfolders (or provide `valid_pct`)"
         splitter = GrandparentSplitter(train_name=train, valid_name=valid) if valid_pct is None else RandomSplitter(valid_pct, seed=seed)
-        get_items = get_image_files if valid_pct else partial(get_image_files, folders=[train, valid])
+        if get_items is None:
+            get_items = get_image_files if valid_pct else partial(get_image_files, folders=[train, valid])
         ops = { 
             'blocks':       (BioImageBlock(img_cls), BioImageBlock(target_img_cls)),
             'get_items':    get_items,
@@ -615,8 +618,106 @@ BioDataLoaders.class_from_csv = delegates(to=BioDataLoaders.class_from_df)(BioDa
 BioDataLoaders.class_from_path_re = delegates(to=BioDataLoaders.class_from_path_func)(BioDataLoaders.class_from_path_re)
 
 
+# %% ../nbs/01_data.ipynb #5033a580
+def test_biodataloader(dls:DataLoaders, test_path:str|Path|pd.DataFrame, with_labels=True, csv_header='infer', csv_delimiter=None, csv_quoting=0):
+    "Test a `DataLoader` on a set of `test_files` and return the results as a list of tuples containing the file name and the corresponding input and target tensors."
+    if isinstance(test_path, pd.DataFrame):
+        # Handle DataFrame case directly
+        test_data = dls.test_dl(test_path, with_labels=with_labels)
+    elif isinstance(test_path, (str, Path)):
+        test_path = Path(test_path)
+        # Check if it's a CSV file
+        if test_path.suffix.lower() == '.csv':
+            # Handle CSV file case
+            df = pd.read_csv(test_path, header=csv_header, delimiter=csv_delimiter, quoting=csv_quoting)
+            test_data = dls.test_dl(df, with_labels=with_labels)
+        else:
+            # Handle non-CSV file case - get image files from directory
+            test_data = dls.test_dl(get_image_files(test_path), with_labels=with_labels)
+    
+    return test_data
+
 # %% ../nbs/01_data.ipynb #12e03f1b
 from fastai.vision.all import get_image_files
+from typing import Callable
+import re
+from glob import glob as glob_expand
+
+# %% ../nbs/01_data.ipynb #472da9cc
+def _glob_to_regex(pattern: str) -> str:
+    pattern = re.escape(pattern)
+    pattern = pattern.replace(r"\*", ".*")
+    pattern = pattern.replace(r"\?", ".")
+    pattern = pattern.replace(r"\[", "[")
+    pattern = pattern.replace(r"\]", "]")
+    return f"^{pattern}$"
+
+
+def _build_filename_predicate(
+    filename_filter: str|re.Pattern|Callable[[str], bool]
+) -> Callable[[str], bool]:
+    """
+    Build a filename predicate function from the provided filter.
+    """
+
+    if isinstance(filename_filter, str):
+        if any(c in filename_filter for c in "*?["):
+            regex = re.compile(_glob_to_regex(filename_filter))
+            return lambda name: regex.search(name) is not None
+        return lambda name: filename_filter in name
+
+    if isinstance(filename_filter, re.Pattern):
+        return lambda name: filename_filter.search(name) is not None
+
+    if callable(filename_filter):
+        return filename_filter
+
+    raise ValueError("Unsupported filename_filter type")
+
+
+def get_images(
+    path: str,
+    folders: str|list[str]|None = None,
+    recurse: bool = True,
+    filename_filter: str|re.Pattern|Callable[[str], bool]|None = None,
+) -> L:
+    """
+    Get image files from a list of folders or a glob expression.
+    """
+
+    # Resolve folders
+    if folders is None:
+        files = get_image_files(path, recurse=recurse)
+    else:
+        if isinstance(folders, str):
+            if any(c in folders for c in "*?["):
+                expanded = sorted(glob_expand(os.path.join(path, folders)))
+                img_folders = (
+                    [os.path.basename(p) for p in expanded]
+                    if expanded else [folders]
+                )
+            else:
+                img_folders = [folders]
+        else:
+            img_folders = list(folders)
+
+        files = get_image_files(path, folders=img_folders, recurse=recurse)
+
+    # No filtering requested
+    if filename_filter is None:
+        return files
+
+    # Build filtering function
+    predicate = _build_filename_predicate(filename_filter)
+
+    # Apply filtering
+    filtered = L()
+    for f in files:
+        name = os.path.basename(f)
+        if predicate(name):
+            filtered.append(f)
+
+    return filtered
 
 # %% ../nbs/01_data.ipynb #cc868a5b
 def get_gt(path_gt, # The base directory where the ground truth files are stored, or a file path from which to derive the parent directory.
@@ -648,8 +749,12 @@ def get_gt(path_gt, # The base directory where the ground truth files are stored
 # %% ../nbs/01_data.ipynb #88481387
 def get_target(path:str, # The base directory where the files are located. This should be a string representing an absolute or relative path.
                same_filename=True, #If True, the target file name will match the original file name; otherwise, it will use the specified prefix. 
+               same_foldername=False, #If True, the target folder name will match the original folder name; otherwise, it will use the specified prefix.
                target_file_prefix="target", # The prefix to insert into the target file name if `same_filename` is False. 
-               signal_file_prefix="signal", # The prefix used in the original file names that should be replaced by the target prefix. 
+               signal_file_prefix="signal", # The prefix used in the original file names that should be replaced by the target prefix.
+               map_foldername=False, #If True, the target folder name will match the original folder name; otherwise, it will use the specified prefix. 
+               target_folder_prefix="target", # The prefix to insert into the target folder name if `same_foldername` is False. 
+               signal_folder_prefix="signal", # The prefix used in the original folder names that should be replaced by the target prefix. 
                relative_path=False, # If True, it indicates that the path is relative to the parent folder in the path where the input files are located.
                ):
     """
@@ -667,31 +772,45 @@ def get_target(path:str, # The base directory where the files are located. This 
     # Define a function to construct the target file name based on input parameters
     def construct_target_filename(file_name):
         # Split the file name based on the signal file prefix
-        parts = file_name.split(signal_file_prefix)
-        
+        parts = file_name.split(signal_file_prefix)   
         # Construct the target file name by inserting the target file prefix
         target_file_name = parts[0] + target_file_prefix + parts[1]
         
         return target_file_name
     
+    def construct_target_foldername(folder_name):
+        # Split the folder name based on the signal folder prefix
+        parts = folder_name.split(signal_folder_prefix)
+        # Construct the target folder name by inserting the target folder prefix
+        target_folder_name = parts[0] + target_folder_prefix + parts[1]
+        
+        return target_folder_name
+    
     # Define a function to generate the target file path based on the given file name
     def generate_target_path(file_name):
         
-        base_path = ''
-        
-        if relative_path:
-            base_path = Path(file_name).parents[1]
+        if map_foldername:
+            # Extract the folder name and replace the signal folder prefix with the target folder prefix
+            folder_name = os.path.dirname(file_name)
+            target_folder_name = Path(construct_target_foldername(folder_name))
+        elif same_foldername:
+            target_folder_name = Path(os.path.dirname(file_name))
+        else:
+            base_path = ''
+            if relative_path:
+                base_path = Path(file_name).parents[1]
+            target_folder_name = base_path / Path(path)
                             
         # Extract the base file name
         base_filename = os.path.basename(file_name)
         
         # If same_filename is True, simply return the path joined with the base file name
         if same_filename:
-            return base_path / Path(path) / base_filename
+            return target_folder_name / base_filename
         
         # If same_filename is False, construct the target file name and return the path joined with it
         target_filename = construct_target_filename(base_filename)
-        return base_path / Path(path) / target_filename
+        return target_folder_name / target_filename
     
     # Return the appropriate function based on the value of same_filename
     return generate_target_path
@@ -893,41 +1012,68 @@ def extract_patches(data, # numpy array of the input data (n-dimensional).
     return patches
 
 # %% ../nbs/01_data.ipynb #337a703a
-def save_patches_grid(data_folder,                   # Path to the folder containing data files (n-dimensional data).
-                      gt_folder,                     # Path to the folder containing ground truth (gt) files (n-dimensional data).
-                      output_folder,                 # Path to the folder where the HDF5 files will be saved.
-                      patch_size,                    # tuple of integers defining the size of the patches.
+def save_patches_grid(data_paths,                   # Path to folder or list of paths to data files (n-dimensional data).
+                      gt_paths,                     # Path to folder or list of paths to ground truth (gt) files (n-dimensional data).
+                      output_folder,                # Path to the folder where the HDF5 files will be saved.
+                      patch_size,                   # tuple of integers defining the size of the patches.
                       overlap,                       # float (between 0 and 1) defining the overlap between patches.
+                      use_parent_folder = False,     # If True, use the parent folder name of the input files for naming the output HDF5 files.
                       threshold=None,                # If provided, patches with a mean value below this threshold will be discarded.
                       squeeze_input=True,            # If True, squeeze the input data to remove single-dimensional entries. 
                       squeeze_patches=False,         # If True, squeeze the patches to remove single-dimensional entries.
                       csv_output=True,               # If True, a CSV file listing all patch paths is created.
-                      train_test_split_ratio=0.8,    # Ratio of data to split into train and test CSV files (e.g., 0.8 for 80% train).
-                      tfms_before: List = None,      # List of transforms to apply before extracting patches.
-                      tfms_after: List = None,       # List of transforms to apply after extracting patches.
+                      split_dataset=True,            # Split dataset into train and test CSV files (e.g., 0.8 for 80% train).
+                      tfms_before: List|None = None,      # List of transforms to apply before extracting patches.
+                      tfms_after: List|None = None,       # List of transforms to apply after extracting patches.
+                      **kwargs,                      # Additional keyword arguments for splitting the dataset (see split_dataframe function)
                       ):
     """
-    Loads n-dimensional data from data_folder and gt_folder, generates patches, and saves them into individual HDF5 files.
+    Loads n-dimensional data from data_paths and gt_paths, generates patches, and saves them into individual HDF5 files.
     Each HDF5 file will have datasets with the structure X/patch_idx and y/patch_idx.
+    
+    Parameters:
+    - data_paths: Can be a folder path (string) or a list of file paths to data files
+    - gt_paths: Can be a folder path (string) or a list of file paths to ground truth files
     """
     
     # Ensure output folder exists
-    os.makedirs(output_folder, exist_ok=True)
+    if output_folder is not None or output_folder != '':
+        os.makedirs(output_folder, exist_ok=True)
+        use_full_path = False
+    else:
+        use_full_path = True
     
-    # Ensure the folders contain the same number of files
-    data_files = sorted([f for f in os.listdir(data_folder) if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
-    gt_files = sorted([f for f in os.listdir(gt_folder) if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
+    # Convert folder paths to lists of file paths if necessary
+    if isinstance(data_paths, str):         # It's a folder path
+        data_files = sorted([os.path.join(data_paths, f) 
+                           for f in os.listdir(data_paths) 
+                           if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
+    else:        # It's already a list of paths
+        data_files = sorted(data_paths)
+    
+    if isinstance(gt_paths, str):        # It's a folder path
+        gt_files = sorted([os.path.join(gt_paths, f) 
+                         for f in os.listdir(gt_paths) 
+                         if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
+    else:        # It's already a list of paths
+        gt_files = sorted(gt_paths)
 
+    # Ensure the folders contain the same number of files
     if len(data_files) != len(gt_files):
-        raise ValueError("The number of files in data_folder and gt_folder must be the same.")
+        raise ValueError("The number of files in data_paths and gt_paths must be the same.")
     
     # Prepare CSV records list
     csv_records = []
 
-    # Loop through the files in the folders
-    for data_file_name, gt_file_name in tqdm(zip(data_files, gt_files), total=len(data_files), desc="Processing files"):
-        data_file_path = os.path.join(data_folder, data_file_name)
-        gt_file_path = os.path.join(gt_folder, gt_file_name)
+    # Loop through the files
+    for data_file_path, gt_file_path in tqdm(zip(data_files, gt_files), total=len(data_files), desc="Processing files"):
+        # Extract filename for HDF5 output
+        if use_full_path:
+            data_file_name = os.path.splitext(data_file_path)[0]
+        elif use_parent_folder: 
+            data_file_name = os.path.splitext(os.path.join(os.path.basename(os.path.dirname(data_file_path)), os.path.basename(data_file_path)))[0]
+        else:   
+            data_file_name = os.path.splitext(os.path.basename(data_file_path))[0]
         
         # Load the images
         data = np.array(image_reader(data_file_path))
@@ -937,16 +1083,21 @@ def save_patches_grid(data_folder,                   # Path to the folder contai
             data = np.squeeze(data)
             gt = np.squeeze(gt)
         
+        gt_patch_size = patch_size  # Assuming the same patch size for gt, can be modified to accept a different one
+
         if data.shape != gt.shape:
-            raise ValueError(f"Shape mismatch between {data_file_name} and {gt_file_name}")
-        
+            if data.shape[-2:] != gt.shape[-2:]:
+                raise ValueError(f"Spatial dimension mismatch between {os.path.basename(data_file_path)} and {os.path.basename(gt_file_path)}: {data.shape} vs {gt.shape}")
+            gt_patch_size = patch_size[-2:]  # Use only spatial dimensions for gt patches
+
+
         # Apply transforms before extracting patches
         if tfms_before is not None:
             data, gt = apply_transforms((data, gt), tfms_before)
         
         # Extract patches from both datasets
         data_patches_nd = extract_patches(data, patch_size, overlap)
-        gt_patches_nd = extract_patches(gt, patch_size, overlap)
+        gt_patches_nd = extract_patches(gt, gt_patch_size, overlap)
         
         if squeeze_patches:
             data_patches_nd = np.squeeze(data_patches_nd)
@@ -986,16 +1137,22 @@ def save_patches_grid(data_folder,                   # Path to the folder contai
     if csv_output:
         csv_df = pd.DataFrame(csv_records)
         
-        if train_test_split_ratio is not None and 0 < train_test_split_ratio < 1:
+        if split_dataset:
             # Split data into train and test sets
-            train_df, test_df = train_test_split(csv_df, train_size=train_test_split_ratio, random_state=42)
+                        
+            ops = {
+                'train_fraction': kwargs.get('train_fraction', 0.7),
+                'valid_fraction': kwargs.get('valid_fraction', 0.1),
+                'split_column': kwargs.get('split_column', None),
+                'stratify': kwargs.get('stratify', False),  
+                'add_is_valid': kwargs.get('add_is_valid', True),
+                'train_path': kwargs.get('train_path', "patches_train.csv"),
+                'test_path': kwargs.get('test_path', "patches_test.csv"),
+                'valid_path': kwargs.get('valid_path', "patches_valid.csv"),
+                'data_save_path': kwargs.get('data_save_path', output_folder)
+            }
             
-            # Save train and test CSVs
-            train_csv_path = os.path.join(output_folder, "train_patches.csv")
-            test_csv_path = os.path.join(output_folder, "test_patches.csv")
-            train_df.to_csv(train_csv_path, index=False)
-            test_df.to_csv(test_csv_path, index=False)
-            print(f"CSV files saved to: {train_csv_path} and {test_csv_path}")
+            split_dataframe(csv_df, **ops)
         
         else:
             # Save a single CSV file
@@ -1047,8 +1204,8 @@ def extract_random_patches(data_tuple, # tuple of numpy arrays (input data, grou
 
 
 # %% ../nbs/01_data.ipynb #797f884e
-def save_patches_random(data_folder,                # Path to the folder containing data files (n-dimensional data).
-                        gt_folder,                  # Path to the folder containing ground truth (gt) files (n-dimensional data).
+def save_patches_random(data_paths,                # Path to folder or list of paths to data files (n-dimensional data).
+                        gt_paths,                  # Path to folder or list of paths to ground truth (gt) files (n-dimensional data).
                         output_folder,              # Path to the folder where the HDF5 files will be saved.
                         patch_size,                 # tuple of integers defining the size of the patches.
                         num_patches,                # number of random patches to extract per file.
@@ -1069,20 +1226,32 @@ def save_patches_random(data_folder,                # Path to the folder contain
     # Ensure output folder exists
     os.makedirs(output_folder, exist_ok=True)
     
-    # Ensure the folders contain the same number of files
-    data_files = sorted([f for f in os.listdir(data_folder) if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
-    gt_files = sorted([f for f in os.listdir(gt_folder) if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
+    # Convert folder paths to lists of file paths if necessary
+    if isinstance(data_paths, str):         # It's a folder path
+        data_files = sorted([os.path.join(data_paths, f) 
+                           for f in os.listdir(data_paths) 
+                           if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
+    else:        # It's already a list of paths
+        data_files = sorted(data_paths)
     
+    if isinstance(gt_paths, str):        # It's a folder path
+        gt_files = sorted([os.path.join(gt_paths, f) 
+                         for f in os.listdir(gt_paths) 
+                         if f.endswith(('.npy', '.npz', '.png', '.tif', '.tiff'))])
+    else:        # It's already a list of paths
+        gt_files = sorted(gt_paths)
+
+    # Ensure the folders contain the same number of files
     if len(data_files) != len(gt_files):
-        raise ValueError("The number of files in data_folder and gt_folder must be the same.")
+        raise ValueError("The number of files in data_paths and gt_paths must be the same.")
     
     # Prepare CSV records list
     csv_records = []
     
     # Loop through the files in the folders with progress bar
-    for data_file_name, gt_file_name in tqdm(zip(data_files, gt_files), total=len(data_files), desc="Processing files"):
-        data_file_path = os.path.join(data_folder, data_file_name)
-        gt_file_path = os.path.join(gt_folder, gt_file_name)
+    for data_file_path, gt_file_path in tqdm(zip(data_files, gt_files), total=len(data_files), desc="Processing files"):
+        data_file_name = os.path.basename(data_file_path)
+        gt_file_name = os.path.basename(gt_file_path)
         
         # Load the images
         data = np.array(image_reader(data_file_path))

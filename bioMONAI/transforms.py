@@ -4,10 +4,11 @@
 
 # %% auto #0
 __all__ = ['Resample', 'Resize', 'CropND', 'RandCameraNoise', 'Blur', 'ScaleIntensity', 'ScaleIntensityPercentiles',
-           'ScaleIntensityVariance', 'RandCrop2D', 'RandCropND', 'RandFlip', 'RandRot90']
+           'ScaleIntensityVariance', 'RelabelInstances', 'RandCrop2D', 'RandCropND', 'RandFlip', 'RandRot90']
 
 # %% ../nbs/05_transforms.ipynb #56ab9960
 import numpy as np
+from math import ceil
 import cv2
 import random
 from fastai.vision.all import *
@@ -16,9 +17,10 @@ from monai.transforms import SpatialCrop, Flip, Rotate90, Spacing, GaussianSmoot
 from numpy import percentile, isscalar, float32 as np_float32
 from skimage.transform import resize
 
-from .data import BioImageBase, BioImageStack
+from .data import BioImageBase, BioImageStack, Tensor2BioImage
+from .core import img2Tensor
 
-# %% ../nbs/05_transforms.ipynb #d863fa40
+# %% ../nbs/05_transforms.ipynb #e49a336f
 class Resample(Transform):
     """
     A subclass of Spacing that handles image resampling based on specified sampling factors or voxel dimensions.
@@ -43,12 +45,12 @@ class Resample(Transform):
             self.spacing = Spacing(sampling, **kwargs)
                     
     def encodes(self, img:BioImageBase):
-        bioimagetype = type(img)
-        return bioimagetype(self.spacing(img))
+        return type(img)(self.spacing(img))
     
     def encodes(self, img: np.ndarray):
-        """Resamples a NumPy array."""
-        return resize(img, self.spacing, **self.kwargs)
+        """Transforms a NumPy array to BioImage and resamples with Spacing."""
+        tensor_img = Tensor2BioImage()(img2Tensor(img))
+        return self.spacing(tensor_img).numpy()
 
 
 # %% ../nbs/05_transforms.ipynb #9110a2b2
@@ -347,6 +349,61 @@ class ScaleIntensityVariance(Transform):
         scale_factor = np.sqrt(self.target_variance / variance)
         return (x - mean) * scale_factor
 
+
+# %% ../nbs/05_transforms.ipynb #95558960
+class RelabelInstances(Transform):
+    """Remap instance mask labels to consecutive integers.
+    
+    Example:
+        [0, 1, 3, 7, 18] → [0, 1, 2, 3, 4]
+    """
+
+    def __init__(self,
+                 background=0,        # Label considered background
+                 dtype=np.int32,      # Output dtype
+                 ):
+        store_attr()
+
+    def encodes(self, x: BioImageBase):
+        bioimagetype = type(x)
+
+        arr = np.asarray(x)
+
+        unique_labels = np.unique(arr)
+        fg_labels = unique_labels[unique_labels != self.background]
+
+        new_ids = np.arange(1, len(fg_labels) + 1, dtype=self.dtype)
+        mapping = dict(zip(fg_labels, new_ids))
+
+        y = np.full_like(arr, self.background, dtype=self.dtype)
+
+        for old_id, new_id in mapping.items():
+            y[arr == old_id] = new_id
+
+        return bioimagetype(y)
+    
+    def encodes(self, x: np.ndarray):
+        """Relabel instance mask (NumPy array)."""
+
+        x = np.asarray(x)
+
+        unique_labels = np.unique(x)
+
+        # Remove background from remapping
+        fg_labels = unique_labels[unique_labels != self.background]
+
+        # Create mapping dictionary
+        new_ids = np.arange(1, len(fg_labels) + 1, dtype=self.dtype)
+        mapping = dict(zip(fg_labels, new_ids))
+
+        # Initialize output
+        y = np.full_like(x, self.background, dtype=self.dtype)
+
+        # Apply mapping
+        for old_id, new_id in mapping.items():
+            y[x == old_id] = new_id
+
+        return y
 
 # %% ../nbs/05_transforms.ipynb #3f829aa9
 def _process_sz(size, ndim=3):
