@@ -4,7 +4,7 @@
 
 # %% auto #0
 __all__ = ['Resample', 'Resize', 'CropND', 'RandCameraNoise', 'Blur', 'ScaleIntensity', 'ScaleIntensityPercentiles',
-           'ScaleIntensityVariance', 'RandCrop2D', 'RandCropND', 'RandFlip', 'RandRot90']
+           'ScaleIntensityVariance', 'RelabelInstances', 'RandCrop2D', 'RandCropND', 'RandFlip', 'RandRot90']
 
 # %% ../nbs/05_transforms.ipynb #56ab9960
 import numpy as np
@@ -349,6 +349,61 @@ class ScaleIntensityVariance(Transform):
         scale_factor = np.sqrt(self.target_variance / variance)
         return (x - mean) * scale_factor
 
+
+# %% ../nbs/05_transforms.ipynb #95558960
+class RelabelInstances(Transform):
+    """Remap instance mask labels to consecutive integers.
+    
+    Example:
+        [0, 1, 3, 7, 18] → [0, 1, 2, 3, 4]
+    """
+
+    def __init__(self,
+                 background=0,        # Label considered background
+                 dtype=np.int32,      # Output dtype
+                 ):
+        store_attr()
+
+    def encodes(self, x: BioImageBase):
+        bioimagetype = type(x)
+
+        arr = np.asarray(x)
+
+        unique_labels = np.unique(arr)
+        fg_labels = unique_labels[unique_labels != self.background]
+
+        new_ids = np.arange(1, len(fg_labels) + 1, dtype=self.dtype)
+        mapping = dict(zip(fg_labels, new_ids))
+
+        y = np.full_like(arr, self.background, dtype=self.dtype)
+
+        for old_id, new_id in mapping.items():
+            y[arr == old_id] = new_id
+
+        return bioimagetype(y)
+    
+    def encodes(self, x: np.ndarray):
+        """Relabel instance mask (NumPy array)."""
+
+        x = np.asarray(x)
+
+        unique_labels = np.unique(x)
+
+        # Remove background from remapping
+        fg_labels = unique_labels[unique_labels != self.background]
+
+        # Create mapping dictionary
+        new_ids = np.arange(1, len(fg_labels) + 1, dtype=self.dtype)
+        mapping = dict(zip(fg_labels, new_ids))
+
+        # Initialize output
+        y = np.full_like(x, self.background, dtype=self.dtype)
+
+        # Apply mapping
+        for old_id, new_id in mapping.items():
+            y[x == old_id] = new_id
+
+        return y
 
 # %% ../nbs/05_transforms.ipynb #3f829aa9
 def _process_sz(size, ndim=3):
